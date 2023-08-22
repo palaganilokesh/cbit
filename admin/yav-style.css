@@ -1,0 +1,10 @@
+
+.innerError {
+    background-image: url(images/invalid.gif);
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-color: ;
+    padding-left: 20px;
+    padding-top: 1px;
+	BORDER-RIGHT: #FF0033 0px solid; BORDER-TOP: #FF0033 10x solid; MARGIN: 0px; BORDER-LEFT: #FF0033 0px solid; BORDER-BOTTOM: #FF0033 0px solid; COLOR: #FF0033
+}

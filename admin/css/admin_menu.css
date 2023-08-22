@@ -1,0 +1,41 @@
+/* CSS Document */
+/*======1-level or 2-level or 3-level navigation=======*/
+
+
+/* Main nav */
+#nav{width:920px; margin:0; list-style:none; padding:0px;  float:left; display:block;  height:25px;  position:relative;     z-index:40000; }
+
+#nav li{float:left; position:relative; line-height:0}
+
+#nav a{float:left; height:25px; padding:0 25px; border-right:1px solid #333; color:#fff; text-transform:uppercase; font:11px/25px Arial,Helvetica; text-decoration:none;  }
+
+#nav li:hover >a{color:#fff; background:#444}
+
+*html #nav li a:hover /* IE6 */{color:#fff;background:#444}
+
+#nav li:hover >ul{display:block; color:#fff !important;}
+
+/* Sub-nav */
+#nav ul{ list-style:none;  margin:0;  padding:0;   display:none;  position:absolute;  top:25px;  left:0;  z-index:99999;   background:#444}
+
+#nav ul ul{ top:0;  left:150px}
+
+#nav ul li{ float:none;  margin:0;  padding:0;  display:block; color:#fff !important}
+
+#nav ul li:last-child{  -moz-box-shadow:none;  -webkit-box-shadow:none;  box-shadow:none}
+
+#nav ul a{  padding:10px; height:10px; width:194px; height:auto;  line-height:1;  display:block;  white-space:nowrap;  float:none; text-transform:none;color:#fff !important;}
+
+*html #nav ul a /* IE6 */{ height:10px}
+
+*:first-child+html #nav ul a /* IE7 */{ height:10px}
+
+#nav ul a:hover{ background:#000; }
+/*====border-radius for first and last lisnks====*/
+#nav ul li:first-child >a{ /*  -moz-border-radius:5px 5px 0 0;     border-radius:5px 5px 0 0; */}
+#nav ul li:last-child >a{ /* -moz-border-radius:0 0 5px 5px;     border-radius:0 0 5px 5px; */}
+
+
+* html #nav{zoom:1}/* IE6 */
+
+*:first-child+html #nav{zoom:1}/* IE7 */
