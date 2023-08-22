@@ -10,8 +10,8 @@ include_once $inc_fldr_pth; //Making paging validation
 Programm : add_category.php	
 Package : 
 Purpose : For add category
-Created By : Bharath
-Created On :	20-01-2022
+Created By : lokesh
+
 Modified By : 
 Modified On : 
 Purpose : 
@@ -394,7 +394,7 @@ function expandQns() {
 						</div>
 						
 	<!-- Start questions Session -->
-	<!--<div class="table-responsive">
+	<div class="table-responsive">
 							<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
 								<tr bgcolor="#FFFFFF">
 								<td width="10%" align="center"><strong>SL.No.</strong></td>
@@ -441,7 +441,7 @@ function expandQns() {
 											</tr>
 										</table>
 									</div>
-								</div> -->
+								</div>
 									<!-- end questions Session -->
 									<input type="hidden" name="hdntotcntrlQns" value="1">
 						<p class="text-center">
