@@ -32,7 +32,7 @@ if (isset($_REQUEST['vw']) && trim($_REQUEST['vw']) != "") {
     $loc .= "&chkexact=$chk";
   }
   $sqryprod_mst = "select 
-						      phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,
+						      phtd_id,phtd_name,phtd_type,phtd_desc,phtd_rank,phtd_sts,
 							  phtcatm_name,phtd_phtcatm_id
 				          from 
 						  	 pht_dtl
@@ -128,6 +128,13 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) != '')) {
               <?php echo $srowsprod_mst['phtd_name']; ?>
 							</div>
 						</div>
+            <div class="form-group row">
+							<label for="txtname" class="col-sm-2 col-md-2 col-form-label"> Type </label>
+							<div class="col-sm-8">
+              <?php if($srowsprod_mst['phtd_type'] == 'c') { echo"college"; } else { echo"department";}  ?>
+							</div>
+						</div>
+            
             <div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Description</label>
 							<div class="col-sm-8">

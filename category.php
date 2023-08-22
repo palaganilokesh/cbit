@@ -251,82 +251,61 @@ if ($_REQUEST['mnlnks'] == 3) {
 		<div class="row">
 
 			<div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-12 order-md-1 order-2">
+<!-- category level gallery -->
+			<div class="campus-content pr-20 ">
+								<?php 
 
+	
+ $sqryphtcat_mst1="SELECT catm_id,catm_name,catm_img,	catm_sts,catm_prty from  catimg_dtl where  catm_cat_id  ='$catone_id ' and 	catm_sts = 'a'   order by 	catm_prty asc";
+					
+			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
+			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);
+			if($cntrec_phtcat1 > 0){
+			    
+?>
+<h3>Gallery Section</h3>
+                <div class="cont ">
+            <div class="demo-gallery ">
+                <ul id="lightgallery" class="list-unstyled row gx-xxl-1 gx-xl-1 gx-lg-1 gx-md-2 gx-0 ">
+								<?php
+									while($srowsphtcat_dtl1 = mysqli_fetch_assoc($srsphtcat_dtl1)){
+										$phtid         = $srowsphtcat_dtl1['catm_id'];
+									//$phtid         = $srowsphtcat_dtl1['phtd_desc'];
+										$pht_name      = $srowsphtcat_dtl1['catm_name'];
+										$bphtimgnm     = $srowsphtcat_dtl1['catm_img'];
+										$bimgpath      = $u_cat_imgfldnm.$bphtimgnm;
+										if (($bphtimgnm != "") && file_exists($bimgpath)) {
+											$galryimages = $rtpth . $bimgpath;
+										} else {
+											$galryimages   = $rtpth . $gusrglry_fldnm . 'default.jpg';
+											
+										}	
+										?>
+                    <li class="col-xxl-4 col-lg-4 col-md-4 col-6 mb-2"
+                        data-responsive="<?php echo $galryimages; ?> 375, <?php echo $galryimages; ?> 480, <?php echo $galryimages; ?> 800"
+                        data-src="<?php echo $galryimages; ?> " data-sub-html="<h4>Category 6</h4>">
+                        <a href="">
+                            <img class="img-responsive w-100" src="<?php echo $galryimages; ?>">
+                            <div class="demo-gallery-poster">
+                                <img src="https://sachinchoolur.github.io/lightgallery.js/static/img/zoom.png">
+                            </div>
+													
+                        </a>
+												<p><?php echo $pht_name; ?></p>
+                    </li>
+                    <?php } ?>  
+                </ul>
+            </div>
+        </div>
+				<?php 
+				} 
+				
+				?>  
+
+                </div>
 
 				<?php
-				// faculty menu
-				if($prodscatm_typ==4){
-			 $sqryfaculty_mst="SELECT faculty_id,faculty_dept_id,faculty_rank,faculty_sts,faculty_dtl_id,faculty_mst_id,faculty_dtl_dept_id,faculty_simgnm,faculty_desgn,faculty_simg,faculty_file,faculty_prty,faculty_dtl_sts
-			 from faculty_mst
-			  inner join faculty_dtl on faculty_mst_id=faculty_id 
-				where faculty_dept_id='$catone_id' and faculty_sts='a' and faculty_dtl_sts='a' group by faculty_dtl_id order by faculty_prty asc";
-						$srsfaclty_dtl = mysqli_query($conn, $sqryfaculty_mst);
-						$cntrec_faclty = mysqli_num_rows($srsfaclty_dtl);
-						if ($cntrec_faclty > 0)
-						{?>
-						<div class="campus-content pr-20 ">
-						<div class="comments">
-						<div class="row slide-on-mob">
-
-						<?php
-					
-						while ($srowsfaclty_dtl = mysqli_fetch_assoc($srsfaclty_dtl)) {
-						 $faclty_id         = $srowsfaclty_dtl['faculty_dtl_id'];
-						 $faclty_name      = $srowsfaclty_dtl['faculty_simgnm'];
-						 $faclty_desg     = $srowsfaclty_dtl['faculty_desgn'];
-						 $faclty_file     = $srowsfaclty_dtl['faculty_file'];
-						 $faclty_bnrimg      = $srowsfaclty_dtl['faculty_simg'];
-					 $factpath      = $u_phtgalfaculty .$faclty_bnrimg;
-					 $fact_fle_path      = $u_phtgalfaculty .$faclty_file;
-
-						 // echo file_exists($galpath);
-					//  image
-						 if (($faclty_bnrimg != "") && file_exists($factpath)) {
-							 $facltyimgpth = $rtpth . $factpath;
-						 } else {
-							 $facltyimgpth   = $rtpth . $u_phtgalfaculty  . 'dummy-fac.jpg';
-							 
-						 }
-						//  file
-						 if (($faclty_file != "") && file_exists($fact_fle_path)) {
-							$facty_file = $rtpth . $fact_fle_path;
-						} else {
-							$facty_file   = "no-files found";
-							
-						}
-						 ?>
-						 <div class="col-lg-6 col-md-6 col-10">
-                                <div class="fac-single-holder">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-4">
-                                            <img src="<?php echo  $facltyimgpth;?>" class="w-100" alt="Images">
-                                        </div>
-                                        <div class="col-lg-8 col-md-8 col-8">
-                                            <div class="single-comments-box">
-                                                <h1 class="common-sm-heading mb-2"><?php echo  $faclty_name ;?></h1>
-                                                <div class="post">
-                                                    <p><?php echo  $faclty_desg ;?></p>
-                                                    <a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#facultyDetailsModal"
-                                                        class="read-more-btn ">Read more<i
-                                                            class="flaticon-next "></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-						 <?php
-						
-						}
-						?>
-						</div>
-						</div>
-						</div>
-						<?php
-					}
-				}
-				// <!-- gallery  menu-->
+				// <!-- gallery  menu based on gallery section on admin side-->
 				if($prodscatm_typ==2){
 				
 	$sqryphtcat_mst = "SELECT phtd_id,phtcatm_name, phtd_phtcatm_id,phtcatm_img, phtd_name, phtd_desc,phtd_rank, phtd_sts, phtd_crtdon, phtd_crtdby, phtd_mdfdon, phtd_mdfdby, phtm_id, phtm_phtd_id, phtm_phtcatm_id, phtm_simgnm, phtm_simg, phtm_prty, phtm_sts, phtm_crtdon, phtm_crtdby, phtm_mdfdon, phtm_mdfdby,phtcatm_name,phtcatm_id,phtcatm_desc,phtcatm_deprtmnt from vw_phtd_phtm_mst left join phtcat_mst on  phtcat_mst.phtcatm_id = vw_phtd_phtm_mst.phtm_phtcatm_id where phtcatm_deprtmnt='$catone_id' and phtm_sts = 'a' and phtcatm_sts = 'a' and phtd_sts = 'a' and phtcatm_typ = 'd' group by phtcatm_id order by  phtcatm_prty asc";

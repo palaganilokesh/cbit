@@ -23,7 +23,7 @@ $pagemncat = "Gallery";
 $pagecat = "Photos";
 $pagenm = "Photos";
 /*****header link********/
-$clspn_val = "5";
+$clspn_val = "6";
 $rd_adpgnm = "add_photogallery.php";
 $rd_edtpgnm = "edit_photogallery.php";
 $rd_crntpgnm = "view_all_photogallery.php";
@@ -367,7 +367,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 									<td width="5%" class="td_bg"><strong>SL.No.</strong></td>
 									<td width="28%" class="td_bg"><strong>Name</strong></td>
 									<td width="25%" class="td_bg"><strong>Category</strong></td>
-									<!-- <td width="15%" class="td_bg"><strong>Link</strong></td> -->
+									<td width="15%" class="td_bg"><strong>Type</strong></td>
 									<td width="6%" align="center" class="td_bg"><strong>Rank</strong></td>
 									<td width="20%" align="center" class="td_bg"><strong>Edit</strong></td>
 									<td width="7%" class="td_bg" align="center"><strong>
@@ -383,7 +383,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 
 								<?php
 								$sqryphtgal_dtl1 = "SELECT 
-									 phtd_id,phtd_name,phtd_rank,phtd_sts,
+									 phtd_id,phtd_name,phtd_type,phtd_rank,phtd_sts,
 									 phtcatm_id,phtcatm_name,phtd_phtcatm_id
 				                  from 
 							   		 pht_dtl
@@ -413,6 +413,8 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 								$srsphtgal_dtl = mysqli_query($conn, $sqryphtgal_dtl) or die(mysqli_error($conn));
 								$cnt = 0;
 								while ($srowphtgal_dtl = mysqli_fetch_assoc($srsphtgal_dtl)) {
+									
+									$db_typ = $srowphtgal_dtl['phtd_type'];
 									$cnt += 1;
 									?>
 									<tr <?php if ($cnt % 2 == 0) {
@@ -431,6 +433,9 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 										<td align="left">
 											<?php echo $srowphtgal_dtl['phtcatm_name']; ?>
 										</td>
+										<td align="left"> <?php if ($db_typ == 'c') echo 'College'; ?>
+												<?php if ($db_typ == 'd') echo 'Department'; ?>
+											</td>
 
 										<td align="center">
 											<?php echo $srowphtgal_dtl['phtd_rank']; ?>

@@ -8,6 +8,7 @@
 	if(isset($_POST['btnadprodsbmt']) && (trim($_POST['btnadprodsbmt']) != "") &&
 	   isset($_POST['txtname1']) && (trim($_POST['txtname1'])!='') &&
 	   isset($_POST['txtprty1']) && ($_POST['txtprty1'])!=''){
+			$type      = glb_func_chkvl($_POST['addtype']);
 		 $phtcatnm      = glb_func_chkvl($_POST['lstphcat']);
 		 $name       	= glb_func_chkvl($_POST['txtname1']);	 
 		 $desc          = glb_func_chkvl($_POST['txtdesc1']);
@@ -18,10 +19,10 @@
 		 $cntcntrl    	= glb_func_chkvl($_POST['hdntotcntrl']);
 			
 	     $iqryphtimg_dtl =	"INSERT into pht_dtl(
-					         phtd_phtcatm_id,phtd_name,
+					         phtd_phtcatm_id,phtd_type,phtd_name,
 						     phtd_desc,phtd_rank,phtd_sts, 
 						     phtd_crtdon, phtd_crtdby)values(
-							'$phtcatnm', '$name','$desc','$prty','$nmsts',
+							'$phtcatnm','$type', '$name','$desc','$prty','$nmsts',
 						    '$dt','$ses_admin')";
 							
 	     $rspht_dtl   = mysqli_query($conn,$iqryphtimg_dtl);
