@@ -1,5 +1,5 @@
 <?php
-include_once  "../includes/inc_nocache.php"; // Clearing the cache information
+include_once "../includes/inc_nocache.php"; // Clearing the cache information
 include_once "../includes/inc_adm_session.php"; //checking for session
 include_once "../includes/inc_usr_functions.php"; //Use function for validation and more
 //checking for session
@@ -15,20 +15,20 @@ if (
 	isset($_POST['txtprty']) && (trim($_POST['txtprty']) != "")
 ) {
 
-	$prodcat      = glb_func_chkvl($_POST['lstprodcat']);
-	$name     	= glb_func_chkvl($_POST['txtname']);
-	$desc     	= addslashes(trim($_POST['txtdesc']));
-	$prior    	= glb_func_chkvl($_POST['txtprty']);
-	$cattyp    	= glb_func_chkvl($_POST['lstcattyp']);
-	$admtyp    	= glb_func_chkvl($_POST['admtype']);//admissions type ug/pg
-	$disptyp    = glb_func_chkvl($_POST['lstdsplytyp']);
-	$seotitle   = glb_func_chkvl($_POST['txtseotitle']);
-	$seodesc  	= glb_func_chkvl($_POST['txtseodesc']);
-	$seokywrd   = glb_func_chkvl($_POST['txtseokywrd']);
-	$seoh1 		= glb_func_chkvl($_POST['txtseoh1']);
-	$seoh2 		= glb_func_chkvl($_POST['txtseoh2']);
-	$sts      	= $_POST['lststs'];
-	$dt       	= date('Y-m-d h:i:s');
+	$prodcat = glb_func_chkvl($_POST['lstprodcat']);
+	$name = glb_func_chkvl($_POST['txtname']);
+	$desc = addslashes(trim($_POST['txtdesc']));
+	$prior = glb_func_chkvl($_POST['txtprty']);
+	$cattyp = glb_func_chkvl($_POST['lstcattyp']);
+	$admtyp = glb_func_chkvl($_POST['admtype']); //admissions type ug/pg
+	$disptyp = glb_func_chkvl($_POST['lstdsplytyp']);
+	$seotitle = glb_func_chkvl($_POST['txtseotitle']);
+	$seodesc = glb_func_chkvl($_POST['txtseodesc']);
+	$seokywrd = glb_func_chkvl($_POST['txtseokywrd']);
+	$seoh1 = glb_func_chkvl($_POST['txtseoh1']);
+	$seoh2 = glb_func_chkvl($_POST['txtseoh2']);
+	$sts = $_POST['lststs'];
+	$dt = date('Y-m-d h:i:s');
 
 	$sqryprodcat_mst = "SELECT 
 								prodcatm_name,prodcatm_prodmnlnksm_id,prodcatm_admtyp
@@ -39,22 +39,22 @@ if (
 								 and
 								  prodcatm_prodmnlnksm_id ='$prodcat' and prodcatm_admtyp='$admtyp'";
 	$srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
-	$cntrec_cat     = mysqli_num_rows($srsprodcat_mst);
+	$cntrec_cat = mysqli_num_rows($srsprodcat_mst);
 	if ($cntrec_cat < 1) {
 		if (isset($_FILES['flebnrimg']['tmp_name']) && ($_FILES['flebnrimg']['tmp_name'] != "")) {
 			$bimgval = funcUpldImg('flebnrimg', 'bimg');
 			if ($bimgval != "") {
-				$bimgary    = explode(":", $bimgval, 2);
-				$bdest 		= $bimgary[0];
-				$bsource 	= $bimgary[1];
+				$bimgary = explode(":", $bimgval, 2);
+				$bdest = $bimgary[0];
+				$bsource = $bimgary[1];
 			}
 		}
 		if (isset($_FILES['icnimg']['tmp_name']) && ($_FILES['icnimg']['tmp_name'] != "")) {
 			$simgval = funcUpldImg('icnimg', 'simg');
 			if ($simgval != "") {
-				$simgary    = explode(":", $simgval, 2);
-				$sdest 		= $simgary[0];
-				$ssource 	= $simgary[1];
+				$simgary = explode(":", $simgval, 2);
+				$sdest = $simgary[0];
+				$ssource = $simgary[1];
 			}
 		}
 		$iqryprodcat_mst = "INSERT into prodcat_mst(
@@ -70,62 +70,74 @@ if (
 
 		$irsprodcat_mst = mysqli_query($conn, $iqryprodcat_mst);
 		if ($irsprodcat_mst == true) {
-			$pgimgd_pgcntsd_id     = mysqli_insert_id($conn);
+			$pgimgd_pgcntsd_id = mysqli_insert_id($conn);
 			if (($bsource != 'none') && ($bsource != '') && ($bdest != "")) {
 				move_uploaded_file($bsource, $a_cat_bnrfldnm . $bdest);
 			}
 			if (($ssource != 'none') && ($ssource != '') && ($sdest != "")) {
 				move_uploaded_file($ssource, $a_cat_icnfldnm . $sdest);
 			}
-			$gmsg = "Record saved successfully";
-		} 
-//Questtions and answers upload start
-$cntcntrlqns   =  glb_func_chkvl($_POST['hdntotcntrlQns']); 
-if($pgimgd_pgcntsd_id !="" && $cntcntrlqns !="")
-{
-	for($i=1;$i<= $cntcntrlqns;$i++){
-		$prior1      = glb_func_chkvl("txtqnsprty".$i);
-		$prior2      = glb_func_chkvl($_POST[$prior1]);
-		$qnsname    = glb_func_chkvl("txtqnsnm".$i);
-	
-		$validname1  = glb_func_chkvl($_POST[$qnsname]);
-		$qnsname    =  $i."-".glb_func_chkvl($_POST[$qnsname]);
-		//$qnsname    =  glb_func_chkvl($_POST[$qnsname]);
-		if($validname1 ==""){
-			$qnsname    =  $i."-".$name;
-			// $qnsname    =  $name;
-		}
-		$qnssts     = "lstqnssts".$i;
-		$sts1   	= $_POST[$qnssts];
-		if($prior2 ==""){
-			$prior2 	= $pgimgd_pgcntsd_id;
-		}
 		
-		
-		$qnsans   = glb_func_chkvl("txtansdesc".$i);
-		$curdt             	=  	date('Y-m-d h:i:s');
-		//$vdoname    = glb_func_chkvl($_POST[$vdoname]);
-		$qnsansnm  = glb_func_chkvl($_POST[$qnsans]);
-		$sqrypgqns_dtl="SELECT  pgqnsd_name	from pgqns_dtl	where pgqnsd_name='$qnsname' and	pgqnsd_pgcntsd_id ='$pgimgd_pgcntsd_id'"; 
-		$srspgqns_dtl = mysqli_query($conn,$sqrypgqns_dtl);
-	 $cntpgqns_dtl       = mysqli_num_rows($srspgqns_dtl);
-		if($cntpgqns_dtl < 1){
-			if($qnsansnm !=""){
-				$iqrypgqns_dtl ="INSERT into pgqns_dtl(
-								 pgqnsd_name,pgqnsd_pgcntsd_id,pgqnsd_vdo,pgqnsd_typ,
-								 pgqnsd_prty,pgqnsd_sts,pgqnsd_crtdon,pgqnsd_crtdby)values(
-								 '$qnsname','$pgimgd_pgcntsd_id','$qnsansnm','1',
-								 '$prior2','$sts1','$curdt','$ses_admin')";								     
-				$rspgqns_dtl1   = mysqli_query($conn,$iqrypgqns_dtl);
-				if($rspgqns_dtl1 == true){								
-					$gmsg = "Record saved successfully";		
+		//Questtions and answers upload start
+
+		$cntcntrlqns = glb_func_chkvl($_POST['hdntotcntrlQns']);
+		if ($pgimgd_pgcntsd_id != "" && $cntcntrlqns != "") {
+			for ($i = 1; $i <= $cntcntrlqns; $i++) {
+				$prior1 = glb_func_chkvl("txtqnsprty" . $i);
+				$prior2 = glb_func_chkvl($_POST[$prior1]);
+				$qnsname = glb_func_chkvl("txtqnsnm" . $i);
+
+				$validname1 = glb_func_chkvl($_POST[$qnsname]);
+				$qnsname =  glb_func_chkvl($_POST[$qnsname]);
+			
+				if ($validname1 == "") {
+					$qnsname =$name;
+				
+				}
+				$qnssts = "lstqnssts" . $i;
+				$sts1 = $_POST[$qnssts];
+				if ($prior2 == "") {
+					$prior2 = $pgimgd_pgcntsd_id;
+				}
+				$simg2 = 'flebimg' . $i;
+
+				/*------------------------------------Update small image----------------------------*/
+				if (isset($_FILES[$simg2]['tmp_name']) && ($_FILES[$simg2]['tmp_name'] != "")) {
+					$simgval2 = funcUpldImg($simg2, 'simg2');
+					if ($simgval2 != "") {
+						$simgary2 = explode(":", $simgval2, 2);
+						$sdest2 = $simgary2[0];
+						$ssource2 = $simgary2[1];
+					}
+				}
+$curdt = date('Y-m-d h:i:s');
+				
+$sqrypgimg_dtl="SELECT  catm_name from 	catimg_dtl where  catm_name='$qnsname' and 	catm_cat_id ='$pgimgd_pgcntsd_id'";
+$srspgimg_dtl = mysqli_query($conn,$sqrypgimg_dtl);
+$cntpgimg_dtl = mysqli_num_rows($srspgimg_dtl);
+
+				if ($cntpgimg_dtl < 1) {
+					if ($qnsname != "") {
+						$iqrypgqns_dtl = "INSERT into catimg_dtl(
+								 catm_name,catm_cat_id,catm_img,catm_typ,
+								 catm_prty,catm_sts,catm_crtdon,catm_crtdby)values(
+								 '$qnsname','$pgimgd_pgcntsd_id','$sdest2','1',
+								 '$prior2','$sts1','$curdt','$ses_admin')";
+						$rspgqns_dtl1 = mysqli_query($conn, $iqrypgqns_dtl);
+						if ($rspgqns_dtl1 == true) {
+							if(($ssource2!='none') && ($ssource2!='') && ($sdest2 != "")){ 
+								//$sdest = $id."-".$sdest;
+								move_uploaded_file($ssource2,$a_cat_imgfldnm.$sdest2);
+							}		
+							$gmsg = "Record saved successfully";
+						}
+					}
 				}
 			}
-		}						
+		}
+		$gmsg = "Record saved successfully";
 	}
-}
-//Questtions and answers upload end
-
+		//Questtions and answers upload end
 		else {
 			$gmsg = "Record not saved";
 		}

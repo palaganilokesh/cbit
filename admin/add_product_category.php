@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include_once '../includes/inc_config.php'; //Making paging validation	
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
@@ -97,22 +98,22 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 
 function expandQns() {
     nfiles_qns++;
-    if (nfiles_qns <= 20) {
+    if (nfiles_qns <= 200) {
         var htmlTxt = '<?php
                                         echo "<table border=\'0\' cellpadding=\'1\' cellspacing=\'1\' width=\'100%\'>";
                                         echo "<tr>";
-                                        echo "<td align=\'center\' width=\'10%\'> ' + nfiles_qns + '</td>";
+                                        echo "<td align=\'center\' width=\'5%\'> ' + nfiles_qns + '</td>";
                                         echo "<td align=\'left\' width=\'35%\'>";
                                         echo "<input type=text name=txtqnsnm' + nfiles_qns + ' id=txtqnsnm' + nfiles_qns + ' class=form-control size=\'25\'>";
                                         echo "</td>";
 
-                                        echo "<td align=\'left\' width=\'35%\'>";
-                                        echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
-                                        echo "</td>";
+                                        // echo "<td align=\'left\' width=\'35%\'>";
+                                        // echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
+                                        // echo "</td>";
 
-                                        /*echo "<td align=center width=35%>";
-                echo "<input type=file name=flebimg' + nfiles_qns + ' id=flebimg' + nfiles_qns + ' class=select><br>";
-                echo "</td>";*/
+                                        echo "<td align=center width=35%>";
+                								echo "<input type=file name=flebimg' + nfiles_qns + ' id=flebimg' + nfiles_qns + ' class=form-control><br>";
+              							  echo "</td>";
 
 
                                         echo "<td align=\'left\' width=\'10%\'>";
@@ -145,7 +146,7 @@ function expandQns() {
         document.getElementById('hdntotcntrlQns').value = nfiles_qns;
         document.frmaddprodcat.hdntotcntrlQns.value = nfiles_qns;
     } else {
-        alert("Maximum 20 Questions's Only");
+        alert("Maximum 200 image's Only");
         return false;
     }
 }
@@ -397,9 +398,9 @@ function expandQns() {
 	<div class="table-responsive">
 							<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
 								<tr bgcolor="#FFFFFF">
-								<td width="10%" align="center"><strong>SL.No.</strong></td>
+								<td width="5%" align="center"><strong>SL.No.</strong></td>
 										<td width="35%" align="center"><strong>Name</strong></td>
-										<td width="35%" align="center"><strong>Description</strong></td>
+										<td width="35%" align="center"><strong>Image</strong></td>
 										<td width="10%" align="center"><strong>Rank</strong></td>
 										<td width="10%" align="center"><strong>Status</strong></td>
 								</tr>
@@ -409,14 +410,14 @@ function expandQns() {
 									<table width="100%"  border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered" >
 										<table width="100%" border="0" cellspacing="3" cellpadding="3">
 											<tr bgcolor="#FFFFFF">
-											<td width="10%" align="center">1</td>
+											<td width="5%" align="center">1</td>
 												<td width="35%"  align="center">
 													<input type="text" name="txtqnsnm1" id="txtqnsnm1" placeholder="Name" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtqnsnm1" style="color:#FF0000"></span>
 												</td>
 												<td width="35%"  align="center">
-												<textarea name="txtansdesc1" cols="35" rows="3" id="txtansdesc1" class="form-control"></textarea><br>
-													<span id="errorsDiv_txtansdesc1" style="color:#FF0000"></span>
+												<input type="file" name="flebimg1" cols="35" rows="3" id="flebimg1" class="form-control"><br>
+													<span id="errorsDiv_flebimg1" style="color:#FF0000"></span>
 												</td>
 												
 												<td width="10%"  align="center">
@@ -436,7 +437,7 @@ function expandQns() {
 										<table width="100%" cellspacing='2' cellpadding='3'>
 											<tr>
 												<td align="center">
-													<input name="btnadd" type="button" onClick="expandQns()" value="Add Another Question" class="btn btn-primary mb-3">
+													<input name="btnadd" type="button" onClick="expandQns()" value="Add Another Image" class="btn btn-primary mb-3">
 												</td>
 											</tr>
 										</table>

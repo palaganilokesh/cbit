@@ -29,6 +29,8 @@ $gabtus_fldnm = '../aboutus-images/';
 $uabtus_fldnm = 'aboutus-images/';
 $a_cat_bnrfldnm 	= '../catbnr/';
 $u_cat_bnrfldnm   	= 'catbnr/';
+$a_cat_imgfldnm 	= '../catbnr/images/';
+$u_cat_imgfldnm   	= 'catbnr/images/';
 
 $a_scat_bnrfldnm 	= '../scatbnr/';
 $u_scat_bnrfldnm   	= 'scatbnr/';

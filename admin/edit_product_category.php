@@ -19,6 +19,7 @@ Company : Adroit
  ************************************************************/
 global $id, $pg, $countstart;
 $rd_vwpgnm = "view_detail_product_category.php";
+$rd_edtpgnm  = "edit_product_category.php";
 $clspn_val = "4";
 /*****header link********/
 $pagemncat = "Setup";
@@ -75,6 +76,32 @@ if ($cntrecprodcat_mst > 0) {
 $loc = "&val=$srchval";
 $pagetitle = "Edit Category";
 ?>
+<?php
+if (
+		isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "") &&
+		isset($_REQUEST['vw']) && (trim($_REQUEST['vw']) != "")
+	) {
+		$imgid      = glb_func_chkvl($_REQUEST['imgid']);
+		$pgdtlid    = glb_func_chkvl($_REQUEST['vw']);
+		$pg         = glb_func_chkvl($_REQUEST['pg']);
+		$countstart   = glb_func_chkvl($_REQUEST['countstart']);
+		$sqrypgimgd_dtl = "SELECT catm_img from 
+								  catimg_dtl where
+							 catm_cat_id='$pgdtlid'  and catm_id = '$imgid'";
+		$srspgimgd_dtl     = mysqli_query($conn, $sqrypgimgd_dtl);
+		$srowpgimgd_dtl    = mysqli_fetch_assoc($srspgimgd_dtl);
+	
+		$smlimg     = glb_func_chkvl($srowpgimgd_dtl['catm_img']);
+		$smlimgpth   = $a_cat_imgfldnm . $smlimg;
+		$flepth  = $a_cat_imgfldnm . $delfle;
+		$delimgsts = funcDelAllRec($conn, 'catimg_dtl', 'catm_id', $imgid);
+		if ($delimgsts == 'y') {
+			if (($smlimg != "") && file_exists($smlimgpth)) {
+				unlink($smlimgpth);
+			}
+				}
+	}
+	?>
 <!-- <link href="froala-editor/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="froala-editor/js/froala_editor.pkgd.min.js"></script> -->
 <script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
@@ -133,24 +160,21 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			}
 		});
 	}
-	function rmvqns(del_id) {
-		var status = confirm("Are you sure you want to delete ?"); 
-		if(status==true)
-  {
-		var del_id = del_id;
-		$.ajax({
-			type: "POST",
-			url: "../includes/inc_getStsk.php",
-			data: 'del_id=' + del_id,
-			success: function (data) {	
-				// alert(data)
-				alert('Deleted');
-				location.reload();			
+	function rmvimg(imgid) {
+			var img_id;
+			img_id = imgid;
+			if (img_id != '') {
+				var r = window.confirm("Do You Want to Remove Image");
+				if (r == true) {
+					x = "You pressed OK!";
+				} else {
+					return false;
+				}
 			}
-		});
-	}
+			document.frmedtprodcatid.action = "<?php echo $rd_edtpgnm; ?>?vw=<?php echo $id; ?>&imgid=" + img_id + "&pg=<?php echo $pg; ?>&countstart=<?php echo $countstart . $loc; ?>"
+			document.frmedtprodcatid.submit();
+		}
 
-	}
 	
 </script>
 <?php
@@ -434,12 +458,12 @@ include_once $inc_adm_lftlnk;
 						</div>
 					</div>
 					<!-- Start questions Session -->
-					<!-- <div class="table-responsive">
+					<div class="table-responsive">
 						<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
 							<tr bgcolor="#FFFFFF">
-								<td width="10%" align="center"><strong>SL.No.</strong></td>
-								<td width="35%" align="center"><strong>Name</strong></td>
-								<td width="35%" align="center"><strong>Description</strong></td>
+								<td width="5%" align="center"><strong>SL.No.</strong></td>
+								<td width="30%" align="center"><strong>Name</strong></td>
+								<td width="35%" align="center"><strong>Image</strong></td>
 								<td width="10%" align="center"><strong>Rank</strong></td>
 								<td width="10%" align="center"><strong>Status</strong></td>
 								<td width="10%" align="center"><strong>Remove</strong></td>
@@ -447,8 +471,8 @@ include_once $inc_adm_lftlnk;
 						</table>
 					</div>
 					<?php
-					$sqns = "SELECT pgqnsd_id,pgqnsd_name,pgqnsd_pgcntsd_id,pgqnsd_vdo,
-						 pgqnsd_prty,pgqnsd_sts from pgqns_dtl where pgqnsd_pgcntsd_id='$id' and pgqnsd_name!='' order by pgqnsd_id";
+					$sqns = "SELECT catm_id,catm_name,catm_cat_id,catm_img,
+						 catm_prty,catm_sts from catimg_dtl where catm_cat_id='$id' and catm_name!='' order by catm_id";
 					$srsns = mysqli_query($conn, $sqns);
 					$cntqns = mysqli_num_rows($srsns);
 					$nfiles_qns = "";
@@ -456,12 +480,14 @@ include_once $inc_adm_lftlnk;
 						?>
 						<?php while ($rowsns = mysqli_fetch_array($srsns)) {
 							$nfiles_qns++;
-							$pgqnsd_id = $rowsns['pgqnsd_id'];
-							$pgqnsd_name = $rowsns['pgqnsd_name'];
-							$pgqnsd_pgcntsd_id = $rowsns['pgqnsd_pgcntsd_id'];
-							$pgqnsd_vdo = $rowsns['pgqnsd_vdo'];
-							$pgqnsd_prty = $rowsns['pgqnsd_prty'];
-							$pgqnsd_sts = $rowsns['pgqnsd_sts'];
+							$catm_id = $rowsns['catm_id'];
+							$catm_name = $rowsns['catm_name'];
+							$catm_cat_id = $rowsns['catm_cat_id'];
+							$catm_img = $rowsns['catm_img'];
+							$imgnm   = $catm_img;
+							$imgpath = $a_cat_imgfldnm.$imgnm;	
+							$catm_prty = $rowsns['catm_prty'];
+							$catm_sts = $rowsns['catm_sts'];
 							?>
 							<div class="table-responsive">
 								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
@@ -470,41 +496,53 @@ include_once $inc_adm_lftlnk;
 											<td colspan="7" align="center" bgcolor="#f1f6fd">
 
 												<input type="hidden" name="hdnpgqnsid<?php echo $nfiles_qns ?>" class="form-control"
-													value="<?php echo $pgqnsd_id; ?>">
+													value="<?php echo $catm_id; ?>">
 												<input type="hidden" name="hdnpgdname<?php echo $nfiles_qns ?>" class="form-control"
-													value="<?php echo $pgqnsd_name; ?>">
+													value="<?php echo $catm_name; ?>">
 
 										<tr>
 											<td width='5%'>
 												<?php echo $nfiles_qns; ?>
 											</td>
-											<td width='35%' align='center'>
+											<td width='30%' align='center'>
 												
 												<input type="text" name="txtqnsnm1<?php echo $nfiles_qns ?>" id="txtqnsnm1<?php echo $nfiles_qns ?>"
-													value='<?php echo $pgqnsd_name; ?>' class="form-control" size="50">
+													value='<?php echo $catm_name; ?>' class="form-control" size="50">
 											</td>
-											<td width="35%" align="center">
+											<!-- <td width="35%" align="center">
 												<textarea name="txtansdesc<?php echo $nfiles_qns ?>" cols="35" rows="3"
 													id="txtansdesc<?php echo $nfiles_qns ?>"
-													class="form-control"><?php echo $pgqnsd_vdo ?></textarea><br>
+													class="form-control"><?php echo $catm_img ?></textarea><br>
 
-											</td>
+											</td> -->
+											<td align="right" width='30%'><input type="file" name="flesmlimg<?php echo $nfiles_qns ?>" class="form-control" id="flesmlimg">
+												</td>
+												<td align='center' width='5%'>
+													<?php
+													if (($imgnm != "") && file_exists($imgpath)) {
+														echo "<img src='$imgpath' width='30pixel' height='30pixel'>";
+													} else {
+														echo "No Image";
+													}
+													?>
+													<span id="errorsDiv_flesmlimg1"></span>
+												</td>
 											<td width="10%" align="center">
 												<input type="text" name="txtqnsprty<?php echo $nfiles_qns;?>" id="txtqnsprty<?php echo $nfiles_qns ?>"
-													value="<?php echo $pgqnsd_prty; ?>" class="form-control" size="15"><br>
+													value="<?php echo $catm_prty; ?>" class="form-control" size="15"><br>
 
 											</td>
 											<td width="10%" align="center">
 												<select name="lstqnssts<?php echo $nfiles_qns; ?>" id="lstqnssts<?php echo $nfiles_qns; ?>"
 													class="form-control">
-													<option value="a" <?php if ($pgqnsd_sts == 'a')
+													<option value="a" <?php if ($catm_sts == 'a')
 														echo 'selected'; ?>>Active</option>
-													<option value="i" <?php if ($pgqnsd_sts == 'i')
+													<option value="i" <?php if ($catm_sts == 'i')
 														echo 'selected'; ?>>Inactive</option>
 												</select>
 											</td>
 											<td width='10%'><input type="button" name="btnrmv" value="REMOVE"
-													onClick="rmvqns('<?php echo $pgqnsd_id; ?>')"></td>
+													onClick="rmvimg('<?php echo $catm_id; ?>')"></td>
 													</tr>
 											</td>
 										</tr>
@@ -525,12 +563,12 @@ include_once $inc_adm_lftlnk;
 											<tr>
 												<td align="center">
 												<input type="hidden" name="hdntotcntrlqns" id="hdntotcntrlqns" value="<?php echo $nfiles_qns; ?>">
-													<input name="btnadd" type="button" onClick="expandQns()" value="Add Another Question" class="btn btn-primary mb-3">
+													<input name="btnadd" type="button" onClick="expandQns()" value="Add Another Image" class="btn btn-primary mb-3">
 												</td>
 											</tr>
 										</table>
-									</div> -->
-
+									</div>
+</div>
 									<p class="text-center">
 										<input type="Submit" class="btn btn-primary btn-cst" name="btneprodcatsbmt" id="btneprodcatsbmt"
 											value="Submit">
@@ -556,20 +594,21 @@ include_once $inc_adm_lftlnk;
 
 function expandQns() {
     nfiles_qns++;
-    if (nfiles_qns <= 20) {
+    if (nfiles_qns <= 200) {
         var htmlTxt = '<?php
                                         echo "<table border=\'0\' cellpadding=\'1\' cellspacing=\'1\' width=\'100%\'>";
                                         echo "<tr>";
                                         echo "<td align=\'center\' width=\'5%\'> ' + nfiles_qns + '</td>";
-                                        echo "<td align=\'left\' width=\'35%\'>";
+                                        echo "<td align=\'left\' width=\'30%\'>";
                                         echo "<input type=text name=txtqnsnm1' + nfiles_qns + ' id=txtqnsnm1' + nfiles_qns + ' class=form-control size=\'50\'>";
                                         echo "</td>";
 
-                                        echo "<td align=\'left\' width=\'35%\'>";
-                                        echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
-                                        echo "</td>";
-
-                                       
+                                        // echo "<td align=\'left\' width=\'35%\'>";
+                                        // echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
+                                        // echo "</td>";
+																				echo "<td align=left width=35% colspan=2>";
+																				echo "<input type=file name=flesmlimg' + nfiles_qns + ' id=flesmlimg' + nfiles_qns + ' class=form-control><br>";
+																				echo "</td>";
 
 
                                         echo "<td align=\'left\' width=\'10%\'>";
@@ -602,7 +641,7 @@ function expandQns() {
        // document.getElementById('hdntotcntrlqns').value = nfiles_qns;
         document.frmedtprodcatid.hdntotcntrlqns.value = nfiles_qns;
     } else {
-        alert("Maximum 20 Questions's Only");
+        alert("Maximum 200 Image's Only");
         return false;
     }
 }

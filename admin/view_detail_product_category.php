@@ -232,20 +232,20 @@ include_once $inc_adm_lftlnk;
 								<?php echo $db_catsts; ?>
 							</div>
 						</div>
-						<!-- <div class="table-responsive">
+						<div class="table-responsive">
 							<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
 								<tr bgcolor="#FFFFFF">
-								<td width="10%" align="center"><strong>SL.No.</strong></td>
+								<td width="5%" align="center"><strong>SL.No.</strong></td>
 										<td width="35%" align="center"><strong>Name</strong></td>
-										<td width="35%" align="center"><strong>Description</strong></td>
+										<td width="35%" align="center"><strong>Image</strong></td>
 										<td width="10%" align="center"><strong>Rank</strong></td>
 										<td width="10%" align="center"><strong>Status</strong></td>
 								</tr>
 							</table>
-						</div> -->
-						<!-- <?php
-						$sqns="SELECT pgqnsd_id,pgqnsd_name,pgqnsd_pgcntsd_id,pgqnsd_vdo,
-						 pgqnsd_prty,pgqnsd_sts from pgqns_dtl where pgqnsd_pgcntsd_id='$db_catid' and pgqnsd_name!='' order by pgqnsd_id";
+						</div>
+						<?php
+						$sqns="SELECT catm_id,catm_name,catm_cat_id,catm_img,
+						 catm_prty,catm_sts from catimg_dtl where catm_cat_id='$db_catid' and catm_name!='' order by catm_id";
 						$srsns = mysqli_query($conn, $sqns);
 						$cntqns=mysqli_num_rows($srsns);
 						if ($cntqns > 0) {
@@ -259,11 +259,25 @@ include_once $inc_adm_lftlnk;
 								<tr bgcolor="#FFFFFF">
 								<td width="10%" align="center"><?php echo $nfiles ?></td>
 							
-										<td width="35%" align="center"><?php echo $rowsns['pgqnsd_name']; ?></td>
-										<td width="35%" align="center"><?php echo $rowsns['pgqnsd_vdo']; ?></td>
+										<td width="35%" align="center"><?php echo $rowsns['catm_name']; ?></td>
+										<td width="35%" align="center">
+											<?php
+											$db_pgimgimg= $rowsns['catm_img']; 
+											
+											 $imgnm   = $db_pgimgimg;
+											 $imgpath = $a_cat_imgfldnm.$imgnm;					
+											 if(($imgnm !="") && file_exists($imgpath)){
+												echo "<img src='$imgpath' width='80pixel' height='80pixel'>";
+											 }
+											 else{
+												echo "Image not available";
+											 }
+										 ?>
+											 
+											</td>
 										
-										<td width="10%" align="center"><?php echo $rowsns['pgqnsd_prty']; ?></td>
-										<td width="10%" align="center"><?php echo $rowsns['pgqnsd_sts']; ?></td>
+										<td width="10%" align="center"><?php echo $rowsns['catm_prty']; ?></td>
+										<td width="10%" align="center"><?php echo $rowsns['catm_sts']; ?></td>
 								</tr>
 							</table>
 							<?php
@@ -274,7 +288,7 @@ include_once $inc_adm_lftlnk;
 						<td width="10%"  align="center"><?php echo "No Record Found"; ?></td>
 						
 				<?php	}
-						?> -->
+						?>
 						<p class="text-center">
 							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtprodcat" id="frmedtprodcat" value="Edit" onclick="update1()">
 							&nbsp;&nbsp;&nbsp;

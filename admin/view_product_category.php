@@ -62,7 +62,7 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 			$bnrimgpth[$i]   = $a_cat_bnrfldnm . $bnrimg[$i];
 		}
 	}
-	$delsts = funcDelAllRec('prodcat_mst', 'prodcatm_id', $did);
+	$delsts = funcDelAllRec($conn,'prodcat_mst', 'prodcatm_id', $did);
 	if ($delsts == 'y') {
 		for ($i = 0; $i < $count; $i++) {
 			if (($bnrimg[$i] != "") && file_exists($bnrimgpth[$i])) {

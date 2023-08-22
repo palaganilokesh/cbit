@@ -123,44 +123,83 @@ if($id!="" && $cntcntrlqns !="" ){
 		if($prty ==""){
 			$prty 	= $id;
 		}
-		$ansdesc    = glb_func_chkvl("txtansdesc".$i);
-		//$qnsname    = glb_func_chkvl($_POST[$qnsname]);
-		$qnsansdesc  = glb_func_chkvl($_POST[$ansdesc]);
-		if($pgdtlid != ''){	
-						
+		$simg1='flesmlimg'.$i; 
+
+				
+		 //*------------------------------------Update small image----------------------------*/	
+		 
 	
-				$uqrypgvdod_dtl = "UPDATE  pgqns_dtl set
-				pgqnsd_name = '$qnsname', 
-				pgqnsd_vdo = '$qnsansdesc',
-				pgqnsd_sts = '$sts',
-				pgqnsd_prty = '$prty',											  	  
-				pgqnsd_mdfdon= '$cur_dt',
-				pgqnsd_mdfdby = '$ses_admin'
-									where 
-									pgqnsd_pgcntsd_id = '$id' and 
-									pgqnsd_id='$pgdtlid'";	 	
-				$srpgvdod_dtl = mysqli_query($conn,$uqrypgvdod_dtl);							
-			//}												
+				 $simgval1 = funcUpldImg($simg1,'simg1'); 	
+			 if($simgval1 != ""){
+				 $simgary1 = explode(":",$simgval1,2);
+				 $sdest1 		= $simgary1[0];					
+				 $ssource1 	= $simgary1[1];					
+			 }	
+	
+		if($pgdtlid != ''){	
+			$sqrypg_dtl = "SELECT 
+			catm_img
+		 from
+		 catimg_dtl
+		 where 
+		 catm_name ='$qnsname' and 
+		 catm_id !='$pgdtlid' and 
+		 catm_cat_id ='$id'"; 
+$srpgimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl);		
+$cntrec_pgimg = mysqli_num_rows($srpgimgd_dtl);
+if($cntrec_pgimg < 1){
+	//echo "text";
+		$srowpgimgd_dtl  = mysqli_fetch_assoc($srpgimgd_dtl);
+		$dbsmlimg 		= $srowpgimgd_dtl['pgimgcatm_imgd_img'];
+		
+		$smlimgpth      = $a_cat_imgfldnm.$dbsmlimg;
+		if(($dbsmlimg != '') && file_exists($smlimgpth)){
+			unlink($smlimgpth);
+		}
+		
+		$uqrypgimgd_dtl ="UPDATE catimg_dtl set
+								catm_name = '$qnsname'"; 
+	if(isset($_FILES[$simg1]['tmp_name']) && ($_FILES[$simg1]['tmp_name']!="")){
+		$uqrypgimgd_dtl .=" ,catm_img = '$sdest1'";
+	}
+
+	$uqrypgimgd_dtl .=" ,catm_sts = '$sts',
+	catm_prty = '$prty',											  	  
+	catm_mdfdon= '$cur_dt',
+	catm_mdfdby = '$ses_admin'
+							where 
+							catm_cat_id = '$id' and 
+							catm_id='$pgdtlid'";	  	
+
+		$srpgimgd_dtl = mysqli_query($conn,$uqrypgimgd_dtl) or die (mysqli_error($conn));							
+	}					
+							
 		}	
 		else{
-			
-			 $sqrypg_dtl ="SELECT 
-			pgqnsd_name
-							from
-							pgqns_dtl
-							where 
-							pgqnsd_name ='$qnsname' and 
-							pgqnsd_pgcntsd_id ='$id'"; 
-			$srpgvdod_dtl1 	= mysqli_query($conn,$sqrypg_dtl);		
-			$cntrec_pgvdo = mysqli_num_rows($srpgvdod_dtl1);
-			if($cntrec_pgvdo < 1){
-				$iqrypg_dtl ="INSERT into pgqns_dtl(
-					pgqnsd_name,pgqnsd_vdo,pgqnsd_sts,pgqnsd_prty,
-					pgqnsd_pgcntsd_id,pgqnsd_typ,pgqnsd_crtdon,pgqnsd_crtdby)values(
-								 '$qnsname','$qnsansdesc','$sts','$prty',
-								 '$id','1','$cur_dt','$ses_admin')";  
-				$srpgvdod_dtl2 = mysqli_query($conn,$iqrypg_dtl);
+			$sqrypg_dtl = "SELECT 
+				catm_img
+		 from
+		 catimg_dtl
+		 where 
+		 catm_name ='$qnsname' and 
+		 catm_id !='$pgdtlid' and 
+		 catm_cat_id ='$id'";
+$srpgimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl) or die (mysqli_error($conn));		
+$cntrec_pgimg = mysqli_num_rows($srpgimgd_dtl);
+if($cntrec_pgimg < 1){
+$iqrypg_dtl ="INSERT into catimg_dtl(
+	catm_name,catm_img,catm_sts,catm_prty,
+	catm_cat_id,catm_typ,catm_crtdon,catm_crtdby)values(
+				 '$qnsname','$sdest1','$sts','$prty',
+				 '$id','1','$cur_dt','$ses_admin')";  
+$srpgimgd_dtl = mysqli_query($conn,$iqrypg_dtl) or die (mysqli_error($conn));
+}
+		}
+		if($srpgimgd_dtl){
+			if(($ssource1!='none') && ($ssource1!='') && ($sdest1 != "")){ 
+				move_uploaded_file($ssource1,$a_cat_imgfldnm.$sdest1);			
 			}
+			
 		}																		
 	}//End of For Loop	
  }
