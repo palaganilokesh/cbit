@@ -9,8 +9,8 @@ include_once 'includes/inc_paging_functions.php';//Making paging validation
 //$rowsprpg  = $_SESSION['sespgval'];//maximum rows per page	
 include_once 'includes/inc_paging1.php';//Includes pagination  
 
-$page_title = "Events | Chaitanya Bharathi Institute of Technology";
-$page_seo_title = "Events | Chaitanya Bharathi Institute of Technology";
+$page_title = "News | Chaitanya Bharathi Institute of Technology";
+$page_seo_title = "News | Chaitanya Bharathi Institute of Technology";
 $db_seokywrd = "";
 $db_seodesc = "";
 $current_page = "home";
@@ -80,6 +80,7 @@ include('header.php');
                         while ($srownews_mst   = mysqli_fetch_assoc($srsnews_mst)) {
                           $evntcnt += 1;
                           $news_nm = $srownews_mst['evntm_name'];
+                          $news_url=funStrUrlEncode($news_nm);
                           $news_dt = $srownews_mst['nstdt'];
                           $news_mt = $srownews_mst['nstmnth'];
                           $news_yr = $srownews_mst['nstyr'];
@@ -109,7 +110,8 @@ include('header.php');
                                       $nwsimgpth   =  $rtpth . $u_cat_bnrfldnm . 'default.jpg';
                                     } ?>
 <div class="news-img">
-<a href="<?php echo $rtpth?>news-details.php?nwsid=<?php echo $news_id;?>"><img src="<?php echo $nwsimgpth;?>" alt="Image"></a>
+
+<a href="<?php echo $rtpth.'latest-news/'.$news_url.'_'.$news_id; ?>"><img src="<?php echo $nwsimgpth;?>" alt="Image"></a>
 </div>
 <div class="news-content">
 <!-- <div class="list">
@@ -118,8 +120,8 @@ include('header.php');
 <li><i class="flaticon-tag"></i>Electronics</li>
 </ul>
 </div> -->
-<a href="<?php echo $rtpth?>news-details.php?nwsid=<?php echo $news_id;?>"><h3><?php echo $news_nm;?></h3></a>
-<a href="<?php echo $rtpth?>news-details.php?nwsid=<?php echo $news_id;?>" class="read-more-btn">Read More<i class="flaticon-next"></i></a>
+<a href="<?php echo $rtpth.'latest-news/'.$news_url.'_'.$news_id; ?>"><h3><?php echo $news_nm;?></h3></a>
+<a href="<?php echo $rtpth.'latest-news/'.$news_url.'_'.$news_id; ?>" class="read-more-btn">Read More<i class="flaticon-next"></i></a>
 </div>
 </div>
 </div>

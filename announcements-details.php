@@ -1,12 +1,14 @@
 <?php
+
+error_reporting(0);
 include_once 'includes/inc_connection.php';
 include_once 'includes/inc_usr_functions.php'; //Use function for validation and more
 include_once 'includes/inc_config.php'; //Making paging validation	
 include_once 'includes/inc_folder_path.php'; //Making paging validation	
 
 	
-$page_title = "Events | Chaitanya Bharathi Institute of Technology";
-$page_seo_title = "Events | Chaitanya Bharathi Institute of Technology";
+$page_title = "Notifications | Chaitanya Bharathi Institute of Technology";
+$page_seo_title = "Notifications | Chaitanya Bharathi Institute of Technology";
 $db_seokywrd = "";
 $db_seodesc = "";
 $current_page = "home";
@@ -25,10 +27,14 @@ include('header.php');
 </div>
 <?php
 if (isset($_REQUEST['notify_typ']) && trim($_REQUEST['notify_typ']) != "") {
-	$notify_typ			= funcStrUnRplc(glb_func_chkvl($_REQUEST['notify_typ']));
-	$not_id			= funcStrUnRplc(glb_func_chkvl($_REQUEST['notid']));
-	$sqryanounce_mst = "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_img,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != ''and nwsm_sts='a' ";
-	$sqryanounce_mst .= " and nwsm_typ='$notify_typ' and nwsm_id='$not_id' ";
+	$notify_typ1			=glb_func_chkvl($_REQUEST['notify_typ']);
+$notify_typ=funcStrUnRplc($notify_typ1);
+	$not_id1			= glb_func_chkvl($_REQUEST['notid']);
+	$not_id=funcStrUnRplc($not_id1);
+	$txt=explode('_',$not_id );
+	$nt_id=$txt[1];
+	 $sqryanounce_mst = "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_img,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != '' and nwsm_sts='a'  and nwsm_typ='$notify_typ' and (nwsm_name='$not_id' or nwsm_id='$nt_id') ";
+	
 }
 $sqryanounce_mst .= " order by nwsm_prty asc";
 // echo $sqryanounce_mst;
@@ -38,6 +44,7 @@ if ($cnt_anounce > 0) {
 	$anounce = mysqli_fetch_assoc($srsanounce_mst);
 	$ancmt_id = $anounce['nwsm_id'];
 	$ancmt_nm = $anounce['nwsm_name'];
+	$anu_url=funcStrRplc($ancmt_nm);
 	$ancmt_desc = $anounce['nwsm_desc'];
 	$ancmt_link = $anounce['nwsm_lnk'];
 	$ancmt_dt = $anounce['nwsm_dt'];
@@ -70,6 +77,7 @@ if ($cnt_anounce > 0) {
 			} else if ($notify_typ == 5) {
 				$disp_nm = "Department Notifications";
 			}
+			$notify_typ=funcStrUnRplc($notify_typ);
 			?>
 <section class="page-bread">
 				<div class="container-fluid px-lg-3 px-md-3 px-2 py-2">
@@ -77,7 +85,10 @@ if ($cnt_anounce > 0) {
 						<h1><?php echo $ancmt_nm; ?></h1>
 						<ul>
 							<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-							<li><a href="<?php echo $rtpth; ?>announcements-list.php?notify_typ=<?php echo $notify_typ;?>&notid=<?php echo $ancmt_id;?>"><?php echo $disp_nm; ?></a></li>
+							
+
+							<li><a href="<?php echo $rtpth.'notifications/'.$notify_typ;?>"><?php echo $disp_nm; ?></a></li>
+							<!-- <li><a href="<?php echo $rtpth.'notifications/'.$notify_typ.'/'.$anu_url;?>"><?php echo $disp_nm; ?></a></li> -->
 							<li><?php echo $ancmt_nm; ?></li>
 						</ul>
 					</div>

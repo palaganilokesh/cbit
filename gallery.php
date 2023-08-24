@@ -16,8 +16,11 @@ $_SESSION['seslocval']	= $pgrdvl;
 include('header.php');
 global $pht_name,$srowsphtcat_dtl;
 $page_title1 = "Photo Gallery";
-global $id;
-		 $id = glb_func_chkvl($_REQUEST['phtid']);
+global $id,$id1;
+ $id1 = glb_func_chkvl($_REQUEST['phtid']);
+ $nm=funcStrUnRplc($id1);
+ $txt=explode('_',$nm);
+$pt_id=$txt[1];
 	
 ?>
 <div class="page-banner-area bg-2 ">
@@ -28,12 +31,15 @@ global $id;
     <div class="container-fluid px-lg-3 px-md-3 px-2 py-2">
         <div class="page-banner-content">
 				<?php
-$sqryphtcat_mst="select phtcatm_name,phtcatm_desc from phtcat_mst where phtcatm_id='$id'  and phtcatm_sts='a'";
+$sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst where (phtcatm_id='$pt_id' or phtcatm_name='$nm')  and phtcatm_sts='a'";
 					  $srsphtcat_dtl = mysqli_query($conn,$sqryphtcat_mst);
 
 			    while($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)){
 					$pht_name=$srowsphtcat_dtl['phtcatm_name'];
 					$pht_desc=$srowsphtcat_dtl['phtcatm_desc'];
+					$pht_id=$srowsphtcat_dtl['phtcatm_id'];
+                    
+
 				
 						?>
 
@@ -51,7 +57,7 @@ $sqryphtcat_mst="select phtcatm_name,phtcatm_desc from phtcat_mst where phtcatm_
  if(isset($_REQUEST['phtid']) && trim($_REQUEST['phtid'])!="" )
  {
 	
- $sqryphtcat_mst1="SELECT phtm_id,phtm_simgnm,phtm_simg,	phtm_sts,phtm_prty from  vw_phtd_phtm_mst where  phtm_phtcatm_id  ='$id' and 	phtm_sts = 'a'   order by 	phtm_prty asc";
+ $sqryphtcat_mst1="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from  vw_phtd_phtm_mst where  phtm_phtcatm_id  ='$pht_id' and 	phtm_sts = 'a'   order by 	phtm_prty asc";
 					
 			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
 			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);
@@ -71,7 +77,7 @@ $sqryphtcat_mst="select phtcatm_name,phtcatm_desc from phtcat_mst where phtcatm_
 										$bphtimgnm     = $srowsphtcat_dtl1['phtm_simg'];
 										$bimgpath      = $u_phtgalspath1.$bphtimgnm;
 										if (($bphtimgnm != "") && file_exists($bimgpath)) {
-											$galryimages = $rtpth . $bimgpath;
+										$galryimages = $rtpth . $bimgpath;
 										} else {
 											$galryimages   = $rtpth . $gusrglry_fldnm . 'default.jpg';
 											

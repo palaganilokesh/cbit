@@ -1,20 +1,25 @@
 <?php
+error_reporting(0);
 include_once 'includes/inc_connection.php';
 include_once 'includes/inc_usr_functions.php';//Use function for validation and more
 include_once 'includes/inc_config.php';//Making paging validation	
 include_once 'includes/inc_folder_path.php';//Making paging validation	
 
 if(isset($_REQUEST['nwsid']) && trim($_REQUEST['nwsid'])!= ""){
-	$nwsid			= funcStrUnRplc(glb_func_chkvl($_REQUEST['nwsid']));
+
+	$nwsid1			= glb_func_chkvl($_REQUEST['nwsid']);
+$nwsid=funStrUrlDecode($nwsid1);
+$txt=explode('_',$nwsid );
+$n_id=$txt[1];
 	 $sqrynws_mst = "SELECT evntm_name,evntm_desc,evntm_city, evntm_id,evntm_lnk,evtnm_strttm,evntm_endtm,
      DATE_format(evntm_strtdt, '%D %M %Y') as newstdate,
      DATE_format(evntm_strtdt, '%d') as nstdt,
 DATE_format(evntm_strtdt, '%b ') as nstmnth,
  DATE_format(evntm_strtdt, '%Y ') as nstyr 
       from 
- evnt_mst	where evntm_sts='a' and evntm_typ='n' and evntm_id = '$nwsid' group by evntm_id order by evntm_strtdt ASC";
+ evnt_mst	where evntm_sts='a' and evntm_typ='n' and (evntm_name = '$nwsid' or evntm_id = '$n_id') group by evntm_id order by evntm_strtdt ASC";
  
-//  echo $sqrynws_mst;
+//  echo $sqrynws_mst;exit;
 	$srsnws_mst  	 =  mysqli_query($conn,$sqrynws_mst) or die(mysqli_error($conn));
 	$cntnws_mst  = mysqli_num_rows($srsnws_mst);
 	if($cntnws_mst > 0){
@@ -38,7 +43,7 @@ DATE_format(evntm_strtdt, '%b ') as nstmnth,
 $page_title = $news_nm;
 	$current_page = "News";
 // $page_title = "Events | Chaitanya Bharathi Institute of Technology";
-$page_seo_title = "Events | Chaitanya Bharathi Institute of Technology";
+$page_seo_title = "News | Chaitanya Bharathi Institute of Technology";
 $db_seokywrd = "";
 $db_seodesc = "";
 $current_page = "home";
@@ -62,7 +67,7 @@ include('header.php');
 				<h1><?php echo $page_title;?></h1>
             <ul>
                 <li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-								      <li><a href="<?php echo $rtpth;?>news-list.php">News</a></li>
+								      <li><a href="<?php echo $rtpth;?>news">News</a></li>
                     <li><?php echo $page_title;?></li>
             </ul>
         </div>

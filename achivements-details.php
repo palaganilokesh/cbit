@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
 include_once 'includes/inc_connection.php';
 include_once 'includes/inc_usr_functions.php'; //Use function for validation and more
@@ -6,9 +7,13 @@ include_once 'includes/inc_config.php'; //Making paging validation
 include_once 'includes/inc_folder_path.php'; //Making paging validation	
 
 if (isset($_REQUEST['achmtid']) && trim($_REQUEST['achmtid']) != "") {
-    $achmtid   = funcStrUnRplc(glb_func_chkvl($_REQUEST['achmtid']));
-		$sqryqry_achmntm = "SELECT achmntm_id, achmntm_name, achmntm_desc,achmntm_sdesc, achmntm_imgnm,achmntm_lnk, achmntm_prty, achmntm_sts FROM  achmnt_mst WHERE achmntm_sts = 'a' and achmntm_id='$achmtid' order by achmntm_prty asc ";
-  
+   
+    $achmtid1   = glb_func_chkvl($_REQUEST['achmtid']);
+   $achmtid   = funStrUrlDecode($achmtid1);
+   $txt=explode('_',$achmtid );
+ $a_id=$txt[1];
+		$sqryqry_achmntm = "SELECT achmntm_id, achmntm_name, achmntm_desc,achmntm_sdesc, achmntm_imgnm,achmntm_lnk, achmntm_prty, achmntm_sts FROM  achmnt_mst WHERE achmntm_sts = 'a' and (achmntm_name='$achmtid' or achmntm_id='$a_id') order by achmntm_prty asc ";
+//   echo $sqryqry_achmntm;
     $sqry_ach_mst = mysqli_query($conn, $sqryqry_achmntm);
 $ach_cnt = mysqli_num_rows($sqry_ach_mst);
     if ($ach_cnt > 0) {
@@ -59,7 +64,7 @@ include('header.php');
             <h1><?php echo $page_title; ?></h1>
             <ul>
                 <li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-                <li><a href="<?php echo $rtpth; ?>achivement-list.php">Achivements</a></li>
+                <li><a href="<?php echo $rtpth; ?>achivements">Achivements</a></li>
                 <li><?php echo $page_title; ?></li>
             </ul>
         </div>

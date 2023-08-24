@@ -5,11 +5,16 @@ include_once 'includes/inc_usr_functions.php'; //Use function for validation and
 include_once "includes/inc_folder_path.php";
 // include_once 'includes/inc_paging_functions.php'; //Making paging validation
 
-$scatid = $_GET['scatid'];
-$catid = $_GET['catid'];
-$mnlnksid = $_GET['mnlnks'];
+$scatid1 = $_GET['scatid'];
+$scatid=funcStrUnRplc($scatid1);
+$catid1 = $_GET['catid'];
+$catid=funcStrUnRplc($catid1);
+$mnlnks1 = $_GET['mnlnks'];
+$mnlnksid=funcStrUnRplc($mnlnks1);
 $admtyp = $_GET['admtyp'];
-$prodid = $_GET['prodid'];
+$prodid1 = $_GET['prodid'];
+$prodid=funcStrUnRplc($prodid1);
+
 ?>
 
 <div class="about-us-sideLinks">
@@ -19,20 +24,20 @@ $prodid = $_GET['prodid'];
 				<h2 class="accordion-header" id="heading-2">
 					<button class="accordion-button open-df collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pg" aria-expanded="false" aria-controls="pg">
 						<?php
-						if ($mnlnksid == 3 || $scatid != '') {
-							$ttl = "SELECT prodcatm_name from prodcat_mst where prodcatm_id='$catid'";
+						if ($mnlnksid == 'departments' || $scatid != '') {
+							$ttl = "SELECT prodcatm_name from prodcat_mst where prodcatm_name='$catid'";
 							$res = mysqli_query($conn, $ttl);
 							$cat_res = mysqli_fetch_assoc($res);
 							echo $cat_res['prodcatm_name'];
 							//echo $catid ;
 						} else {
-							$tt2 = "SELECT prodmnlnksm_name from 	 prodmnlnks_mst where prodmnlnksm_id='$mnlnksid'";
+							$tt2 = "SELECT prodmnlnksm_name from 	 prodmnlnks_mst where prodmnlnksm_name='$mnlnksid'";
 							$resmn = mysqli_query($conn, $tt2);
 							$mnln_res = mysqli_fetch_assoc($resmn);
 							if ($mnlnksid == 4 && $admtyp == 'UG') {
 								$adtyp = "Under Graduation";
 								echo $mnln_res['prodmnlnksm_name'] . '-' . $adtyp;
-							} elseif ($mnlnksid == 4 && $admtyp == 'PG') {
+							} elseif ($mnlnksid == 'admissions' && $admtyp == 'PG') {
 								$adtyp = "Post Graduation";
 								echo $mnln_res['prodmnlnksm_name'] . '-' . $adtyp;
 							} else {
@@ -48,23 +53,23 @@ $prodid = $_GET['prodid'];
 
 				<?php
 				$sqryprodcat_mst = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_typ,prodcatm_id,prodcatm_name,prodcatm_admtyp";
-				if ($mnlnksid == 3 || $scatid != '') {
+				if ($mnlnksid ==  'departments' || $scatid != '') {
 					$sqryprodcat_mst .= ",prodscatm_id,prodscatm_name,prodscatm_desc ";
 				}
 				$sqryprodcat_mst .= " from	prodmnlnks_mst 
 								inner join prodcat_mst on prodcatm_prodmnlnksm_id=prodmnlnksm_id";
-				if ($mnlnksid == 3 || $scatid != '') {
+				if ($mnlnksid ==  'departments' || $scatid != '') {
 					$sqryprodcat_mst .= " inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id ";
 				}
 
-				$sqryprodcat_mst .= " where  prodmnlnksm_id='$mnlnksid' and	prodcatm_sts='a'";
-				if ($mnlnksid == 3 || $scatid != '') {
-					$sqryprodcat_mst .= " and prodcatm_id='$catid' and prodscatm_sts='a'";
+				$sqryprodcat_mst .= " where  prodmnlnksm_name='$mnlnksid' and	prodcatm_sts='a'";
+				if ($mnlnksid ==  'departments' || $scatid != '') {
+					$sqryprodcat_mst .= " and prodcatm_name='$catid' and prodscatm_sts='a'";
 				}
-				if ($mnlnksid == 4) {
+				if ($mnlnksid ==  'admissions') {
 					$sqryprodcat_mst .= " and prodcatm_admtyp='$admtyp' ";
 				}
-				if ($mnlnksid == 3 || $scatid != '') {
+				if ($mnlnksid ==  'departments' || $scatid != '') {
 					$sqryprodcat_mst .= "	 order by prodscatm_prty asc";	
 				}
 				if($scatid==''){
@@ -87,23 +92,23 @@ $prodid = $_GET['prodid'];
 									$prodscatm_name = $srowcat_mst['prodscatm_name'];
 									$prodmnlnksm_id 	= $srowcat_mst['prodmnlnksm_id'];
 									$prodmnlnksm_name = $srowcat_mst['prodmnlnksm_name'];
-									if ($mnlnksid == 3 || $scatid != '') {
-										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_id&catid=$prodcatm_id&scatid=$prodscatm_id";
-										if ($prodscatm_id == $scatid) {
+									if ($mnlnksid == 'departments' || $scatid != '') {
+										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_name&catid=$prodcatm_name&scatid=$prodscatm_name";
+										if ($prodscatm_name == $scatid) {
 											$cat_cls = "active";
 										} else {
 											$cat_cls = "";
 										}
 									} else {
-										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_id&catid=$prodcatm_id";
-										if ($catid == $prodcatm_id) {
+										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_name&catid=$prodcatm_name";
+										if ($catid == $prodcatm_name) {
 											$cat_cls = "active";
 										} else {
 											$cat_cls = "";
 										}
 									}
-									if ($mnlnksid == 4) {
-										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_id&catid=$prodcatm_id&admtyp=$admtyp";
+									if ($mnlnksid ==  'admissions') {
+										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_name&catid=$prodcatm_name&admtyp=$admtyp";
 									}
 								?>
 									<li>
@@ -114,13 +119,14 @@ $prodid = $_GET['prodid'];
 									 inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id 
 									 inner join pgcnts_dtl on pgcntsd_prodscatm_id=prodscatm_id
 									 where  prodscatm_id='$prodscatm_id' and pgcntsd_prodcatm_id='$prodcatm_id' and prodcatm_sts='a' and prodmnlnksm_sts='a' and prodscatm_sts='a' and pgcntsd_sts='a' and pgcntsd_id !='' order by pgcntsd_prty asc";
+									//  echo $sqrypgcnt_mst;
 										$srspgcnt_mst		= mysqli_query($conn, $sqrypgcnt_mst);
 										$cntpgcnt_mst            =  mysqli_num_rows($srspgcnt_mst);
 										if ($cntpgcnt_mst > 0) {
 											// $srowpgcnt_mst1 = mysqli_fetch_assoc($srspgcnt_mst);		
 
-											if ($scatid == $prodscatm_id) {
-												// echo "here-".$prodid;
+											if ($scatid == $prodscatm_name) {
+										
 												$pg_cls = "accordion-button sub-menus-1";
 												$aria = "true";
 											} else {
@@ -144,7 +150,7 @@ $prodid = $_GET['prodid'];
 														<a class="<?php echo $cat_cls; ?>" href="<?php echo $lftlnknm; ?>">
 															<i class="fa-solid fa-chevron-right"></i>
 															<?php
-															if ($mnlnksid == 3 || $scatid != '') {
+															if ($mnlnksid == 'departments' || $scatid != '') {
 																echo $prodscatm_name;
 															} else {
 																echo $prodcatm_name;
@@ -157,7 +163,7 @@ $prodid = $_GET['prodid'];
 
 											if ($cntpgcnt_mst > 0) {
 
-												if ($scatid == $prodscatm_id) {
+												if ($scatid == $prodscatm_name) {
 													$pg_cls1 = "accordion-collapse collapse show";
 													// echo "here".$prodid;
 												} else {
@@ -177,7 +183,7 @@ $prodid = $_GET['prodid'];
 																	$prodpg_name = $srowpgcnt_mst['pgcntsd_name'];
 																	$prodpg_id = $srowpgcnt_mst['pgcntsd_id'];
 
-																	if ($prodpg_id == $prodid ) {
+																	if ($prodpg_name == $prodid ) {
 																		$pgcntnt_cls = "active";
 																	} else {
 																		$pgcntnt_cls = "";
@@ -236,101 +242,3 @@ $prodid = $_GET['prodid'];
 
 
 
-
-<!-- <div class="card">
-							<div class="card-header" id="heading<?php echo $prodcatm_id  ?>">
-								<h2 class="mb-0">
-									<button class="btn btn-link <?php if ($prodcatm_id != $catid) {
-																								echo 'collapsed';
-																							} else {
-																							}   ?>" type="button" data-toggle="collapse" data-target="#collapse<?php echo $prodcatm_id  ?>" aria-expanded="false" aria-controls="collapse<?php echo $prodcatm_id  ?>">
-										<?php echo $prodcatm_name; ?>
-									</button>
-								</h2>
-							</div>
-							<div id="collapse<?php echo $prodcatm_id  ?>" class="collapse
-		<?php
-		if ($prodcatm_id == $catid) {
-			echo ' in';
-		} else {
-		}   ?> " aria-labelledby="heading<?php echo $prodcatm_id  ?>" data-parent="#accordionExample">
-								<ul class="links-lists p-0 m-0">
-									<li>
-										<a href="<?php echo $lftlnknm ?>">
-											<i class="icon-li icon-double-angle-right"></i> <?php echo $prodcatm_name ?></a>
-									</li>
-									<?php $sqryprodscat_mst_r = "select 
-										prodscatm_id,prodscatm_name,pgcntsd_id,pgcntsd_prodscatm_id,
-										pgcntsd_name,pgcntsd_sts,prodcatm_id
-									 from
-										prodscat_mst
-										inner join pgcnts_dtl on pgcntsd_prodscatm_id=prodscatm_id
-										inner join prodcat_mst on prodcatm_id=pgcntsd_prodcatm_id
-									 where 
-										prodscatm_sts='a' and
-										pgcntsd_sts='a' and
-									    prodcatm_id = $prodcatm_id
-										
-									group by 
-										prodscatm_id
-										";
-
-									$srsprodscat_mst_r = mysqli_query($conn, $sqryprodscat_mst_r);
-									$cntrec_scat_nav_r = mysqli_num_rows($srsprodscat_mst_r);
-									if ($cntrec_scat_nav_r > 0) {
-
-										$rflg 		 = 1;
-										$ncatflg  	 = 1;
-										while ($srowprodscat_mst_r 	= mysqli_fetch_assoc($srsprodscat_mst_r)) {
-
-											$prodscatm_name	  	= $srowprodscat_mst_r['prodscatm_name'];
-											$prodscatm_id	   = $srowprodscat_mst_r['prodscatm_id'];
-											$prodcatm_id	   = $srowprodscat_mst_r['prodcatm_id'];
-
-											$pgcntsd_name = $srowprodscat_mst_r['pgcntsd_name'];
-
-
-											$sqrypgcnts_dtl = "select 
-							prodscatm_id,prodscatm_name,pgcntsd_id,pgcntsd_prodscatm_id,
-							pgcntsd_name,pgcntsd_sts,prodcatm_id
-						 from
-							vw_pgcnts_prodcat_prodscat_mst
-						 where
-							pgcntsd_prodscatm_id='$prodscatm_id	' and
-							
-							 prodcatm_sts='a' and
-							prodscatm_sts='a' 
-							and
-							pgcntsd_sts='a'
-							order by pgcntsd_prty desc limit 1
-							";
-											$srspgcnts_dtl = mysqli_query($conn, $sqrypgcnts_dtl);
-											$num = mysqli_num_rows($srspgcnts_dtl);
-											if ($num > 0) {
-
-												while ($rowpgcnts = mysqli_fetch_assoc($srspgcnts_dtl)) {
-													$pgcntsd_id = $rowpgcnts['pgcntsd_id'];
-
-									?>
-													<li>
-														<a href="pagecontents.php?mnlnks=<?php echo $prodmnlnksm_id ?>&catid=<?php echo $prodcatm_id ?>&scatid=<?php echo $prodscatm_id ?>&prodid=<?php echo $pgcntsd_id ?>">
-															<i class="icon-li icon-double-angle-right"></i> <?php echo $prodscatm_name ?></a>
-													</li>
-
-
-									<?php	}
-											}
-										}
-									} ?>
-							</div>
-						</div>
-			</div>
-		</div>
-<?php
-// }
-// } 
-?>
-	</div>
-	<div class="clearfix"></div>
-
-</div> -->

@@ -201,6 +201,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                         while ($srowevnt_mst   = mysqli_fetch_assoc($srsevnt_mst)) {
                           $evntcnt += 1;
                           $evnt_nm = $srowevnt_mst['evntm_name'];
+                          $evnt_url=funStrUrlEncode($evnt_nm);
                           $evntm_id = $srowevnt_mst['evntm_id'];
                           $evnt_vnu = $srowevnt_mst['evntm_venue'];
                           $evnt_stdt = $srowevnt_mst['stdt'];
@@ -220,7 +221,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                           } else {
                             $evnt_desc = strip_tags($evnt_desc);;
                           }
-                          $u_evntm_nm = funcStrRplc($evnt_nm);
+                          $u_evntm_nm = funStrUrlEncode($evnt_nm);
                           $db_evntm_end = $srowevnt_mst['eddate'];
                           $dsplyNm = $evnt_strt;
                           $sttm = strtotime($evnt_strt);
@@ -259,7 +260,9 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                                     <h3><?php echo $evnt_nm ?></h3>
                                     <p><strong>Venue: </strong><?php echo $evnt_vnu ?></p>
                                     <!-- <p><a href="<?php echo $rtpth . "events.php?day=" . trim($evnt_stdt) . "&month=" . trim($evnt_stmth) . "&year=" . trim($evnt_styr) . "&date=" . trim($sttm) ?>"><?php echo $evnt_desc ?></a></p> -->
-                                    <a href="<?php echo $rtpth ?>events-details.php?evntmid=<?php echo $evntm_id; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
+                                    <a href="<?php echo $rtpth.'latest-events/'.$evnt_url.'_'.$evntm_id; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
+
+                                   
                                   </div>
                                 </div>
                               </div>
@@ -273,7 +276,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                       <div class="row align-items-center justify-content-end">
                         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-6">
                           <div class="mb-lg-0 mb-md-0 mb-2 text-end">
-                            <a href="<?php echo $rtpth ?>events-list.php" class="custom-btn-12 green">View All<i class="fa-solid fa-chevron-right"></i></a>
+                            <a href="<?php echo $rtpth ?>events" class="custom-btn-12 green">View All<i class="fa-solid fa-chevron-right"></i></a>
                           </div>
                         </div>
                       </div>
@@ -307,6 +310,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                         while ($srownews_mst   = mysqli_fetch_assoc($srsnews_mst)) {
                           $evntcnt += 1;
                           $news_nm = $srownews_mst['evntm_name'];
+                          $news_url=funStrUrlEncode($news_nm);
                           $news_dt = $srownews_mst['nstdt'];
                           $news_mt = $srownews_mst['nstmnth'];
                           $news_yr = $srownews_mst['nstyr'];
@@ -375,7 +379,8 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                                     <h3><?php echo $news_nm; ?></h3>
                                     <!-- <p>Chaitanya Bharathi Institute of Technology, established in the Year 1979,
                                             esteemed as the premier engineering institute.</p> -->
-                                    <a href="<?php echo $rtpth ?>news-details.php?nwsid=<?php echo $news_id; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
+                                    <a href="<?php echo $rtpth.'latest-news/'.$news_url.'_'.$news_id; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
+                                    
                                   </div>
                                 </div>
                               </div>
@@ -391,7 +396,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                       <div class="row align-items-center justify-content-end">
                         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-6">
                           <div class="mb-lg-0 mb-md-0 mb-2 text-end">
-                            <a href="<?php echo $rtpth ?>news-list.php" class="custom-btn-12 green">View All<i class="fa-solid fa-chevron-right"></i></a>
+                            <a href="<?php echo $rtpth ?>news" class="custom-btn-12 green">View All<i class="fa-solid fa-chevron-right"></i></a>
                           </div>
                         </div>
                       </div>
@@ -433,12 +438,13 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                       $resltnwsid   = $srownws_mstreslt['nwsm_id'];
                       $resltnewsdate = $srownws_mstreslt['nwsm_dt'];
                       $resltnewsname =  $srownws_mstreslt['nwsm_name'];
+                      $anu_url=funcStrRplc($resltnewsname);
                       $resltnewsdsec =  $srownws_mstreslt['nwsm_desc'];
                       $resltnwstyp = $srownws_mstreslt['nwsm_typ'];
                     ?>
                       <li>
-                        <!-- <?php echo  $rtpth ?>feed-details.php?nwsid=<?php echo $resltnwsid ?> -->
-                        <a href="<?php echo $rtpth; ?>announcements-details.php?notify_typ=<?php echo $resltnwstyp; ?>&notid=<?php echo  $resltnwsid; ?>" class="d-flex align-items-baseline">
+                       
+                        <a href="<?php echo $rtpth.'latest-notifications/'.$resltnwstyp.'/'.$anu_url.'_'.$resltnwsid;?>" class="d-flex align-items-baseline">
                           <span> <i class="fa-regular fa-bell"></i></span>
                           <span><?php echo   $resltnewsname; ?> <img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""></span>
                         </a>
@@ -455,7 +461,8 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
             <div class="row align-items-center justify-content-end">
               <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-6">
                 <div class="mb-lg-0 mb-md-0 mb-2 text-end">
-                  <a href="<?php echo $rtpth ?>announcements-list.php?notify_typ=2" class="custom-btn-12 green">View All <i class="fa-solid fa-chevron-right"></i></a>
+                  <!-- <a href="<?php echo $rtpth ?>announcements-list.php?notify_typ=2" class="custom-btn-12 green">View All <i class="fa-solid fa-chevron-right"></i></a> -->
+                  <a href="<?php echo $rtpth ?>notifications/2" class="custom-btn-12 green">View All <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
               </div>
             </div>
@@ -539,6 +546,7 @@ if ($ach_cnt > 0) {
         while ($srowach_mst = mysqli_fetch_assoc($sqry_ach_mst)) {
           $achid = $srowach_mst['achmntm_id'];
           $achttl = $srowach_mst['achmntm_name'];
+          $ach_url=funStrUrlEncode($achttl);
           $achlnk = $srowach_mst['achmntm_lnk'];
           $achimgnm = $srowach_mst['achmntm_imgnm'];
           $achsdesc = $srowach_mst['achmntm_sdesc'];
@@ -555,12 +563,13 @@ if ($ach_cnt > 0) {
               <img src="<?php echo   $achmntimgpth; ?>" alt="">
             </div>
             <div class="health-care-content">
-              <a href="<?php echo $rtpth ?>achivements-details.php?achmtid=<?php echo $achid; ?>" class="mt-4">
+           
+              <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid; ?>" class="mt-4">
                 <h3><?php echo $achttl; ?></h3>
               </a>
-              <a href="<?php echo $rtpth ?>achivements-details.php?achmtid=<?php echo $achid; ?>" class="read-more-btn"><?php echo $achsdesc; ?></a>
+              <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid; ?>" class="read-more-btn"><?php echo $achsdesc; ?></a>
               <p><?php echo $achdesc; ?></p>
-              <a href="<?php echo $rtpth ?>achivements-details.php?achmtid=<?php echo $achid; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
+              <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
             </div>
           </div>
         <?php
@@ -570,7 +579,7 @@ if ($ach_cnt > 0) {
       <div class="row align-items-center justify-content-end">
         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-6">
           <div class="mb-lg-0 mb-md-0 mb-2 text-end">
-            <a href="<?php echo $rtpth; ?>achivement-list.php" class="custom-btn-12 green">Viewl All <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="<?php echo $rtpth; ?>achivements" class="custom-btn-12 green">Viewl All <i class="fa-solid fa-chevron-right"></i></a>
           </div>
         </div>
       </div>
@@ -967,6 +976,7 @@ if ($alumni_cnt > 0) {
             while ($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)) {
               $phtcatid         = $srowsphtcat_dtl['phtcatm_id'];
               $phtcat_name      = $srowsphtcat_dtl['phtcatm_name'];
+              $pht_url=funcStrRplc($phtcat_name);
               $phtcat_bnrimg      = $srowsphtcat_dtl['phtcatm_img'];
               // $phtcatm_desc  = $srowsphtcat_dtl['phtcatm_desc'];
               // $bphtimgnm     = $srowsphtcat_dtl['phtm_simg'];
@@ -987,7 +997,8 @@ if ($alumni_cnt > 0) {
             ?>
               <div class="item">
                 <div class="gal-img-holder">
-                  <a href='gallery.php?phtid=<?php echo $srowsphtcat_dtl['phtcatm_id']; ?> '>
+                  
+                  <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$phtcatid;?>">
                     <!-- <a href="<?php echo $rtpth; ?>gallery-category.php"> -->
                     <img src="<?php echo $galryimgpth; ?>" classw="w-100" alt="" title="<?php echo $phtcat_name; ?>">
                     <p class="gal-cat-home"><?php echo $phtcat_name; ?></p>

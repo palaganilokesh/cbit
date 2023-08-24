@@ -59,6 +59,8 @@ if($ach_cnt > 0){
  while ($srowach_mst = mysqli_fetch_assoc($sqry_ach_mst)) {
    $achid = $srowach_mst['achmntm_id'];
    $achttl = $srowach_mst['achmntm_name'];
+   $ach_url=funStrUrlEncode($achttl);
+  //  echo  $ach_url;
    $achlnk = $srowach_mst['achmntm_lnk'];
    $achimgnm = $srowach_mst['achmntm_imgnm'];
    $achsdesc = $srowach_mst['achmntm_sdesc'];
@@ -74,17 +76,17 @@ if($ach_cnt > 0){
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="single-health-care-card">
           <div class="img">
-            <a href="<?php echo $rtpth?>achivements-details.php?achmtid=<?php echo $achid;?>"><img src="<?php echo $achmntimgpth; ?>" alt="Image"></a>
+            <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid ?>"><img src="<?php echo $achmntimgpth; ?>" alt="Image"></a>
           </div>
           <div class="health-care-content">
             <!-- <span class="mb-3 pull-right"><i class="flaticon-date"></i><?php echo $dsplyNm;?></span> -->
-            <a href="<?php echo $rtpth?>achivements-details.php?achmtid=<?php echo $achid;?>">
+            <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid ?>">
               <h3><?php echo $achttl;?></h3>
             </a>
            
             <!-- <p> <?php echo substr($achsdesc, 0, 100); ?>...</p> -->
             <p> <?php echo $achsdesc;?></p>
-            <a href="<?php echo $rtpth?>achivements-details.php?achmtid=<?php echo $achid;?>" class="read-more-btn">Read More <i class="flaticon-next"></i></a>
+            <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid ?>" class="read-more-btn">Read More <i class="flaticon-next"></i></a>
           </div>
         </div>
       </div>

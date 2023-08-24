@@ -458,16 +458,16 @@ function weeks_between($datefrom, $dateto)
 
 
 	function funcStrRplc($prmstr){		 
-
-		$gnrtstr = strtolower(str_replace(' ','-',$prmstr));
-
-		 $gnrtstr = strtolower(str_replace('.','-',$gnrtstr));
-
+		$gnrtstr = strtolower(str_replace('-','~',$prmstr));
+		$gnrtstr = strtolower(str_replace(' ','-',$gnrtstr));
+		$gnrtstr = strtolower(str_replace('/','*',$gnrtstr));
+		 $gnrtstr = strtolower(str_replace('.','!',$gnrtstr));
 		  $gnrtstr = strtolower(str_replace(':','-',$gnrtstr));
-
+			// $gnrtstr = strtolower(str_replace('amp;','(',$gnrtstr));
 		  $gnrtstr = strtolower(str_replace(',','-',$gnrtstr));
+			
 
-
+		
 
 		return $gnrtstr;		 
 
@@ -478,16 +478,33 @@ function weeks_between($datefrom, $dateto)
 	function funcStrRplcuscr($prmstr){		
 
 		$gnrtstr = strtolower(str_replace('-','_',$prmstr));
+		
 
 		return $gnrtstr;		 
 
 	}	
 
+
 	function funcStrUnRplc($prmstr){	
-
 		$gnrtstr = strtolower(str_replace('-',' ',$prmstr));
-
+		$gnrtstr = strtolower(str_replace('~','-',$gnrtstr));
+		$gnrtstr = strtolower(str_replace('*','/',$gnrtstr));
+		$gnrtstr = strtolower(str_replace('!','.',$gnrtstr));
+		// $gnrtstr = strtolower(str_replace('(','&',$gnrtstr));
+		
+		
 		return $gnrtstr;		
 
+	}
+	function funStrUrlEncode($str){
+		$reslt=urlencode($str);
+		
+		return $reslt;
+	}
+	function funStrUrlDecode($str){
+		$reslt=urldecode($str);
+		
+	
+		return $reslt;
 	}
 ?>

@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
 include_once 'includes/inc_connection.php';
 include_once 'includes/inc_usr_functions.php';//Use function for validation and more
@@ -6,7 +7,11 @@ include_once 'includes/inc_config.php';//Making paging validation
 include_once 'includes/inc_folder_path.php';//Making paging validation	
 
 if(isset($_REQUEST['evntmid']) && trim($_REQUEST['evntmid'])!= ""){
-	$evntId			= funcStrUnRplc(glb_func_chkvl($_REQUEST['evntmid']));
+	$evntId1			= glb_func_chkvl($_REQUEST['evntmid']);
+	$evntId			= funStrUrlDecode($evntId1);
+	 $txt=explode('_',$evntId );
+ $e_id=$txt[1];
+
 	 $sqryevnt_mst = "select 
 					evntm_id,evntm_name,evntm_desc,evntm_city,
 					evntm_strtdt,evntm_enddt,evntm_venue,evtnm_strttm,
@@ -17,7 +22,7 @@ if(isset($_REQUEST['evntmid']) && trim($_REQUEST['evntmid'])!= ""){
 					evnt_mst
 				where 
 					evntm_sts='a' and
-					evntm_id = '$evntId'" ;
+					(evntm_name = '$evntId' or evntm_id = '$e_id') "; ;
 	$sqryevnt_mst	.=	" group by evntm_id";				
 	$srsevnt_mst  	 =  mysqli_query($conn,$sqryevnt_mst) or die(mysqli_error($conn));
 	$cntrec_mst  = mysqli_num_rows($srsevnt_mst);
@@ -66,7 +71,7 @@ include('header.php');
             <h1><?php echo $page_title;?></h1>
             <ul>
                 <li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-								      <li><a href="<?php echo $rtpth;?>events-list.php">Events</a></li>
+								      <li><a href="<?php echo $rtpth;?>events">Events</a></li>
                     <li><?php echo $page_title;?></li>
             </ul>
         </div>
@@ -97,13 +102,15 @@ $sqryevntimg_dtl = "SELECT
 			if($serchres1 > 0){
 				$srowprodimg_dtl=mysqli_fetch_assoc($srsevntimg_dtl);
 				$bimg  			= $srowprodimg_dtl['evntimgd_img'];
-				$bgimgpth 		= $u_imgevnt_fldnm.$bimg;			
+				$bgimgpth 		= $u_imgevnt_fldnm.$bimg;	
+
 				if(($bimg != '') && file_exists($bgimgpth)){	
-					$imgnm = 	$bgimgpth;			
+					$imgnm = 	$rtpth.$bgimgpth;			
 				}else{
-                    $imgnm   =  $rtpth . $u_cat_bnrfldnm . 'default.jpg';
+					   $imgnm   =  $rtpth . $u_cat_bnrfldnm . 'default.jpg';
 				}
-			}else{
+			}
+			else{
                 $imgnm   =  $rtpth . $u_cat_bnrfldnm . 'default.jpg';
 			}
       ?>

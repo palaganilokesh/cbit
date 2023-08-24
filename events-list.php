@@ -103,13 +103,14 @@ if($cntrec_mst > 0){
 		$cntval = '';
 		while($srowevnt_mst = mysqli_fetch_assoc($srsevnt_mst)){
 			$db_evntm_nm = $srowevnt_mst['evntm_name'];
+      $evnt_url=funStrUrlEncode($db_evntm_nm);
       $db_evntm_desc = $srowevnt_mst['evntm_desc'];
 			$db_evntm_id = $srowevnt_mst['evntm_id'];
 			$db_evntm_vne = $srowevnt_mst['evntm_venue'];
 			$db_evntm_strt = $srowevnt_mst['stdate'];
 			$db_evntm_end = $srowevnt_mst['eddate'];
 			// $db_evntm_lnk = $srowevnt_mst['evntm_img'];
-			$u_evntm_nm = funcStrRplc($db_evntm_nm);
+			// $u_evntm_nm = funStrUrlEncode($db_evntm_nm);
 			$dsplyNm = $db_evntm_strt;
 			if($db_evntm_end !=''){
 				$dsplyNm = $db_evntm_strt."-".$db_evntm_end;
@@ -146,16 +147,16 @@ if($cntrec_mst > 0){
       <div class="col-lg-4 col-md-6 mb-4">
         <div class="single-health-care-card">
           <div class="img">
-            <a href="<?php echo $rtpth?>events-details.php?evntmid=<?php echo $db_evntm_id;?>"><img src="<?php echo $imgnm; ?>" alt="Image"></a>
+            <a href="<?php echo $rtpth.'latest-events/'.$evnt_url.'_'.$db_evntm_id; ?>"><img src="<?php echo $imgnm; ?>" alt="Image"></a>
           </div>
           <div class="health-care-content">
             <span class="mb-3 pull-right"><i class="flaticon-date"></i><?php echo $dsplyNm;?></span>
-            <a href="<?php echo $rtpth?>events-details.php?evntmid=<?php echo $db_evntm_id;?>">
-              <h3><?php echo $u_evntm_nm;?></h3>
+            <a href="<?php echo $rtpth.'latest-events/'.$evnt_url.'_'.$db_evntm_id; ?>">
+              <h3><?php echo $db_evntm_nm;?></h3>
             </a>
            
             <p> <?php echo substr($db_evntm_desc, 0, 100); ?>...</p>
-            <a href="<?php echo $rtpth?>events-details.php?evntmid=<?php echo $db_evntm_id;?>" class="read-more-btn">Read More <i class="flaticon-next"></i></a>
+            <a href="<?php echo $rtpth.'latest-events/'.$evnt_url.'_'.$db_evntm_id; ?>" class="read-more-btn">Read More <i class="flaticon-next"></i></a>
           </div>
         </div>
       </div>
