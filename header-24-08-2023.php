@@ -14,10 +14,11 @@ include_once 'includes/inc_folder_path.php';
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="CBIT">
-  <title><?php if (isset($page_seo_title) && !empty($page_seo_title)) echo $page_seo_title; ?></title>
+  <title><?php if (isset($page_seo_title) && !empty($page_seo_title))
+    echo $page_seo_title; ?></title>
   <?php if (isset($db_seodesc) && isset($db_seokywrd)) { ?>
-    <meta name="description" content="<?php echo $db_seodesc; ?>">
-    <meta name="keywords" content="<?php echo $db_seokywrd; ?>">
+      <meta name="description" content="<?php echo $db_seodesc; ?>">
+      <meta name="keywords" content="<?php echo $db_seokywrd; ?>">
   <?php } ?>
   <link rel="icon" type="image/png" href="<?php echo $rtpth; ?>assets/images/icons/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="<?php echo $rtpth; ?>assets/images/icons/favicon-32x32.png" sizes="32x32">
@@ -97,7 +98,7 @@ function mysearch() {
     </div>
   </div>
   <?php
-  $sqryanounce_mst =  "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != ''and nwsm_sts='a' and nwsm_typ=4 order by nwsm_prty asc";
+  $sqryanounce_mst = "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != ''and nwsm_sts='a' and nwsm_typ=4 order by nwsm_prty asc";
   $srsanounce_mst = mysqli_query($conn, $sqryanounce_mst);
   $cnt_anounce = mysqli_num_rows($srsanounce_mst);
   ?>
@@ -105,15 +106,15 @@ function mysearch() {
     <div class="top-header-area">
       <?php
       if ($cnt_anounce > 0) {
-      ?>
-        <div class="an-label">
-          <div class="an-label-holder">
-            <p class="d-flex align-items-center"><span class="d-lg-block d-md-block d-none">Announcements</span>
-              <span class="ms-2"><i class="fas fa-bullhorn"></i></span>
-            </p>
+        ?>
+          <div class="an-label">
+            <div class="an-label-holder">
+              <p class="d-flex align-items-center"><span class="d-lg-block d-md-block d-none">Announcements</span>
+                <span class="ms-2"><i class="fas fa-bullhorn"></i></span>
+              </p>
+            </div>
           </div>
-        </div>
-      <?php
+        <?php
       }
       ?>
       <div class="container-fluid">
@@ -134,13 +135,12 @@ function mysearch() {
                         $ancmt_dt = $anounce['nwsm_dt'];
                         $ancmt_typ = $anounce['nwsm_typ'];
 
-                      ?>
-                        <li>
-                        <a href="<?php echo $rtpth.'latest-notifications/'.$ancmt_typ.'/'.$an_url.'_'.$ancmt_id;?>">
+                        ?>
+                          <li>
+                            <a href="<?php echo $rtpth.'latest-notifications/'.$ancmt_typ.'/'.$an_url.'_'.$ancmt_id;?>">
                               <img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""> <?php echo $ancmt_nm; ?></a>
-                           
-                        </li>
-                      <?php  }
+                          </li>
+                      <?php }
                       ?>
                     </ul>
                   </div>
@@ -437,23 +437,23 @@ function mysearch() {
                         $result = mysqli_query($conn, $sqlmenu);
                         $cnt = mysqli_num_rows($result);
                         if ($cnt > 0) {
-                        ?>
-                          <div class="collapse navbar-collapse mean-menu " id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                              <?php
-                              while ($row = mysqli_fetch_assoc($result)) {
-                                $name = $row['prodmnlnksm_name'];
-                              ?>
-                                <li class="nav-item">
-                                  <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $name; ?></a>
-                                </li>
-                              <?php
-                              }
-                              ?>
-                            </ul>
-                          <?php
-                        }
                           ?>
+                            <div class="collapse navbar-collapse mean-menu " id="navbarSupportedContent">
+                              <ul class="navbar-nav">
+                                <?php
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                  $name = $row['prodmnlnksm_name'];
+                                  ?>
+                                    <li class="nav-item">
+                                      <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $name; ?></a>
+                                    </li>
+                                  <?php
+                                }
+                                ?>
+                              </ul>
+                            <?php
+                        }
+                        ?>
                           </div>
                       </nav>
                     </div>
@@ -783,262 +783,269 @@ function mysearch() {
             $sqryprodcat_mst_nav = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodcatm_prodmnlnksm_id,prodcatm_id,prodcatm_name,prodcatm_prty,prodcatm_typ,prodmnlnksm_typ,prodmnlnksm_dsplytyp from prodcat_mst
             inner join prodmnlnks_mst on prodmnlnksm_id=prodcatm_prodmnlnksm_id where prodmnlnksm_sts='a' and prodmnlnksm_typ!='m' and prodmnlnksm_typ!='f' and prodcatm_sts='a' group by prodmnlnksm_id order by prodmnlnksm_prty asc";
             $srsprodcat_mst_nav = mysqli_query($conn, $sqryprodcat_mst_nav);
-            $cntrec_nav         = mysqli_num_rows($srsprodcat_mst_nav);
+            $cntrec_nav = mysqli_num_rows($srsprodcat_mst_nav);
             if ($cntrec_nav > 0) {
-            ?>
-              <nav class="primary-menu">
-                <ul class="menu-container ps-0">
-                  <?php
-                  while ($srowprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst_nav)) {
-                    $catname    = $srowprodcat_mst['prodmnlnksm_name'];
-                    $mnlnkurl = funcStrRplc($catname);
-                    $mnlnks      = $srowprodcat_mst['prodmnlnksm_id'];
-                    $prodcattyp  = $srowprodcat_mst['prodmnlnksm_typ'];
-                    $prodscattyp = $srowprodcat_mst['prodcatm_typ'];
-                    $catid     = $srowprodcat_mst['prodcatm_id'];
-                    $disptype     = $srowprodcat_mst['prodmnlnksm_dsplytyp'];
-                  ?>
-                    <!-- verticle menu  start-->
+              ?>
+                <nav class="primary-menu">
+                  <ul class="menu-container ps-0">
                     <?php
-                    if ($disptype == 1) {
-                    ?>
-                      <li class="menu-item">
-                      <?php
-                    } elseif ($disptype == 2) {
+                    while ($srowprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst_nav)) {
+                      $catname = $srowprodcat_mst['prodmnlnksm_name'];
+                      $mnlnkurl = funStrUrlEncode($catname);
+                      $mnlnks = $srowprodcat_mst['prodmnlnksm_id'];
+                      $prodcattyp = $srowprodcat_mst['prodmnlnksm_typ'];
+                      $prodscattyp = $srowprodcat_mst['prodcatm_typ'];
+                      $catid = $srowprodcat_mst['prodcatm_id'];
+                      $disptype = $srowprodcat_mst['prodmnlnksm_dsplytyp'];
                       ?>
-                      <li class="menu-item mega-menu">
-                      <?php
-                    }
-                      ?>
-                    
-                      <a class="menu-link" href="#">
+                        <!-- verticle menu  start-->
+                        <?php
+                        if ($disptype == 1) {
+                          ?>
+                            <li class="menu-item">
+                            <?php
+                        } elseif ($disptype == 2) {
+                          ?>
+                            <li class="menu-item mega-menu">
+                            <?php
+                        }
+                        ?>
+                          <!-- <?php echo $rtpth . $catname; ?> -->
+                          <a class="menu-link" href="#">
 
-                        <div><?php echo $catname; ?> <i class="fa fa-chevron-down nav-with-icon"></i></div>
-                      </a>
-                      <?php
-                      if ($mnlnks == 3) {
-                        $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodscatm_sts, prodscatm_typ,prodscatm_prodmnlnksm_id,prodscatm_id from prodscat_mst inner join prodcat_mst on prodcatm_id=prodscatm_prodcatm_id where prodscatm_prodmnlnksm_id ='$mnlnks'  and prodscatm_sts ='a' group by prodcatm_id order by prodscatm_prty asc";
-                      } else {
-                        $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id ='$mnlnks' and prodcatm_sts ='a' group by prodcatm_id order by prodcatm_prty asc";
-                      }
-                      // echo $sqryprodscat_mst;
-                      // and prodcatm_prodmnlnksm_id!=42
-                      if ($mnlnks == 4 && $disptype == 2) {
-                        $sqryadm_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts,prodcatm_admtyp, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id =4 and prodcatm_sts ='a'  group by prodcatm_admtyp  order by prodcatm_prty asc";
-                        $srsadm_mst = mysqli_query($conn, $sqryadm_mst);
-                        $cntrec_admscat_nav = mysqli_num_rows($srsadm_mst);
-                        if ($cntrec_admscat_nav > 0) {
-                      ?>
-                          <div class="mega-menu-content mega-menu-style-2">
-                            <div class="container">
-                              <div class="row">
-                                <?php
-                                while ($admtype1   = mysqli_fetch_assoc($srsadm_mst)) {
-                                  $admt = $admtype1['prodcatm_admtyp'];
-                                  $scatold_id = $admtype1['prodcatm_id'];
-                                  $catold_url = funcStrRplc($admtype1['prodcatm_name']);
-                                ?>
-                                  <ul class="sub-menu-container mega-menu-column col-lg-6">
-                                    <li class="menu-item mega-menu-title w-100">
-                                    
-                                        <?php if ($admt == 'UG') {
-                                          
-                                        ?>
-                                           <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catold_url . '/' . $admt; ?>">
-                                          <div class="nav-cat-holder">Under Graduation</div>
-                                        <?php  } elseif ($admt == 'PG') {
-                                        ?>
-                                           <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catold_url . '/' . $admt; ?>">
-                                          <div class="nav-cat-holder">Post Graduation</div>
+                            <div><?php echo $catname; ?> <i class="fa fa-chevron-down nav-with-icon"></i></div>
+                          </a>
+                          <?php
+                          if ($mnlnks == 'departmensts') {
+                            $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodscatm_sts, prodscatm_typ,prodscatm_prodmnlnksm_id,prodscatm_id from prodscat_mst inner join prodcat_mst on prodcatm_id=prodscatm_prodcatm_id where prodscatm_prodmnlnksm_id ='$mnlnks'  and prodscatm_sts ='a' group by prodcatm_id order by prodscatm_prty asc";
+                          } else {
+                            $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id ='$mnlnks' and prodcatm_sts ='a' group by prodcatm_id order by prodcatm_prty asc";
+                          }
+                          // echo $sqryprodscat_mst;
+                          // and prodcatm_prodmnlnksm_id!=42
+                          if ($mnlnks == '4' && $disptype == 2) {
+                            $sqryadm_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts,prodcatm_admtyp, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id =4 and prodcatm_sts ='a'  group by prodcatm_admtyp  order by prodcatm_prty asc";
+                            $srsadm_mst = mysqli_query($conn, $sqryadm_mst);
+                            $cntrec_admscat_nav = mysqli_num_rows($srsadm_mst);
+                            if ($cntrec_admscat_nav > 0) {
+                              ?>
+                                  <div class="mega-menu-content mega-menu-style-2">
+                                    <div class="container">
+                                      <div class="row">
                                         <?php
+                                        while ($admtype1 = mysqli_fetch_assoc($srsadm_mst)) {
+                                          $admt = $admtype1['prodcatm_admtyp'];
+                                          $scatold_id = $admtype1['prodcatm_id'];
+                                          $catold_url = funStrUrlEncode($admtype1['prodcatm_name']);
+                                          ?>
+                                            <ul class="sub-menu-container mega-menu-column col-lg-6">
+                                              <li class="menu-item mega-menu-title w-100">
+                                                <!-- <a class="menu-link mb-1" href="<?php echo $rtpth; ?>departments.php"> -->
+                                   
+                                                  <?php if ($admt == 'UG') {
+
+                                                    ?>
+                                                    <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catold_url . '/' . $admt; ?>">
+                                                       <!-- <a class="menu-link" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $mnlnks; ?>&catid=<?php echo $scatold_id; ?>&admtyp=<?php echo $admt; ?>"> -->
+                                                      <div class="nav-cat-holder">Under Graduation</div>
+                                                  <?php } elseif ($admt == 'PG') {
+                                                    ?>
+                                                    <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catold_url . '/' . $admt; ?>">
+                                                       <!-- <a class="menu-link" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $mnlnks; ?>&catid=<?php echo $scatold_id; ?>&admtyp=<?php echo $admt; ?>"> -->
+                                                      <div class="nav-cat-holder">Post Graduation</div>
+                                                    <?php
+                                                  }
+                                                  ?>
+                                                </a>
+                                                <ul class="sub-menu-container row">
+                                                  <?php
+                                                  $sqrynew_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts,prodcatm_admtyp, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id =4 and prodcatm_sts ='a' and prodcatm_admtyp='$admt' group by prodcatm_id  order by prodcatm_prty asc";
+                                                  $srsadm_mst1 = mysqli_query($conn, $sqrynew_mst);
+                                                  $cntrec_admscat_nav1 = mysqli_num_rows($srsadm_mst1);
+                                                  if ($cntrec_admscat_nav1 > 0) {
+                                                    while ($srowsadt_mst1 = mysqli_fetch_assoc($srsadm_mst1)) {
+                                                      //$scatid 		  	= $srowprodscat_mst['prodscatm_id']; //ref
+                                                      $scatname_nav = $srowsadt_mst1['prodcatm_name'];
+                                                      $caturl = funStrUrlEncode($scatname_nav);
+                                                      $scatnew_id = $srowsadt_mst1['prodcatm_id'];
+                                                      $scatnew_sts = $srowsadt_mst1['prodcatm_sts'];
+                                                      $scat_typ = $srowsadt_mst1['prodcatm_typ'];
+                                                      ?>
+                                                          <li class="menu-item col-lg-6 col-md-6">
+
+                                                            <!-- <a class="menu-link" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $mnlnks; ?>&catid=<?php echo $scatnew_id; ?>&admtyp=<?php echo $admt; ?>"> -->
+                                                            <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $caturl.'/'.$admt; ?>">
+                                                              <div><?php echo $scatname_nav; ?></div>
+                                                            </a>
+
+                                                            </a>
+                                                          </li>
+                                                      <?php
+                                                    }
+                                                  }
+                                                  ?>
+                                                </ul>
+                                              </li>
+                                            </ul>
+                                          <?php
                                         }
                                         ?>
-                                      </a>
-                                      <ul class="sub-menu-container row">
-                                        <?php
-                                        $sqrynew_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts,prodcatm_admtyp, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id =4 and prodcatm_sts ='a' and prodcatm_admtyp='$admt' group by prodcatm_id  order by prodcatm_prty asc";
-                                        $srsadm_mst1 = mysqli_query($conn, $sqrynew_mst);
-                                        $cntrec_admscat_nav1 = mysqli_num_rows($srsadm_mst1);
-                                        if ($cntrec_admscat_nav1 > 0) {
-                                          while ($srowsadt_mst1   = mysqli_fetch_assoc($srsadm_mst1)) {
-                                            //$scatid 		  	= $srowprodscat_mst['prodscatm_id']; //ref
-                                            $scatname_nav      = $srowsadt_mst1['prodcatm_name'];
-                                            $caturl = funcStrRplc($scatname_nav);
-                                            $scatnew_id        = $srowsadt_mst1['prodcatm_id'];
-                                            $scatnew_sts      = $srowsadt_mst1['prodcatm_sts'];
-                                            $scat_typ      = $srowsadt_mst1['prodcatm_typ'];
-                                        ?>
-                                            <li class="menu-item col-lg-6 col-md-6">
-
-                                              <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $caturl.'/'.$admt; ?>">
-                                                <div><?php echo $scatname_nav; ?></div>
-                                              </a>
-
-                                              </a>
-                                            </li>
-                                        <?php
-                                          }
-                                        }
-                                        ?>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                                <?php
-                                }
-                                ?>
-                                <!-- 
-															</div>
-														</div>
-													</div> -->
-                              <?php
+                                        <!-- 
+                              </div>
+                            </div>
+                          </div> -->
+                                      <?php
                             }
                           }
                           // admissions end
                           $srsprodscat_mst = mysqli_query($conn, $sqryprodscat_mst);
                           $cntrec_scat_nav = mysqli_num_rows($srsprodscat_mst);
                           if ($cntrec_scat_nav > 0) {
-                              ?>
-                              <!-- verticle menu -->
-                              <?php
-                              if ($disptype == 1) {
-                              ?>
-                                <ul class="sub-menu-container">
-                                <?php
-                              } elseif ($disptype == 2) {
-                                ?>
-                                  <div class="mega-menu-content mega-menu-style-2">
-                                    <div class="container">
-                                      <div class="row">
-                                        <ul class="sub-menu-container mega-menu-column col-lg-12">
-                                          <li class="menu-item mega-menu-title w-100">
-                                            <ul class="sub-menu-container row w-100">
-                                              <?php
-                                            }
-                                            while ($srowprodscat_mst   = mysqli_fetch_assoc($srsprodscat_mst)) {
-                                              //$scatid 		  	= $srowprodscat_mst['prodscatm_id']; //ref
-                                              $scatname_nav      = $srowprodscat_mst['prodcatm_name'];
-                                              $catnwurl = funcStrRplc($scatname_nav);
-                                             
-                                              $prodscatm_id      = $srowprodscat_mst['prodscatm_id'];
-                                              $prodscatm_name = $srowprodscat_mst['prodscatm_name'];
-                                              $scaturl = funcStrRplc($prodscatm_name);
-                                              $scatnew_id        = $srowprodscat_mst['prodcatm_id'];
-                                              $scatnew_sts      = $srowprodscat_mst['prodcatm_sts'];
-                                              $scat_typ      = $srowprodscat_mst['prodcatm_typ'];
-                                              if ($disptype == 1) {
-                                              ?>
-                                                <li class="menu-item">
-                                                <?php
-                                              } elseif ($disptype == 2) { ?>
-                                                <li class="menu-item col-lg-4 col-md-4">
-                                                <?php  }
-                                              if ($mnlnks == 3) {
-                                                // $url_ext = "&scatid=" . $prodscatm_id;
-                                                $url_ext = "/" . $scaturl;
-                                                ?>
-                                                  <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl . $url_ext; ?>">
-                                                    <div><?php echo $scatname_nav; ?></div>
-                                                  </a>
-                                                <?php
-                                              } else {
-                                                $sqryprodscat_mst_r = "SELECT prodscatm_id,prodscatm_name from prodscat_mst where prodscatm_prodcatm_id = '$scatnew_id'  and prodscatm_sts='a' group by prodscatm_id asc";
-                                                $srsprodscat_mst_r = mysqli_query($conn, $sqryprodscat_mst_r);
-                                                $cntrec_scat_nav_r = mysqli_num_rows($srsprodscat_mst_r);
-
-                                                ?>
-
-                                                  <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl; ?>">
-
-                                                    <?php
-                                                    if ($cntrec_scat_nav_r > 0) {
-                                                    ?>
-                                                      <div><?php echo $scatname_nav; ?><i class="fa fa-chevron-down nav-with-icon"></i></div>
-                                                    <?php
-
-                                                    } else {
-                                                    ?>
-                                                      <div><?php echo $scatname_nav; ?></i></div>
-                                                    <?php
-                                                    }
-                                                    ?>
-
-
-                                                  </a>
-                                                  <?php
-
-                                                 
-                                                  if ($cntrec_scat_nav_r > 0) {
-                                                  ?>
-                                                    <ul class="sub-menu-container">
+                            ?>
+                                    <!-- verticle menu -->
+                                    <?php
+                                    if ($disptype == 1) {
+                                      ?>
+                                        <ul class="sub-menu-container">
+                                        <?php
+                                    } elseif ($disptype == 2) {
+                                      ?>
+                                          <div class="mega-menu-content mega-menu-style-2">
+                                            <div class="container">
+                                              <div class="row">
+                                                <ul class="sub-menu-container mega-menu-column col-lg-12">
+                                                  <li class="menu-item mega-menu-title w-100">
+                                                    <ul class="sub-menu-container row w-100">
                                                       <?php
-                                                      while ($srowprodscat_mst_r   = mysqli_fetch_assoc($srsprodscat_mst_r)) {
-                                                        $scatname_nav_r      = $srowprodscat_mst_r['prodscatm_name'];
-                                                        $scatnwurl = funcStrRplc($scatname_nav_r);
-                                                        $scatnew_id_r     = $srowprodscat_mst_r['prodscatm_id'];
-                                                      ?>
-                                                        <li class="menu-item">
-                                                          <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl.'/'.$scatnwurl; ?>">
-                                                            <div><?php echo $scatname_nav_r; ?></div>
-                                                          </a>
+                                    }
+                                    while ($srowprodscat_mst = mysqli_fetch_assoc($srsprodscat_mst)) {
+                                      //$scatid 		  	= $srowprodscat_mst['prodscatm_id']; //ref
+                                      $scatname_nav = $srowprodscat_mst['prodcatm_name'];
+                                      $catnwurl = funStrUrlEncode($scatname_nav);
+                                      $prodscatm_id = $srowprodscat_mst['prodscatm_id'];
+                                      $prodscatm_name = $srowprodscat_mst['prodscatm_name'];
+                                      $scaturl = funStrUrlEncode($prodscatm_name);
+                                      $scatnew_id = $srowprodscat_mst['prodcatm_id'];
+                                      $scatnew_sts = $srowprodscat_mst['prodcatm_sts'];
+                                      $scat_typ = $srowprodscat_mst['prodcatm_typ'];
+                                      if ($disptype == 1) {
+                                        ?>
+                                                          <li class="menu-item">
+                                                          <?php
+                                      } elseif ($disptype == 2) { ?>
+                                                          <li class="menu-item col-lg-4 col-md-4">
+                                                        <?php }
+                                      if ($mnlnks == 3) {
+                                        // $url_ext = "&scatid=" . $prodscatm_id;
+                                        $url_ext = "/" . $scaturl;
+                                        ?>
+                                                            <!-- <a class="menu-link" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $mnlnks; ?>&catid=<?php echo $scatnew_id . $url_ext; ?>"> -->
+                                                            <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl . $url_ext; ?>">
+                                                              <div><?php echo $scatname_nav; ?></div>
+                                                            </a>
+                                                          <?php
+                                      } else {
+                                        $sqryprodscat_mst_r = "SELECT prodscatm_id,prodscatm_name from prodscat_mst where prodscatm_prodcatm_id = '$scatnew_id'  and prodscatm_sts='a' group by prodscatm_id asc";
+                                        $srsprodscat_mst_r = mysqli_query($conn, $sqryprodscat_mst_r);
+                                        $cntrec_scat_nav_r = mysqli_num_rows($srsprodscat_mst_r);
+
+                                        ?>
+            <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl; ?>">
+                                                            <!-- <a class="menu-link" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $mnlnks; ?>&catid=<?php echo $scatnew_id; ?>"> -->
+
+                                                              <?php
+                                                              if ($cntrec_scat_nav_r > 0) {
+                                                                ?>
+                                                                  <div><?php echo $scatname_nav; ?><i class="fa fa-chevron-down nav-with-icon"></i></div>
+                                                                <?php
+
+                                                              } else {
+                                                                ?>
+                                                                  <div><?php echo $scatname_nav; ?></i></div>
+                                                                <?php
+                                                              }
+                                                              ?>
+
+
+                                                            </a>
+                                                            <?php
+
+                                                            //   $sqryprodscat_mst_r = "SELECT prodscatm_id,prodscatm_name from prodscat_mst where prodscatm_prodcatm_id = '$scatnew_id'  and prodscatm_sts='a' group by prodscatm_id asc limit 1";
+                                                            //   $srsprodscat_mst_r = mysqli_query($conn, $sqryprodscat_mst_r);
+                                                            //  $cntrec_scat_nav_r = mysqli_num_rows($srsprodscat_mst_r);
+                                                            if ($cntrec_scat_nav_r > 0) {
+                                                              ?>
+                                                                <ul class="sub-menu-container">
+                                                                  <?php
+                                                                  while ($srowprodscat_mst_r = mysqli_fetch_assoc($srsprodscat_mst_r)) {
+                                                                    $scatname_nav_r = $srowprodscat_mst_r['prodscatm_name'];
+                                                                    $scatnwurl = funStrUrlEncode($scatname_nav_r);
+                                                                    $scatnew_id_r = $srowprodscat_mst_r['prodscatm_id'];
+                                                                    ?>
+                                                                      <li class="menu-item">
+                                                                      <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl.'/'.$scatnwurl; ?>">
+                                                                        <!-- <a class="menu-link" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $mnlnks; ?>&catid=<?php echo $scatnew_id; ?>&scatid=<?php echo $scatnew_id_r; ?>"> -->
+                                                                          <div><?php echo $scatname_nav_r; ?></div>
+                                                                        </a>
+                                                                      </li>
+                                                                    <?php
+                                                                  } //while close
+                                                      
+                                                                  ?>
+                                                                </ul>
+
+                                                            <?php
+                                                            } //if close
+                                      }
+                                      ?>
+
+
                                                         </li>
-                                                      <?php
-                                                      } //while close
+                                                        <?php
 
+                                                        ?>
+
+                                                        <?php
+
+                                                        ?>
+
+                                                      <?php
+
+                                    }
+                                    ?>
+
+                                                    <?php
+                                                    if ($disptype == 1) {
                                                       ?>
                                                     </ul>
-
-                                                <?php
-                                                  } //if close
-                                                }
-                                                ?>
-
-
-                                                </li>
-                                                <?php
-
-                                                ?>
-
-                                                <?php
-
-                                                ?>
-
-                                              <?php
-
-                                            }
-                                              ?>
-
-                                              <?php
-                                              if ($disptype == 1) {
-                                              ?>
-                                            </ul>
-                                          <?php
-                                              } elseif ($disptype == 2) {
-                                          ?>
-                                        </ul>
-                      </li>
-                </ul>
-          </div>
-        </div>
-      </div>
-  <?php
-                                              }
-                                            }
-  ?>
-  <!-- menu close <li> -->
+                                                  <?php
+                                                    } elseif ($disptype == 2) {
+                                                      ?>
+                                                </ul>
+                              </li>
+                        </ul>
+                  </div>
+                </div>
+              </div>
+          <?php
+                                                    }
+                          }
+                          ?>
+      <!-- menu close <li> -->
+      </li>
+    <?php
+                    }
+                    ?>
+  <li class="menu-item">
+    <a class="menu-link" href="<?php echo $rtpth; ?>contact-us">
+      <div>Contact Us</div>
+    </a>
   </li>
-<?php
-                  }
-?>
-<li class="menu-item">
-  <a class="menu-link" href="<?php echo $rtpth; ?>contact-us">
-    <div>Contact Us</div>
-  </a>
-</li>
-</ul>
-</nav>
-<?php
+  </ul>
+  </nav>
+  <?php
             }
-?>
+            ?>
 <!-- #primary-menu end -->
   </div>
   </div>
@@ -1294,38 +1301,38 @@ function mysearch() {
           $imp_result = mysqli_query($conn, $sqryimpmenu);
           $imp_cnt = mysqli_num_rows($imp_result);
           if ($imp_cnt > 0) {
-          ?>
-            <div class="sidebar-content">
-              <div class="imp-links-side">
-                <ul class="navbar-nav m-auto">
+            ?>
+              <div class="sidebar-content">
+                <div class="imp-links-side">
+                  <ul class="navbar-nav m-auto">
 
-                  <?php
-                  while ($imp_row = mysqli_fetch_assoc($imp_result)) {
-                    $imp_name = $imp_row['prodmnlnksm_name'];
-                    $imp_id = $imp_row['prodmnlnksm_id'];
+                    <?php
+                    while ($imp_row = mysqli_fetch_assoc($imp_result)) {
+                      $imp_name = $imp_row['prodmnlnksm_name'];
+                      $imp_id = $imp_row['prodmnlnksm_id'];
 
-                  ?>
-                    <li class="nav-item d-lg-none d-block">
-                      <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
-                    </li>
-                  <?php
-                  }
-                  $imp_result1 = mysqli_query($conn, $sqryimpmenu);
-                  while ($imp_row = mysqli_fetch_assoc($imp_result1)) {
-                    $imp_name = $imp_row['prodmnlnksm_name'];
-                    $imp_id = $imp_row['prodmnlnksm_id'];
+                      ?>
+                        <li class="nav-item d-lg-none d-block">
+                          <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
+                        </li>
+                      <?php
+                    }
+                    $imp_result1 = mysqli_query($conn, $sqryimpmenu);
+                    while ($imp_row = mysqli_fetch_assoc($imp_result1)) {
+                      $imp_name = $imp_row['prodmnlnksm_name'];
+                      $imp_id = $imp_row['prodmnlnksm_id'];
 
-                  ?>
-                    <li class="nav-item">
-                      <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
-                    </li>
-                  <?php
-                  }
-                  ?>
-                </ul>
+                      ?>
+                        <li class="nav-item">
+                          <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
+                        </li>
+                      <?php
+                    }
+                    ?>
+                  </ul>
+                </div>
               </div>
-            </div>
-          <?php
+            <?php
           }
           ?>
         </div>

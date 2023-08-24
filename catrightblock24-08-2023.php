@@ -5,16 +5,16 @@ include_once 'includes/inc_usr_functions.php'; //Use function for validation and
 include_once "includes/inc_folder_path.php";
 // include_once 'includes/inc_paging_functions.php'; //Making paging validation
 
-global $rtpth;
 $scatid1 = $_GET['scatid'];
-$scatid = funcStrUnRplc($scatid1);
+$scatid=funcStrUnRplc($scatid1);
 $catid1 = $_GET['catid'];
-$catid = funcStrUnRplc($catid1);
+$catid=funcStrUnRplc($catid1);
 $mnlnks1 = $_GET['mnlnks'];
-$mnlnksid = funcStrUnRplc($mnlnks1);
+$mnlnksid=funcStrUnRplc($mnlnks1);
 $admtyp = $_GET['admtyp'];
 $prodid1 = $_GET['prodid'];
-$prodid = funcStrUnRplc($prodid1);
+$prodid=funcStrUnRplc($prodid1);
+
 ?>
 
 <div class="about-us-sideLinks">
@@ -25,7 +25,7 @@ $prodid = funcStrUnRplc($prodid1);
 					<button class="accordion-button open-df collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pg" aria-expanded="false" aria-controls="pg">
 						<?php
 						if ($mnlnksid == 'departments' || $scatid != '') {
-							$ttl = "SELECT prodcatm_name from prodcat_mst where prodcatm_id='$catid'";
+							$ttl = "SELECT prodcatm_name from prodcat_mst where prodcatm_name='$catid'";
 							$res = mysqli_query($conn, $ttl);
 							$cat_res = mysqli_fetch_assoc($res);
 							echo $cat_res['prodcatm_name'];
@@ -34,7 +34,7 @@ $prodid = funcStrUnRplc($prodid1);
 							$tt2 = "SELECT prodmnlnksm_name from 	 prodmnlnks_mst where prodmnlnksm_name='$mnlnksid'";
 							$resmn = mysqli_query($conn, $tt2);
 							$mnln_res = mysqli_fetch_assoc($resmn);
-							if ($mnlnksid == 'admissions' && $admtyp == 'UG') {
+							if ($mnlnksid == 4 && $admtyp == 'UG') {
 								$adtyp = "Under Graduation";
 								echo $mnln_res['prodmnlnksm_name'] . '-' . $adtyp;
 							} elseif ($mnlnksid == 'admissions' && $admtyp == 'PG') {
@@ -53,29 +53,29 @@ $prodid = funcStrUnRplc($prodid1);
 
 				<?php
 				$sqryprodcat_mst = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_typ,prodcatm_id,prodcatm_name,prodcatm_admtyp";
-				if ($mnlnksid == 'departments' || $scatid != '') {
+				if ($mnlnksid ==  'departments' || $scatid != '') {
 					$sqryprodcat_mst .= ",prodscatm_id,prodscatm_name,prodscatm_desc ";
 				}
 				$sqryprodcat_mst .= " from	prodmnlnks_mst 
 								inner join prodcat_mst on prodcatm_prodmnlnksm_id=prodmnlnksm_id";
-				if ($mnlnksid == 'departments' || $scatid != '') {
+				if ($mnlnksid ==  'departments' || $scatid != '') {
 					$sqryprodcat_mst .= " inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id ";
 				}
 
 				$sqryprodcat_mst .= " where  prodmnlnksm_name='$mnlnksid' and	prodcatm_sts='a'";
-				if ($mnlnksid == 'departments' || $scatid != '') {
+				if ($mnlnksid ==  'departments' || $scatid != '') {
 					$sqryprodcat_mst .= " and prodcatm_name='$catid' and prodscatm_sts='a'";
 				}
-				if ($mnlnksid == 'admissions') {
+				if ($mnlnksid ==  'admissions') {
 					$sqryprodcat_mst .= " and prodcatm_admtyp='$admtyp' ";
 				}
-				if ($mnlnksid == 'departments' || $scatid != '') {
-					$sqryprodcat_mst .= "	 order by prodscatm_prty asc";
+				if ($mnlnksid ==  'departments' || $scatid != '') {
+					$sqryprodcat_mst .= "	 order by prodscatm_prty asc";	
 				}
-				if ($scatid == '') {
+				if($scatid==''){
 					$sqryprodcat_mst .= "	 order by prodcatm_prty asc";
 				}
-
+			
 				// echo $sqryprodcat_mst;
 				$srsprodcat_mst 		= mysqli_query($conn, $sqryprodcat_mst);
 				$cntcat_mst            =  mysqli_num_rows($srsprodcat_mst);
@@ -89,33 +89,26 @@ $prodid = funcStrUnRplc($prodid1);
 									$prodcatm_id 	= $srowcat_mst['prodcatm_id'];
 									$prodscatm_id 	= $srowcat_mst['prodscatm_id'];
 									$prodcatm_name = $srowcat_mst['prodcatm_name'];
-									$caturl=funcStrRplc($prodcatm_name);
 									$prodscatm_name = $srowcat_mst['prodscatm_name'];
-									$scaturl=funcStrRplc($prodscatm_name);
 									$prodmnlnksm_id 	= $srowcat_mst['prodmnlnksm_id'];
 									$prodmnlnksm_name = $srowcat_mst['prodmnlnksm_name'];
-									$mnlnkurl=funcStrRplc($prodmnlnksm_name);
-									
 									if ($mnlnksid == 'departments' || $scatid != '') {
-
-										$lftlnknm = "$rtpth$mnlnkurl/$caturl/$scaturl";
+										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_name&catid=$prodcatm_name&scatid=$prodscatm_name";
 										if ($prodscatm_name == $scatid) {
 											$cat_cls = "active";
 										} else {
 											$cat_cls = "";
 										}
 									} else {
-										$lftlnknm = "$rtpth$mnlnkurl/$caturl";
+										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_name&catid=$prodcatm_name";
 										if ($catid == $prodcatm_name) {
 											$cat_cls = "active";
 										} else {
 											$cat_cls = "";
 										}
 									}
-									if ($mnlnksid == 'admissions') {
-										
-										// $lftlnknm = "category.php?mnlnks=$prodmnlnksm_id&catid=$prodcatm_id&admtyp=$admtyp";
-										$lftlnknm="$rtpth$mnlnkurl/$caturl/$admtyp";
+									if ($mnlnksid ==  'admissions') {
+										$lftlnknm = "category.php?mnlnks=$prodmnlnksm_name&catid=$prodcatm_name&admtyp=$admtyp";
 									}
 								?>
 									<li>
@@ -126,13 +119,14 @@ $prodid = funcStrUnRplc($prodid1);
 									 inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id 
 									 inner join pgcnts_dtl on pgcntsd_prodscatm_id=prodscatm_id
 									 where  prodscatm_id='$prodscatm_id' and pgcntsd_prodcatm_id='$prodcatm_id' and prodcatm_sts='a' and prodmnlnksm_sts='a' and prodscatm_sts='a' and pgcntsd_sts='a' and pgcntsd_id !='' order by pgcntsd_prty asc";
+									//  echo $sqrypgcnt_mst;
 										$srspgcnt_mst		= mysqli_query($conn, $sqrypgcnt_mst);
 										$cntpgcnt_mst            =  mysqli_num_rows($srspgcnt_mst);
 										if ($cntpgcnt_mst > 0) {
 											// $srowpgcnt_mst1 = mysqli_fetch_assoc($srspgcnt_mst);		
 
 											if ($scatid == $prodscatm_name) {
-												// echo "here-".$prodid;
+										
 												$pg_cls = "accordion-button sub-menus-1";
 												$aria = "true";
 											} else {
@@ -149,7 +143,8 @@ $prodid = funcStrUnRplc($prodid1);
 														</p>
 													</h2>
 												<?php
-											} else {
+											}
+											 else {
 												?>
 													<p>
 														<a class="<?php echo $cat_cls; ?>" href="<?php echo $lftlnknm; ?>">
@@ -188,7 +183,7 @@ $prodid = funcStrUnRplc($prodid1);
 																	$prodpg_name = $srowpgcnt_mst['pgcntsd_name'];
 																	$prodpg_id = $srowpgcnt_mst['pgcntsd_id'];
 
-																	if ($$prodpg_name == $prodid) {
+																	if ($prodpg_name == $prodid ) {
 																		$pgcntnt_cls = "active";
 																	} else {
 																		$pgcntnt_cls = "";
@@ -229,3 +224,21 @@ $prodid = funcStrUnRplc($prodid1);
 		</div>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
