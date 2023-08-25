@@ -22,14 +22,18 @@
                   <?php
                   while ($srowpqklnk_mst = mysqli_fetch_assoc($srsqklnk_mst)) {
                     $qklnk_name    = $srowpqklnk_mst['prodmnlnksm_name'];
+                    $ft_mn_url=funcStrRplc($qklnk_name);
                     $qklnk_id     = $srowpqklnk_mst['prodmnlnksm_id'];
                     $qklnk_typ  = $srowpqklnk_mst['prodmnlnksm_typ'];
                     $qklnk_cattyp = $srowpqklnk_mst['prodcatm_typ'];
                     $qklnk_catid     = $srowpqklnk_mst['prodcatm_id'];
+                    $qklnk_catnm     = $srowpqklnk_mst['prodcatm_name'];
+                    $ft_cat_url=funcStrRplc($qklnk_catnm);
                     $qklnk_disptype     = $srowpqklnk_mst['prodmnlnksm_dsplytyp'];
                   ?>
                     <li class="col-lg-4 col-md-4 col-6">
-                      <a target="_blank" href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $qklnk_id; ?>&catid=<?php echo $qklnk_catid; ?>"><?php echo $qklnk_name; ?></a>
+                   
+                      <a target="_blank" href="<?php echo $rtpth . $ft_mn_url . '/' . $ft_cat_url;?>"><?php echo $qklnk_name; ?></a>
                     </li>
 
 

@@ -94,10 +94,15 @@ if ($dept_cnt > 0) {
 					<?php
 					while ($srowdept_mst = mysqli_fetch_assoc($sqry_dept_mst)) {
 						$deptid = $srowdept_mst['prodmnlnksm_id'];
+						$deptmnnm = $srowdept_mst['prodmnlnksm_name'];
+						$d_mnl_url=funcStrRplc($deptmnnm);
 						$d_catid= $srowdept_mst['prodcatm_id'];
 						$d_scatid = $srowdept_mst['prodscatm_id'];
 						$deptnm = $srowdept_mst['prodcatm_name']; //sub category department title 
+						$d_cat_url=funcStrRplc($deptnm);
 						$depttyp = $srowdept_mst['prodcatm_admtyp'];
+						$d_sctnm= $srowdept_mst['prodscatm_name'];
+						$d_scat_url=funcStrRplc($d_sctnm);
 						$deptimgnm = $srowdept_mst['prodcatm_icn'];
 						$deptimg = $u_cat_icnfldnm . $deptimgnm;
 						// $imgpath = $gusrbrnd_upldpth . $imgnm;
@@ -112,14 +117,14 @@ if ($dept_cnt > 0) {
 						<div class="col-lg-3 col-md-4 col-6 filter <?php echo $depttyp; ?>">
 							<div class="single-courses-card style2 ">
 								<div class="courses-img ">
-									<a href="<?php echo $rtpth;?>category.php?mnlnks=<?php echo $deptid; ?>&catid=<?php echo $d_catid; ?>&scatid=<?php echo $d_scatid;?>"><img src="<?php echo 	$deptimgpth; ?>" alt="Image "></a>
+									<a href="<?php echo $rtpth . $d_mnl_url . '/' . $d_cat_url.'/'.$d_scat_url; ?>"><img src="<?php echo 	$deptimgpth; ?>" alt="Image "></a>
 								</div>
 								<div class="courses-content ">
-									<a href="<?php echo $rtpth;?>category.php?mnlnks=<?php echo $deptid; ?>&catid=<?php echo $d_catid; ?>&scatid=<?php echo $d_scatid;?>">
+									<a href="<?php echo $rtpth . $d_mnl_url . '/' . $d_cat_url.'/'.$d_scat_url; ?>">
 										<h3><?php echo  $deptnm; ?></h3>
 									</a>
 									
-									<a href="<?php echo $rtpth;?>category.php?mnlnks=<?php echo $deptid; ?>&catid=<?php echo $d_catid; ?>&scatid=<?php echo $d_scatid;?>" class="read-more-btn ">Read more<i class="flaticon-next "></i></a>
+									<a href="<?php echo $rtpth . $d_mnl_url . '/' . $d_cat_url.'/'.$d_scat_url; ?>" class="read-more-btn ">Read more<i class="flaticon-next "></i></a>
 								</div>
 							</div>
 						</div>

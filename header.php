@@ -8,7 +8,6 @@ include_once 'includes/inc_folder_path.php';
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -62,7 +61,6 @@ include_once 'includes/inc_folder_path.php';
   <link rel="stylesheet" href="https://cdn.rawgit.com/sachinchoolur/lightgallery.js/master/dist/css/lightgallery.css">
   <script>
 function mysearch() {
- 
     txtsrchval = document.frmsearch1.txtsrchval.value;
     if (txtsrchval == "") {
       alert("Please Enter Search criteria");
@@ -70,7 +68,6 @@ function mysearch() {
       return false;
     }
     if (txtsrchval != "") {
-      
       var srchid = document.frmsearch1.txtsrchval.value;
       var srch = srchid.replaceAll(' ', '-');
       document.frmsearch1.action = "<?php echo $rtpth; ?>search-results.php?txtsrchval=" + srchid;
@@ -79,9 +76,7 @@ function mysearch() {
     }
   }
 </script>
- 
 </head>
-
 <body>
   <div class="preloader-area">
     <div class="d-flex justify-content-center align-items-center h-100">
@@ -133,12 +128,10 @@ function mysearch() {
                         $ancmt_link = $anounce['nwsm_lnk'];
                         $ancmt_dt = $anounce['nwsm_dt'];
                         $ancmt_typ = $anounce['nwsm_typ'];
-
                       ?>
                         <li>
                         <a href="<?php echo $rtpth.'latest-notifications/'.$ancmt_typ.'/'.$an_url.'_'.$ancmt_id;?>">
                               <img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""> <?php echo $ancmt_nm; ?></a>
-                           
                         </li>
                       <?php  }
                       ?>
@@ -810,14 +803,12 @@ function mysearch() {
                       <?php
                     }
                       ?>
-                    
                       <a class="menu-link" href="#">
-
                         <div><?php echo $catname; ?> <i class="fa fa-chevron-down nav-with-icon"></i></div>
                       </a>
                       <?php
                       if ($mnlnks == 3) {
-                        $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodscatm_sts, prodscatm_typ,prodscatm_prodmnlnksm_id,prodscatm_id from prodscat_mst inner join prodcat_mst on prodcatm_id=prodscatm_prodcatm_id where prodscatm_prodmnlnksm_id ='$mnlnks'  and prodscatm_sts ='a' group by prodcatm_id order by prodscatm_prty asc";
+                        $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodscatm_sts, prodscatm_typ,prodscatm_prodmnlnksm_id,prodscatm_id,prodscatm_name from prodscat_mst inner join prodcat_mst on prodcatm_id=prodscatm_prodcatm_id where prodscatm_prodmnlnksm_id ='$mnlnks'  and prodscatm_sts ='a' group by prodcatm_id order by prodscatm_prty asc";
                       } else {
                         $sqryprodscat_mst = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts, prodcatm_typ,prodcatm_prodmnlnksm_id from prodcat_mst where prodcatm_prodmnlnksm_id ='$mnlnks' and prodcatm_sts ='a' group by prodcatm_id order by prodcatm_prty asc";
                       }
@@ -840,9 +831,7 @@ function mysearch() {
                                 ?>
                                   <ul class="sub-menu-container mega-menu-column col-lg-6">
                                     <li class="menu-item mega-menu-title w-100">
-                                    
                                         <?php if ($admt == 'UG') {
-                                          
                                         ?>
                                            <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catold_url . '/' . $admt; ?>">
                                           <div class="nav-cat-holder">Under Graduation</div>
@@ -869,11 +858,9 @@ function mysearch() {
                                             $scat_typ      = $srowsadt_mst1['prodcatm_typ'];
                                         ?>
                                             <li class="menu-item col-lg-6 col-md-6">
-
                                               <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $caturl.'/'.$admt; ?>">
                                                 <div><?php echo $scatname_nav; ?></div>
                                               </a>
-
                                               </a>
                                             </li>
                                         <?php
@@ -918,7 +905,6 @@ function mysearch() {
                                               //$scatid 		  	= $srowprodscat_mst['prodscatm_id']; //ref
                                               $scatname_nav      = $srowprodscat_mst['prodcatm_name'];
                                               $catnwurl = funcStrRplc($scatname_nav);
-                                             
                                               $prodscatm_id      = $srowprodscat_mst['prodscatm_id'];
                                               $prodscatm_name = $srowprodscat_mst['prodscatm_name'];
                                               $scaturl = funcStrRplc($prodscatm_name);
@@ -934,39 +920,32 @@ function mysearch() {
                                                 <?php  }
                                               if ($mnlnks == 3) {
                                                 // $url_ext = "&scatid=" . $prodscatm_id;
-                                                $url_ext = "/" . $scaturl;
+                                               $url_ext1 = "/" . $scaturl;
                                                 ?>
-                                                  <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl . $url_ext; ?>">
+                                  <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl.$url_ext1; ?>">
                                                     <div><?php echo $scatname_nav; ?></div>
                                                   </a>
                                                 <?php
-                                              } else {
+                                              }
+                                               else {
                                                 $sqryprodscat_mst_r = "SELECT prodscatm_id,prodscatm_name from prodscat_mst where prodscatm_prodcatm_id = '$scatnew_id'  and prodscatm_sts='a' group by prodscatm_id asc";
                                                 $srsprodscat_mst_r = mysqli_query($conn, $sqryprodscat_mst_r);
                                                 $cntrec_scat_nav_r = mysqli_num_rows($srsprodscat_mst_r);
-
                                                 ?>
-
                                                   <a class="menu-link" href="<?php echo $rtpth . $mnlnkurl . '/' . $catnwurl; ?>">
-
                                                     <?php
                                                     if ($cntrec_scat_nav_r > 0) {
                                                     ?>
                                                       <div><?php echo $scatname_nav; ?><i class="fa fa-chevron-down nav-with-icon"></i></div>
                                                     <?php
-
                                                     } else {
                                                     ?>
                                                       <div><?php echo $scatname_nav; ?></i></div>
                                                     <?php
                                                     }
                                                     ?>
-
-
                                                   </a>
                                                   <?php
-
-                                                 
                                                   if ($cntrec_scat_nav_r > 0) {
                                                   ?>
                                                     <ul class="sub-menu-container">
@@ -983,30 +962,20 @@ function mysearch() {
                                                         </li>
                                                       <?php
                                                       } //while close
-
                                                       ?>
                                                     </ul>
-
                                                 <?php
                                                   } //if close
                                                 }
                                                 ?>
-
-
                                                 </li>
                                                 <?php
-
                                                 ?>
-
                                                 <?php
-
                                                 ?>
-
                                               <?php
-
                                             }
                                               ?>
-
                                               <?php
                                               if ($disptype == 1) {
                                               ?>
@@ -1046,7 +1015,6 @@ function mysearch() {
   <div class="header-wrap-clone"></div>
   </header>
   </div>
-
   <div class="sidebarModal modal right fade" id="sidebarModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -1298,12 +1266,10 @@ function mysearch() {
             <div class="sidebar-content">
               <div class="imp-links-side">
                 <ul class="navbar-nav m-auto">
-
                   <?php
                   while ($imp_row = mysqli_fetch_assoc($imp_result)) {
                     $imp_name = $imp_row['prodmnlnksm_name'];
                     $imp_id = $imp_row['prodmnlnksm_id'];
-
                   ?>
                     <li class="nav-item d-lg-none d-block">
                       <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
@@ -1314,7 +1280,6 @@ function mysearch() {
                   while ($imp_row = mysqli_fetch_assoc($imp_result1)) {
                     $imp_name = $imp_row['prodmnlnksm_name'];
                     $imp_id = $imp_row['prodmnlnksm_id'];
-
                   ?>
                     <li class="nav-item">
                       <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
@@ -1332,9 +1297,6 @@ function mysearch() {
       </div>
     </div>
   </div>
-
-
-
   <!-- <li class="nav-item d-lg-none d-block">
                   <a href="#" class="nav-link">CAMU</a>
                 </li>

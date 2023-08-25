@@ -101,7 +101,7 @@ if ($bnr_cnt > 0) {
 </div>
 <!-- Departments Dynamic Start  -->
 <?php
-$sqry_dept = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_bnrimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_bnrimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty,prodscatm_id from  prodmnlnks_mst
+$sqry_dept = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_bnrimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_bnrimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty,prodscatm_id,prodscatm_name from  prodmnlnks_mst
  left join  prodcat_mst on prodcatm_prodmnlnksm_id = prodmnlnksm_id
  inner join prodscat_mst on prodscatm_prodcatm_id = prodcatm_id
  where prodmnlnksm_id !='' and prodmnlnksm_sts ='a' and prodmnlnksm_sts = 'a' and prodcatm_sts='a'  and prodmnlnksm_name='Departments' group by prodcatm_id order by prodcatm_prty asc ";
@@ -123,10 +123,15 @@ if ($dept_cnt > 0) {
         <?php
         while ($srowdept_mst = mysqli_fetch_assoc($sqry_dept_mst)) {
           $deptid = $srowdept_mst['prodmnlnksm_id'];
+          $deptmn_nm = $srowdept_mst['prodmnlnksm_name'];
+          $hm_mn_url=funcStrRplc($deptmn_nm);
           $deptcatid = $srowdept_mst['prodcatm_id'];
+       
           $deptscatid = $srowdept_mst['prodscatm_id'];
-
+          $deptscat_nm = $srowdept_mst['prodscatm_name'];
+          $hm_scat_url=funcStrRplc($deptscat_nm);
           $deptnm = $srowdept_mst['prodcatm_name']; //sub category department title
+          $hm_cat_url=funcStrRplc($deptnm);
           $deptimgnm = $srowdept_mst['prodcatm_icn'];
 
           $deptimg = $u_cat_icnfldnm . $deptimgnm;
@@ -141,15 +146,16 @@ if ($dept_cnt > 0) {
         ?>
           <div class="single-courses-card style2">
             <div class="courses-img">
-              <a href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $deptid; ?>&catid=<?php echo $deptcatid; ?>&scatid=<?php echo $deptscatid; ?>"><img src="<?php echo $deptimgpth; ?>" alt="Image"></a>
+            
+              <a href="<?php echo $rtpth . $hm_mn_url . '/' . $hm_cat_url.'/'.$hm_scat_url; ?>"><img src="<?php echo $deptimgpth; ?>" alt="Image"></a>
             </div>
             <div class="courses-content">
-              <a href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $deptid; ?>&catid=<?php echo $deptcatid; ?>&scatid=<?php echo $deptscatid; ?>">
+              <a href="<?php echo $rtpth . $hm_mn_url . '/' . $hm_cat_url.'/'.$hm_scat_url; ?>">
                 <h3><?php echo $deptnm; ?></h3>
               </a>
 
 
-              <a href="<?php echo $rtpth; ?>category.php?mnlnks=<?php echo $deptid; ?>&catid=<?php echo $deptcatid; ?>&scatid=<?php echo $deptscatid; ?>" class="read-more-btn pull-right">Read more<i class="flaticon-next"></i></a>
+              <a href="<?php echo $rtpth . $hm_mn_url . '/' . $hm_cat_url.'/'.$hm_scat_url; ?>" class="read-more-btn pull-right">Read more<i class="flaticon-next"></i></a>
             </div>
           </div>
         <?php
@@ -837,8 +843,11 @@ if ($fcty_cnt > 0) {
           <?php
           while ($srowfcty_mst = mysqli_fetch_assoc($sqry_fcty_mst)) {
             $fctytid = $srowfcty_mst['prodmnlnksm_id'];
+            $fctyt_nm = $srowfcty_mst['prodmnlnksm_name'];
+            $fct_mn_url=funcStrRplc($fctyt_nm);
             $fctyimgnm = $srowfcty_mst['prodcatm_icn'];
             $fctynm = $srowfcty_mst['prodcatm_name'];
+            $fct_cat_url=funcStrRplc($fctynm);
             $d_catid = $srowfcty_mst['prodcatm_id'];
 
             $fctyimg =  $u_cat_icnfldnm . $fctyimgnm;
@@ -852,11 +861,10 @@ if ($fcty_cnt > 0) {
               <div class="single-health-care-card style1">
                 <div class="img">
 
-
-                  <a href="<?php echo  $rtpth ?>category.php?mnlnks=<?php echo $fctytid; ?>&catid=<?php echo $d_catid; ?>"><img src="<?php echo $fctyimgpth; ?>" alt="Image"></a>
+                  <a href=" <?php echo $rtpth . $fct_mn_url . '/' . $fct_cat_url;?>"><img src="<?php echo $fctyimgpth; ?>" alt="Image"></a>
                 </div>
                 <div class="health-care-content">
-                  <a href="<?php echo  $rtpth ?>category.php?mnlnks=<?php echo $fctytid; ?>&catid=<?php echo $d_catid; ?>">
+                  <a href=" <?php echo $rtpth . $fct_mn_url . '/' . $fct_cat_url;?>">
                     <h3><?php echo $fctynm; ?></h3>
                   </a>
                 </div>
@@ -870,7 +878,7 @@ if ($fcty_cnt > 0) {
           <div class="row align-items-center justify-content-end">
             <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-6">
               <div class="mb-lg-0 mb-md-0 mb-2 text-end">
-                <a href="<?php echo  $rtpth ?>category.php?mnlnks=<?php echo $fctytid; ?>&catid=<?php echo $d_catid; ?>" class="custom-btn-12 green">View All <i class="fa-solid fa-chevron-right"></i></a>
+                <a href=" <?php echo $rtpth . $fct_mn_url . '/' . $fct_cat_url;?>" class="custom-btn-12 green">View All <i class="fa-solid fa-chevron-right"></i></a>
               </div>
             </div>
           </div>
@@ -999,7 +1007,7 @@ if ($alumni_cnt > 0) {
                 <div class="gal-img-holder">
                   
                   <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$phtcatid;?>">
-                    <!-- <a href="<?php echo $rtpth; ?>gallery-category.php"> -->
+                  
                     <img src="<?php echo $galryimgpth; ?>" classw="w-100" alt="" title="<?php echo $phtcat_name; ?>">
                     <p class="gal-cat-home"><?php echo $phtcat_name; ?></p>
                   </a>
