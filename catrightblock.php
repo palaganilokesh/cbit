@@ -15,6 +15,9 @@ $mnlnks1 = $_GET['mnlnks'];
 $mnlnksid = funcStrUnRplc($mnlnks1);
 $scatid1 = $_GET['scatid'];
 $scatid = funcStrUnRplc($scatid1);
+$txt=explode('_',$scatid );
+$pt_id=$txt[1];
+$pt_scat_nm=$txt[0];
 if($scatid=='UG' || $scatid=='PG' || $scatid=='ug' || $scatid=='pg' )
 {
 	$admtyp=strtoupper($scatid);
@@ -106,16 +109,26 @@ $prodid = funcStrUnRplc($prodid1);
 									$mnlnkurl=funcStrRplc($prodmnlnksm_name);
 									if ($mnlnksid == 'departments' || $scatid != '') {
 										$lftlnknm = "$rtpth$mnlnkurl/$caturl/$scaturl";
-										if (ucwords($prodscatm_name) == ucwords($scatid)) {
+								
+										if (ucwords($prodscatm_name) == ucwords($scatid) ) {
+										
 											$cat_cls = "active";
-										} else {
+										} 
+										else if(ucwords($prodscatm_name) == ucwords($pt_scat_nm))
+										{
+											$cat_cls = "active";
+										}
+										
+										else {
 											$cat_cls = "";
 										}
+									
 									} else {
 										// echo"scat-".$prodcatm_name;
 										// echo"scatid-".$catid;
 										$lftlnknm = "$rtpth$mnlnkurl/$caturl";
 										if (ucwords($catid) == ucwords($prodcatm_name)) {
+										
 											$cat_cls = "active";
 										} else {
 											$cat_cls = "";
@@ -127,7 +140,7 @@ $prodid = funcStrUnRplc($prodid1);
 								?>
 									<li>
 										<?php
-										$sqrypgcnt_mst = " SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodscatm_id,prodscatm_name,prodscatm_sts,prodscatm_prodcatm_id,pgcntsd_prodscatm_id,pgcntsd_prodcatm_id,pgcntsd_id,pgcntsd_name,pgcntsd_sts,pgcntsd_typ from 	prodmnlnks_mst
+									$sqrypgcnt_mst = " SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodscatm_id,prodscatm_name,prodscatm_sts,prodscatm_prodcatm_id,pgcntsd_prodscatm_id,pgcntsd_prodcatm_id,pgcntsd_id,pgcntsd_name,pgcntsd_sts,pgcntsd_typ from 	prodmnlnks_mst
 									 inner join prodcat_mst on prodcatm_prodmnlnksm_id=prodmnlnksm_id 
 									 inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id 
 									 inner join pgcnts_dtl on pgcntsd_prodscatm_id=prodscatm_id
@@ -192,7 +205,9 @@ $prodid = funcStrUnRplc($prodid1);
 																	$prodpg_name = $srowpgcnt_mst['pgcntsd_name'];
 																	$pgurl=funcStrRplc($prodpg_name);
 																	$prodpg_id = $srowpgcnt_mst['pgcntsd_id'];
-																	if (ucwords($prodpg_name) == ucwords($prodid)) {
+
+																
+																	if (ucwords($prodpg_name) == ucwords($prodid) && 	ucwords($prodscatm_name) == ucwords($scatid)) {
 																		$pgcntnt_cls = "active";
 																	} else {
 																		$pgcntnt_cls = "";

@@ -41,6 +41,10 @@ RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteRule ^([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ pagecontents.php?mnlnks=$1&catid=$2&scatid=$3&prodid=$4 [L,QSA]
 
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^dept-gallery/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ dept-gallery-explore.php?phtid=$1&mnlnks=$2&catid=$3&scatid=$4 [L,QSA]
+
 
 
 

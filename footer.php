@@ -167,107 +167,6 @@
 
               </div>
             </div>
-
-
-
-            <!-- <div class="col-lg-12 col-md-12 col-12 mt-3">
-                            <h3 class="text-capitalize">Quick Links</h3>
-
-                            <div class="list ">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-12">
-                                        <ul>
-                                            <li><a target="_blank" href="#">ACIC-CBIT</a></li>
-                                            <li><a target="_blank" href="#">Admissions</a></li>
-                                            <li><a target="_blank" href="#">ARIIA</a></li>
-                                            <li><a target="_blank" href="#">BoS</a></li>
-                                            <li><a target="_blank" href="#">Career @ CBIT</a></li>
-                                            <li><a target="_blank" href="#">CBIT Alumni Network</a></li>
-                                            <li><a target="_blank" href="#">Departments</a></li>
-                                            <li><a target="_blank" href="#">Digital Newsletter</a></li>
-                                            <li><a target="_blank" href="#">EDC</a></li>
-                                            <li><a target="_blank" href="#">Financial Statements</a></li>
-
-                        
-                                        </ul>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6 col-12">
-                                        <ul>
-                        
-                                            <li><a target="_blank" href="#">Governing Council</a></li>
-                                            <li><a target="_blank" href="#">IIC</a></li>
-                                            <li><a target="_blank" href="#">IQAC</a></li>
-                                            <li><a target="_blank" href="#">Mandatory Disclosure</a></li>
-                                            <li><a target="_blank" href="#">NAAC</a></li>
-                                            <li><a target="_blank" href="#">NBA</a></li>
-                                            <li><a target="_blank" href="#">NIRF</a></li>
-                                            <li><a target="_blank" href="#">Research and Development</a></li>
-                                            <li><a target="_blank" href="#">Stake Holders Feedback</a></li>
-                                            <li><a target="_blank" href="#">Virtual Tour- 360 Degree</a></li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                        </div> -->
-
-            <!-- <div class="col-lg-4 col-md-4 col-6">
-                            <h3 class="text-capitalize">Activities</h3>
-                            <div class="list ">
-                                <ul>
-                                    <li><a href="#">Sports and Games</a></li>
-                                    <li><a href="#">Digital Newsletter</a></li>
-                                    <li><a href="#">Stakeholders Feedback Forms</a></li>
-                                    <li><a href="#">AICTE Rural Programs</a></li>
-                                    <li><a href="#">Capacity Building and Skills Enhancement</a></li>
-                                </ul>
-                            </div>
-                        </div> -->
-
-
-
-
-
-            <!-- <div class="col-lg-4 col-md-4 col-6 mt-lg-4 mt-md-4 mt-0">
-                            <h3 class="text-capitalize">Clubs</h3>
-                            <div class="list ">
-                                <ul>
-                                    <li><a href="#">GDS Club</a></li>
-                                    <li><a href="#">IBM zSystems Club</a></li>
-                                    <li><a href="#">ADPList Club</a></li>
-                                    <li><a href="#">Hack Club</a></li>
-                                    <li><a href="#">Robo Club</a></li>
-                                    <li><a href="#">Reskill Inspirer Club</a></li>
-                                    <li><a href="#">Yuva Club</a></li>
-                                    <li><a href="#">Hack Club</a></li>
-
-                                </ul>
-                            </div>
-                        </div> -->
-
-
-            <!-- <div class="col-lg-4 col-md-4 col-6 mt-lg-4 mt-md-4 mt-0">
-                            <h3 class="text-capitalize">Admissions</h3>
-                            <div class="list ">
-                                <ul>
-                                    <li><a href="#">Under Graduation</a></li>
-                                    <li><a href="#">Post Graduation</a></li>
-                                    <li><a href="#"> Ph.D</a></li>
-                                    <li><a href="#">International Admissions</a></li>
-                                </ul>
-                            </div>
-                        </div> -->
-
-
-
-
-
-
-
           </div>
         </div>
       </div>
@@ -330,10 +229,10 @@
       <img src="assets/images/icon/facebook.png" alt="">
       <p class="socio-name">facebook</p>
     </a>
-    <a href="https://www.instagram.com/cbithyderabad/" target="_blank"><img src="assets/images/icon/instagram.png" alt=""></a>
-    <a href="https://twitter.com/CBIThyd" target="_blank"><img src="assets/images/icon/twitter.png" alt=""></a>
+    <a href="https://www.instagram.com/cbithyderabad/" target="_blank"><img src="<?php echo $rtpth;?>assets/images/icon/instagram.png" alt=""></a>
+    <a href="https://twitter.com/CBIThyd" target="_blank"><img src="<?php echo $rtpth;?>assets/images/icon/twitter.png" alt=""></a>
 
-    <a href="https://www.youtube.com/channel/UCUW8oQB8Fl6j-pg2g_sf1tw" target="_blank"><img src="assets/images/icon/youtube.png" alt=""></a>
+    <a href="https://www.youtube.com/channel/UCUW8oQB8Fl6j-pg2g_sf1tw" target="_blank"><img src="<?php echo $rtpth;?>assets/images/icon/youtube.png" alt=""></a>
     <!-- <a href="#" target="_blank"><img src="assets/images/icon/whatsapp.png" alt=""></a> -->
 
   </div>
@@ -412,7 +311,7 @@
 <script src="https://cdn.jsdelivr.net/picturefill/2.3.1/picturefill.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.3.0/plugins/thumbnail/lg-thumbnail.min.js" integrity="sha512-vqSdeetXQGiX1vqQZ+/7J+M1y0JoizcnyVSj0BZ2kZVwmSTFCWxb7QPnILROd/SWUoTrq76XlzvOJFPn49oSlA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="mega-menu.js"></script>
+<script src="<?php echo $rtpth;?>mega-menu.js"></script>
 <script src="<?php echo $rtpth; ?>assets/js/custom.js "></script>
 
 <script>

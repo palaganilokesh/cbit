@@ -125,6 +125,7 @@ if (
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
+	
 	} else {
 		
 		header("Location:index.php");

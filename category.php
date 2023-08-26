@@ -57,11 +57,6 @@ if (
 		$sqrypgcnts_mst1 .= " and prodcatm_name = '$catone_id'";
 		$loc = "&catid=$catone_id";
 	}
-	/*if(isset($_REQUEST['prodid']) && (trim($_REQUEST['prodid'])!="")){
-			$prodid = glb_func_chkvl($_REQUEST['prodid']);
-			$sqrypgcnts_mst1 .= " and pgcntsd_id = $prodid";
-			$loc .="&prodid=$prodid";
-		}*/
 	if (isset($_REQUEST['scatid']) && (trim($_REQUEST['scatid']) != "")) {
 		$cattwo_id2 = glb_func_chkvl($_REQUEST['scatid']);
 		$cattwo_id_1=$cattwo_id = funcStrUnRplc($cattwo_id2);
@@ -127,7 +122,8 @@ if (
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
 			}
 		}
-		else if ($cattwo_id_1 != '' || isset($cattwo_id_1)) {
+		else if ($cattwo_id_1 != '' || isset($cattwo_id_1)) 
+		{
 			$title = "$prodscatm_name";
 			$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
 			if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
@@ -135,7 +131,8 @@ if (
 			} else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
-		} else {
+		} 
+		else {
 			$title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
 			if ($prodcatm_bimg != "" && file_exists($bngimgpth)) {
@@ -144,7 +141,17 @@ if (
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
-	} else {
+			if ($_REQUEST['mnlnks'] == 'departments') {
+				$title = "$prodscatm_name";
+				$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
+				if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
+					$bnrimgpth = $rtpth . $bngimgpth;
+				} else {
+					$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
+				}
+			}
+	} 
+	else {
 		header("Location:$ind_loc");
 		exit();
 	}
@@ -230,8 +237,7 @@ $body_class = "homepage";
 				?>
 				<li><a href="<?php echo $rtpth; ?>departments"><?php echo $prodmnlnksm_name ;?></a></li>
 				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url.'/'.$bred_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
-					<!-- <li><a href="<?php echo $rtpth; ?>departments.php"><?php echo $prodmnlnksm_name . " / " . $prodcatm_name; ?></a></li> -->
-					<li><?php echo $prodscatm_name1; ?></li>
+				<li><?php echo $prodscatm_name1; ?></li>
 				<?php
 				}
 				?>
@@ -356,11 +362,11 @@ if ($_REQUEST['mnlnks'] == 'departments') {
  while ($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)) {
 	$phtcatid         = $srowsphtcat_dtl['phtcatm_id'];
 	$phtcat_name      = $srowsphtcat_dtl['phtcatm_name'];
+	$dept_pht_url=funcStrRplc($phtcat_name);
 	$phtcat_bnrimg      = $srowsphtcat_dtl['phtcatm_img'];
 	// $phtcatm_desc  = $srowsphtcat_dtl['phtcatm_desc'];
 	// $bphtimgnm     = $srowsphtcat_dtl['phtm_simg'];
 	$galpath      = $gusrglry_fldnm .$phtcat_bnrimg;
-	// echo file_exists($galpath);
 	if (($phtcat_bnrimg != "") && file_exists($galpath)) {
 		$galryimgpth = $rtpth . $galpath;
 	} else {
@@ -371,7 +377,8 @@ if ($_REQUEST['mnlnks'] == 'departments') {
                                     data-responsive="<?php echo $galryimgpth;?> 375, <?php echo $galryimgpth;?> 480, <?php echo $galryimgpth;?> 800 "
                                     data-src="<?php echo $galryimgpth;?> "
                                     data-sub-html="<h4>Category 1</h4>">
-                                    <a href='dept-gallery-explore.php?phtid=<?php echo $srowsphtcat_dtl['phtcatm_id'];?>&mnlnks=<?php echo $_REQUEST['mnlnks']?>&catid=<?php echo $catone_id?>&scatid=<?php echo $cattwo_id ?>'>
+				
+                                    <a href="<?php echo $rtpth.'dept-gallery/'.$dept_pht_url.'/'.$cn_mn_url.'/'.$cn_cat_url.'/'.$cn_scat_url.'_'.$phtcatid;?>">
                                         <img class="img-responsive w-100"
                                             src="<?php echo $galryimgpth;?>">
                                         <div class="demo-gallery-poster">
