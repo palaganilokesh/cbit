@@ -179,10 +179,11 @@ $body_class = "homepage";
 				$res1=mysqli_query($conn,$bdqry1);
 				$value1=mysqli_fetch_assoc($res1);
 				$breds_scat_url=$value1['prodscatm_name'];
+				$brd_url=funcStrRplc($breds_scat_url);
 				?>
 				
 					<li><a href="<?php echo $rtpth; ?>departments"><?php echo $prodmnlnksm_name ;?></a></li>
-					<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url.'/'.$breds_scat_url; ?>"><?php echo $prodcatm_name5; ?></a></li>
+					<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url.'/'.$brd_url; ?>"><?php echo $prodcatm_name5; ?></a></li>
 					<?php
 			$bdqry2="SELECT pgcntsd_name from  pgcnts_dtl where pgcntsd_prodscatm_id='$cattwo_id ' group by  pgcntsd_prodscatm_id order by pgcntsd_prty asc limit 1";
 				$res2=mysqli_query($conn,$bdqry2);

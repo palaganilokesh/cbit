@@ -207,21 +207,31 @@ $body_class = "homepage";
 			<h1><?php echo $title; ?></h1>
 			<ul>
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-				<!-- <?php
+			 <?php
 				if ($_REQUEST['mnlnks'] == 'admissions') {
-				?>
-			
-				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url;?>"><?php echo $prodcatm_name; ?></a></li>
 				
-					<li><?php echo $prodscatm_name1; ?></li>
+				 $bdadmson="SELECT prodcatm_name from prodcat_mst where prodcatm_prodmnlnksm_id='$mnlnks_id' group by  prodcatm_id order by prodcatm_prty asc limit 1";
+				$res_adm_cats=mysqli_query($conn,$bdadmson);
+				$value_adm_cat=mysqli_fetch_assoc($res_adm_cats);
+				$bred_admcat_url=$value_adm_cat['prodcatm_name'];
+				$adm_url=funcStrRplc($bred_admcat_url);
+				?>
+		
+				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $adm_url.'/'.$admtyp;?>"><?php echo $prodmnlnksm_name; ?></a></li>
+				
+					<li><?php echo $prodcatm_name; ?></li>
 				<?php
 				}
-				?> -->
-				<?php	if ($_REQUEST['mnlnks'] != 'departments') {
+				?>
+				<?php	if ($_REQUEST['mnlnks'] != 'departments' && $_REQUEST['mnlnks'] != 'admissions' ) {
+			 $bdscat="SELECT prodcatm_name from prodcat_mst where prodcatm_prodmnlnksm_id='$mnlnks_id' group by  prodcatm_id order by prodcatm_prty asc limit 1";
+				$res_cats=mysqli_query($conn,$bdscat);
+				$value_cat=mysqli_fetch_assoc($res_cats);
+				$bred_cat_url=$value_cat['prodcatm_name'];
+				$brd_cat_url=funcStrRplc($bred_cat_url);
 				?>
 			
-			
-				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
+				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $brd_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
 				<li><?php echo $prodcatm_name; ?></li>
 				<!-- <li><?php echo $prodmnlnksm_name . " / " . $prodcatm_name; ?></li> -->
 				<?php
@@ -234,9 +244,10 @@ $body_class = "homepage";
 				$res=mysqli_query($conn,$bdqry);
 				$value=mysqli_fetch_assoc($res);
 				$bred_scat_url=$value['prodscatm_name'];
+				$brd_scat_url=funcStrRplc($bred_scat_url);
 				?>
 				<li><a href="<?php echo $rtpth; ?>departments"><?php echo $prodmnlnksm_name ;?></a></li>
-				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url.'/'.$bred_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
+				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url.'/'.$brd_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
 				<li><?php echo $prodscatm_name1; ?></li>
 				<?php
 				}
