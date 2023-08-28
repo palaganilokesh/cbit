@@ -20,7 +20,8 @@ if (isset($_REQUEST['txtsrchval2']) && (trim($_REQUEST['txtsrchval2']) != "")) {
 	$hdrsrchval =  funcStrUnRplc($_REQUEST['txtsrchval2']);
 }
 
-$sqrypgcnts_mst .= "  and (prodmnlnksm_name like '%$hdrsrchval%' or prodcatm_name like '%$hdrsrchval%' or prodscatm_name like '%$hdrsrchval%' or pgcntsd_name like '%$hdrsrchval%' or prodmnlnksm_desc like '%$hdrsrchval%' or prodcatm_desc like '%$hdrsrchval%' or prodscatm_desc like '%$hdrsrchval%' or pgcntsd_desc like '%$hdrsrchval%') order by prodcatm_prty asc ";
+$sqrypgcnts_mst .= "  and (prodmnlnksm_name like '%$hdrsrchval%' or prodcatm_name like '%$hdrsrchval%' or prodscatm_name like '%$hdrsrchval%' or pgcntsd_name like '%$hdrsrchval%' ) order by prodcatm_prty asc ";
+// or prodmnlnksm_desc like '%$hdrsrchval%' or prodcatm_desc like '%$hdrsrchval%' or prodscatm_desc like '%$hdrsrchval%' or pgcntsd_desc like '%$hdrsrchval%'
 
 //  and prodscatm_sts = 'a' and pgcntsd_sts='a'
 // echo 	$sqrypgcnts_mst; 
@@ -55,12 +56,12 @@ where phtcatm_sts='a'  and (phtcatm_name like '%$hdrsrchval%' or phtcatm_desc li
 $srspgcnts_mst4 = mysqli_query($conn, $sqrypgcnts_mst4);
 $cnt_recpgcnts4 = mysqli_num_rows($srspgcnts_mst4);
 // ------------gallery-------
-
+$new_count=$cnt_recpgcnts+$cnt_recpgcnts1+$cnt_recpgcnts2+$cnt_recpgcnts3+$cnt_recpgcnts4;
 $cnt = $offset;
 echo "<br/>";
 $dispval = "<span> Text Search For :</span>" . "'" . $hdrsrchval . "'";
 $title = "";
-if ($cnt_recpgcnts == 0 && $cnt_recpgcnts1 == 0 && $cnt_recpgcnts2 == 0  && $cnt_recpgcnts3 == 0) {
+if ($cnt_recpgcnts == 0 && $cnt_recpgcnts1 == 0 && $cnt_recpgcnts2 == 0  && $cnt_recpgcnts3 == 0 && $cnt_recpgcnts4==0) {
 	$emptyval = "Your search - $hdrsrchval - did not match any information.";
 }
 // else {
@@ -77,7 +78,7 @@ include('header.php');
 			<?php echo $dispval; ?>
 		</h3>
 		<div class="alert alert-warning">
-			<?php echo $cnt_recpgcnts; ?> results found
+			<?php echo $new_count; ?> results found
 		</div>
 		<div class="well">
 			<ul class="list-unstyled">
@@ -100,25 +101,38 @@ include('header.php');
 						$admt_type = $srowspgcnts_mst['prodcatm_admtyp'];
 						$prodcat_desc = $srowspgcnts_mst['prodcatm_desc'];
 						$s_des = substr($prodcat_desc, 0, 100);
+						$pgcnt_id = $srowspgcnts_mst['pgcntsd_id'];
+						$pgcnt_name = $srowspgcnts_mst['pgcntsd_name'];
+						$pgcnt_url=funcStrRplc($pgcnt_name);
+
+						// $pgurl = $rtpth . $mnlnks_url . "/" . $cat_url;
 						if($prodmnlnks_id=='3' && $prodscat_id!=''){
-							// $pgurl = $rtpth . $mnlnks_url . "/" . $cat_url;
-							$pgurl=$rtpth."category.php?mnlnks=".$prodmnlnks_id."&catid=".$prodcat_id."&scatid=".$prodscat_id;
+							
+							$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$scat_url;
 							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodscat_nm</a></h4></li>";
 						}
-					 if($prodmnlnks_id=='4' && $admt_type=='UG'){
-							$pgurl=$rtpth."category.php?mnlnks=".$prodmnlnks_id."&catid=".$prodcat_id."&admtyp=".$admt_type;
+						else if($prodmnlnks_id=='4' && $admt_type=='UG'){
+					
+						$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$admt_type;
 							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodcat_nm</a></h4></li>";
 						}
-						if($prodmnlnks_id=='4' && $admt_type=='PG'){
-							$pgurl=$rtpth."category.php?mnlnks=".$prodmnlnks_id."&catid=".$prodcat_id."&admtyp=".$admt_type;
+						else if($prodmnlnks_id=='4' && $admt_type=='PG'){
+							$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$admt_type;
 							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodcat_nm</a></h4></li>";
 						}
-						 if($prodscat_id!=''){
-							$pgurl=$rtpth."category.php?mnlnks=".$prodmnlnks_id."&catid=".$prodcat_id."&scatid=".$prodscat_id;
+						
+						else if($prodmnlnks_id=='3' && $prodscat_id!='' && $pgcnt_id!=''){
+							$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$scat_url.'/'.$pgcnt_url;
+							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$pgcnt_name</a></h4></li>";
+
+						}
+						else if($prodmnlnks_id!='' && $prodcat_id!='' && $prodscat_id!=''){
+							$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$scat_url;
 							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodscat_nm</a></h4></li>";
+
 						}
 						else{
-							$pgurl=$rtpth."category.php?mnlnks=".$prodmnlnks_id."&catid=".$prodcat_id;
+							$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url;
 							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodcat_nm</a></h4></li>";
 						}
 
@@ -126,14 +140,14 @@ include('header.php');
 					}
 					echo $dsp_dtl;
 				} else {
-					echo $emptyval;
+					// echo $emptyval;
 				}
 				?>
 			</ul>
 		</div>
 
 		<!-- -------------------------Notifications programs---------------------------------------------- -->
-		<?php
+		<!-- <?php
 		$dispval1 .= "<span>Notifications or Anouncements Search For :</span>" . "'" . $hdrsrchval . "'";
 		?>
 		<h3 class="title text-primary">
@@ -141,7 +155,7 @@ include('header.php');
 		</h3>
 		<div class="alert alert-warning">
 			<?php echo $cnt_recpgcnts1; ?> results found in notification
-		</div>
+		</div> -->
 		<div class="well">
 			<ul class="list-unstyled">
 				<?php
@@ -158,14 +172,14 @@ include('header.php');
 						$nws_desc = $srowspgcnts_mst1['nwsm_desc'];
 						$nwsd_url = funcStrRplc($nws_desc);
 						if ($nws_typ == '2') {
-
-							$pgurl1 = $rtpth . "announcements-details.php?notify_typ=2&notid=" . $nws_id;
+													
+							$pgurl1 = $rtpth."latest-notifications/2/". $nws_url.'_'.$nws_id;
 						}
 						if ($nws_typ == '4') {
-							$pgurl1 = $rtpth . "announcements-details.php?notify_typ=4&notid=" . $nws_id;
+							$pgurl1 = $rtpth."latest-notifications/4/". $nws_url.'_'.$nws_id;
 						}
 						if ($nws_typ == '5') {
-							$pgurl1 = $rtpth . "announcements-details.php?notify_typ=5&notid=" . $nws_id;
+							$pgurl1 = $rtpth."latest-notifications/5/". $nws_url.'_'.$nws_id;
 						}
 
 
@@ -173,14 +187,14 @@ include('header.php');
 					}
 					echo $dsp_dtl1;
 				} else {
-					echo $emptyval;
+					// echo $emptyval;
 				}
 				?>
 			</ul>
 		</div>
 		<!-- end notification -->
 		<!-- -------------------------Events and News programs---------------------------------------------- -->
-		<?php
+		<!-- <?php
 		$dispval2 .= "<span>Events or News Search For :</span>" . "'" . $hdrsrchval . "'";
 		?>
 		<h3 class="title text-primary">
@@ -188,7 +202,7 @@ include('header.php');
 		</h3>
 		<div class="alert alert-warning">
 			<?php echo $cnt_recpgcnts2; ?> results found in events or news
-		</div>
+		</div> -->
 		<div class="well">
 			<ul class="list-unstyled">
 				<?php
@@ -205,31 +219,26 @@ include('header.php');
 						$execprog_name = $srowspgcnts_mst2['evntm_desc'];
 						$execprog_url = funcStrRplc($execprog_name);
 						if ($event_typ == 'e') {
-							// $pgurl2 = $rtpth."event-details/".$event_url;
-							$pgurl2 = $rtpth . "event-details.php?evntmid=" . $event_id;
+							$pgurl2 = $rtpth."latest-events/".$event_url.'_'.$event_id;
+							
 						}
 						if ($event_typ == 'n') {
-							// $pgurl2 = $rtpth."news-details/".$event_url;
-							$pgurl2 = $rtpth . "news-details.php?nwsid=" . $event_id;
+							
+							$pgurl2 = $rtpth."latest-news/".$event_url.'_'.$event_id;
 						}
 
-						/* if ($prodscat_typ == '2') {
-										$pgurl = "photogallery_details.php?prodid=$pgcntnt_id";
-									} */
-						/*$dsp_dtl .="<a href='$pgurl'><h4 class='searchtitle'>$pgcnts_name</a></h4>										
-										 <p class='searchcnt'>$ary_desc...</p>";*/
 						$dsp_dtl2 .= "<li><h4>&raquo; <a href='$pgurl2'>$event_name</a></h4></li>";
 					}
 					echo $dsp_dtl2;
 				} else {
-					echo $emptyval;
+					// echo $emptyval;
 				}
 				?>
 			</ul>
 		</div>
 		<!-- end notification -->
 		<!-- -------------------------Achivements---------------------------------------------- -->
-		<?php
+		<!-- <?php
 		$dispval3 .= "<span>Achivements Search For :</span>" . "'" . $hdrsrchval . "'";
 		?>
 		<h3 class="title text-primary">
@@ -237,7 +246,7 @@ include('header.php');
 		</h3>
 		<div class="alert alert-warning">
 			<?php echo $cnt_recpgcnts3; ?> results found in Achivements
-		</div>
+		</div> -->
 		<div class="well">
 			<ul class="list-unstyled">
 				<?php
@@ -254,22 +263,22 @@ include('header.php');
 						$execprog_sdesc = $srowspgcnts_mst3['achmntm_sdesc'];
 						$achmntdes_url = funcStrRplc($execprog_sdesc);
 
-						// $pgurl2 = $rtpth."event-details/".$event_url;
-						$pgurl3 = $rtpth . "achivements-details.php?achmtid=" . $achmt_id;
+						// $pgurl2 = $rtpth."latest-achivements/".$achmt_url.''.$achmt_id;
+						$pgurl3 = $rtpth."latest-achivements/".$achmt_url.'_'.$achmt_id;
 
 
 						$dsp_dtl3 .= "<li><h4>&raquo; <a href='$pgurl3'>$achmt_name</a></h4></li>";
 					}
 					echo $dsp_dtl3;
 				} else {
-					echo $emptyval;
+					// echo $emptyval;
 				}
 				?>
 			</ul>
 		</div>
 		<!-- -------------------------------end achivements -------------------------->
 		<!-- -------------------------Gallery---------------------------------------------- -->
-		<?php
+		<!-- <?php
 		$dispval4 .= "<span>Gallery Search For :</span>" . "'" . $hdrsrchval . "'";
 		?>
 		<h3 class="title text-primary">
@@ -277,7 +286,7 @@ include('header.php');
 		</h3>
 		<div class="alert alert-warning">
 			<?php echo $cnt_recpgcnts4; ?> results found in Gallery
-		</div>
+		</div> -->
 		<div class="well">
 			<ul class="list-unstyled">
 				<?php
@@ -294,19 +303,13 @@ include('header.php');
 						$phtcatm_desc = $srowspgcnts_ms42['phtcatm_desc'];
 						$phtcatm_url = funcStrRplc($phtcatm_desc);
 						if ($phtcatm_typ == 'c') {
-							// $pgurl2 = $rtpth."event-details/".$event_url;
-							$pgurl4 = $rtpth . "/gallery.php?phtid=" . $phtcatm_id;
+							
+							$pgurl4 = $rtpth."photo-gallery/".$phtcatm_url.'_'.$phtcatm_id;
 						}
 						if ($phtcatm_typ == 'd') {
-							// $pgurl2 = $rtpth."news-details/".$event_url;
-							$pgurl4 = $rtpth . "/gallery.php?phtid=" . $phtcatm_id;
+							$pgurl4 =$rtpth."photo-gallery/".$phtcatm_url.'_'.$phtcatm_id;
 						}
 
-						/* if ($prodscat_typ == '2') {
-										$pgurl = "photogallery_details.php?prodid=$pgcntnt_id";
-									} */
-						/*$dsp_dtl .="<a href='$pgurl'><h4 class='searchtitle'>$pgcnts_name</a></h4>										
-										 <p class='searchcnt'>$ary_desc...</p>";*/
 						$dsp_dtl2 .= "<li><h4>&raquo; <a href='$pgurl4'>$phtcatm_name</a></h4></li>";
 					}
 					echo $dsp_dtl2;

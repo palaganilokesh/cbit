@@ -91,7 +91,7 @@ if (
 				$qnsname =  glb_func_chkvl($_POST[$qnsname]);
 			
 				if ($validname1 == "") {
-					$qnsname =$name;
+					$qnsname =$validname1;
 				
 				}
 				$qnssts = "lstqnssts" . $i;

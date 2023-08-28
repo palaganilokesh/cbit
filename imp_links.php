@@ -1,7 +1,8 @@
 <?php
-// echo"<pre>";
-// var_dump($_REQUEST);
-// echo"</pre>";
+echo"<pre>";
+var_dump($_REQUEST);
+echo"</pre>";
+
 error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
 include_once 'includes/inc_connection.php';
@@ -21,44 +22,42 @@ if (isset($_REQUEST['cntstart']) && (trim($_REQUEST['cntstart']) != "")) {
 	$loc = "&cntstart=" . $_REQUEST['cntstart'];
 }
 if (
-	isset($_REQUEST['catid']) && (trim($_REQUEST['catid']) != "") ||
-	isset($_REQUEST['mnlnks']) && (trim($_REQUEST['mnlnks']) != "") ||
-	isset($_REQUEST['prodid']) && (trim($_REQUEST['prodid']) != "") ||
-	isset($_REQUEST['scatid']) && (trim($_REQUEST['scatid']) != "")
+	isset($_REQUEST['icatid']) && (trim($_REQUEST['icatid']) != "") ||
+	isset($_REQUEST['imnlnks']) && (trim($_REQUEST['imnlnks']) != "") ||
+	isset($_REQUEST['iscatid']) && (trim($_REQUEST['iscatid']) != "")
 ) {
-	$scatid1=glb_func_chkvl($_REQUEST['scatid']);
+	$scatid1=glb_func_chkvl($_REQUEST['iscatid']);
 	$req_scat=funcStrUnRplc($scatid1);
 	if($req_scat=='UG' || $req_scat=='PG' || $req_scat=='ug' || $req_scat=='pg' )
 	{
 		$admtyp=$req_scat;
 		$req_scat='';	
 	}
-	$mnlnks1=glb_func_chkvl($_REQUEST['mnlnks']);
+	$mnlnks1=glb_func_chkvl($_REQUEST['imnlnks']);
 	$req_mnlnks=funcStrUnRplc($mnlnks1);
-	$prodid1=glb_func_chkvl($_REQUEST['prodid']);
-	$req_prodid=funcStrUnRplc($prodid1);
-	$catid1=glb_func_chkvl($_REQUEST['catid']);
+	
+	$catid1=glb_func_chkvl($_REQUEST['icatid']);
 	$req_cat=funcStrUnRplc($catid1);
 	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){	
 	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg";
-	if ($_REQUEST['mnlnks'] == 'departments' ||  $req_scat!='') {
+	if ($_REQUEST['imnlnks'] == 'departments' ||  $req_scat!='') {
 		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
 	}
 	$sqrypgcnts_mst1 .= " from prodmnlnks_mst inner join prodcat_mst on prodcatm_prodmnlnksm_id =prodmnlnksm_id";
-	if ($_REQUEST['mnlnks'] == 'departments' || $req_scat!='') {
+	if ($_REQUEST['imnlnks'] == 'departments' || $req_scat!='') {
 		$sqrypgcnts_mst1 .= " inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id";
 	}
 	$sqrypgcnts_mst1 .= " where prodmnlnksm_sts='a' and prodcatm_sts = 'a'";
 	// echo $sqrypgcnts_mst1;exit;	
 	//-----------------------------------------------------------------------//	
-	if (isset($_REQUEST['catid']) && (trim($_REQUEST['catid']) != "")) {
-		$catone_id1 = glb_func_chkvl($_REQUEST['catid']);
+	if (isset($_REQUEST['icatid']) && (trim($_REQUEST['icatid']) != "")) {
+		$catone_id1 = glb_func_chkvl($_REQUEST['icatid']);
 		$catone_id=funcStrUnRplc($catone_id1);
 		$sqrypgcnts_mst1 .= " and prodcatm_name = '$catone_id'";
 		$loc = "&catid=$catone_id";
 	}
-	if (isset($_REQUEST['scatid']) && (trim($_REQUEST['scatid']) != "")) {
-		$cattwo_id2 = glb_func_chkvl($_REQUEST['scatid']);
+	if (isset($_REQUEST['iscatid']) && (trim($_REQUEST['iscatid']) != "")) {
+		$cattwo_id2 = glb_func_chkvl($_REQUEST['iscatid']);
 		$cattwo_id_1=$cattwo_id = funcStrUnRplc($cattwo_id2);
 		if($cattwo_id_1=='UG' || $cattwo_id_1=='PG' || $cattwo_id_1=='ug' || $cattwo_id_1=='pg' )
 	{
@@ -72,14 +71,14 @@ if (
 		$loc .= "&scatid=$cattwo_id";
 	}
 	}
-	if (isset($_REQUEST['mnlnks']) && (trim($_REQUEST['mnlnks']) != "")) {
-		$mnlnks_id1 = glb_func_chkvl($_REQUEST['mnlnks']);
+	if (isset($_REQUEST['imnlnks']) && (trim($_REQUEST['imnlnks']) != "")) {
+		$mnlnks_id1 = glb_func_chkvl($_REQUEST['imnlnks']);
 		$mnlnks_id=funcStrUnRplc($mnlnks_id1);
 		// $sqrypgcnts_mst1 .= " and prodcatm_prodmnlnksm_id  = $mnlnks_id";
 		$sqrypgcnts_mst1 .= " and prodmnlnksm_name  = '$mnlnks_id'";
-		$loc .= "&mnlnks='$mnlnks_id'";
+		$loc .= "&imnlnks='$mnlnks_id'";
 	}
-	if ($_REQUEST['mnlnks'] == 'departments' ||$req_scat!='') {
+	if ($_REQUEST['imnlnks'] == 'departments' ||$req_scat!='') {
 		$sqrypgcnts_mst1 .= " and prodscatm_sts  = 'a'";
 	}
 	// $pgqry = $sqrypgcnts_mst1;
@@ -113,7 +112,7 @@ if (
 		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
 		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
-		if ($catone_id != '' || isset($catone_id)) {
+		if (($catone_id != '' || isset($catone_id)) && ($_REQUEST['iscatid']=='')) {
 			$title = "$prodcatm_name";
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
 			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
@@ -133,7 +132,7 @@ if (
 			}
 		} 
 		else {
-			$title = $prodcatm_name;
+			// $title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
 			if ($prodcatm_bimg != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth .$bngimgpth;
@@ -141,21 +140,22 @@ if (
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
-			if ($_REQUEST['mnlnks'] == 'departments') {
-				$title = "$prodscatm_name";
-				$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
-				if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
-					$bnrimgpth = $rtpth . $bngimgpth;
-				} else {
-					$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
-				}
-			}
+			// if ($_REQUEST['imnlnks'] == 'departments') {
+			// 	$title = "$prodscatm_name";
+			// 	$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
+			// 	if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
+			// 		$bnrimgpth = $rtpth . $bngimgpth;
+			// 	} else {
+			// 		$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
+			// 	}
+			// }
 	} 
 	else {
 		header("Location:$ind_loc");
 		exit();
 	}
-} else {
+}
+ else {
 	header("Location:$ind_loc");
 	exit();
 }
@@ -163,24 +163,7 @@ if (
 //}
 $current_page = '';
 include('header.php');
-//Banner Starts
-// $dsp_bnrdtl = "";
-/*if($db_catone_hmpgtyp =='2'){
-			$dsp_bnrdtl ="<div class='bannerContainer-inner'>";
-		}*/
-// if (($pgcnt_bnr != "") && file_exists($pgcnt_pth)) {
-// 	$dsp_bnrdtl .= "<div class='bannerContainer-inner'><img src='$pgcnt_pth' class='img-responsive'/></div>";
-// }
-// /*elseif(($mnlnksbnr != "") && file_exists($mnlnkspth)){
-// 		$dsp_bnrdtl .="<div class='bannerContainer-inner'><img src='$mnlnkspth' class='img-responsive'/></div>";
-// 	}*/
-// 	 elseif (($prodscat_bnr != "") && file_exists($prodscat_pth)) {
-// 	$dsp_bnrdtl .= "<div class='bannerContainer-inner'><img src='$prodscat_pth' class='img-responsive'/></div>";
-// } elseif (($prodcat_bnr != "")  && file_exists($prodcat_pth)) {
-// 	$dsp_bnrdtl .= "<div class='bannerContainer-inner '><img src='$prodcat_pth'  /></div>";
-// } else {
-// 	$dsp_bnrdtl .= "<divclass='page-banner-area'><img src='catbnr/default-banner.jpg'  /></div>";
-// }
+
 $dsp_bnrdtl .= "";
 //echo $dsp_bnrdtl;
 //Banner Ends
@@ -207,23 +190,9 @@ $body_class = "homepage";
 			<h1><?php echo $title; ?></h1>
 			<ul>
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-			 <?php
-				if ($_REQUEST['mnlnks'] == 'admissions') {
+			
 				
-				 $bdadmson="SELECT prodcatm_name from prodcat_mst where prodcatm_prodmnlnksm_id='$mnlnks_id' group by  prodcatm_id order by prodcatm_prty asc limit 1";
-				$res_adm_cats=mysqli_query($conn,$bdadmson);
-				$value_adm_cat=mysqli_fetch_assoc($res_adm_cats);
-				$bred_admcat_url=$value_adm_cat['prodcatm_name'];
-				$adm_url=funcStrRplc($bred_admcat_url);
-				?>
-		
-				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $adm_url.'/'.$admtyp;?>"><?php echo $prodmnlnksm_name; ?></a></li>
-				
-					<li><?php echo $prodcatm_name; ?></li>
-				<?php
-				}
-				?>
-				<?php	if ($_REQUEST['mnlnks'] != 'departments' && $_REQUEST['mnlnks'] != 'admissions' ) {
+				<?php	if ($_REQUEST['imnlnks'] != '' && $_REQUEST['icatid'] != '') {
 			 $bdscat="SELECT prodcatm_name from prodcat_mst where prodcatm_prodmnlnksm_id='$mnlnks_id' group by  prodcatm_id order by prodcatm_prty asc limit 1";
 				$res_cats=mysqli_query($conn,$bdscat);
 				$value_cat=mysqli_fetch_assoc($res_cats);
@@ -231,23 +200,23 @@ $body_class = "homepage";
 				$brd_cat_url=funcStrRplc($bred_cat_url);
 				?>
 			
-				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $brd_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
-				<li><?php echo $prodcatm_name; ?></li>
-				<!-- <li><?php echo $prodmnlnksm_name . " / " . $prodcatm_name; ?></li> -->
+				<li><a href="<?php echo $rtpth .'main-links/'. $cn_mn_url . '/' . $brd_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
+				<!-- <li><?php echo $prodcatm_name; ?></li> -->
+			
 				<?php
 				}
 				?>
 				<?php
-				if ($_REQUEST['mnlnks'] == 'departments') {
+				if ($_REQUEST['icatid'] != '') {
 				?>
-					<?php $bdqry="SELECT prodscatm_name from prodscat_mst where prodscatm_prodcatm_id='$catone_id' group by  prodscatm_prodcatm_id order by prodscatm_prty asc limit 1";
+					<?php $bdqry="SELECT prodscatm_name from prodscat_mst where prodscatm_prodcatm_id='$catone_id'  group by  prodscatm_prodcatm_id order by prodscatm_prty asc limit 1";
 				$res=mysqli_query($conn,$bdqry);
 				$value=mysqli_fetch_assoc($res);
 				$bred_scat_url=$value['prodscatm_name'];
 				$brd_scat_url=funcStrRplc($bred_scat_url);
 				?>
-				<li><a href="<?php echo $rtpth; ?>departments"><?php echo $prodmnlnksm_name ;?></a></li>
-				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url.'/'.$brd_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
+				
+				<li><a href="<?php echo $rtpth .'main-links/'. $cn_mn_url . '/' . $cn_cat_url.'/'.$brd_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
 				<li><?php echo $prodscatm_name1; ?></li>
 				<?php
 				}
@@ -259,7 +228,7 @@ $body_class = "homepage";
 <!-- department notifications start -->
 <!-- minimum add 4 for css -->
 <?php
-if ($_REQUEST['mnlnks'] == 'departments') {
+if ($_REQUEST['imnlnks'] == 'departments') {
 	$sqrydept_mst =  "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != ''and nwsm_sts='a' and nwsm_typ=5 order by nwsm_prty asc";
 	$srsdept_ntf_mst = mysqli_query($conn, $sqrydept_mst);
 	$cnt_dept = mysqli_num_rows($srsdept_ntf_mst);
@@ -425,7 +394,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 						// $prodscatm_desc = preg_replace('/style=\\"[^\\"]*\\"/', '', $srowspgcnts_mst['prodscatm_desc']);
 						$prodcatm_desc=$srowspgcnts_mst['prodcatm_desc'];
 						$prodscatm_desc=$srowspgcnts_mst['prodscatm_desc'];
-						if ($_REQUEST['mnlnks'] == 'departments' || $req_scat !='') {
+						if ( $req_scat !='') {
 							echo $prodscatm_desc;
 							
 						} else {
@@ -433,7 +402,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 						
 						}
 						$testqns = "SELECT pgqnsd_id,pgqnsd_pgcntsd_id,pgqnsd_name,pgqnsd_vdo,pgqnsd_sts,pgqnsd_prty from  pgqns_dtl where";
-						if ($_REQUEST['mnlnks'] == 'departments' || $req_scat!='') {
+						if ($_REQUEST['imnlnks'] == 'departments' || $req_scat!='') {
 							$testqns .= "	pgqnsd_pgcntsd_id='$prodscatm_id' and pgqnsd_sts='a'and  pgqnsd_id!='' order by pgqnsd_prty asc";
 						} else {
 							$testqns .= "	pgqnsd_pgcntsd_id='$prodcatm_id' and pgqnsd_sts='a'and  pgqnsd_id!='' order by pgqnsd_prty asc";
@@ -483,9 +452,8 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 				?>
 			</div>
 			<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-12 order-md-2 order-1 ">
-				<?php
-				 include('catrightblock.php'); ?>
-				<!-- <?php include('imprightblock.php'); ?> -->
+				<!-- <?php include('catrightblock.php'); ?> -->
+				<?php include('imprightblock.php'); ?>
 			</div>
 		</div>
 	</div>

@@ -436,9 +436,31 @@ function mysearch() {
                               <?php
                               while ($row = mysqli_fetch_assoc($result)) {
                                 $name = $row['prodmnlnksm_name'];
+                                $mean_id = $row['prodmnlnksm_id'];
+                                $imp_url=funcStrRplc($name);
+                                $sqlsubmenu = "SELECT prodcatm_id,prodcatm_name,prodcatm_sts,prodcatm_prodmnlnksm_id from  prodcat_mst 
+                                inner join  prodmnlnks_mst on prodmnlnksm_id=prodcatm_prodmnlnksm_id
+                                 where prodmnlnksm_typ='m' and prodmnlnksm_sts='a' and prodcatm_sts='a' and prodmnlnksm_id ='$mean_id' order by prodmnlnksm_prty asc limit 1 ";
+                                   $result_mean = mysqli_query($conn, $sqlsubmenu);
+                                   $row_mean = mysqli_fetch_assoc($result_mean);
+                                   $mean_cat_name=$row_mean['prodcatm_name'];
+                                   $mean_cat_id=$row_mean['prodcatm_id'];
+                                   $mean_cat_url=funcStrRplc( $mean_cat_name);
+
                               ?>
                                 <li class="nav-item">
-                                  <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $name; ?></a>
+<?php if($mean_cat_id!=''){
+  ?>
+    <a href="<?php echo $rtpth.'main-links/'.$imp_url.'/'.$mean_cat_url; ?>" class="nav-link"><?php echo $name; ?></a>
+  <?php
+}
+else{
+  ?>
+  <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $name; ?></a>
+  <?php
+}
+?>
+                                  
                                 </li>
                               <?php
                               }
@@ -1269,10 +1291,11 @@ function mysearch() {
                   <?php
                   while ($imp_row = mysqli_fetch_assoc($imp_result)) {
                     $imp_name = $imp_row['prodmnlnksm_name'];
+                    $imp_mn_url=funcStrRplc($imp_name);
                     $imp_id = $imp_row['prodmnlnksm_id'];
                   ?>
                     <li class="nav-item d-lg-none d-block">
-                      <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
+                      <a href="<?php echo $rtpth . $imp_mn_url; ?>" class="nav-link"><?php echo $imp_name; ?></a>
                     </li>
                   <?php
                   }
@@ -1282,6 +1305,7 @@ function mysearch() {
                     $imp_id = $imp_row['prodmnlnksm_id'];
                   ?>
                     <li class="nav-item">
+                    <!-- <?php echo $rtpth . $mnlnkurl . '/' . $catold_url;?> -->
                       <a href="<?php echo $rtpth; ?>" class="nav-link"><?php echo $imp_name; ?></a>
                     </li>
                   <?php
@@ -1297,34 +1321,4 @@ function mysearch() {
       </div>
     </div>
   </div>
-  <!-- <li class="nav-item d-lg-none d-block">
-                  <a href="#" class="nav-link">CAMU</a>
-                </li>
-                <li class="nav-item d-lg-none d-block">
-                  <a href="#" class="nav-link">HR App</a>
-                </li>
-                <li class="nav-item d-lg-none d-block">
-                  <a href="#" class="nav-link">IQAC</a>
-                </li>
-                <li class="nav-item d-lg-none d-block">
-                  <a href="#" class="nav-link">Library</a>
-                </li>
-                <li class="nav-item d-lg-none d-block">
-                  <a href="#" class="nav-link">Alumni</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Mandatory Disclosures</a>
-                </li>
-                <li class="nav-item"><a href="#" class="nav-link">Student Info</a></li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">AEC & COE</a>
-                </li>
-                <li class="nav-item"><a href="#" class="nav-link">NIRF/ARIIA</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">NAAC</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">NBA</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">LMS</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Library</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">NISP</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Recruitment</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Covid Update</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Login</a></li> -->
+ 
