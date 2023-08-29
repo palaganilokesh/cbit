@@ -80,6 +80,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 			 </tr></center>";
 		}
 		?>
+        
 		<div class="card">
 			<div class="card-body">
 				<div class="row justify-content-center">
