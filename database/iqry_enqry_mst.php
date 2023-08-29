@@ -63,7 +63,7 @@ error_reporting(0);
 							$headers = 'MIME-Version: 1.0' . "\r\n";
 							$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 							$headers .= "From: $fromemail" . "\r\n";
-							$subject = "General Enquiry Form";
+							$subject = "CBIT - General Enquiry Form";
 							if (mail($to, $subject, $message, $headers))
 							{
 								?>
@@ -78,8 +78,8 @@ error_reporting(0);
 								?>
 						
 								<script>
-								// location.href='error';
-                                location.href='thankyou-for-quick-enquiry';
+								location.href='error';
+                               
 							</script>
 							
 							<?php

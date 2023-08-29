@@ -299,7 +299,28 @@ error_reporting(0);
 							</ul>
 						</li>
 						<!-- end Page content -->
-
+	<!-- Start enquiry content -->
+	<li class="nav-item has-treeview <?php if ($pagemncat == "Enquiry") {
+																								echo "menu-open";
+																							} ?>">
+							<a href="#" class="nav-link">
+								<i class="nav-icon fas fa-circle"></i>
+								<p>Enquiry<i class="right fas fa-angle-left"></i></p>
+							</a>
+							<ul class="nav nav-treeview <?php if ($pagemncat == "Enquiry") {
+																						echo "menu-open";
+																					} ?>">
+								<li class="nav-item">
+									<a href="view_all_genral_enq.php" class="nav-link <?php if ($pagenm == "enquiry") {
+																																				echo "active";
+																																			} ?>">
+										<i class="far fa-dot-circle nav-icon"></i>
+										<p>General Enquiry</p>
+									</a>
+								</li>
+							</ul>
+						</li>
+						<!-- end enquiry content -->
 
 
 
