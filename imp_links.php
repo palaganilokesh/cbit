@@ -1,7 +1,7 @@
 <?php
-echo"<pre>";
-var_dump($_REQUEST);
-echo"</pre>";
+// echo"<pre>";
+// var_dump($_REQUEST);
+// echo"</pre>";
 
 error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
@@ -201,13 +201,18 @@ $body_class = "homepage";
 				?>
 			
 				<li><a href="<?php echo $rtpth .'main-links/'. $cn_mn_url . '/' . $brd_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
-				<!-- <li><?php echo $prodcatm_name; ?></li> -->
+				<?php if( $_REQUEST['iscatid'] == ''){
+					?>
+	<li><?php echo $prodcatm_name; ?></li>
+	<?php
+				}
 			
-				<?php
+			
+				
 				}
 				?>
 				<?php
-				if ($_REQUEST['icatid'] != '') {
+				if ($_REQUEST['iscatid'] != '') {
 				?>
 					<?php $bdqry="SELECT prodscatm_name from prodscat_mst where prodscatm_prodcatm_id='$catone_id'  group by  prodscatm_prodcatm_id order by prodscatm_prty asc limit 1";
 				$res=mysqli_query($conn,$bdqry);

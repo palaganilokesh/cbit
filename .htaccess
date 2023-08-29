@@ -1,6 +1,7 @@
 Options +FollowSymLinks
 RewriteEngine On
 RewriteBase /projects/c/cbit-3/cbit/
+# RewriteBase /~adroitprojects/projects/cbit/v2/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
@@ -27,7 +28,6 @@ RewriteRule ^latest-notifications/(.*)/(.*)$ announcements-details.php?notify_ty
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteRule ^main-links/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ imp_links.php?imnlnks=$1&icatid=$2 [L,QSA]
-
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
