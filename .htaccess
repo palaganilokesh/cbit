@@ -17,6 +17,8 @@ RewriteRule ^departments$ departments.php [L]
 RewriteRule ^news$ news-list.php [L]
 RewriteRule ^events$ events-list.php [L]
 RewriteRule ^achivements$ achivement-list.php [L]
+RewriteRule ^thankyou-for-quick-enquiry$ thankyou-for-quick-enquiry.php [L]
+
 
 RewriteRule ^latest-news/(.*)$ news-details.php?nwsid=$1 [L,QSA]
 RewriteRule ^photo-gallery/(.*)$ gallery.php?phtid=$1 [L,QSA]

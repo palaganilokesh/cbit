@@ -12,7 +12,7 @@ global $loc, $title, $rowsprpg, $cntstart, $scat_id, $arr, $opt; //Stores the me
 
 $sqrypgcnts_mst = "SELECT  prodmnlnksm_id, prodmnlnksm_name, prodmnlnksm_desc, prodcatm_id, prodcatm_name, prodcatm_desc, prodscatm_id, prodscatm_name, prodscatm_desc,prodscatm_id, prodscatm_name, prodscatm_desc,pgcntsd_id, pgcntsd_name, pgcntsd_desc,prodcatm_admtyp
     from  vw_pgcnts_prodcat_prodscat_mst 
-     where prodmnlnksm_sts='a' and prodcatm_sts = 'a' ";
+     where prodmnlnksm_sts='a' and prodcatm_sts = 'a' and  prodmnlnksm_typ!='m' ";
 if (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != "")) {
 	$hdrsrchval =  funcStrUnRplc($_REQUEST['txtsrchval']);
 }
@@ -56,12 +56,26 @@ where phtcatm_sts='a'  and (phtcatm_name like '%$hdrsrchval%' or phtcatm_desc li
 $srspgcnts_mst4 = mysqli_query($conn, $sqrypgcnts_mst4);
 $cnt_recpgcnts4 = mysqli_num_rows($srspgcnts_mst4);
 // ------------gallery-------
-$new_count=$cnt_recpgcnts+$cnt_recpgcnts1+$cnt_recpgcnts2+$cnt_recpgcnts3+$cnt_recpgcnts4;
+// start important links
+$sqrypgcnts_mst5 = "SELECT  prodmnlnksm_id, prodmnlnksm_name, prodmnlnksm_desc, prodcatm_id, prodcatm_name, prodcatm_desc, prodscatm_id, prodscatm_name, prodscatm_desc,prodscatm_id, prodscatm_name, prodscatm_desc
+    from  vw_pgcnts_prodcat_prodscat_mst 
+     where prodmnlnksm_sts='a' and prodcatm_sts = 'a' and prodmnlnksm_typ = 'm' ";
+$sqrypgcnts_mst5 .= "  and (prodmnlnksm_name like '%$hdrsrchval%' or prodcatm_name like '%$hdrsrchval%' or prodscatm_name like '%$hdrsrchval%') order by prodcatm_prty asc ";
+// or prodmnlnksm_desc like '%$hdrsrchval%' or prodcatm_desc like '%$hdrsrchval%' or prodscatm_desc like '%$hdrsrchval%' or pgcntsd_desc like '%$hdrsrchval%'
+
+//  and prodscatm_sts = 'a' and pgcntsd_sts='a'
+// echo 	$sqrypgcnts_mst5; 
+$srspgcnts_mst5 = mysqli_query($conn, $sqrypgcnts_mst5);
+$cnt_recpgcnts5 = mysqli_num_rows($srspgcnts_mst5);
+
+// end importent links
+$new_count=$cnt_recpgcnts+$cnt_recpgcnts1+$cnt_recpgcnts2+$cnt_recpgcnts3+$cnt_recpgcnts4+$cnt_recpgcnts5;
 $cnt = $offset;
 echo "<br/>";
+
 $dispval = "<span> Text Search For :</span>" . "'" . $hdrsrchval . "'";
 $title = "";
-if ($cnt_recpgcnts == 0 && $cnt_recpgcnts1 == 0 && $cnt_recpgcnts2 == 0  && $cnt_recpgcnts3 == 0 && $cnt_recpgcnts4==0) {
+if ($cnt_recpgcnts == 0 && $cnt_recpgcnts1 == 0 && $cnt_recpgcnts2 == 0  && $cnt_recpgcnts3 == 0 && $cnt_recpgcnts4==0 && $cnt_recpgcnts5==0) {
 	$emptyval = "Your search - $hdrsrchval - did not match any information.";
 }
 // else {
@@ -320,6 +334,71 @@ include('header.php');
 			</ul>
 		</div>
 		<!-- end notification -->
+<!-- start imp links -->
+<div class="well">
+			<ul class="list-unstyled">
+				<?php
+				if ($cnt_recpgcnts5 > 0) {
+					$dsp_dtl = "";
+					$pgurl = "";
+					$prodscat_name = "";
+					$disppgurl = "";
+					while ($srowspgcnts_mst5 = mysqli_fetch_assoc($srspgcnts_mst5)) {
+						$prodmnlnks_id = $srowspgcnts_mst5['prodmnlnksm_id'];
+						$prodmnlnks_name = $srowspgcnts_mst5['prodmnlnksm_name'];
+						$mnlnks_url = funcStrRplc($prodmnlnks_name);
+						$prodcat_id = $srowspgcnts_mst5['prodcatm_id'];
+						$prodcat_nm = $srowspgcnts_mst5['prodcatm_name'];
+						$cat_url = funcStrRplc($prodcat_nm);
+						$prodscat_id = $srowspgcnts_mst5['prodscatm_id'];
+						$prodscat_nm = $srowspgcnts_mst5['prodscatm_name'];
+						$scat_url = funcStrRplc($prodscat_nm);
+						$admt_type = $srowspgcnts_mst5['prodcatm_admtyp'];
+						$prodcat_desc = $srowspgcnts_mst5['prodcatm_desc'];
+						$s_des = substr($prodcat_desc, 0, 100);
+						
+
+						// $pgurl = $rtpth . $mnlnks_url . "/" . $cat_url;
+						// if($prodmnlnks_id=='3' && $prodscat_id!=''){
+							
+						// 	$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$scat_url;
+						// 	$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodscat_nm</a></h4></li>";
+						// }
+					//  if($prodmnlnks_id=='4' && $admt_type=='UG'){
+					
+					// 	$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$admt_type;
+					// 		$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodcat_nm</a></h4></li>";
+					// 	}
+						//  if($prodmnlnks_id=='4' && $admt_type=='PG'){
+						// 	$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$admt_type;
+						// 	$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodcat_nm</a></h4></li>";
+						// }
+						
+						// else if($prodmnlnks_id=='3' && $prodscat_id!='' && $pgcnt_id!=''){
+						// 	$pgurl = $rtpth . $mnlnks_url . "/" . $cat_url.'/'.$scat_url.'/'.$pgcnt_url;
+						// 	$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$pgcnt_name</a></h4></li>";
+
+						// }
+						 if($prodmnlnks_id!='' && $prodcat_id!='' && $prodscat_id!=''){
+							$pgurl = $rtpth .'main-links/'. $mnlnks_url . "/" . $cat_url.'/'.$scat_url;
+							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodscat_nm</a></h4></li>";
+
+						}
+						else{
+							$pgurl = $rtpth .'main-links/'. $mnlnks_url . "/" . $cat_url;
+							$dsp_dtl .= "<li><h4>&raquo; <a href='$pgurl'>$prodcat_nm</a></h4></li>";
+						}
+
+						// $dsp_dtl .= $s_des;
+					}
+					echo $dsp_dtl;
+				} else {
+					// echo $emptyval;
+				}
+				?>
+			</ul>
+		</div>
+		<!-- end implinks -->
 
 	</div>
 </section>
