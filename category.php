@@ -2,6 +2,7 @@
 // echo"<pre>";
 // var_dump($_REQUEST);
 // echo"</pre>";
+// exit;
 error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
 include_once 'includes/inc_connection.php';

@@ -460,7 +460,7 @@ function weeks_between($datefrom, $dateto)
 	function funcStrRplc($prmstr){		 
 		$gnrtstr = strtolower(str_replace('-','~',$prmstr));
 		$gnrtstr = strtolower(str_replace(' ','-',$gnrtstr));
-		$gnrtstr = strtolower(str_replace('/','$',$gnrtstr));
+		// $gnrtstr = strtolower(str_replace('/',')',$gnrtstr));
 		 $gnrtstr = strtolower(str_replace('.','!',$gnrtstr));
 		  $gnrtstr = strtolower(str_replace(':','-',$gnrtstr));
 			// $gnrtstr = strtolower(str_replace('amp;','(',$gnrtstr));
@@ -488,7 +488,7 @@ function weeks_between($datefrom, $dateto)
 	function funcStrUnRplc($prmstr){	
 		$gnrtstr = strtolower(str_replace('-',' ',$prmstr));
 		$gnrtstr = strtolower(str_replace('~','-',$gnrtstr));
-		$gnrtstr = strtolower(str_replace('$','/',$gnrtstr));
+		// $gnrtstr = strtolower(str_replace(')','/',$gnrtstr));
 		$gnrtstr = strtolower(str_replace('!','.',$gnrtstr));
 		$gnrtstr = strtolower(str_replace('(',"'",$gnrtstr));
 		// $gnrtstr = strtolower(str_replace('(','&',$gnrtstr));
@@ -508,4 +508,5 @@ function weeks_between($datefrom, $dateto)
 	
 		return $reslt;
 	}
+	
 ?>

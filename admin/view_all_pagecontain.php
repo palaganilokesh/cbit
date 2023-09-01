@@ -123,12 +123,12 @@ if ($rqst_stp_attn_chk[0] == '2') {
 
 $sesvalary = explode(",", $_SESSION['sesmod']);
 
-if (!in_array(2, $sesvalary)) {
-	if ($ses_admtyp != 'a') {
-		header("Location:main.php");
-		exit();
-	}
-}
+// if (!in_array(2, $sesvalary)) {
+// 	if ($ses_admtyp != 'a' ) {
+// 		header("Location:main.php");
+// 		exit();
+// 	}
+// }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

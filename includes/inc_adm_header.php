@@ -5,7 +5,6 @@ error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +19,6 @@ error_reporting(0);
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 	<div class="wrapper">
 		<!-- Navbar -->
@@ -70,7 +68,6 @@ error_reporting(0);
 								<ul class="nav nav-treeview <?php if ($pagemncat == "Setup") {
 																							echo "menu-open";
 																						} ?>">
-
 									<li class="nav-item">
 										<a href="view_main_category.php" class="nav-link <?php if ($pagenm == "main category") {
 																																				echo "active";
@@ -103,7 +100,6 @@ error_reporting(0);
 											<p>Faculty</p>
 										</a>
 									</li>
-
 									<li class="nav-item">
 										<a href="view_all_news.php" class="nav-link <?php if ($pagenm == "Updates / Notifications") {
 																																	echo "active";
@@ -192,11 +188,9 @@ error_reporting(0);
 											<p> About Us</p>
 										</a>
 									</li> -->
-
 								</ul>
 							</li>
 						<?php }
-
 						?>
 						<!-- End setup cat -->
 						<!-- Start Placement menu -->
@@ -259,7 +253,6 @@ error_reporting(0);
 											<p>Photos</p>
 										</a>
 									</li>
-
 									<li class="nav-item">
 										<a href="view_all_video.php" class="nav-link <?php if ($pagenm == "Videos") {
 																																		echo "active";
@@ -268,16 +261,16 @@ error_reporting(0);
 											<p>Videos</p>
 										</a>
 									</li>
-
 								</ul>
 							</li>
 							<!-- End Gallery menu -->
 						<?php
 						}
 						?>
-
-
 						<!-- Start Page content -->
+						<?php
+						if ($ses_admtyp == 'd' || $ses_admtyp == 'a') {
+						?>
 						<li class="nav-item has-treeview <?php if ($pagemncat == "Page Content") {
 																								echo "menu-open";
 																							} ?>">
@@ -298,9 +291,15 @@ error_reporting(0);
 								</li>
 							</ul>
 						</li>
+						<?php
+						}
+						?>
 						<!-- end Page content -->
-	<!-- Start enquiry content -->
-	<li class="nav-item has-treeview <?php if ($pagemncat == "Enquiry") {
+						<!-- Start enquiry content -->
+						<?php
+						if ($ses_admtyp == 'a') {
+						?>
+						<li class="nav-item has-treeview <?php if ($pagemncat == "Enquiry") {
 																								echo "menu-open";
 																							} ?>">
 							<a href="#" class="nav-link">
@@ -312,20 +311,19 @@ error_reporting(0);
 																					} ?>">
 								<li class="nav-item">
 									<a href="view_all_genral_enq.php" class="nav-link <?php if ($pagenm == "enquiry") {
-																																				echo "active";
-																																			} ?>">
+																																			echo "active";
+																																		} ?>">
 										<i class="far fa-dot-circle nav-icon"></i>
 										<p>General Enquiry</p>
 									</a>
 								</li>
 							</ul>
 						</li>
+						<?php
+						}
+						?>
 						<!-- end enquiry content -->
-
-
-
 						<!-- My Account start -->
-
 						<li class="nav-item has-treeview">
 							<a href="#" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
@@ -347,19 +345,15 @@ error_reporting(0);
 										<p>Logout</p>
 									</a>
 								</li>
-
 							</ul>
 						</li>
-
 					</ul>
 				</nav>
 				<!-- /.sidebar-menu -->
 			</div>
 			<!-- /.sidebar -->
 		</aside>
-
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
-
 			<!-- /.content-header -->
