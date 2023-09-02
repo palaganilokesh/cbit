@@ -114,12 +114,19 @@ if (
 		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
 		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
+		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
+		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
 		if ($catone_id != '' || isset($catone_id)) {
 			$title = "$prodcatm_name";
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
-			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
+		if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth . $bngimgpth;
-			} else {
+			}
+		
+			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+				$bnrimgpth = $rtpth . $bngimgpth1;
+			} 
+			else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
 			}
 		}
@@ -129,7 +136,11 @@ if (
 			$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
 			if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth . $bngimgpth;
-			} else {
+			} 
+			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+				$bnrimgpth = $rtpth . $bngimgpth1;
+			} 
+			else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		} 
@@ -138,7 +149,11 @@ if (
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
 			if ($prodcatm_bimg != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth .$bngimgpth;
-			} else {
+			} 
+			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+				$bnrimgpth = $rtpth . $bngimgpth1;
+			} 
+			else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
@@ -147,7 +162,10 @@ if (
 				$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
 				if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
 					$bnrimgpth = $rtpth . $bngimgpth;
-				} else {
+				}
+				else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+					$bnrimgpth = $rtpth . $bngimgpth1;
+				}  else {
 					$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
 				}
 			}

@@ -101,18 +101,23 @@ if (
 		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
 		$pgcnt_bnr 		    = $srowspgcnts_mst['pgcntsd_bnrimg'];
 		$pgcnt_pth	        = $u_pgcnt_bnrfldnm . $pgcnt_bnr;
+		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
+		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
 		if ($prodid != '' || isset($prodid)) {
 			$title = "$pgcntnt_name";
 			if (($pgcnt_bnr != "") && file_exists($pgcnt_pth)) {
 				$bnimgpth	 = $u_pgcnt_bnrfldnm . $pgcnt_bnr;
 			$bnrimgpth = $rtpth.$bnimgpth;
 			}
-			if (($prodcat_bnr != "") && file_exists($prodcat_pth)) {
+			else if (($prodcat_bnr != "") && file_exists($prodcat_pth)) {
 				$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
 					$bnrimgpth = $rtpth . $bngimgpth;
 			}
-			if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
+			else if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth.$bngimgpth;
+			} 
+			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+				$bnrimgpth = $rtpth . $bngimgpth1;
 			} else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
@@ -121,7 +126,11 @@ if (
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
 			if ($prodcatm_bimg != "" && file_exists($bngimgpth)) {
 				echo"test11".	$bnrimgpth = $rtpth . $bngimgpth;
-			} else {
+			}
+			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+				$bnrimgpth = $rtpth . $bngimgpth1;
+			} 
+			 else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
