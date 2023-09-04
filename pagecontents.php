@@ -96,38 +96,41 @@ if (
 	
 		$prodscatm_desc  = $srowspgcnts_mst['prodscatm_desc'];
 		$prodscatm_typ  = $srowspgcnts_mst['prodscatm_typ'];
-		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
+	$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
+		 $prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
+		$prodscat_pth = $u_scat_bnrfldnm . $prodscat_bnr;
 		$pgcnt_bnr 		    = $srowspgcnts_mst['pgcntsd_bnrimg'];
 		$pgcnt_pth	        = $u_pgcnt_bnrfldnm . $pgcnt_bnr;
 		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
 		if ($prodid != '' || isset($prodid)) {
 			$title = "$pgcntnt_name";
-			if (($pgcnt_bnr != "") && file_exists($pgcnt_pth)) {
+			if(($pgcnt_bnr != "") && file_exists($pgcnt_pth)) {
 				$bnimgpth	 = $u_pgcnt_bnrfldnm . $pgcnt_bnr;
-			$bnrimgpth = $rtpth.$bnimgpth;
+				$bnrimgpth = $rtpth.$bnimgpth;
 			}
-			else if (($prodcat_bnr != "") && file_exists($prodcat_pth)) {
-				$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
-					$bnrimgpth = $rtpth . $bngimgpth;
-			}
-			else if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
-				$bnrimgpth = $rtpth.$bngimgpth;
+			else if (($prodscat_bnr != "") && file_exists($prodscat_pth)) {
+				$bnrimgpth = $rtpth.$prodscat_pth;
 			} 
-			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+			else if (($prodcat_bnr != "") && file_exists($prodcat_pth)) {
+			
+					$bnrimgpth = $rtpth . $prodcat_pth;
+			}
+		
+			else if(($prodmnlnksm_bnr!= "") && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
 			} else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
-		} else {
+		} 
+		else {
 			$title = $prodcatm_name5;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
-			if ($prodcatm_bimg != "" && file_exists($bngimgpth)) {
-				echo"test11".	$bnrimgpth = $rtpth . $bngimgpth;
+			if (($prodcatm_bimg != "") && file_exists($bngimgpth)) {
+				$bnrimgpth = $rtpth . $bngimgpth;
 			}
-			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
+			else if(($prodmnlnksm_bnr != "") && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
 			} 
 			 else {
@@ -364,7 +367,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 					?>
 						<div class="campus-content pr-20 ">
 							<div class="cont ">
-							<h3>Gallery Section</h3>
+							<!-- <h3>Gallery Section</h3> -->
 								<div class="demo-gallery ">
 								<ul id="lightgallery" class="list-unstyled row gx-xxl-1 gx-xl-1 gx-lg-1 gx-md-2 gx-0 ">
 										<?php

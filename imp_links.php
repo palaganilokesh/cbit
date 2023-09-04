@@ -39,7 +39,7 @@ if (
 	$catid1=glb_func_chkvl($_REQUEST['icatid']);
 	$req_cat=funcStrUnRplc($catid1);
 	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){	
-	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg";
+	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg,prodcatm_admtyp";
 	if ($_REQUEST['imnlnks'] == 'departments' ||  $req_scat!='') {
 		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
 	}
@@ -77,6 +77,9 @@ if (
 		// $sqrypgcnts_mst1 .= " and prodcatm_prodmnlnksm_id  = $mnlnks_id";
 		$sqrypgcnts_mst1 .= " and prodmnlnksm_name  = '$mnlnks_id'";
 		$loc .= "&imnlnks='$mnlnks_id'";
+	}
+	if ($_REQUEST['imnlnks'] == 'admissions') {
+		$sqrypgcnts_mst1 .= " and prodcatm_admtyp = '$admtyp' ";
 	}
 	if ($_REQUEST['imnlnks'] == 'departments' ||$req_scat!='') {
 		$sqrypgcnts_mst1 .= " and prodscatm_sts  = 'a'";

@@ -1101,15 +1101,20 @@ if ($popup_cnt > 0) {
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header text-center">
-          <h5 class="modal-title w-100" id="autoPopupModalLabel">Admission Open for 2024-25</h5>
+          <?php
+          $srowpopup_mstnm = mysqli_fetch_assoc($sqry_popup_mst);
+          $popupnm = $srowpopup_mstnm['popupm_name'];
+          ?>
+          <h5 class="modal-title w-100" id="autoPopupModalLabel"><?php echo $popupnm;?></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             &#x2715;
           </button>
         </div>
-        <div class="modal-body">
+       <div class="modal-body">
           <div class="autoPopup-slider owl-carousel owl-theme">
             <!-- loop -->
             <?php
+            $sqry_popup_mst = mysqli_query($conn, $sqrypopup);
             while ($srowpopup_mst = mysqli_fetch_assoc($sqry_popup_mst)) {
               $popupid = $srowpopup_mst['popupm_id'];
               $popupttl = $srowpopup_mst['popupm_name'];
