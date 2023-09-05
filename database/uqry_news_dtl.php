@@ -19,6 +19,8 @@ if (
     $prty         = glb_func_chkvl($_POST['txtprior']);
     $sts          = glb_func_chkvl($_POST['lststs']);
     $typval    = glb_func_chkvl($_POST['lsttyp']);
+    $dept_id    = glb_func_chkvl($_POST['lstprodcat']);
+    
     $nwslnk           = glb_func_chkvl(trim($_POST['txtlnk']));
     $hdndwnfle = glb_func_chkvl($_POST['hdndwnfle']);//file
     $curdt     = date('Y-m-d h:i:s');
@@ -56,6 +58,7 @@ if (
 						    nwsm_desc='$desc',							
 						    nwsm_sts='$sts',
 							nwsm_typ='$typval',
+                            nwsm_dept='$dept_id',
 							nwsm_dt='$nwsDt',
 							nwsm_lnk='$nwslnk',
 						    nwsm_prty='$prty',

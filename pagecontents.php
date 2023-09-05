@@ -104,6 +104,7 @@ if (
 		$pgcnt_pth	        = $u_pgcnt_bnrfldnm . $pgcnt_bnr;
 		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
+
 		if ($prodid != '' || isset($prodid)) {
 			$title = "$pgcntnt_name";
 			if(($pgcnt_bnr != "") && file_exists($pgcnt_pth)) {
@@ -176,10 +177,27 @@ $body_class = "homepage";
 			<h1><?php echo $title; ?></h1>
 			<ul>
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-				<?php if ($_REQUEST['mnlnks'] != 'departments') {
+		
+				<?php if ($_REQUEST['mnlnks'] != 'departments' && $_REQUEST['mnlnks'] != 'admissions') {
 				?>
 					<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
-					<li><?php echo $prodcatm_name5; ?></li>
+					<?php
+				$query1="SELECT prodscatm_name from prodscat_mst where prodscatm_prodcatm_id='$catone_id5' group by  prodscatm_prodcatm_id order by prodscatm_prty asc limit 1";
+				$result=mysqli_query($conn,$query1);
+				$display=mysqli_fetch_assoc($result);
+				$breds_scat_url=$display['prodscatm_name'];
+				$brd_url=funcStrRplc($breds_scat_url);
+				?>
+				<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url.'/'.$brd_url; ?>"><?php echo $prodcatm_name5; ?></a></li>
+				<?php
+			$query2="SELECT pgcntsd_name from  pgcnts_dtl where pgcntsd_prodscatm_id='$cattwo_id ' group by  pgcntsd_prodscatm_id order by pgcntsd_prty asc limit 1";
+				$result2=mysqli_query($conn,$query2);
+				$display1=mysqli_fetch_assoc($result2);
+				$breds_pg_url=$display1['pgcntsd_name'];
+				?>
+					<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url.'/'.$pgcnt_scat_url.'/'.$breds_pg_url; ?>"><?php echo $prodscatm_name5; ?></a></li>
+					<!-- <li><?php echo $prodscatm_name5; ?></li> -->
+					<li><?php echo $pgcntnt_name; ?></li>
 				<?php
 				}
 				?>
@@ -206,6 +224,7 @@ $body_class = "homepage";
 					<li><?php echo $pgcntnt_name; ?></li>
 				<?php
 				}
+			
 				?>
 			</ul>
 		</div>

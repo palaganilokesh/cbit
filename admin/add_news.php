@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include_once '../includes/inc_config.php'; //Making paging validation	
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
@@ -79,6 +80,22 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			}
 		}
 	}
+	function disptype() {
+		
+        var div1 = document.getElementById("div1");
+        if (document.frmanews.lsttyp.value == '5') {
+            div1.style.display = "block";
+           
+        } 
+        else if (document.frmanews.lsttyp.value == '2') {
+            div1.style.display = "none";
+           
+        }
+		else if (document.frmanews.lsttyp.value == '4') {
+            div1.style.display = "none";
+           
+        }
+    }
 </script>
 <?php include_once $inc_adm_hdr; ?>
 <section class="content">
@@ -211,7 +228,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 									<label>Type</label>
 								</div>
 								<div class="col-sm-9">
-									<select name="lsttyp" id="lsttyp" class="form-control">
+									<select name="lsttyp" id="lsttyp" class="form-control" onchange="disptype()">
 										<!-- <option value="1" selected>Results Updates</option> -->
 										<option value="2">College Notifications</option>
 										<!-- <option value="3">University Notifications</option> -->
@@ -221,6 +238,55 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 								</div>
 							</div>
 						</div>
+						<div id="div1" class="col-md-12" style="display: none;">
+                        <div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Department *</label>
+								</div>
+								<div class="col-sm-9">
+									
+									<select name="lstprodcat" id="lstprodcat" class="form-control">
+                                        <option value="">--Select Department--</option>
+                                        <?php
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+                                        $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
+                                        $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
+										if( $cnt_prodcat > 0)
+										{   ?>
+                                            <option disabled>-- UG --</option>
+                                            <?php			while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
+											{
+												$catid = $rowsprodcat_mst['prodcatm_id'];
+												$catname = $rowsprodcat_mst['prodcatm_name'];
+												?>
+												<option value="<?php echo $catid;?>"><?php echo $catname;?></option>
+												<?php
+											}
+										}
+                $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+                                        $rsprodcat_mst1 = mysqli_query($conn,$sqryprodcat_mst1);
+                                        $cnt_prodcat1 = mysqli_num_rows($rsprodcat_mst1);
+										if( $cnt_prodcat1 > 0)
+										{   ?>
+                                            <option disabled>-- PG --</option>
+                                            <?php	while($rowsprodcat_mst1=mysqli_fetch_assoc($rsprodcat_mst1))
+											{
+												$catid = $rowsprodcat_mst1['prodcatm_id'];
+												$catname = $rowsprodcat_mst1['prodcatm_name'];
+												?>
+												<option value="<?php echo $catid;?>"><?php echo $catname;?></option>
+												<?php
+											}
+										}
+										?>
+									</select>
+									<span id="errorsDiv_lstprodcat"></span>
+								</div>
+							</div>
+						</div>
+
+								</div>	
 						<!-- <div class="col-md-12">
                             <div class="row mb-2 mt-2">
                                 <div class="col-sm-3">

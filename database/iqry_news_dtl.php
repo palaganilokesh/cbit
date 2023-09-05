@@ -21,7 +21,7 @@ if (
     $typval        = glb_func_chkvl($_POST['lsttyp']);
     $nwsDt            = glb_func_chkvl(trim($_POST['txtnwsdt']));
     $nwslnk           = glb_func_chkvl(trim($_POST['txtlnk']));
-
+    $dept_id  = glb_func_chkvl($_POST['lstprodcat']);
     $nwsDt           = date('Y-m-d', strtotime($nwsDt));
 
     $curdt    = date('Y-m-d h:i:s');
@@ -32,7 +32,7 @@ if (
 					   		nws_mst
 					   where 
 					   		nwsm_name='$name'";
-    $srsnews_dtl = mysqli_query($conn, $sqrynews_dtl) or die(mysqli_error());
+    $srsnews_dtl = mysqli_query($conn, $sqrynews_dtl) or die(mysqli_error($conn));
     $cnt_rec     = mysqli_num_rows($srsnews_dtl);
     if ($cnt_rec < 1) {
         $fle_dwnld     = 'fledwnld';
@@ -55,10 +55,10 @@ if (
         }
         $iqrynews_dtl = "insert into nws_mst(
 		   				   nwsm_name,nwsm_desc,nwsm_dwnfl,nwsm_img,nwsm_prty,
-						   nwsm_typ,nwsm_lnk,nwsm_dt,nwsm_sts,nwsm_crtdon,
+						   nwsm_typ,nwsm_dept,nwsm_lnk,nwsm_dt,nwsm_sts,nwsm_crtdon,
 						   nwsm_crtdby)values(						   
 						   '$name','$desc','$fdest','$bdest','$prty',
-						   '$typval','$nwslnk','$nwsDt','$sts','$curdt',
+						   '$typval','$dept_id','$nwslnk','$nwsDt','$sts','$curdt',
 						   '$ses_admin')";
 
         $irsnews_dtl = mysqli_query($conn, $iqrynews_dtl) or die(mysqli_error($conn));

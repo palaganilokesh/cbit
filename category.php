@@ -119,9 +119,10 @@ if (
 		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
 		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
-		if ($catone_id != '' || isset($catone_id)) {
+	
+		if (($catone_id != '' || isset($catone_id))) {
 		
-			$title = "$prodcatm_name";
+			$title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
 			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth . $bngimgpth;
@@ -131,9 +132,9 @@ if (
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
-		if ( ($cattwo_id_1 != '' || isset($cattwo_id_1))) {
-		
-		$title = "$prodscatm_name";
+	 if (($cattwo_id_1 != '' || isset($cattwo_id_1))) {
+	
+		$title = $prodscatm_name;
 			$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
 			if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth . $bngimgpth;
@@ -143,7 +144,9 @@ if (
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		} 
+	
 		else {
+			// echo "lokesh";
 			$title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
 			if ($prodcatm_bimg != "" && file_exists($bngimgpth)) {
@@ -156,6 +159,18 @@ if (
 		}
 		if ($_REQUEST['mnlnks'] == 'departments') {
 			$title = "$prodscatm_name";
+			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
+			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
+				$bnrimgpth = $rtpth . $bngimgpth;
+			} else if ($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)) {
+				$bnrimgpth = $rtpth . $bngimgpth1;
+			} else {
+				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
+			}
+		}
+		if ($_REQUEST['mnlnks'] == 'admissions') {
+			
+			$title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
 			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
 				$bnrimgpth = $rtpth . $bngimgpth;
@@ -264,7 +279,7 @@ $body_class = "homepage";
 					<?php
 		}
 		?>
-					<!-- <li><?php echo $prodmnlnksm_name . " / " . $prodcatm_name; ?></li> -->
+				
 				<?php
 				}
 				?>
@@ -296,23 +311,22 @@ $body_class = "homepage";
 <!-- minimum add 4 for css -->
 <?php
 if ($_REQUEST['mnlnks'] == 'departments') {
-	$sqrydept_mst =  "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != ''and nwsm_sts='a' and nwsm_typ=5 order by nwsm_prty asc";
+	$sqrydept_mst =  "SELECT nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_desc,nwsm_lnk	from nws_mst where nwsm_id != ''and nwsm_sts='a' and nwsm_typ=5  and nwsm_dept='$catone_id' order by nwsm_prty asc";
 	$srsdept_ntf_mst = mysqli_query($conn, $sqrydept_mst);
 	$cnt_dept = mysqli_num_rows($srsdept_ntf_mst);
 ?>
-	<div class="container-fluid px-0">
-		<div class="depart-nitif-holder py-1">
-			<?php
+		<?php
 			if ($cnt_dept > 0) {
 			?>
+	<div class="container-fluid px-0">
+		<div class="depart-nitif-holder py-1">
+	
 				<div class="an-label">
 					<div class="an-label-holder">
 						<p>Notifications </p>
 					</div>
 				</div>
-			<?php
-			}
-			?>
+		
 			<marquee onmouseover="this.stop();" onmouseout="this.start();">
 				<div class="header-left-content header-right-content">
 					<div class="list top-not-links depart-link-scroll">
@@ -328,12 +342,12 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 								$dept_ntf_typ = $dept_ntf['nwsm_typ'];
 							?>
 								<li>
-									<a href="<?php echo $rtpth . 'latest-notifications/' . $dept_ntf_typ . '/' . $an_url . '_' . $dept_ntf_id; ?>"> <?php echo $dept_ntf_desc; ?></a>
+									<a href="<?php echo $rtpth . 'latest-notifications/' . $dept_ntf_typ . '/' . $an_url . '_' . $dept_ntf_id; ?>"> <?php echo $dept_ntf_nm; ?></a>
 									<!-- <img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""> -->
 								</li>
 							<?php  }
 							?>
-							<!-- <li><a href="#">Notification from Civil department - 1</a></li> -->
+						
 						</ul>
 					</div>
 				</div>
@@ -341,6 +355,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 		</div>
 	</div>
 <?php
+}
 }
 ?>
 <!-- department notifications end -->

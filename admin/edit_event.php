@@ -62,7 +62,7 @@ $pagenm = "Events";
 						evntm_name,evntm_id,evntm_desc,evntm_city,evntm_dstrctm_id,
 						evntm_venue,evntm_strtdt,evtnm_strttm,evntm_enddt,
 						evntm_endtm,evntm_btch,evntm_fle,evntm_prty,
-						evntm_sts,evntm_lnk,evntm_typ
+						evntm_sts,evntm_lnk,evntm_typ,evntm_dept
 				    from 
 						evnt_mst
 	                where 
@@ -197,6 +197,17 @@ $pagenm = "Events";
           <div class="card">
             <div class="card-body">
                 <div class="row justify-content-center">
+								<div class="col-md-12">
+                        <div class="row mb-2 mt-2">
+                            <div class="col-sm-3">
+                                <label>Type *</label>
+                            </div>
+                            <div class="col-sm-9">
+                            <input name="txttyp" disabled type="text" value="<?php  if($rowsevnt_mst['evntm_typ']=='e'){ echo "Event";} else{echo "News";}?>" class="form-control"  id="txttyp" size="45" maxlength="240">
+                                <span id="errorsDiv_txttyp"></span>	
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <div class="row mb-2 mt-2">
                             <div class="col-sm-3">
@@ -209,6 +220,57 @@ $pagenm = "Events";
                             </div>
                         </div>
                     </div>
+					<div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Department *</label>
+								</div>
+								<div class="col-sm-9">
+								
+
+									<select name="lstprodcat" id="lstprodcat" class="form-control">
+                                        <option value="">--Select Department--</option>
+                                        <?php
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+                                        $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
+                                        $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
+										if( $cnt_prodcat > 0)
+										{   ?>
+                                            <option disabled>-- UG --</option>
+                                            <?php											
+                                            while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
+											{
+												$catid = $rowsprodcat_mst['prodcatm_id'];
+												$catname = $rowsprodcat_mst['prodcatm_name'];
+												?>
+                                                <option value="<?php echo $catid;?>"<?php if( $rowsevnt_mst['evntm_dept']==$catid) echo 'selected';?>><?php echo $catname;?></option>
+												
+												<?php
+											}
+										}
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+                                        $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
+                                        $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
+										if( $cnt_prodcat > 0)
+										{   ?>
+                                            <option disabled>-- PG --</option>
+                                            <?php	while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
+											{
+												$catid = $rowsprodcat_mst['prodcatm_id'];
+												$catname = $rowsprodcat_mst['prodcatm_name'];
+												?>
+                                                 <option value="<?php echo $catid;?>"<?php if($rowsevnt_mst['evntm_dept']==$catid) echo 'selected';?>><?php echo $catname;?></option>
+												
+												<?php
+											}
+										}
+										?>
+									</select>
+									<span id="errorsDiv_lstprodcat"></span>
+								</div>
+							</div>
+						</div>
+                       
                     <div class="col-md-12">
                         <div class="row mb-2 mt-2">
                             <div class="col-sm-3">

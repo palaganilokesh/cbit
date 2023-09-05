@@ -20,6 +20,8 @@
 		$desc     = addslashes(trim($_POST['txtdesc']));
 		$city	  =	glb_func_chkvl(trim($_POST['txtcity']));
 		$venue	  =	glb_func_chkvl(trim($_POST['txtvenue']));
+		$dept	  =	glb_func_chkvl(trim($_POST['lstprodcat']));
+		
 		$dstrct   = 0;
 		// if(isset($_POST['lstdstrct']) && $_POST['lstdstrct'] != ""){
 		// $dstrct   =	glb_func_chkvl(trim($_POST['lstdstrct']));
@@ -85,11 +87,11 @@
 		  $iqryevnt_mst="INSERT into evnt_mst(
 						   evntm_name,evntm_desc,evntm_city,evntm_venue,
 						   evntm_dstrctm_id,evntm_strtdt,evtnm_strttm,evntm_enddt,
-						   evntm_endtm,evntm_btch,evntm_fle,evntm_lnk,
+						   evntm_endtm,evntm_btch,evntm_fle,evntm_lnk,evntm_dept,
 						   evntm_prty,evntm_sts,evntm_typ,evntm_crtdon,evntm_crtdby)values(
 						   '$name','$desc','$city','$venue',
 						   '$dstrct','$stdt','$sttm','$eddt',
-						   '$edtm','$nvets','$evntdest','$lnkval',
+						   '$edtm','$nvets','$evntdest','$lnkval','$dept',
 						   '$prior','$sts','$add_type','$curdt','$ses_admin')";
 					
 			$irsevnt_mst = mysqli_query($conn,$iqryevnt_mst) or die (mysqli_error($conn));

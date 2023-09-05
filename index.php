@@ -186,7 +186,7 @@ if ($dept_cnt > 0) {
                 <?php
                 $evntToday  = date('Y-m-d');
                 $CurrMonth  = date("n");
-                $sqryevnt_mst = "SELECT evntm_name,evntm_desc,evntm_city,	evntm_id,evntm_venue,evtnm_strttm,evntm_endtm,
+               $sqryevnt_mst = "SELECT evntm_name,evntm_desc,evntm_city,	evntm_id,evntm_venue,evtnm_strttm,evntm_endtm,
 	DATE_format(evntm_strtdt, '%D %M %Y') as stdate,
 	DATE_format(evntm_strtdt, '%d') as stdt,
 	DATE_format(evntm_strtdt, '%b ') as stmnth,
@@ -293,16 +293,20 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                 <!-- events end -->
                 <!-- News dynamic start -->
                 <?php
-                $sqrynws_mst = "SELECT evntm_name,evntm_desc,evntm_city, evntm_id,evntm_lnk,evtnm_strttm,evntm_endtm,
+                 $evntToday  = date('Y-m-d');
+                 $CurrMonth  = date("n");
+                 $lastMonth=$CurrMonth-2;
+               $sqrynws_mst = "SELECT evntm_name,evntm_desc,evntm_city, evntm_id,evntm_lnk,evtnm_strttm,evntm_endtm,
 									DATE_format(evntm_strtdt, '%D %M %Y') as newstdate,
 									DATE_format(evntm_strtdt, '%d') as nstdt,
 							DATE_format(evntm_strtdt, '%b ') as nstmnth,
 								DATE_format(evntm_strtdt, '%Y ') as nstyr 
 									 from 
-								evnt_mst	
-								
-
-								where evntm_sts='a' and evntm_typ='n' order by evntm_strtdt ASC  limit 3";
+								evnt_mst	where evntm_sts='a' and evntm_typ='n'
+                and (evntm_strtdt >= '$evntToday') and	(month(evntm_strtdt) >= '$CurrMonth') 
+               order by evntm_strtdt ASC  limit 3";
+              //  and   YEAR(evntm_strtdt) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
+              //  AND MONTH(evntm_strtdt) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) 
                 $srsnews_mst  =  mysqli_query($conn, $sqrynws_mst) or die(mysqli_error($conn));
                 $numrows1 =   mysqli_num_rows($srsnews_mst);
                 $cnt = 0;

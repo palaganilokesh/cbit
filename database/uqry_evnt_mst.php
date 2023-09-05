@@ -18,6 +18,7 @@
 		$desc     = addslashes(trim($_POST['txtdesc']));
 		$city	  =	glb_func_chkvl($_POST['txtcity']);
 		$venue	  =	glb_func_chkvl($_POST['txtvenue']);
+		$dept	  =	glb_func_chkvl($_POST['lstprodcat']);
 		
 		$dstrct ='0';
 		if(isset($_POST['lstdstrct']) && $_POST['lstdstrct'] != ""){
@@ -77,6 +78,7 @@
 						   evntm_enddt='$eddt',
 						   evntm_endtm='$edtm',
 						   evntm_lnk='$lnkval',
+						   evntm_dept='$dept',
 						   evntm_btch='$nvets',
 						   evntm_prty='$prior',
 						   evntm_sts='$sts',
@@ -111,7 +113,7 @@
 					 }	
 			/*------------------- Update Event Image-----------------*/
 			$uqryevnt_mst .=" where evntm_id=$id";
-			$ursevnt_mst = mysqli_query($conn,$uqryevnt_mst) or die (mysqli_error());
+			$ursevnt_mst = mysqli_query($conn,$uqryevnt_mst) or die (mysqli_error($conn));
 			if($ursevnt_mst==true){
 				if(($evntsource!='none') && ($evntsource!='') && ($evntdest!= "")){ 
 						 $evntflpath      = $gevnt_fldnm.$hdnfle_evnt;
@@ -190,7 +192,7 @@
 														  where 
 															  evntimgd_evntm_id = '$id' and 
 															  evntimgd_id='$pgdtlid'";	 	
-										$srevntimgd_dtl = mysqli_query($conn,$uqryevntimgd_dtl) or die (mysqli_error());							
+										$srevntimgd_dtl = mysqli_query($conn,$uqryevntimgd_dtl) or die (mysqli_error($conn));							
 									}																		
 								}
 								else{
@@ -201,7 +203,7 @@
 												   where 
 														evntimgd_name ='$phtname' and 
 														evntimgd_evntm_id='$id'"; 
-									$srevntimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl) or die (mysqli_error());		
+									$srevntimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl) or die (mysqli_error($conn));		
 									$cntrec_evntimg = mysqli_num_rows($srevntimgd_dtl);
 									if($cntrec_evntimg < 1){
 										$iqrypg_dtl ="insert into evntimg_dtl(
@@ -209,7 +211,7 @@
 													  evntimgd_evntm_id,evntimgd_typ,evntimgd_crtdon,evntimgd_crtdby)values(
 													  '$phtname','$sdest','$sts','$prtyval',
 													  '$id','1','$curdt','$ses_admin')";  
-										$srevntimgd_dtl = mysqli_query($conn,$iqrypg_dtl) or die (mysqli_error());
+										$srevntimgd_dtl = mysqli_query($conn,$iqrypg_dtl) or die (mysqli_error($conn));
 									}
 								}
 								if($srevntimgd_dtl){

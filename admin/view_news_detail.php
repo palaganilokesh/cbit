@@ -31,13 +31,15 @@ if (isset($_REQUEST['vw']) && (trim($_REQUEST['vw']) != "") && isset($_REQUEST['
     $countstart = glb_func_chkvl($_REQUEST['countstart']);
     $srchval = glb_func_chkvl($_REQUEST['val']);
 }
-$sqryprodscat_mst = "select
+$sqryprodscat_mst = "SELECT
 nwsm_id,nwsm_name,nwsm_sts,nwsm_desc,nwsm_prty,nwsm_typ,nwsm_lnk,nwsm_img,
-nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt						    
+nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_dept						    
 from
 nws_mst
+
 where 
 nwsm_id =$id";
+
 $srsprodscat_mst  = mysqli_query($conn, $sqryprodscat_mst);
 $rowsprodscat_mst = mysqli_fetch_assoc($srsprodscat_mst);
 
@@ -209,7 +211,21 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
                                 } ?>
                             </div>
                         </div>
-
+                        
+                        <div class="form-group row">
+                            <label for="txtname" class="col-sm-2 col-md-2 col-form-label">Department Name</label>
+                            <div class="col-sm-8">
+                              <?php
+                             $dep_id= $rowsprodscat_mst['nwsm_dept'];
+                              $qry="SELECT prodcatm_name,prodcatm_id	
+                              From prodcat_mst where prodcatm_id='$dep_id'";
+                              $res=mysqli_query($conn,$qry);
+                              $values=mysqli_fetch_assoc($res);
+                              $dep_nm=$values['prodcatm_name'];
+                              ?>  
+                                <?php echo $dep_nm; ?>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="txtname" class="col-sm-2 col-md-2 col-form-label">Rank</label>

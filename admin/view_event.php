@@ -44,7 +44,7 @@ $pagenm = "Events";
 						evntm_venue,date_format(evntm_strtdt,'%d-%m-%Y') as evntm_strtdt,
 						evtnm_strttm,date_format(evntm_enddt,'%d-%m-%Y') as evntm_enddt,
 						evntm_endtm,evntm_btch,evntm_fle,evntm_prty,
-						evntm_sts,evntm_lnk,evntm_lsttyp,evntm_typ
+						evntm_sts,evntm_lnk,evntm_lsttyp,evntm_typ,evntm_dept
 				    from 
 						evnt_mst
 	                where 
@@ -83,7 +83,7 @@ $pagenm = "Events";
 										evnt_mst set
 									evntm_fle =''
 									where evntm_id ='$imgid'";
-			$ursevnt_mst  = mysqli_query($conn,$uqryevnt_mst) or die (mysqli_error());
+			$ursevnt_mst  = mysqli_query($conn,$uqryevnt_mst) or die (mysqli_error($conn));
 		if($ursevnt_mst == 'y'  ){
 			if(($smlimg != "") && file_exists($smlimgpth)) {
 				unlink($smlimgpth);
@@ -207,6 +207,27 @@ $pagenm = "Events";
 				
                             </div>
                         </div>
+						<?php
+						if($rowsevnt_mst['evntm_dept']!='0'){
+							?>
+						
+						<div class="form-group row">
+                            <label for="txtname" class="col-sm-2 col-md-2 col-form-label">Department </label>
+                            <div class="col-sm-8">
+							<?php
+                             $dep_id= $rowsevnt_mst['evntm_dept'];
+                              $qry="SELECT prodcatm_name,prodcatm_id	
+                              From prodcat_mst where prodcatm_id='$dep_id'";
+                              $res=mysqli_query($conn,$qry);
+                              $values=mysqli_fetch_assoc($res);
+                              $dep_nm=$values['prodcatm_name'];
+                              ?>  
+                                <?php echo $dep_nm; ?>
+                       
+                            </div>
+                        </div>
+						<?php
+						}?>
 												<?php if( $evn_typ=='e'){
                         ?>
                         <div class="form-group row">

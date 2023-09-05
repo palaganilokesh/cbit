@@ -53,7 +53,7 @@ if (
 }
 $sqrybrnd_mst = "select 
 nwsm_name,nwsm_desc,nwsm_prty,nwsm_sts,nwsm_img,nwsm_lnk,
-nwsm_dwnfl,nwsm_typ,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt
+nwsm_dwnfl,nwsm_typ,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_dept
 from 
 nws_mst
 where 
@@ -126,6 +126,22 @@ include_once('../includes/inc_fnct_ajax_validation.php');
             if (temp != 0) {
                 document.getElementById('txtname').focus();
             }
+        }
+    }
+    function disptype() {
+		
+        var div1 = document.getElementById("div1");
+        if (document.frmedtbrnd.lsttyp.value == '5') {
+            div1.style.display = "block";
+           
+        } 
+        else if (document.frmedtbrnd.lsttyp.value == '2') {
+            div1.style.display = "none";
+           
+        }
+		else if (document.frmedtbrnd.lsttyp.value == '4') {
+            div1.style.display = "none";
+           
         }
     }
 </script>
@@ -260,17 +276,76 @@ include_once $inc_adm_lftlnk;
                                 <label>Type</label>
                             </div>
                             <div class="col-sm-9">
-                                <select name="lsttyp" id="lsttyp" class="form-control">
+                                <select name="lsttyp" id="lsttyp" class="form-control" onchange="disptype()">
                                     <!-- <option value="1" <?php if ($rowsbrnd_mst['nwsm_typ'] == '1') echo 'selected'; ?>>Results Updates</option> -->
                                     <option value="2" <?php if ($rowsbrnd_mst['nwsm_typ'] == '2') echo 'selected'; ?>>College Notifications</option>
                                     <!-- <option value="3" <?php if ($rowsbrnd_mst['nwsm_typ'] == '3') echo 'selected'; ?>>University Notifications</option> -->
                                     <option value="4" <?php if ($rowsbrnd_mst['nwsm_typ'] == '4') echo 'selected'; ?>>Announcements</option>
-																		<option value="5" <?php if ($rowsbrnd_mst['nwsm_typ'] == '5') echo 'selected'; ?>>Department Notification</option>
+								<option value="5" <?php if ($rowsbrnd_mst['nwsm_typ'] == '5') echo 'selected'; ?>>Department Notification</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                   
+                    
+                        <div id="div1" class="col-md-12" style="display: block;">
+                        <?php 
+                    // if($rowsbrnd_mst['nwsm_typ']=='5'){
+                        ?>
+  <div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Department *</label>
+								</div>
+								<div class="col-sm-9">
+								
+
+									<select name="lstprodcat" id="lstprodcat" class="form-control">
+                                        <option value="">--Select Department--</option>
+                                        <?php
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+                                        $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
+                                        $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
+										if( $cnt_prodcat > 0)
+										{   ?>
+                                            <option disabled>-- UG --</option>
+                                            <?php											
+                                            while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
+											{
+												$catid = $rowsprodcat_mst['prodcatm_id'];
+												$catname = $rowsprodcat_mst['prodcatm_name'];
+												?>
+                                                <option value="<?php echo $catid;?>"<?php if($rowsbrnd_mst['nwsm_dept']==$catid) echo 'selected';?>><?php echo $catname;?></option>
+												
+												<?php
+											}
+										}
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+                                        $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
+                                        $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
+										if( $cnt_prodcat > 0)
+										{   ?>
+                                            <option disabled>-- PG --</option>
+                                            <?php	while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
+											{
+												$catid = $rowsprodcat_mst['prodcatm_id'];
+												$catname = $rowsprodcat_mst['prodcatm_name'];
+												?>
+                                                 <option value="<?php echo $catid;?>"<?php if($rowsbrnd_mst['nwsm_dept']==$catid) echo 'selected';?>><?php echo $catname;?></option>
+												
+												<?php
+											}
+										}
+										?>
+									</select>
+									<span id="errorsDiv_lstprodcat"></span>
+								</div>
+							</div>
+						</div>
+                       
+                        <?php
+                    // }
+                    ?>
+                    </div>
                     <!-- <div class="col-md-12">
                         <div class="row mb-2 mt-2">
                             <div class="col-sm-3">

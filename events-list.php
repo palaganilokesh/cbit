@@ -98,6 +98,7 @@ if($cntrec_mst > 0){
   <div class="campus-information-area section-pad-y">
   <div class="container-fluid px-lg-3 px-md-3 px-2">
     <div class="row justify-content-center">
+   
       <?php
 
 		$cntval = '';
