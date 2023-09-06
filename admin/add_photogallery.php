@@ -424,19 +424,20 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 								</div>
 							</div>
 						</div>
-						<!-- <div class="col-md-12">
+						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
-									<label>Link</label>
+									<label>Multiple images *</label>
 								</div>
 								<div class="col-sm-9">
 									<div class="custom-file">
-										<input name="txtlnk" type="text" class="form-control" id="txtlnk" maxlength="50">
-										<span id="errorsDiv_txtlnk"></span>
+										<input  name="flebimg[]" type="file" id="flebimg" class="form-control" multiple >
+										<!-- <span id="errorsDiv_txtlnk"></span> -->
+										<span style="color:red;">Can upload 20 - 30 images at a time. Depends on size.</span>
 									</div>
 								</div>
 							</div>
-						</div> -->
+						</div>
 
 						
 						<div class="col-md-12">

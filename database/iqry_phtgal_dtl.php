@@ -35,7 +35,8 @@
 					    $phtname  = glb_func_chkvl("txtphtname".$i);
 						$phtname  = glb_func_chkvl($_POST[$phtname]);
 						if($phtname == ''){
-							$phtname = $i."-".$name; 	
+							// $phtname = $i."-".$name; 	
+							$phtname=$phtname;
 						}
 						if($prior == ''){
 							
@@ -62,7 +63,9 @@
 						}		
 		}								
 			   if($rspht_dtl == true){
-				  
+				  if( $simgval!=""){
+
+					
 						$iqryprodimg_dtl =	"INSERT into pht_mst(
 					                  phtm_phtd_id,phtm_phtcatm_id,
 									  phtm_simgnm,phtm_simg,phtm_prty,
@@ -75,10 +78,52 @@
 							 
 							move_uploaded_file($ssource,$a_phtgalspath1.$sdest);			
 						}
-									
+					}				
 			}
 					}
 		}
+		 if($rspht_dtl==true){
+			$k=1;
+			foreach ($_FILES["flebimg"]["tmp_name"] as $key => $tmp_name)
+			{
+			  $file_name = $_FILES["flebimg"]["name"][$key]; 
+				 $file_tmp = $_FILES["flebimg"]["tmp_name"][$key];
+				  $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+			  // $phtname = glb_func_chkvl($_POST['txtphtname']);
+			  // $prtyval = glb_func_chkvl($_POST['txtphtprior']);
+			  $allowedExts = array("jpeg", "jpg");
+			  $extension = end(explode(".",$_FILES["flebimg"]["name"][$key]));
+
+				$nm=explode('.',$_FILES["flebimg"]["name"][$key]);
+	$new_file_nm=$nm[0];
+			
+			  //echo $_FILES["flebimg"]["size"][$key];exit;
+			  if ((($_FILES["flebimg"]["type"][$key] == "image/jpeg") || ($_FILES["flebimg"]["type"][$key] == "image/jpg")) && in_array($extension, $allowedExts))
+			  {
+				$img_nm =  $new_file_nm;
+			   $imgnm_ext =   $file_name.".".$ext;
+				$img_prty = $k;
+				$img_sts = "a";
+				 $image_properties = exif_read_data($_FILES["flebimg"]["tmp_name"][$key]);
+				//  print_r($image_properties);
+				$pht_dt = $image_properties['DateTimeOriginal'];
+				
+				$iqryprodimg_dtl =	"INSERT into pht_mst(phtm_phtd_id,phtm_phtcatm_id,	phtm_simgnm,phtm_simg,phtm_prty,phtm_sts,phtm_crtdon, phtm_crtdby)
+					values('$phtdtl','$phtcatnm','$img_nm',
+					'$file_name','$img_prty','$img_sts',
+					'$pht_dt','$ses_admin')";
+	  $rsprod_dtl   = mysqli_query($conn,$iqryprodimg_dtl);	
+		if($rsprod_dtl == true){
+			if (!file_exists($a_phtgalspath1 . "/" . $file_name))
+			{
+				move_uploaded_file($file_tmp, $a_phtgalspath1 . $file_name);
+			}
+		}
+	}
+	$k++;
+}
+		}
+
 		}
 											
 				$gmsg = "Record saved successfully";

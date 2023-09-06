@@ -973,7 +973,7 @@ if ($alumni_cnt > 0) {
             <h2>Gallery</h2>
         </div> -->
     <?php
-    $sqryphtcat_mst = "SELECT phtd_id,phtcatm_name, phtd_phtcatm_id,phtcatm_img, phtd_name, phtd_desc,phtd_rank, phtd_sts, phtd_crtdon, phtd_crtdby, phtd_mdfdon, phtd_mdfdby, phtm_id, phtm_phtd_id, phtm_phtcatm_id, phtm_simgnm, phtm_simg, phtm_prty, phtm_sts, phtm_crtdon, phtm_crtdby, phtm_mdfdon, phtm_mdfdby,phtcatm_name,phtcatm_id,phtcatm_desc from vw_phtd_phtm_mst left join phtcat_mst on  phtcat_mst.phtcatm_id = vw_phtd_phtm_mst.phtm_phtcatm_id where phtm_sts = 'a' and phtcatm_sts = 'a' and phtd_sts = 'a' and phtcatm_typ = 'c' group by phtcatm_id order by  phtcatm_prty asc";
+    $sqryphtcat_mst = "SELECT phtd_id,phtcatm_name, phtd_phtcatm_id,phtcatm_img, phtd_name, phtd_desc,phtd_rank, phtd_sts, phtd_crtdon, phtd_crtdby, phtd_mdfdon, phtd_mdfdby, phtm_id, phtm_phtd_id, phtm_phtcatm_id, phtm_simgnm, phtm_simg, phtm_prty, phtm_sts, phtm_crtdon, phtm_crtdby, phtm_mdfdon, phtm_mdfdby,phtcatm_name,phtcatm_id,phtcatm_desc from vw_phtd_phtm_mst left join phtcat_mst on  phtcat_mst.phtcatm_id = vw_phtd_phtm_mst.phtm_phtcatm_id where phtm_sts = 'a' and phtcatm_sts = 'a' and phtd_sts = 'a' and( phtcatm_typ = 'c' or  phtcatm_typ = 'd')   group by phtcatm_id order by  phtcatm_prty asc";
     $srsphtcat_dtl = mysqli_query($conn, $sqryphtcat_mst);
     $cntrec_phtcat = mysqli_num_rows($srsphtcat_dtl);
     if ($cntrec_phtcat > 0) { ?>
@@ -1010,8 +1010,8 @@ if ($alumni_cnt > 0) {
               <div class="item">
                 <div class="gal-img-holder">
                   
-                  <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$phtcatid;?>">
-                  
+                  <!-- <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$phtcatid;?>"> -->
+                  <a href="  <?php echo $rtpth?>gallery-category.php?phtid=<?php echo $phtcatid;?>">
                     <img src="<?php echo $galryimgpth; ?>" classw="w-100" alt="" title="<?php echo $phtcat_name; ?>">
                     <p class="gal-cat-home"><?php echo $phtcat_name; ?></p>
                   </a>
