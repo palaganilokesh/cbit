@@ -1,6 +1,6 @@
 Options +FollowSymLinks
 RewriteEngine On
-RewriteBase /projects/c/cbit-3/cbit/
+RewriteBase /projects/c/cbit_v1/cbit/
 # RewriteBase /~adroitprojects/projects/cbit/v2/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -26,6 +26,11 @@ RewriteRule ^latest-events/(.*)$ events-details.php?evntmid=$1 [L,QSA]
 RewriteRule ^latest-achivements/(.*)$ achivements-details.php?achmtid=$1 [L,QSA]
 RewriteRule ^notifications/(.*)$ announcements-list.php?notify_typ=$1 [L,QSA]
 RewriteRule ^latest-notifications/(.*)/(.*)$ announcements-details.php?notify_typ=$1&notid=$2 [L,QSA]
+# RewriteRule ^(.*)$ gallery-category.php?pht_cat_id=$1 [L,QSA]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^([A-Za-z0-9-_()]+)$ gallery-category.php?pht_cat_id=$1 [L,QSA]
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$

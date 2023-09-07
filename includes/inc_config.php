@@ -24,7 +24,7 @@ $site_logo2 = 'images/gotospares-logo.png';
 $site_mail_logo = 'images/gotospares-logo.png';
 $adm_logo = '../images/gotospares-logo.png';
 
-$rtpth = "/projects/c/cbit-3/cbit/";
+$rtpth = "/projects/c/cbit_v1/cbit/";
 /**************include files*****************/
 /**************include files*****************/
 $inc_nocache = "../includes/inc_nocache.php";

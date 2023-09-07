@@ -1010,8 +1010,8 @@ if ($alumni_cnt > 0) {
               <div class="item">
                 <div class="gal-img-holder">
                   
-                  <!-- <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$phtcatid;?>"> -->
-                  <a href="  <?php echo $rtpth?>gallery-category.php?phtid=<?php echo $phtcatid;?>">
+                  <a href="  <?php echo $rtpth.$pht_url.'_'.$phtcatid;?>">
+                  <!-- <a href="  <?php echo $rtpth?>gallery-category.php?phtid=<?php echo $phtcatid;?>"> -->
                     <img src="<?php echo $galryimgpth; ?>" classw="w-100" alt="" title="<?php echo $phtcat_name; ?>">
                     <p class="gal-cat-home"><?php echo $phtcat_name; ?></p>
                   </a>

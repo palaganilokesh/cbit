@@ -17,11 +17,12 @@ include('header.php');
 global $pht_name,$srowsphtcat_dtl;
 $page_title1 = "Photo Gallery";
 global $id,$id1;
-//  $id1 = glb_func_chkvl($_REQUEST['phtid']);
-$id1 = glb_func_chkvl($_REQUEST['phtid']);
+//  $id1 = glb_func_chkvl($_REQUEST['pht_cat_id']);
+$id1 = glb_func_chkvl($_REQUEST['pht_cat_id']);
  $nm=funcStrUnRplc($id1);
  $txt=explode('_',$nm);
 $pt_id=$txt[1];
+$pt_nm=$txt[0];
 	
 ?>
 <div class="page-banner-area bg-2 ">
@@ -31,7 +32,7 @@ $pt_id=$txt[1];
     <div class="container-fluid px-lg-3 px-md-3 px-2 py-2">
         <div class="page-banner-content">
 				<?php
-$sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst where (phtcatm_id='$id1' or phtcatm_name='$nm')  and phtcatm_sts='a'";
+$sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst where (phtcatm_id='$pt_id' or phtcatm_name='$pt_nm')  and phtcatm_sts='a'";
 					  $srsphtcat_dtl = mysqli_query($conn,$sqryphtcat_mst);
 
 			    while($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)){
@@ -54,7 +55,7 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
     </div>
 </section>
 <?php 
- if(isset($_REQUEST['phtid']) && trim($_REQUEST['phtid'])!="" )
+ if(isset($_REQUEST['pht_cat_id']) && trim($_REQUEST['pht_cat_id'])!="" )
  {
 	
  echo $sqryphtcat_mst1="SELECT phtd_id,phtd_phtcatm_id,phtd_type,phtd_name,phtd_sts,phtd_rank from  vw_phtd_phtm_mst where  phtd_phtcatm_id  ='$pht_id' and 	phtd_sts = 'a'  group by phtd_id  order by 	phtd_rank asc";
@@ -75,11 +76,11 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
                 <ul id="" class="list-unstyled row gx-xxl-1 gx-xl-1 gx-lg-1 gx-md-2 gx-0">
                 <?php
 									while($srowsphtcat_dtl1 = mysqli_fetch_assoc($srsphtcat_dtl1)){
-										$phtid         = $srowsphtcat_dtl1['phtd_id'];
-									    //$phtid         = $srowsphtcat_dtl1['phtd_desc'];
+										$pht_cat_id         = $srowsphtcat_dtl1['phtd_id'];
+									    //$pht_cat_id         = $srowsphtcat_dtl1['phtd_desc'];
 										$pht_name      = $srowsphtcat_dtl1['phtd_name'];
                                         $pht_url=funcStrRplc($pht_name);
-                                        $sqrypht_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from  vw_phtd_phtm_mst where  phtm_phtcatm_id  ='$pht_id' and phtm_phtd_id='$phtid' and	phtm_sts = 'a'   order by 	phtm_prty asc limit 1";
+                                        $sqrypht_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from  vw_phtd_phtm_mst where  phtm_phtcatm_id  ='$pht_id' and phtm_phtd_id='$pht_cat_id' and	phtm_sts = 'a'   order by 	phtm_prty asc limit 1";
 					
                                         $srspht_dtl1 = mysqli_query($conn,$sqrypht_dtl);
                                         $cntrec = mysqli_num_rows($srspht_dtl1);

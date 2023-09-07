@@ -40,22 +40,21 @@ $pagenm = "Photos";
 		if($chk!= ""){
 			$loc .= "&chkexact=$chk";
 		}	
-		 $sqryphtcat_mst="SELECT 
-							  phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,
-							  phtm_sts,phtcatm_name,phtcatm_id
-   						    from  
-							     pht_dtl
-		                inner join 
-			             phtcat_mst on phtcat_mst.phtcatm_id = pht_mst.phtm_phtcatm_id
-						    inner join 
-			             pht_mst on pht_dtl.phtd_id = pht_mst. 	phtm_phtd_id	
-					  	where 
-		                  phtm_phtd_id=$id";	
-		$srsphtcat_mst  = mysqli_query($conn,$sqryphtcat_mst);
-		$cntrec =mysqli_num_rows($srsphtcat_mst);
-		if($cntrec > 0){
-			$rowsphtcat_mst = mysqli_fetch_assoc($srsphtcat_mst);
-		   }
+	//  $sqryphtcat_mst="SELECT 
+	// 						  phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,
+	// 						  phtm_sts,phtcatm_name,phtcatm_id
+   	// 					    from    pht_dtl
+	// 	                inner join 
+	// 		             phtcat_mst on phtcat_mst.phtcatm_id = pht_mst.phtm_phtcatm_id
+	// 					    inner join 
+	// 		             pht_mst on pht_dtl.phtd_id = pht_mst. 	phtm_phtd_id	
+	// 				  	where 
+	// 	                  phtm_phtd_id=$id";
+	// 	$srsphtcat_mst  = mysqli_query($conn,$sqryphtcat_mst);
+	// 	$cntrec =mysqli_num_rows($srsphtcat_mst);
+	// 	if($cntrec > 0){
+	// 		$rowsphtcat_mst1 = mysqli_fetch_assoc($srsphtcat_mst);
+	// 	   }
 		  	
 	   $imgid      = glb_func_chkvl($_REQUEST['imgid']);	 
 	   $pg         = glb_func_chkvl($_REQUEST['pg']);
@@ -175,17 +174,15 @@ $pagenm = "Photos";
 		  <input type="hidden" name="chk" id="chk" value="<?php echo $chk?>">	
 		   
            <?php 
-            $sqryphtcat_mst="SELECT 
-							  phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,  phtm_sts,phtm_phtcatm_id
-   						    from  
-							     pht_dtl
-						    inner join 
-			             pht_mst on pht_dtl.phtd_id = pht_mst.phtm_phtd_id	
-					  	where phtm_phtd_id=$id";
+          $sqryphtcat_mst="SELECT 
+							  phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,phtd_phtcatm_id
+   						    from    pht_dtl	where phtd_id=$id";
 		$srsphtcat_mst  = mysqli_query($conn,$sqryphtcat_mst);
 		$cntrec =mysqli_num_rows($srsphtcat_mst);
 		if($cntrec > 0){
 			$rowsphtcat_mst = mysqli_fetch_assoc($srsphtcat_mst);
+			$cat_id=$rowsphtcat_mst['phtd_phtcatm_id'];
+
 		}?>
     <div class="card">
 			<div class="card-body">
@@ -200,14 +197,15 @@ $pagenm = "Photos";
                      <option value="">--select--</option>
 					<?php
 						$sqryphtcat_mst="select phtcatm_id,phtcatm_name
-									     from phtcat_mst";
+									     from phtcat_mst ";
+										//  where phtcatm_id='$cat_id'
 						 $srsphtcat_mst=mysqli_query($conn,$sqryphtcat_mst);
 						 while($rwcat_mst=mysqli_fetch_assoc($srsphtcat_mst)){	  
 							 $catid   =$rwcat_mst['phtcatm_id'];	  
 							 $name    =$rwcat_mst['phtcatm_name'];
 					 ?>
              <option value="<?php echo $catid;?>"<?php 
-			 if(@$rowsphtcat_mst['phtm_phtcatm_id']==$catid)echo 'selected';?>>
+			 if($cat_id==$catid)echo 'selected';?>>
                    <?php echo $name;?></option>
                    <?php 
 				   	 }	 
