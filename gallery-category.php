@@ -37,6 +37,7 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
 
 			    while($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)){
 					$pht_name=$srowsphtcat_dtl['phtcatm_name'];
+          $pht_nm_url=funcStrRplc($pht_name);
 					$pht_desc=$srowsphtcat_dtl['phtcatm_desc'];
 					$pht_id=$srowsphtcat_dtl['phtcatm_id'];
                     
@@ -48,7 +49,8 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
             <ul>
                 <li><a href="<?php echo $rtpth; ?>home">Home</a></li>
 								<li><a href='gallery.php'></a><?php echo $pht_name; ?></li>
-                <!-- <li>Gallery cat name</li> -->
+          
+               
             </ul>
         </div>
 				<?php }?>
@@ -58,7 +60,7 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
  if(isset($_REQUEST['pht_cat_id']) && trim($_REQUEST['pht_cat_id'])!="" )
  {
 	
- echo $sqryphtcat_mst1="SELECT phtd_id,phtd_phtcatm_id,phtd_type,phtd_name,phtd_sts,phtd_rank from  vw_phtd_phtm_mst where  phtd_phtcatm_id  ='$pht_id' and 	phtd_sts = 'a'  group by phtd_id  order by 	phtd_rank asc";
+  $sqryphtcat_mst1="SELECT phtd_id,phtd_phtcatm_id,phtd_type,phtd_name,phtd_sts,phtd_rank from  vw_phtd_phtm_mst where  phtd_phtcatm_id  ='$pht_id' and 	phtd_sts = 'a'  group by phtd_id  order by 	phtd_rank asc";
 					
 			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
 			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);
@@ -99,7 +101,8 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
                     <li class="col-xxl-3 col-lg-3 col-md-3 col-6 mb-2"
                         data-responsive="<?php echo $galryimages; ?> 375, <?php echo $galryimages; ?> 480, <?php echo $galryimages; ?> 800 "
                         data-src="<?php echo $galryimages; ?> " data-sub-html="<h4>Category 1</h4>">
-                          <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$pht_id;?>">
+                          <!-- <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$pht_id;?>"> -->
+                          <a href="  <?php echo $rtpth.$pht_nm_url.'/'.$pht_url.'_'.$pht_cat_id;?>">
                             <img class="img-responsive w-100" src="<?php echo $galryimages; ?>">
                             <div class="demo-gallery-poster">
 

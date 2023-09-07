@@ -34,6 +34,10 @@ RewriteRule ^([A-Za-z0-9-_()]+)$ gallery-category.php?pht_cat_id=$1 [L,QSA]
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ gallery.php?pht_cat_id=$1&pht_scat_id=$2 [L,QSA]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteRule ^main-links/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ imp_links.php?imnlnks=$1&icatid=$2 [L,QSA]
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
@@ -58,8 +62,15 @@ RewriteRule ^([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
-RewriteRule ^dept-gallery/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ dept-gallery-explore.php?phtid=$1&mnlnks=$2&catid=$3&scatid=$4 [L,QSA]
+RewriteRule ^dept-gallery/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ department-gallery.php?phtid=$1&mnlnks=$2&catid=$3&scatid=$4 [L,QSA]
 
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ dept-gallery-explore.php?phtid=$1&pht_scat_id=$2&mnlnks=$3&catid=$4&scatid=$5 [L,QSA]
+
+# RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+# RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+# RewriteRule ^dept-gallery/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ dept-gallery-explore.php?phtid=$1&mnlnks=$2&catid=$3&scatid=$4 [L,QSA]
 
 
 RewriteRule ^error$ error.php [L]

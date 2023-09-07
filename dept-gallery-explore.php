@@ -1,4 +1,7 @@
 <?php
+// echo "<pre>";
+// var_dump($_REQUEST);
+// echo "</pre>";
 include_once "includes/inc_connection.php";
 include_once "includes/inc_usr_functions.php";	
 include_once 'includes/inc_paging_functions_dist.php';  //Making paging validation	
@@ -20,6 +23,11 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 		 $glry_mnlnk=funcStrUnRplc( $glry_mnlnk1);
 		 $glry_cat1 = glb_func_chkvl($_REQUEST['catid']);
 		 $glry_cat=funcStrUnRplc( $glry_cat1);
+		 $pt_mn_cat_nm1 = glb_func_chkvl($_REQUEST['pht_scat_id']);
+		 $pt_mn_cat_nm=funcStrUnRplc( $pt_mn_cat_nm1);
+		 $txtcat=explode('_',$pt_mn_cat_nm );
+		 $pt_cat_id=$txtcat[1];
+		 $pt_cat_nm=$txtcat[0];
 		 $pt_scat_nm1 = glb_func_chkvl($_REQUEST['scatid']);
 		 $pt_scat_nm=funcStrUnRplc( $pt_scat_nm1);
 		 $txt=explode('_',$pt_scat_nm );
@@ -125,6 +133,21 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
 			}
 		}
+		if (isset($_REQUEST['pht_scat_id']) && trim($_REQUEST['pht_scat_id']) != "") {
+		
+	
+		 	$sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst where (phtcatm_id='$pt_cat_id' or phtcatm_name='$pt_cat_nm')  and phtcatm_sts='a' and phtcatm_deprtmnt='$catone_id'";
+									$srsphtcat_dtl = mysqli_query($conn,$sqryphtcat_mst);
+			
+								while($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)){
+								$pht_name=$srowsphtcat_dtl['phtcatm_name'];
+								$pht_nm_url=funcStrRplc($pht_name);
+								$pht_desc=$srowsphtcat_dtl['phtcatm_desc'];
+								$pht_cat_id=$srowsphtcat_dtl['phtcatm_id'];
+								$title = "$pht_id";
+								}
+									
+		}
 	} else {
 		header("Location:$ind_loc");
 		exit();
@@ -154,8 +177,26 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
 				<li><a href="<?php echo $rtpth; ?>departments"><?php echo $prodmnlnksm_name ;?></a></li>
 				<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url.'/'.$bred_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
-				<li><?php echo $prodscatm_name1; ?></li>
+				<!-- <li><?php echo $prodscatm_name1; ?></li> -->
 				<?php
+				if(isset($_REQUEST['phtid']) && trim($_REQUEST['phtid']) != ""){
+					?>
+						<li><a href="<?php echo $rtpth . $cn_mn_url . '/' . $cn_cat_url . '/' . $pt_scat_nm	; ?>"><?php echo $prodscatm_name1; ?></a></li>
+						<li><a href="<?php echo $rtpth .'dept-gallery/'.$pht_nm_url .'/' . $cn_mn_url . '/' . $cn_cat_url . '/' . $cn_scat_url . '_' . $pht_cat_id; ?>">	<?php echo $pht_name; ?></a></li>
+
+					<?php
+						if(isset($_REQUEST['pht_scat_id']) && trim($_REQUEST['pht_scat_id']) != ""){
+							?>
+							<li><?php echo $pht_id; ?></li>
+							<?php
+						}
+				}
+				else{
+					?>
+					<li><?php echo $prodscatm_name1; ?></li>
+					<?php
+				}
+				
 				}
 				?>
             </ul>
@@ -173,7 +214,9 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
  if(isset($_REQUEST['phtid']) && trim($_REQUEST['phtid'])!="" )
  {
 	
- $sqryphtcat_mst1="SELECT phtm_id,phtm_simgnm,phtm_simg,	phtm_sts,phtm_prty from  vw_phtd_phtm_mst where  phtm_phtcatm_id  ='$pt_id' and 	phtm_sts = 'a'   order by 	phtm_prty asc";
+  $sqryphtcat_mst1="SELECT phtm_id,phtm_simgnm,phtm_simg,	phtm_sts,phtm_prty
+  from vw_phtd_phtm_mst
+    where  phtm_phtcatm_id  ='$pht_cat_id' and  phtm_phtd_id='$pt_id' and	phtm_sts = 'a' order by 	phtm_prty asc";
 					
 			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
 			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);

@@ -318,10 +318,12 @@ include('header.php');
 						$phtcatm_url = funcStrRplc($phtcatm_desc);
 						if ($phtcatm_typ == 'c') {
 							
-							$pgurl4 = $rtpth."photo-gallery/".$phtcatm_url.'_'.$phtcatm_id;
+							// $pgurl4 = $rtpth."photo-gallery/".$phtcatm_url.'_'.$phtcatm_id;
+							$pgurl4 = $rtpth.$phtcatm_url.'_'.$phtcatm_id;
 						}
 						if ($phtcatm_typ == 'd') {
-							$pgurl4 =$rtpth."photo-gallery/".$phtcatm_url.'_'.$phtcatm_id;
+							// $pgurl4 =$rtpth."photo-gallery/".$phtcatm_url.'_'.$phtcatm_id;
+							$pgurl4 = $rtpth.$phtcatm_url.'_'.$phtcatm_id;
 						}
 
 						$dsp_dtl2 .= "<li><h4>&raquo; <a href='$pgurl4'>$phtcatm_name</a></h4></li>";
