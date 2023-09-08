@@ -74,7 +74,7 @@ if ($scatid == 'UG' || $scatid == 'PG' || $scatid == 'ug' || $scatid == 'pg') {
 									$mnlnkurl = funcStrRplc($prodmnlnksm_name);
 								
 									// $lftlnknm = "$rtpth/$z/$mnlnkurl/$caturl";
-									if (ucwords($catid) == ucwords($prodcatm_name)) {
+									if (strtoupper($catid) == strtoupper($prodcatm_name)) {
 
 										$cat_cls = "active";
 									} else {
@@ -91,7 +91,7 @@ if ($scatid == 'UG' || $scatid == 'PG' || $scatid == 'ug' || $scatid == 'pg') {
 										$cntpgcnt_mst            =  mysqli_num_rows($srspgcnt_mst);
 										if ($cntpgcnt_mst > 0) {
 											// $srowpgcnt_mst1 = mysqli_fetch_assoc($srspgcnt_mst);		
-											if (ucwords($catid) == ucwords($prodcatm_name)) {
+											if (strtoupper($catid) == strtoupper($prodcatm_name)) {
 												// echo "here-".$prodid;
 												$pg_cls = "accordion-button sub-menus-1";
 												$aria = "true";
@@ -125,7 +125,7 @@ if ($scatid == 'UG' || $scatid == 'PG' || $scatid == 'ug' || $scatid == 'pg') {
 										
 											if ($cntpgcnt_mst > 0) {
 												
-												if (ucwords($catid) == ucwords($prodcatm_name)) {
+												if (strtoupper($catid) == strtoupper($prodcatm_name)) {
 											
 													$pg_cls1 = "accordion-collapse collapse show";
 													// echo "here".$prodid;
@@ -146,7 +146,7 @@ if ($scatid == 'UG' || $scatid == 'PG' || $scatid == 'ug' || $scatid == 'pg') {
 																	$prodscatm_name = $srowpgcnt_mst['prodscatm_name'];
 																	$pgscaturl = funcStrRplc($prodscatm_name);
 
-																	if (	ucwords($prodscatm_name) == ucwords($scatid)) {
+																	if (	strtoupper($prodscatm_name) == strtoupper($scatid)) {
 																		$pgcntnt_cls = "active";
 																	} else {
 																		$pgcntnt_cls = "";

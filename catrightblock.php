@@ -110,11 +110,11 @@ $prodid = funcStrUnRplc($prodid1);
 									if ($mnlnksid == 'departments' || $scatid != '') {
 										$lftlnknm = "$rtpth$mnlnkurl/$caturl/$scaturl";
 								
-										if (ucwords($prodscatm_name) == ucwords($scatid) ) {
+										if (strtoupper($prodscatm_name) == strtoupper($scatid) ) {
 										
 											$cat_cls = "active";
 										} 
-										else if(ucwords($prodscatm_name) == ucwords($pt_scat_nm))
+										else if(strtoupper($prodscatm_name) == strtoupper($pt_scat_nm))
 										{
 											$cat_cls = "active";
 										}
@@ -127,7 +127,7 @@ $prodid = funcStrUnRplc($prodid1);
 										// echo"scat-".$prodcatm_name;
 										// echo"scatid-".$catid;
 										$lftlnknm = "$rtpth$mnlnkurl/$caturl";
-										if (ucwords($catid) == ucwords($prodcatm_name)) {
+										if (strtoupper($catid) == strtoupper($prodcatm_name)) {
 										
 											$cat_cls = "active";
 										} else {
@@ -149,7 +149,7 @@ $prodid = funcStrUnRplc($prodid1);
 										$cntpgcnt_mst            =  mysqli_num_rows($srspgcnt_mst);
 										if ($cntpgcnt_mst > 0) {
 											// $srowpgcnt_mst1 = mysqli_fetch_assoc($srspgcnt_mst);		
-											if (ucwords($scatid) == ucwords($prodscatm_name)) {
+											if (strtoupper($scatid) == strtoupper($prodscatm_name)) {
 												// echo "here-".$prodid;
 												$pg_cls = "accordion-button sub-menus-1";
 												$aria = "true";
@@ -183,7 +183,7 @@ $prodid = funcStrUnRplc($prodid1);
 												<?php
 											}
 											if ($cntpgcnt_mst > 0) {
-												if (ucwords($scatid) == ucwords($prodscatm_name)) {
+												if (strtoupper($scatid) == strtoupper($prodscatm_name)) {
 													$pg_cls1 = "accordion-collapse collapse show";
 													// echo "here".$prodid;
 												} else {
@@ -207,7 +207,7 @@ $prodid = funcStrUnRplc($prodid1);
 																	$prodpg_id = $srowpgcnt_mst['pgcntsd_id'];
 
 																
-																	if (ucwords($prodpg_name) == ucwords($prodid) && 	ucwords($prodscatm_name) == ucwords($scatid)) {
+																	if (strtoupper($prodpg_name) == strtoupper($prodid) && 	strtoupper($prodscatm_name) == strtoupper($scatid)) {
 																		$pgcntnt_cls = "active";
 																	} else {
 																		$pgcntnt_cls = "";
