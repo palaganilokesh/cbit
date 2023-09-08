@@ -9,8 +9,8 @@ include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
 Programm : view_detail_banner.php	
 Purpose : For Viewing Banner Details
-Created By : Bharath
-Created On :	27-12-2021
+Created By : Lokesh palagani
+Created On :	27-07-2023
 Modified By : 
 Modified On :
 Purpose : 
@@ -102,12 +102,24 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsphtcat_mst['phtcatm_desc'];?>
 							</div>
 						</div>
-						<!-- <div class="form-group row">
+						<?php if($rowsphtcat_mst['phtcatm_typ']=='d'){
+							?>
+							<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Department</label>
 							<div class="col-sm-8">
-								<?php echo $rowsphtcat_mst['phtcatm_deprtmnt'];?>
+								<?php 
+								$dept_id=$rowsphtcat_mst['phtcatm_deprtmnt'];
+								$dept="SELECT prodcatm_name,prodcatm_id from prodcat_mst where prodcatm_id='$dept_id'";
+								$res=mysqli_query($conn,$dept);
+								$result=mysqli_fetch_assoc($res);
+								echo $result['prodcatm_name'];
+								
+								 ?>
 							</div>
-						</div> -->
+						</div>
+							<?php
+						}?>
+						
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Display Type</label>
 							<div class="col-sm-8">

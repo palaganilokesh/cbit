@@ -113,7 +113,7 @@ error_reporting(0);
 																																		echo "active";
 																																	} ?>">
 											<i class="far fa-dot-circle nav-icon"></i>
-											<p>Events</p>
+											<p>Events / News</p>
 										</a>
 									</li>
 									<!-- <li class="nav-item">

@@ -31,9 +31,9 @@ if (isset($_REQUEST['vw']) && trim($_REQUEST['vw']) != "") {
   if ($chk != "") {
     $loc .= "&chkexact=$chk";
   }
-  $sqryprod_mst = "select 
+  $sqryprod_mst = "SELECT 
 						      phtd_id,phtd_name,phtd_type,phtd_desc,phtd_rank,phtd_sts,
-							  phtcatm_name,phtd_phtcatm_id
+							  phtcatm_name,phtd_phtcatm_id,phtcatm_deprtmnt
 				          from 
 						  	 pht_dtl
 									inner join  
@@ -134,6 +134,24 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) != '')) {
               <?php if($srowsprod_mst['phtd_type'] == 'c') { echo"college"; } else { echo"department";}  ?>
 							</div>
 						</div>
+            <?php if($srowsprod_mst['phtd_type'] == 'd'){
+              ?>
+                <div class="form-group row">
+							<label for="txtname" class="col-sm-2 col-md-2 col-form-label"> Department Name </label>
+							<div class="col-sm-8">
+              <?php 
+								$dept_id=$srowsprod_mst['phtcatm_deprtmnt'];
+								$dept="SELECT prodcatm_name,prodcatm_id from prodcat_mst where prodcatm_id='$dept_id'";
+								$res=mysqli_query($conn,$dept);
+								$result=mysqli_fetch_assoc($res);
+								echo $result['prodcatm_name'];
+								
+								 ?>
+							</div>
+						</div>
+              <?php
+            }?>
+          
             
             <div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Description</label>
