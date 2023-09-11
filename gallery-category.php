@@ -102,7 +102,7 @@ $sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst whe
                         data-responsive="<?php echo $galryimages; ?> 375, <?php echo $galryimages; ?> 480, <?php echo $galryimages; ?> 800 "
                         data-src="<?php echo $galryimages; ?> " data-sub-html="<h4>Category 1</h4>">
                           <!-- <a href="  <?php echo $rtpth.'photo-gallery/'.$pht_url.'_'.$pht_id;?>"> -->
-                          <a href="  <?php echo $rtpth.$pht_nm_url.'/'.$pht_url.'_'.$pht_cat_id;?>">
+                          <a href="  <?php echo $rtpth.'gallery/'.$pht_nm_url.'/'.$pht_url.'_'.$pht_cat_id;?>">
                             <img class="img-responsive w-100" src="<?php echo $galryimages; ?>">
                             <div class="demo-gallery-poster">
 

@@ -34,7 +34,7 @@ RewriteRule ^([A-Za-z0-9-_()]+)$ gallery-category.php?pht_cat_id=$1 [L,QSA]
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
-RewriteRule ^([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ gallery.php?pht_cat_id=$1&pht_scat_id=$2 [L,QSA]
+RewriteRule ^gallery/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ gallery.php?pht_cat_id=$1&pht_scat_id=$2 [L,QSA]
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
