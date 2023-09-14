@@ -13,11 +13,11 @@ if (
 {
     $id           = glb_func_chkvl($_POST['hdnbrndid']);
     $name         = glb_func_chkvl($_POST['txtname']);
-    $desc         = glb_func_chkvl($_POST['txtdesc']);
+    $desc         =  addslashes(trim($_POST['txtdesc']));
     $prod_id    = glb_func_chkvl($_POST['lstprdctcat']);
     $prior       = glb_func_chkvl($_POST['txtprior']);
     $hdnfle     = glb_func_chkvl($_POST['hdnfle']);
-    $desc         = glb_func_chkvl($_POST['txtdesc']);
+   
     $sts          = glb_func_chkvl($_POST['lststs']);
     $dt         = date('Y-m-d h:i:s');
     $emp         = $_SESSION['admin'];

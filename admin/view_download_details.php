@@ -110,18 +110,12 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
                         <div class="form-group row">
                             <label for="txtname" class="col-sm-2 col-md-2 col-form-label">Description</label>
                             <div class="col-sm-8">
-                                <?php echo $rowsprodscat_mst['dwnld_desc']; ?>
+                                <?php echo stripslashes($rowsprodscat_mst['dwnld_desc']); ?>
+                             
                             </div>
                         </div>
 
-
                         <!-- <div class="form-group row">
-                            <label for="txtname" class="col-sm-2 col-md-2 col-form-label">File Name</label>
-                            <div class="col-sm-8">
-                                <?php echo $rowsprodscat_mst['dwnld_flenm']; ?>
-                            </div>
-                        </div> -->
-                        <div class="form-group row">
                             <label for="txtname" class="col-sm-2 col-md-2 col-form-label">File Name</label>
                             <div class="col-sm-8">
                                 <?php
@@ -134,7 +128,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
                                 }
                                 ?>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- <div class="form-group row">
                             <label for="txtname" class="col-sm-2 col-md-2 col-form-label">Type</label>
                             <div class="col-sm-8">

@@ -41,7 +41,7 @@ if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts'])) {
 if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
     $dchkval = substr($_POST['hdnchkval'], 1);
     $did     = glb_func_chkvl($dchkval);
-    $delsts = funcDelAllRec('dwnld_dtl', 'dwnld_id', $did);
+    $delsts = funcDelAllRec($conn,'dwnld_dtl', 'dwnld_id', $did);
 
     if ($delsts == 'y') {
         $msg = "<font color=red>Record deleted successfully</font>";
@@ -61,7 +61,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 $rowsprpg = 20; //maximum rows per page
 include_once "../includes/inc_paging1.php"; //Includes pagination
 
-$sqrystdtestmnl_mst1 = "select 
+$sqrystdtestmnl_mst1 = "SELECT 
 dwnld_id,dwnld_name,dwnld_sts,dwnld_prty,dwnld_flenm, 
  prodm_id,prodm_name
 from 
@@ -75,7 +75,7 @@ if (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != "")) {
         $sqrystdtestmnl_mst1 .= " where dwnld_name like '%$txtsrchval%'";
     }
 }
-$sqrystdtestmnl_mst1 = $sqrystdtestmnl_mst1;
+// $sqrystdtestmnl_mst1 = $sqrystdtestmnl_mst1;
 $sqrystdtestmnl_mst = $sqrystdtestmnl_mst1 . "order by dwnld_name asc limit $offset,$rowsprpg";
 $srsnews_mst = mysqli_query($conn, $sqrystdtestmnl_mst1);
 $serchres = mysqli_num_rows($srsnews_mst);

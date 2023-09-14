@@ -30,7 +30,7 @@ if (isset($_POST['btnadddwnlds']) && (trim($_POST['btnadddwnlds']) != "") && iss
 $rd_crntpgnm = "view_downloads.php";
 $clspn_val = "4";
 ?>
-<script language="javaScript" type="text/javascript" src="js/ckeditor.js"></script>
+<script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script language="javascript" src="../includes/yav.js"></script>
 <script language="javascript" src="../includes/yav-config.js"></script>
 <link rel="stylesheet" type="text/css" href="../includes/yav-style1.css">
@@ -200,7 +200,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <div class="row mb-2 mt-2">
                                 <div class="col-sm-3">
                                     <label>File</label>
@@ -211,7 +211,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- <div class="col-md-12">
                             <div class="row mb-2 mt-2">
                                 <div class="col-sm-3">

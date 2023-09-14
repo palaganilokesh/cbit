@@ -15,10 +15,10 @@ if (isset($_POST['btnadddwnlds']) && (trim($_POST['btnadddwnlds']) != "")) {
     $dt                = date("Y-m-d h:i:s"); //date 
     $user             = $_SESSION['sesadmin']; //session of user			   
     $name           = glb_func_chkvl($_POST['txtname']);
-    $desc           = glb_func_chkvl($_POST['txtdesc']);
+    $desc           =  addslashes(trim($_POST['txtdesc']));
     $prior          = glb_func_chkvl($_POST['txtprior']);
     $sts            = glb_func_chkvl($_POST['lststs']);
-    $sqrydwnld_dtl = "select dwnld_name
+    $sqrydwnld_dtl = "SELECT dwnld_name
 			                 from   dwnld_dtl
 						     where dwnld_name='$name'
 						     and dwnld_prodm_id=$prod_id";
@@ -28,7 +28,7 @@ if (isset($_POST['btnadddwnlds']) && (trim($_POST['btnadddwnlds']) != "")) {
 
         //**********************IMAGE UPLOADING START*******************************//
         if (isset($_FILES['fledwnld']['tmp_name']) && ($_FILES['fledwnld']['tmp_name'] != "")) {
-            $dwnldfleval = funcUpldImg('fledwnld', 'fle');
+            $dwnldfleval = funcUpldFle('fledwnld', '');
             if ($dwnldfleval != "") {
                 $dwnldfleval = explode(":", $dwnldfleval, 2);
                 $dest          = $dwnldfleval[0];

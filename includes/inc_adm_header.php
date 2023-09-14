@@ -5,6 +5,7 @@ error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +20,7 @@ error_reporting(0);
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 	<div class="wrapper">
 		<!-- Navbar -->
@@ -132,7 +134,7 @@ error_reporting(0);
                                         <p>Admission</p>
                                     </a>
                                 </li> -->
-									<!-- <li class="nav-item">
+									<li class="nav-item">
 										<a href="product.php" class="nav-link <?php if ($pagenm == "Downloads Category") {
 																														echo "active";
 																													} ?>">
@@ -147,7 +149,7 @@ error_reporting(0);
 											<i class="far fa-dot-circle nav-icon"></i>
 											<p> Downloads</p>
 										</a>
-									</li> -->
+									</li>
 									<li class="nav-item">
 										<a href="vw_all_achievements.php" class="nav-link <?php if ($pagenm == "Achievements") {
 																																				echo "active";
@@ -180,14 +182,14 @@ error_reporting(0);
 											<p> Popup</p>
 										</a>
 									</li>
-									<!-- <li class="nav-item">
+									<li class="nav-item">
 										<a href="vw_all_abtus.php" class="nav-link <?php if ($pagenm == "About Us") {
 																																	echo "active";
 																																} ?>">
 											<i class="far fa-dot-circle nav-icon"></i>
 											<p> About Us</p>
 										</a>
-									</li> -->
+									</li>
 								</ul>
 							</li>
 						<?php }
@@ -271,26 +273,26 @@ error_reporting(0);
 						<?php
 						if ($ses_admtyp == 'd' || $ses_admtyp == 'a') {
 						?>
-						<li class="nav-item has-treeview <?php if ($pagemncat == "Page Content") {
-																								echo "menu-open";
-																							} ?>">
-							<a href="#" class="nav-link">
-								<i class="nav-icon fas fa-circle"></i>
-								<p>Page Content<i class="right fas fa-angle-left"></i></p>
-							</a>
-							<ul class="nav nav-treeview <?php if ($pagemncat == "Page Content") {
-																						echo "menu-open";
-																					} ?>">
-								<li class="nav-item">
-									<a href="view_all_pagecontain.php" class="nav-link <?php if ($pagenm == "Page Contents") {
-																																				echo "active";
-																																			} ?>">
-										<i class="far fa-dot-circle nav-icon"></i>
-										<p>Page Contents</p>
-									</a>
-								</li>
-							</ul>
-						</li>
+							<li class="nav-item has-treeview <?php if ($pagemncat == "Page Content") {
+																									echo "menu-open";
+																								} ?>">
+								<a href="#" class="nav-link">
+									<i class="nav-icon fas fa-circle"></i>
+									<p>Page Content<i class="right fas fa-angle-left"></i></p>
+								</a>
+								<ul class="nav nav-treeview <?php if ($pagemncat == "Page Content") {
+																							echo "menu-open";
+																						} ?>">
+									<li class="nav-item">
+										<a href="view_all_pagecontain.php" class="nav-link <?php if ($pagenm == "Page Contents") {
+																																					echo "active";
+																																				} ?>">
+											<i class="far fa-dot-circle nav-icon"></i>
+											<p>Page Contents</p>
+										</a>
+									</li>
+								</ul>
+							</li>
 						<?php
 						}
 						?>
@@ -299,26 +301,26 @@ error_reporting(0);
 						<?php
 						if ($ses_admtyp == 'a') {
 						?>
-						<li class="nav-item has-treeview <?php if ($pagemncat == "Enquiry") {
-																								echo "menu-open";
-																							} ?>">
-							<a href="#" class="nav-link">
-								<i class="nav-icon fas fa-circle"></i>
-								<p>Enquiry<i class="right fas fa-angle-left"></i></p>
-							</a>
-							<ul class="nav nav-treeview <?php if ($pagemncat == "Enquiry") {
-																						echo "menu-open";
-																					} ?>">
-								<li class="nav-item">
-									<a href="view_all_genral_enq.php" class="nav-link <?php if ($pagenm == "enquiry") {
-																																			echo "active";
-																																		} ?>">
-										<i class="far fa-dot-circle nav-icon"></i>
-										<p>General Enquiry</p>
-									</a>
-								</li>
-							</ul>
-						</li>
+							<li class="nav-item has-treeview <?php if ($pagemncat == "Enquiry") {
+																									echo "menu-open";
+																								} ?>">
+								<a href="#" class="nav-link">
+									<i class="nav-icon fas fa-circle"></i>
+									<p>Enquiry<i class="right fas fa-angle-left"></i></p>
+								</a>
+								<ul class="nav nav-treeview <?php if ($pagemncat == "Enquiry") {
+																							echo "menu-open";
+																						} ?>">
+									<li class="nav-item">
+										<a href="view_all_genral_enq.php" class="nav-link <?php if ($pagenm == "enquiry") {
+																																				echo "active";
+																																			} ?>">
+											<i class="far fa-dot-circle nav-icon"></i>
+											<p>General Enquiry</p>
+										</a>
+									</li>
+								</ul>
+							</li>
 						<?php
 						}
 						?>

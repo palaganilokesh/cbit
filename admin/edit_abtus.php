@@ -85,7 +85,7 @@ if ($cntbrnd_mst > 0) {
 //     }
 // }
 ?>
-<script language="javaScript" type="text/javascript" src="js/ckeditor.js"></script>
+<script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script language="javascript" src="../includes/yav.js"></script>
 <script language="javascript" src="../includes/yav-config.js"></script>
 <link rel="stylesheet" type="text/css" href="../includes/yav-style1.css">

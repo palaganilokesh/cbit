@@ -83,7 +83,7 @@ if ($cntbrnd_mst > 0) {
 //     }
 // }
 ?>
-<script language="javaScript" type="text/javascript" src="js/ckeditor.js"></script>
+<script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script language="javascript" src="../includes/yav.js"></script>
 <script language="javascript" src="../includes/yav-config.js"></script>
 <link rel="stylesheet" type="text/css" href="../includes/yav-style1.css">
@@ -171,7 +171,7 @@ include_once $inc_adm_lftlnk;
 									   from prod_mst
 									   where prodm_sts='a'
 									   order by prodm_prty";
-                                $srsprod_mst = mysqli_query($conn, $sqryprod_mst) or die(mysqli_error());
+                                $srsprod_mst = mysqli_query($conn, $sqryprod_mst) or die(mysqli_error($conn));
 
                                 $cnt_prodmncat = mysqli_num_rows($srsprod_mst);
                                 ?>
@@ -210,11 +210,11 @@ include_once $inc_adm_lftlnk;
                                 <label>Description</label>
                             </div>
                             <div class="col-sm-9">
-                                <textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"><?php echo $rowsbrnd_mst['dwnld_desc']; ?></textarea>
+                                <textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"><?php echo stripslashes($rowsbrnd_mst['dwnld_desc']); ?></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <!-- <div class="col-md-12">
                         <div class="row mb-2 mt-2">
                             <div class="col-sm-3">
                                 <label>File</label>
@@ -234,7 +234,7 @@ include_once $inc_adm_lftlnk;
                                 ?>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
 
                     <!-- 
