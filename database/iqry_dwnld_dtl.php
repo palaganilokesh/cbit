@@ -42,11 +42,9 @@ if (isset($_POST['btnadddwnlds']) && (trim($_POST['btnadddwnlds']) != "")) {
 										  values('$name','$desc','$prod_id','$dest', 
 										  '$sts','$prior','$dt','$user')";
         $rsdwnld_dtl   = mysqli_query($conn, $iqrydwnld_dtl);
-
-
-        //}//If Image Name is Set
+       //}//If Image Name is Set
         if ($rsdwnld_dtl == true) {
-            $pgimgd_pgcntsd_id     = mysqli_insert_id();
+            $pgimgd_pgcntsd_id     = mysqli_insert_id($conn);
             if (($source != 'none') && ($source != '') && ($dest != "")) {
                 $dest = $pgimgd_pgcntsd_id . $dest;
                 move_uploaded_file($source, $dwnlds_fldnm . $dest);
