@@ -29,6 +29,14 @@ RewriteRule ^latest-notifications/(.*)/(.*)$ announcements-details.php?notify_ty
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
 RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^about_post/([A-Za-z0-9-_()]+)$ extra-page.php?abtus=$1 [L,QSA]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^time_table/([A-Za-z0-9-_()]+)/([A-Za-z0-9-_()]+)$ extra-page.php?dwnld=$1&year=$2 [L,QSA]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
 RewriteRule ^([A-Za-z0-9-_()]+)$ gallery-category.php?pht_cat_id=$1 [L,QSA]
 
 RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
