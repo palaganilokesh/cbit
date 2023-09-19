@@ -1,5 +1,6 @@
 Options +FollowSymLinks
 RewriteEngine On
+# RewriteBase /~adroitprojects/projects/cbit/v2/
 RewriteBase /projects/c/cbit_v1/cbit/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

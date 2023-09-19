@@ -33,7 +33,7 @@ if (isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts']) != "") || isset($_P
 	$dchkval = substr($_POST['hdnchksts'], 1);
 	$id = glb_func_chkvl($dchkval);
 	$chkallval	= glb_func_chkvl($_POST['hdnallval']);
-	$updtsts = funcUpdtAllRecSts('prodmnlnks_mst', 'prodmnlnksm_id', $id, 'prodmnlnksm_sts');
+	$updtsts = funcUpdtAllRecSts($conn,'prodmnlnks_mst', 'prodmnlnksm_id', $id, 'prodmnlnksm_sts');
 	if ($updtsts == 'y') {
 		$msg = "<font color=red>Record updated successfully</font>";
 	} elseif ($updtsts == 'n') {

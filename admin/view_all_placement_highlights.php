@@ -43,7 +43,7 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 	$did = glb_func_chkvl($dchkval);
 	$del = explode(',', $did);
 	$count = sizeof($del);
-	$delsts = funcDelAllRec('plcmt_mst', 'plcmtm_id', $did);
+	$delsts = funcDelAllRec($conn,'plcmt_mst', 'plcmtm_id', $did);
 	if ($delsts == 'y') {
 		$msg = "<font color=red>Record deleted successfully</font>";
 	} elseif ($delsts == 'n') {

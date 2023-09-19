@@ -69,7 +69,7 @@ if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 			}
 		}
 	}
-	$delsts = funcDelAllRec('achmnt_mst','achmntm_id',$did);
+	$delsts = funcDelAllRec($conn,'achmnt_mst','achmntm_id',$did);
 	if($delsts == 'y' )
 	{
 		$msg = "<font color=red>Record deleted successfully</font>";
