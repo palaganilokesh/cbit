@@ -166,7 +166,7 @@ include_once $inc_adm_lftlnk;
                                 <label>Name *</label>
                             </div>
                             <div class="col-sm-9">
-                                <input name="txtname" type="text" id="txtname" size="45" maxlength="40" onBlur="funcChkDupName()" class="form-control" value="<?php echo $rowsbrnd_mst['abtusm_name']; ?>">
+                                <input name="txtname" type="text" id="txtname" onBlur="funcChkDupName()" class="form-control" value="<?php echo $rowsbrnd_mst['abtusm_name']; ?>">
                                 <span id="errorsDiv_txtname"></span>
                             </div>
                         </div>
@@ -177,7 +177,7 @@ include_once $inc_adm_lftlnk;
                                 <label>Description</label>
                             </div>
                             <div class="col-sm-9">
-                                <textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"><?php echo $rowsbrnd_mst['abtusm_desc']; ?></textarea>
+                                <textarea name="txtdesc"id="txtdesc" class="form-control"><?php echo $rowsbrnd_mst['abtusm_desc']; ?></textarea>
                             </div>
                         </div>
                     </div>

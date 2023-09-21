@@ -130,7 +130,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
                                     <label>Name *</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input name="txtname" type="text" id="txtname" size="45" maxlength="40" onBlur="funcChkDupName()" class="form-control">
+                                    <input name="txtname" type="text" id="txtname"  onBlur="funcChkDupName()" class="form-control">
                                     <span id="errorsDiv_txtname"></span>
                                 </div>
                             </div>
