@@ -39,7 +39,7 @@ if (
 	$req_prodid = funcStrUnRplc($prodid1);
 	$catid1 = glb_func_chkvl($_REQUEST['catid']);
 	$req_cat = funcStrUnRplc($catid1);
-	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){	
+	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){
 	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg,prodcatm_admtyp";
 	if ($_REQUEST['mnlnks'] == 'departments' ||  $req_scat != '') {
 		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
@@ -49,15 +49,15 @@ if (
 		$sqrypgcnts_mst1 .= " inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id";
 	}
 	$sqrypgcnts_mst1 .= " where prodmnlnksm_sts='a' and prodcatm_sts = 'a'";
-	// echo $sqrypgcnts_mst1;exit;	
-	//-----------------------------------------------------------------------//	
+	// echo $sqrypgcnts_mst1;exit;
+	//-----------------------------------------------------------------------//
 	if (isset($_REQUEST['catid']) && (trim($_REQUEST['catid']) != "")) {
 		$catone_id1 = glb_func_chkvl($_REQUEST['catid']);
 		$catone_id = funcStrUnRplc($catone_id1);
 		$sqrypgcnts_mst1 .= " and prodcatm_name = '$catone_id'";
 		$loc = "&catid=$catone_id";
 	}
-	
+
 
 	if (isset($_REQUEST['scatid']) && (trim($_REQUEST['scatid']) != "")) {
 		$cattwo_id2 = glb_func_chkvl($_REQUEST['scatid']);
@@ -88,7 +88,7 @@ if (
 	}
 	// $pgqry = $sqrypgcnts_mst1;
 	$sqrypgcnts_mst2 = "group by prodcatm_id order by prodcatm_prty asc";
-	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){			
+	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){
 			$sqrypgcnts_mst2 .= " limit 1";
 		}*/
 	$sqrypgcnts_mst  	= $sqrypgcnts_mst1 . " " . $sqrypgcnts_mst2;
@@ -119,9 +119,9 @@ if (
 		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
 		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
-	
+
 		if (($catone_id != '' || isset($catone_id))) {
-		
+
 			$title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
 			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
@@ -133,7 +133,7 @@ if (
 			}
 		}
 	 if (($cattwo_id_1 != '' || isset($cattwo_id_1))) {
-	
+
 		$title = $prodscatm_name;
 			$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
 			if ($prodscat_bnr != "" && file_exists($bngimgpth)) {
@@ -143,8 +143,8 @@ if (
 			} else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
-		} 
-	
+		}
+
 		else {
 			// echo "lokesh";
 			$title = $prodcatm_name;
@@ -169,7 +169,7 @@ if (
 			}
 		}
 		if ($_REQUEST['mnlnks'] == 'admissions') {
-			
+
 			$title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
 			if ($prodcat_bnr != "" && file_exists($bngimgpth)) {
@@ -279,7 +279,7 @@ $body_class = "homepage";
 					<?php
 		}
 		?>
-				
+
 				<?php
 				}
 				?>
@@ -320,13 +320,13 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 			?>
 	<div class="container-fluid px-0">
 		<div class="depart-nitif-holder py-1">
-	
+
 				<div class="an-label">
 					<div class="an-label-holder">
 						<p>Notifications </p>
 					</div>
 				</div>
-		
+
 			<marquee onmouseover="this.stop();" onmouseout="this.start();">
 				<div class="header-left-content header-right-content">
 					<div class="list top-not-links depart-link-scroll">
@@ -335,19 +335,19 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 							while ($dept_ntf = mysqli_fetch_assoc($srsdept_ntf_mst)) {
 								$dept_ntf_id = $dept_ntf['nwsm_id'];
 								$dept_ntf_nm = $dept_ntf['nwsm_name'];
-								$an_url = funcStrRplc($ancmt_nm);
+								$dept_url = funcStrRplc($dept_ntf_nm);
 								$dept_ntf_desc = $dept_ntf['nwsm_desc'];
 								$dept_ntf_link = $dept_ntf['nwsm_lnk'];
 								$dept_ntf_dt = $dept_ntf['nwsm_dt'];
 								$dept_ntf_typ = $dept_ntf['nwsm_typ'];
 							?>
 								<li>
-									<a href="<?php echo $rtpth . 'latest-notifications/' . $dept_ntf_typ . '/' . $an_url . '_' . $dept_ntf_id; ?>"> <?php echo $dept_ntf_nm; ?></a>
+									<a href="<?php echo $rtpth . 'latest-notifications/' . $dept_ntf_typ . '/' . $dept_url . '_' . $dept_ntf_id; ?>"> <?php echo $dept_ntf_nm; ?></a>
 									<!-- <img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""> -->
 								</li>
 							<?php  }
 							?>
-						
+
 						</ul>
 					</div>
 				</div>
@@ -408,7 +408,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 				<?php
 				// <!-- gallery  menu based on gallery section on admin side-->
 				if ($prodscatm_typ == 2) {
-					$sqryphtcat_mst = "SELECT phtd_id,phtcatm_name, phtd_phtcatm_id,phtcatm_img, phtd_name, phtd_desc,phtd_rank, phtd_sts, phtd_crtdon, phtd_crtdby, phtd_mdfdon, phtd_mdfdby, phtm_id, phtm_phtd_id, phtm_phtcatm_id, phtm_simgnm, phtm_simg, phtm_prty, phtm_sts, phtm_crtdon, phtm_crtdby, phtm_mdfdon, phtm_mdfdby,phtcatm_name,phtcatm_id,phtcatm_desc,phtcatm_deprtmnt from vw_phtd_phtm_mst 
+					$sqryphtcat_mst = "SELECT phtd_id,phtcatm_name, phtd_phtcatm_id,phtcatm_img, phtd_name, phtd_desc,phtd_rank, phtd_sts, phtd_crtdon, phtd_crtdby, phtd_mdfdon, phtd_mdfdby, phtm_id, phtm_phtd_id, phtm_phtcatm_id, phtm_simgnm, phtm_simg, phtm_prty, phtm_sts, phtm_crtdon, phtm_crtdby, phtm_mdfdon, phtm_mdfdby,phtcatm_name,phtcatm_id,phtcatm_desc,phtcatm_deprtmnt from vw_phtd_phtm_mst
 					left join phtcat_mst on  phtcat_mst.phtcatm_id = vw_phtd_phtm_mst.phtm_phtcatm_id where phtcatm_deprtmnt='$catone_id' and phtm_sts = 'a' and phtcatm_sts = 'a' and phtd_sts = 'a' and phtcatm_typ = 'd' group by phtcatm_id order by  phtcatm_prty asc";
 					$srsphtcat_dtl = mysqli_query($conn, $sqryphtcat_mst);
 					$cntrec_phtcat = mysqli_num_rows($srsphtcat_dtl);
