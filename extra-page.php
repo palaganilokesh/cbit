@@ -34,8 +34,8 @@ if (isset($_REQUEST['dwnld']) && (trim($_REQUEST['dwnld']) != "" ) && isset($_RE
 	$dwnld = glb_func_chkvl($_REQUEST['dwnld']);
 	$dwnld_nm = funcStrUnRplc($dwnld);
 	$year = glb_func_chkvl($_REQUEST['year']);
-	$year_nm = funcStrUnRplc($year);
-	 $dwnldqry = "SELECT dwnld_id,dwnld_name,dwnld_sts,dwnld_desc,dwnld_prty,dwnld_flenm, prodm_id,prodm_name from  vw_dwnld_dtl  where dwnld_name ='$dwnld_nm' and prodm_name='$year_nm' and dwnld_sts='a'";
+	// $year_nm = funcStrUnRplc($year);
+	 $dwnldqry = "SELECT dwnld_id,dwnld_name,dwnld_sts,dwnld_desc,dwnld_prty,dwnld_flenm, prodm_id,prodm_name from  vw_dwnld_dtl  where dwnld_name ='$dwnld_nm' and prodm_name='$year' and dwnld_sts='a'";
 	$dwnldqry_mst 	= mysqli_query($conn, $dwnldqry);
 	$dwn_abtqry   	= mysqli_num_rows($dwnldqry_mst);
 	if ($dwn_abtqry > 0) {
@@ -45,7 +45,7 @@ if (isset($_REQUEST['dwnld']) && (trim($_REQUEST['dwnld']) != "" ) && isset($_RE
 			$dwn_desc = $dwn_rows['dwnld_desc'];
 			$dwn_yer = $dwn_rows['prodm_name'];
 		}
-	} 
+	}
 	else {
 		header("Location:$ind_loc");
 		exit();
@@ -96,7 +96,7 @@ include('header.php');
 				} else {
 				?>
 					<li><?php echo $ab_name; ?></li>
-				
+
 				<?php
 				}
 				?>
@@ -135,7 +135,7 @@ include('header.php');
 			</div>
 			<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-12 order-md-2 order-1 ">
 				<?php
-				// include_once('department-nav.php'); 
+				// include_once('department-nav.php');
 				?>
 			</div>
 		</div>

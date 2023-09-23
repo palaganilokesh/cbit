@@ -3,30 +3,30 @@ error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
 include_once 'includes/inc_connection.php';
 include_once 'includes/inc_usr_functions.php'; //Use function for validation and more
-include_once 'includes/inc_config.php'; //Making paging validation	
-include_once 'includes/inc_folder_path.php'; //Making paging validation	
+include_once 'includes/inc_config.php'; //Making paging validation
+include_once 'includes/inc_folder_path.php'; //Making paging validation
 include_once 'includes/inc_paging_functions.php'; //Making paging validation
-//$rowsprpg  = $_SESSION['sespgval'];//maximum rows per page	
-include_once 'includes/inc_paging1.php'; //Includes pagination  
+//$rowsprpg  = $_SESSION['sespgval'];//maximum rows per page
+include_once 'includes/inc_paging1.php'; //Includes pagination
 
 $evnttoday = date('Y-m-d');
 $crntmnty = date('n');
-$sqryevnt_mst = "select 
+$sqryevnt_mst = "select
           evntm_id,evntm_name,evntm_desc,evntm_city,
           evntm_strtdt,evntm_enddt,evntm_venue,evtnm_strttm,
           evntm_endtm,DATE_format(evntm_strtdt, '%D %M %Y') as stdate,
           DATE_format(evntm_enddt, '%D %M %Y') as eddate
-        from 
+        from
           evnt_mst
-        where 
+        where
           evntm_sts='a'  and evntm_typ='e' ";
 
 if (isset($_REQUEST['id']) && trim($_REQUEST['id']) != "") {
   $evntId      = glb_func_chkvl($_REQUEST['id']);
   $sqryevnt_mst .= " and evntm_id = '$evntId' ";
 }
-// if((isset($_REQUEST['day']) && (trim ($_REQUEST['day'])!= "") && 
-//   isset($_REQUEST['year']) && (trim($_REQUEST['year']) != "") && 
+// if((isset($_REQUEST['day']) && (trim ($_REQUEST['day'])!= "") &&
+//   isset($_REQUEST['year']) && (trim($_REQUEST['year']) != "") &&
 //   isset($_REQUEST['month']) && trim($_REQUEST['month'])!= "")){
 
 //   $CurrMonth	= $_REQUEST['month'];
@@ -38,21 +38,21 @@ if (isset($_REQUEST['id']) && trim($_REQUEST['id']) != "") {
 //   }
 //   if($CurrMonth < 10){
 //       $CurrMonth = "0".$CurrMonth;
-//   }					
+//   }
 //   $date = glb_func_chkvl($CurrYear ."-".$CurrMonth."-".$CurrDay);
 //   $sqryevnt_mst.=" and '$date' between evntm_strtdt and evntm_enddt ||  '$date' IN (evntm_strtdt,evntm_enddt)";
 //   $evnttoday = $date;
-//   $crntmnty  = $CurrMonth; 	
+//   $crntmnty  = $CurrMonth;
 // }
 // elseif((isset($_REQUEST['date'])!="") && trim($_REQUEST['date']) != ''){
-//    $month_name = date('m',$_REQUEST['date']); 
+//    $month_name = date('m',$_REQUEST['date']);
 //    $sqryevnt_mst.=" and $month_name between MONTH(evntm_strtdt) and MONTH(evntm_enddt) ||  '$month_name' IN (MONTH(evntm_strtdt),MONTH(evntm_enddt))";
 // }else{
 //   $sqryevnt_mst.="and
 //         (evntm_strtdt >= '$evnttoday' or
 //         evntm_enddt >= '$evnttoday') and
 //         (month(evntm_strtdt) >= '$crntmnty' or
-//         month(evntm_enddt) >= '$crntmnty')";	
+//         month(evntm_enddt) >= '$crntmnty')";
 // }
 $pgqry = $sqryevnt_mst;
 $_SESSION['seprodscatqry'] = $sqryevnt_mst;
@@ -62,7 +62,7 @@ if (isset($_REQUEST['lstprodcat']) && trim($_REQUEST['lstprodcat']) != "") {
 }
 $sqryevnt_mst  .=  " group by evntm_id order by evntm_prty DESC ";
 // limit $offset,$rowsprpg
-// echo 	$sqryevnt_mst;		
+// echo 	$sqryevnt_mst;
 $srsevnt_mst     =  mysqli_query($conn, $sqryevnt_mst) or die(mysqli_error($conn));
 $cntrec_mst  = mysqli_num_rows($srsevnt_mst);
 
@@ -76,44 +76,21 @@ $rd_crntpgnm="event-list.php";
 include('header.php');
 ?>
 <script language="javascript">
-function srch_evnt() {
-		//alert("");
-		var urlval = "";
-		if ((document.frmevnt.event.value == "") && (document.frmevnt.lstprodcat.value == "") || (document.frmevnt.txtname.value == "")) {
-			alert("Plese Select Search Criteria");
-			document.frmevnt.event.focus();
-			return false;
-		}
-		var event = document.frmevnt.event.value;
-		var lstprodcat = document.frmevnt.lstprodcat.value;
-		var txtname = document.frmevnt.txtname.value;
-		if (event != '') {
-			if (urlval == "") {
-				urlval += "event=" + event;
-			} else {
-				urlval += "&event=" + event;
-			}
-		}
-		if (lstprodcat != '') {
-			if (urlval == "") {
-				urlval += "lstprodcat=" + lstprodcat;
-			} else {
-				urlval += "&lstprodcat=" + lstprodcat;
-			}
-		}
-		// if (txtname != '') {
-		// 	if (urlval == "") {
-		// 		urlval += "txtname=" + txtname;
-		// 	} else {
-		// 		urlval += "&txtname=" + txtname;
-		// 	}
-		// }
-
-			document.frmevnt.action = "<?php echo $rd_crntpgnm; ?>?" + urlval;
-			document.frmevnt.submit();
-	
-		return true;
-	}
+ 	function get_event()
+  {
+  	var dept_id = $("#lstprodcat").val();
+    var nw_yr = $("#event").val();
+    var typ='e';
+  	$.ajax({
+  		type: "POST",
+  		url: "<?php echo $rtpth;?>filters.php",
+  		data:'evnt_dept_id='+dept_id+'&evnt_yr='+nw_yr+'&ev_typ='+typ,
+  		success: function(data){
+  			// alert(data)
+  			$("#filt_evnt").html(data);
+  		}
+  	});
+  }
   </script>
 <style>
   .section-title h2 {
@@ -139,7 +116,6 @@ function srch_evnt() {
 <?php
 if ($cntrec_mst > 0) {
 ?>
-<form method="post" action="<?php $_SERVER['SCRIPT_FILENAME']; ?>" name="frmevnt" id="frmevnt">
   <div class="col-md-12">
     <div class="row justify-content-left align-items-center mt-3">
       <div class="col-sm-3">
@@ -147,14 +123,14 @@ if ($cntrec_mst > 0) {
           <select name="event" id="event" class="form-control" onchange=get_event()>
             <option value="">Select Academic Year </option>
             <?php
-            $sqry_evnt = "SELECT evntm_name,evntm_dept,evntm_crtdon,DATE_format(evntm_strtdt, '%Y') as evn_year from evnt_mst where evntm_sts='a' and evntm_typ='e' group by  evn_year";
+            $sqry_evnt = "SELECT evntm_acyr from evnt_mst where evntm_sts='a' and evntm_typ='e' group by  evntm_acyr";
             $exqury = mysqli_query($conn, $sqry_evnt);
             $cnt_rows = mysqli_num_rows($exqury);
             while ($filter = mysqli_fetch_assoc($exqury)) {
-              $ex_year = $filter['evn_year'];
+              $ex_year = $filter['evntm_acyr'];
             ?>
             <option value="<?php echo $ex_year; ?>" <?php if (isset($_REQUEST['event']) && trim($_REQUEST['event']) == $catid) {echo 'selected';} ?>><?php echo $ex_year; ?></option>
-             
+
             <?php
             }
             ?>
@@ -163,12 +139,12 @@ if ($cntrec_mst > 0) {
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <select name="lstprodcat" id="lstprodcat" class="form-control">
+          <select name="lstprodcat" id="lstprodcat" class="form-control" onchange=get_event()>
             <option value="">--Select Department--</option>
             <?php
-            $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name,evntm_dept,evntm_typ from prodcat_mst 
+            $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name,evntm_dept,evntm_typ from prodcat_mst
             inner join evnt_mst on evntm_dept=prodcatm_id
-            where prodcatm_typ='d' and prodcatm_admtyp='UG' and evntm_typ='e' order by prodcatm_name";
+            where prodcatm_typ='d' and prodcatm_admtyp='UG' and evntm_typ='e' group by prodcatm_name order by prodcatm_name";
             $rsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
             $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
             if ($cnt_prodcat > 0) {   ?>
@@ -183,7 +159,7 @@ if ($cntrec_mst > 0) {
             }
             $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name,evntm_dept,evntm_typ from prodcat_mst
              inner join evnt_mst on evntm_dept=prodcatm_id
-             where prodcatm_typ='d' and prodcatm_admtyp='PG' and evntm_typ='e' order by prodcatm_name";
+             where prodcatm_typ='d' and prodcatm_admtyp='PG' and evntm_typ='e' group by prodcatm_name order by prodcatm_name";
             $rsprodcat_mst1 = mysqli_query($conn, $sqryprodcat_mst1);
             $cnt_prodcat1 = mysqli_num_rows($rsprodcat_mst1);
             if ($cnt_prodcat1 > 0) {   ?>
@@ -193,7 +169,7 @@ if ($cntrec_mst > 0) {
                 $catname = $rowsprodcat_mst1['prodcatm_name'];
               ?>
               <option value="<?php echo $catid; ?>" <?php if (isset($_REQUEST['lstprodcat']) && trim($_REQUEST['lstprodcat']) == $catid) {echo 'selected';} ?>><?php echo $catname; ?></option>
-               
+
             <?php
               }
             }
@@ -201,18 +177,13 @@ if ($cntrec_mst > 0) {
           </select>
         </div>
       </div>
-      <div class="col-sm-4">
-        <div class="form-group">
-          <input type="submit" value="Search" class="btn btn-primary" name="btnsbmt" onClick="srch_evnt();">
 
-        </div>
-      </div>
     </div>
   </div>
 
   <div class="campus-information-area section-pad-y">
     <div class="container-fluid px-lg-3 px-md-3 px-2">
-      <div class="row justify-content-center">
+      <div class="row justify-content-center" id="filt_evnt">
 
         <?php
 
@@ -237,10 +208,10 @@ if ($cntrec_mst > 0) {
           // }
 
           $sqryevntimg_dtl = "SELECT
-								evntimgd_name,evntimgd_id,evntimgd_img				  		    
-							from 
+								evntimgd_name,evntimgd_id,evntimgd_img
+							from
 								  evntimg_dtl
-							where 
+							where
 								evntimgd_evntm_id = '$db_evntm_id'
 								order by evntimgd_prty desc limit 1";
           // echo $sqryevntimg_dtl;
@@ -283,7 +254,6 @@ if ($cntrec_mst > 0) {
       </div>
     </div>
   </div>
-</form>
 <?php
 }
 ?>

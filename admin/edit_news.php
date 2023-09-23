@@ -4,11 +4,11 @@ include_once "../includes/inc_adm_session.php"; //checking for session
 include_once "../includes/inc_connection.php"; //Making database Connection
 include_once "../includes/inc_usr_functions.php"; //checking for session
 include_once '../includes/inc_config.php';       //Making paging validation
-include_once '../includes/inc_folder_path.php'; //Floder Path	
+include_once '../includes/inc_folder_path.php'; //Floder Path
 include_once 'searchpopcalendar.php';
 
 /***************************************************************/
-//Programm 	  		: edit_brand.php	
+//Programm 	  		: edit_brand.php
 //Purpose 	  			: Updating new brand
 //Created By  		: Mallikarjuna
 //Created On  		:	16/04/2013
@@ -31,7 +31,7 @@ if (
     isset($_POST['hdnbrndid']) && ($_POST['hdnbrndid'] != "") &&
     isset($_POST['txtprior']) && ($_POST['txtprior'] != "")
 ) {
-    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files		
+    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
     include_once "../database/uqry_news_dtl.php";
 }
 if (
@@ -51,12 +51,12 @@ if (
     $pg         = $_REQUEST['hdnpage'];
     $countstart = $_REQUEST['hdncnt'];
 }
-$sqrybrnd_mst = "select 
+$sqrybrnd_mst = "select
 nwsm_name,nwsm_desc,nwsm_prty,nwsm_sts,nwsm_img,nwsm_lnk,
-nwsm_dwnfl,nwsm_typ,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_dept
-from 
+nwsm_dwnfl,nwsm_typ,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_dept,nwsm_acyr
+from
 nws_mst
-where 
+where
 nwsm_id='$id'";
 $srsbrnd_mst  = mysqli_query($conn, $sqrybrnd_mst);
 $cntbrnd_mst  = mysqli_num_rows($srsbrnd_mst);
@@ -94,7 +94,7 @@ if ($cntbrnd_mst > 0) {
     rules[0] = 'txtname:Name|required|Enter Recruiters/Recognitions Name';
     rules[1] = 'txtprty:Priority|required|Enter Rank';
     rules[2] = 'txtprty:Priority|numeric|Enter Only Numbers';
-
+	rules[3] = 'lstacyr:Academic year|required|Select Academic Year';
     function setfocus() {
         document.getElementById('txtname').focus();
     }
@@ -129,19 +129,19 @@ include_once('../includes/inc_fnct_ajax_validation.php');
         }
     }
     function disptype() {
-		
+
         var div1 = document.getElementById("div1");
         if (document.frmedtbrnd.lsttyp.value == '5') {
             div1.style.display = "block";
-           
-        } 
+
+        }
         else if (document.frmedtbrnd.lsttyp.value == '2') {
             div1.style.display = "none";
-           
+
         }
 		else if (document.frmedtbrnd.lsttyp.value == '4') {
             div1.style.display = "none";
-           
+
         }
     }
 </script>
@@ -187,7 +187,36 @@ include_once $inc_adm_lftlnk;
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Academic Year </label>
+								</div>
+								<div class="col-sm-9">
 
+									<select name="lstacyr" id="lstacyr" class="form-control">
+										<option value="">--Select Academic Year--</option>
+										<?php
+										$sqryay_mst = "SELECT prodm_id,prodm_name from prod_mst where prodm_sts='a'  order by prodm_prty asc";
+										$rsproday_mst = mysqli_query($conn, $sqryay_mst);
+										$cnt_proday = mysqli_num_rows($rsproday_mst);
+										if ($cnt_proday > 0) {
+											while ($rowsprodacyr_mst = mysqli_fetch_assoc($rsproday_mst)) {
+												$ayid = $rowsprodacyr_mst['prodm_id'];
+												$aynm = $rowsprodacyr_mst['prodm_name'];
+										?>
+												<option value="<?php echo $aynm; ?>" <?php if ($rowsbrnd_mst['nwsm_acyr'] == $aynm) echo 'selected'; ?>><?php echo $aynm; ?></option>
+
+										<?php
+											}
+										}
+
+										?>
+									</select>
+									<span id="errorsDiv_lstacyr"></span>
+								</div>
+							</div>
+						</div>
                     <div class="col-md-12">
                         <div class="row mb-2 mt-2">
                             <div class="col-sm-3">
@@ -248,7 +277,7 @@ include_once $inc_adm_lftlnk;
                                 </div>
                                 <?php
                                 $flenm = $rowsbrnd_mst['nwsm_dwnfl'];
-                                	$flepath = $a_dwnfl_upldpth.$flenm;	
+                                	$flepath = $a_dwnfl_upldpth.$flenm;
                                 if (($flenm != "") ) {
 																	echo "<a href='$flepath'  target='_blank' >View</a>";
                                 } else {
@@ -286,9 +315,9 @@ include_once $inc_adm_lftlnk;
                             </div>
                         </div>
                     </div>
-                    
+
                         <div id="div1" class="col-md-12" style="display: block;">
-                        <?php 
+                        <?php
                     // if($rowsbrnd_mst['nwsm_typ']=='5'){
                         ?>
   <div class="col-md-12">
@@ -297,7 +326,7 @@ include_once $inc_adm_lftlnk;
 									<label>Department *</label>
 								</div>
 								<div class="col-sm-9">
-								
+
 
 									<select name="lstprodcat" id="lstprodcat" class="form-control">
                                         <option value="">--Select Department--</option>
@@ -308,14 +337,14 @@ include_once $inc_adm_lftlnk;
 										if( $cnt_prodcat > 0)
 										{   ?>
                                             <option disabled>-- UG --</option>
-                                            <?php											
+                                            <?php
                                             while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
 											{
 												$catid = $rowsprodcat_mst['prodcatm_id'];
 												$catname = $rowsprodcat_mst['prodcatm_name'];
 												?>
                                                 <option value="<?php echo $catid;?>"<?php if($rowsbrnd_mst['nwsm_dept']==$catid) echo 'selected';?>><?php echo $catname;?></option>
-												
+
 												<?php
 											}
 										}
@@ -331,7 +360,7 @@ include_once $inc_adm_lftlnk;
 												$catname = $rowsprodcat_mst['prodcatm_name'];
 												?>
                                                  <option value="<?php echo $catid;?>"<?php if($rowsbrnd_mst['nwsm_dept']==$catid) echo 'selected';?>><?php echo $catname;?></option>
-												
+
 												<?php
 											}
 										}
@@ -341,7 +370,7 @@ include_once $inc_adm_lftlnk;
 								</div>
 							</div>
 						</div>
-                       
+
                         <?php
                     // }
                     ?>

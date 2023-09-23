@@ -29,10 +29,11 @@ $rd_crntpgnm="news-list.php";
   {
   	var dept_id = $("#lstprodcat").val();
     var nw_yr = $("#news").val();
+    var typ='n';
   	$.ajax({
   		type: "POST",
-  		url: "filters.php",
-  		data:'nw_dept_id='+dept_id+'&nw_yr='+nw_yr,
+  		url: "<?php echo $rtpth;?>filters.php",
+  		data:'nw_dept_id='+dept_id+'&nw_yr='+nw_yr+'&nw_typ='+typ,
   		success: function(data){
   			// alert(data)
   			$("#filt_nws").html(data);
@@ -68,14 +69,14 @@ DATE_format(evntm_strtdt, '%b ') as nstmnth,
 DATE_format(evntm_strtdt, '%Y ') as nstyr
   from
 evnt_mst	where evntm_sts='a' and evntm_typ='n' ";
-if (isset($_REQUEST['lstprodcat']) && trim($_REQUEST['lstprodcat']) != "") {
-$nws_dpt      = glb_func_chkvl($_REQUEST['lstprodcat']);
-$sqrynws_mst .= " and evntm_dept = '$nws_dpt' ";
-}
-if (isset($_REQUEST['news']) && trim($_REQUEST['news']) != "") {
-$nws_dpt      = glb_func_chkvl($_REQUEST['news']);
-$sqrynws_mst .= " and evntm_dept = '$nws_dpt' ";
-}
+// if (isset($_REQUEST['lstprodcat']) && trim($_REQUEST['lstprodcat']) != "") {
+// $nws_dpt      = glb_func_chkvl($_REQUEST['lstprodcat']);
+// $sqrynws_mst .= " and evntm_dept = '$nws_dpt' ";
+// }
+// if (isset($_REQUEST['news']) && trim($_REQUEST['news']) != "") {
+// $nws_dpt      = glb_func_chkvl($_REQUEST['news']);
+// $sqrynws_mst .= " and evntm_dept = '$nws_dpt' ";
+// }
 $sqrynws_mst.="	order by evntm_strtdt ASC ";
 // echo $sqrynws_mst;
 $srsnews_mst  =  mysqli_query($conn, $sqrynws_mst) or die(mysqli_error($conn));
@@ -89,11 +90,11 @@ if ($numrows1  > 0) { ?>
           <select name="news" id="news" class="form-control" onchange=get_news()>
             <option value="">Select Academic Year </option>
             <?php
-            $sqry_evnt = "SELECT evntm_name,evntm_dept,evntm_crtdon,DATE_format(evntm_strtdt, '%Y') as evn_year from evnt_mst where evntm_sts='a' and evntm_typ='n' group by  evn_year";
+            $sqry_evnt = "SELECT evntm_acyr from evnt_mst where evntm_sts='a' and evntm_typ='n' group by  evntm_acyr";
             $exqury = mysqli_query($conn, $sqry_evnt);
             $cnt_rows = mysqli_num_rows($exqury);
             while ($filter = mysqli_fetch_assoc($exqury)) {
-              $ex_year = $filter['evn_year'];
+              $ex_year = $filter['evntm_acyr'];
             ?>
             <option value="<?php echo $ex_year; ?>" <?php if (isset($_REQUEST['news']) && trim($_REQUEST['news']) == $catid) {echo 'selected';} ?>><?php echo $ex_year; ?></option>
 
@@ -110,7 +111,7 @@ if ($numrows1  > 0) { ?>
             <?php
             $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name,evntm_dept,evntm_typ from prodcat_mst
             inner join evnt_mst on evntm_dept=prodcatm_id
-            where prodcatm_typ='d' and prodcatm_admtyp='UG' and evntm_typ='n' order by prodcatm_name";
+            where prodcatm_typ='d' and prodcatm_admtyp='UG' and evntm_typ='n' group by prodcatm_name order by prodcatm_name";
             $rsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
             $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
             if ($cnt_prodcat > 0) {   ?>
@@ -125,7 +126,7 @@ if ($numrows1  > 0) { ?>
             }
             $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name,evntm_dept,evntm_typ from prodcat_mst
              inner join evnt_mst on evntm_dept=prodcatm_id
-             where prodcatm_typ='d' and prodcatm_admtyp='PG' and evntm_typ='n' order by prodcatm_name";
+             where prodcatm_typ='d' and prodcatm_admtyp='PG' and evntm_typ='n' group by prodcatm_name order by prodcatm_name";
             $rsprodcat_mst1 = mysqli_query($conn, $sqryprodcat_mst1);
             $cnt_prodcat1 = mysqli_num_rows($rsprodcat_mst1);
             if ($cnt_prodcat1 > 0) {   ?>
@@ -149,7 +150,7 @@ if ($numrows1  > 0) { ?>
 
 
 <div class="latest-news-card-area">
-<h3>Latest News</h3>
+<!-- <h3>Latest News</h3> -->
 <div class="row" id="filt_nws">
 <?php
                         while ($srownews_mst   = mysqli_fetch_assoc($srsnews_mst)) {
@@ -314,4 +315,4 @@ if ($numrows1  > 0) { ?>
 </div>
 
 
-<?php include_once('footer.php'); ?>
+<?php include_once("footer.php"); ?>

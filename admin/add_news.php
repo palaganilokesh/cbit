@@ -1,22 +1,22 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 include_once 'searchpopcalendar.php';
 /***********************************************************
-Programm : add_main_category.php	
-Package : 
+Programm : add_main_category.php
+Package :
 Purpose : For add main category
 Created By : Bharath
 Created On :	20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -43,6 +43,7 @@ $clspn_val = "4";
 	rules[0] = 'txtname:Name|required|Enter Updates / Notifications Name';
 	rules[1] = 'txtprty:txtprty|required|Enter Rank';
 	rules[2] = 'txtprty:txtprty|numeric|Enter Only Numbers';
+	rules[3] = 'lstacyr:Academic year|required|Select Academic Year';
 	// rules[2] = 'flebnrimg:txtprty|numeric|Upload Image';
 	function setfocus() {
 		document.getElementById('txtname').focus();
@@ -81,19 +82,19 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 		}
 	}
 	function disptype() {
-		
+
         var div1 = document.getElementById("div1");
         if (document.frmanews.lsttyp.value == '5') {
             div1.style.display = "block";
-           
-        } 
+
+        }
         else if (document.frmanews.lsttyp.value == '2') {
             div1.style.display = "none";
-           
+
         }
 		else if (document.frmanews.lsttyp.value == '4') {
             div1.style.display = "none";
-           
+
         }
     }
 </script>
@@ -156,6 +157,35 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 								<div class="col-sm-9">
 									<input name="txtname" type="text" id="txtname" size="560" onBlur="funcChkDupName()" class="form-control">
 									<span id="errorsDiv_txtname"></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Academic Year </label>
+								</div>
+								<div class="col-sm-9">
+
+									<select name="lstacyr" id="lstacyr" class="form-control">
+										<option value="">--Select Academic Year--</option>
+										<?php
+										$sqryay_mst = "SELECT prodm_id,prodm_name from prod_mst where prodm_sts='a'  order by prodm_prty asc";
+										$rsproday_mst = mysqli_query($conn, $sqryay_mst);
+										$cnt_proday = mysqli_num_rows($rsproday_mst);
+										if ($cnt_proday > 0) {
+											while ($rowsprodacyr_mst = mysqli_fetch_assoc($rsproday_mst)) {
+												$ayid = $rowsprodacyr_mst['prodm_id'];
+												$aynm = $rowsprodacyr_mst['prodm_name'];
+										?>
+												<option value="<?php echo $aynm; ?>"><?php echo $aynm; ?></option>
+										<?php
+											}
+										}
+
+										?>
+									</select>
+									<span id="errorsDiv_lstacyr"></span>
 								</div>
 							</div>
 						</div>
@@ -245,7 +275,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 									<label>Department *</label>
 								</div>
 								<div class="col-sm-9">
-									
+
 									<select name="lstprodcat" id="lstprodcat" class="form-control">
                                         <option value="">--Select Department--</option>
                                         <?php
@@ -286,7 +316,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 							</div>
 						</div>
 
-								</div>	
+								</div>
 						<!-- <div class="col-md-12">
                             <div class="row mb-2 mt-2">
                                 <div class="col-sm-3">

@@ -1,4 +1,7 @@
 <?php
+// echo "<pre>";
+// var_dump($_REQUEST);
+// echo"</pre>";
 error_reporting(0);
 // include_once "includes/inc_usr_sessions.php";
 include_once 'includes/inc_connection.php';
@@ -6,15 +9,23 @@ include_once 'includes/inc_usr_functions.php'; //Use function for validation and
 include_once 'includes/inc_config.php'; //Making paging validation
 include_once 'includes/inc_folder_path.php'; //Making paging validation
 include_once 'includes/inc_paging_functions.php'; //Making paging validation
-//$rowsprpg  = $_SESSION['sespgval'];//maximum rows per page
 include_once 'includes/inc_paging1.php'; //Includes pagination
-$page_title = "Announcements | Chaitanya Bharathi Institute of Technology";
-$page_seo_title = "Announcements | Chaitanya Bharathi Institute of Technology";
+$notify_typ			= glb_func_chkvl($_REQUEST['notify_typ']);
+ if ($notify_typ == 2) {
+	$disp_nm = "College Notifications";
+}  else if ($notify_typ == 4) {
+	$disp_nm = "Announcements";
+} else if ($notify_typ == 5) {
+	$disp_nm = "Department Notifications";
+}
+$page_title = "$disp_nm | Chaitanya Bharathi Institute of Technology";
+$page_seo_title = "$disp_nm | Chaitanya Bharathi Institute of Technology";
 $db_seokywrd = "";
 $db_seodesc = "";
 $current_page = "home";
 $body_class = "homepage";
 include('header.php');
+
 ?>
 
 <style>
@@ -22,7 +33,27 @@ include('header.php');
 		font-size: 20px;
 	}
 </style>
+<script language="javascript">
+ 	function get_notification()
+  {
 
+  	var acyr = $("#news_yr").val();
+		var dept_id = $("#lstprodcat").val();
+		var not_typ=$("#not_type").val();
+
+  	$.ajax({
+  		type: "POST",
+  		url: "<?php echo $rtpth;?>filters.php",
+  		// data:'not_dept_id='+dept_id+'&not_yr='+acyr,
+			data:'not_yr='+acyr+'&not_dept_id='+dept_id+'&not_typ='+not_typ,
+  		success: function(data){
+  			// alert(data)
+  			$("#filt_not1").html(data);
+  		}
+  	});
+
+  }
+  </script>
 <div class="page-banner-area bg-2">
 
 </div>
@@ -60,7 +91,9 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
 			} else if ($notify_typ == 5) {
 				$disp_nm = "Department Notifications";
 			}
+			// $page_title = "$disp_nm | Chaitanya Bharathi Institute of Technology";
 			?>
+
 			<h1><?php echo $disp_nm; ?></h1>
 			<ul>
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
@@ -69,21 +102,21 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
 		</div>
 	</div>
 </section>
-<form method="post" action="<?php $_SERVER['SCRIPT_FILENAME']; ?>" name="frmnews" id="frmnews">
+<input type="hidden" id="not_type" value="<?php echo $notify_typ;?>"/>
   <div class="col-md-12">
     <div class="row justify-content-left align-items-center mt-3">
       <div class="col-sm-3">
         <div class="form-group">
-          <select name="news" id="news" class="form-control" onchange=get_event()>
+          <select name="news_yr" id="news_yr" class="form-control" onchange=get_notification();>
             <option value="">Select Academic Year </option>
             <?php
-            $sqry_evnt = "SELECT nwsm_name,nwsm_dept,nwsm_typ,DATE_format(nwsm_dt, '%Y') as nws_year from nws_mst where nwsm_sts='a' and nwsm_typ='' group by  nws_year";
+            $sqry_evnt = "SELECT nwsm_acyr from nws_mst where nwsm_sts='a' and nwsm_typ='$notify_typ' group by  nwsm_acyr";
             $exqury = mysqli_query($conn, $sqry_evnt);
             $cnt_rows = mysqli_num_rows($exqury);
             while ($filter = mysqli_fetch_assoc($exqury)) {
-              $ex_year = $filter['nws_year'];
+              $ex_year = $filter['nwsm_acyr'];
             ?>
-            <option value="<?php echo $ex_year; ?>" <?php if (isset($_REQUEST['news']) && trim($_REQUEST['news']) == $catid) {echo 'selected';} ?>><?php echo $ex_year; ?></option>
+            <option value="<?php echo $ex_year; ?>" <?php if (isset($_REQUEST['news_yr']) && trim($_REQUEST['news_yr']) == $catid) {echo 'selected';} ?>><?php echo $ex_year; ?></option>
 
             <?php
             }
@@ -91,14 +124,16 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
           </select>
         </div>
       </div>
-      <div class="col-sm-3">
+			<?php if($notify_typ == 5){
+				?>
+				    <div class="col-sm-3">
         <div class="form-group">
-          <select name="lstprodcat" id="lstprodcat" class="form-control">
+          <select name="lstprodcat" id="lstprodcat" class="form-control" onchange=get_notification()>
             <option value="">--Select Department--</option>
             <?php
             $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name,nwsm_dept,nwsm_typ from prodcat_mst
             inner join nws_mst on nwsm_dept=prodcatm_id
-            where prodcatm_typ='d' and prodcatm_admtyp='UG' and nwsm_typ='' order by prodcatm_name";
+            where prodcatm_typ='d' and prodcatm_admtyp='UG' and nwsm_typ='$notify_typ' group by prodcatm_name order by prodcatm_name";
             $rsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
             $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
             if ($cnt_prodcat > 0) {   ?>
@@ -113,7 +148,7 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
             }
             $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name,nwsm_dept,nwsm_typ from prodcat_mst
              inner join nws_mst on nwsm_dept=prodcatm_id
-             where prodcatm_typ='d' and prodcatm_admtyp='PG' and nwsm_typ='' order by prodcatm_name";
+             where prodcatm_typ='d' and prodcatm_admtyp='PG' and nwsm_typ='$notify_typ' group by prodcatm_name order by prodcatm_name";
             $rsprodcat_mst1 = mysqli_query($conn, $sqryprodcat_mst1);
             $cnt_prodcat1 = mysqli_num_rows($rsprodcat_mst1);
             if ($cnt_prodcat1 > 0) {   ?>
@@ -131,13 +166,9 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
           </select>
         </div>
       </div>
-      <div class="col-sm-4">
-        <div class="form-group">
-          <input type="submit" value="Search" class="btn btn-primary" name="btnsbmt" onClick="srch_nws();">
-
-        </div>
-      </div>
-    </div>
+				<?php
+			}?>
+ </div>
   </div>
 <div class="latest-news-area section-pad-y">
 	<div class="container-fluid px-lg-3 px-md-3 px-2">
@@ -146,7 +177,7 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
 				<div class="latest-news-left-content pr-20 ">
 					<div class="latest-news-card-area">
 						<h3>Latest <?php echo $disp_nm; ?></h3>
-						<div class="row">
+						<div class="row" id="filt_not1">
 							<?php
 							while ($anounce = mysqli_fetch_assoc($srsanounce_mst)) {
 								$ancmt_id = $anounce['nwsm_id'];
@@ -174,12 +205,7 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
 											<a href="<?php echo $rtpth . 'latest-notifications/' . $notify_typ . '/' . $ancmt_url . '_' . $ancmt_id; ?>"><img src="<?php echo $notify_imgpth; ?>" alt="Image"></a>
 										</div>
 										<div class="announcements-content">
-											<!-- <div class="list">
-											<ul>
-												<li><i class="flaticon-user"></i>By <a href="news-details.php">ECE</a></li>
-												<li><i class="flaticon-tag"></i>Electronics</li>
-											</ul>
-										</div> -->
+
 											<a href="<?php echo $rtpth . 'latest-notifications/' . $notify_typ . '/' . $ancmt_url . '_' . $ancmt_id; ?>">
 												<h3><?php echo $ancmt_nm; ?></h3>
 											</a>
@@ -197,14 +223,8 @@ $cnt_anounce = mysqli_num_rows($srsanounce_mst);
 			</div>
 			<!-- removed -->
 		</div>
-
-
-
-
-
-
 	</div>
 </div>
-</form>
+
 
 <?php include_once('footer.php'); ?>

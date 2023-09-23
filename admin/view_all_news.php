@@ -1,23 +1,23 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
 Programm : view_product_subcategory.php
 Purpose : For Viewing Products sub category
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
 global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
-$clspn_val = "6";
+$clspn_val = "7";
 $rd_adpgnm = "add_news.php";
 $rd_edtpgnm = "edit_news.php";
 $rd_crntpgnm = "view_all_news.php";
@@ -28,7 +28,7 @@ $pagemncat = "Setup";
 $pagecat = "Updates / Notifications";
 $pagenm = "Updates / Notifications";
 /*****header link********/
-if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts'])) 
+if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts']))
 {
 	$dchkval = substr($_POST['hdnchksts'], 1);
 	$id       = glb_func_chkvl($dchkval);
@@ -39,7 +39,7 @@ if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts']))
 		$msg = "<font color=red>Record not updated</font>";
 	}
 }
-// if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) 
+// if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval']))
 // {
 // 	$dchkval = substr($_POST['hdnchkval'], 1);
 // 	$did     = glb_func_chkvl($dchkval);
@@ -95,10 +95,10 @@ if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 	}
 }
 
-if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) 
+if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y"))
 {
 	$msg = "<font color=red>Record updated successfully</font>";
-} elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "n")) 
+} elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "n"))
 {
 	$msg = "<font color=red>Record not updated</font>";
 } elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
@@ -112,10 +112,10 @@ include_once "../includes/inc_paging1.php"; //Includes pagination
 
 $sqrynews_mst1 =  "SELECT
 nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,
-nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt						    
+nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_acyr
 from
 nws_mst
-where 
+where
 nwsm_id != ''";
 if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != '')
  {
@@ -147,7 +147,7 @@ $serchres = mysqli_num_rows($srsnews_mst);
 include_once 'script.php';
 ?>
 <script language="javascript">
-	function addnew() 
+	function addnew()
 	{
 		document.frmnews.action = "<?php echo $rd_adpgnm; ?>";
 		document.frmnews.submit();
@@ -253,10 +253,10 @@ include_once 'script.php';
 									<?php
 									$sqryprodcat_mst =  "SELECT
                                     nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,
-                                    nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt						    
+                                    nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt
                                     from
                                     nws_mst
-                                    where 
+                                    where
                                     nwsm_id != ''";;
 									$srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 									$cnt_prodcat = mysqli_num_rows($srsprodcat_mst);
@@ -330,8 +330,9 @@ include_once 'script.php';
 								<tr>
 									<td width="8%" class="td_bg"><strong>SL.No.</strong></td>
 									<td width="28%" class="td_bg"><strong>Name</strong></td>
-									<td width="24%" class="td_bg"><strong>Type</strong></td>
-									<td width="24%" class="td_bg"><strong>Date</strong></td>
+									<td width="20%" class="td_bg"><strong>Type</strong></td>
+									<td width="24%" class="td_bg"><strong>Academic Year</strong></td>
+									<td width="10%" class="td_bg"><strong>Date</strong></td>
 									<td width="6%" align="center" class="td_bg"><strong>Rank</strong></td>
 									<td width="7%" align="center" class="td_bg"><strong>Edit</strong></td>
 									<td width="7%" class="td_bg" align="center"><strong>
@@ -349,6 +350,7 @@ include_once 'script.php';
 										$db_nwsts   = $srownews_mst['nwsm_sts'];
 										$flenm        = $srownews_mst['nwsm_dwnfl'];
 										$nwsDt        = $srownews_mst['nwsm_dt'];
+										$nwsacyr        = $srownews_mst['nwsm_acyr'];
 										$nwstyp        = $srownews_mst['nwsm_typ'];
 										$flepth        = $dwnfl_upldpth . $db_nwid . "-" . $flenm;
 										$cnt += 1;
@@ -366,13 +368,13 @@ include_once 'script.php';
 											<td align="left" valign="top"><?php
 																										// if ($nwstyp == '1') {
 																										// 	$db_nwtypnm = 'Results Updates';
-																										// } 
+																										// }
 																										if ($nwstyp == '2') {
 																											$db_nwtypnm = 'College Notifications';
-																										} 
+																										}
 																										// elseif ($nwstyp == '3') {
 																										// 	$db_nwtypnm = 'University Notifications';
-																										// } 
+																										// }
 																										elseif ($nwstyp == '4') {
 																											$db_nwtypnm = 'Announcements';
 																										} elseif ($nwstyp == '5') {
@@ -382,6 +384,8 @@ include_once 'script.php';
 																										}
 																										echo $db_nwtypnm;
 																										?></td>
+
+<td align="left"><?php echo  $nwsacyr;   ?></td>
 											<td align="left"><?php echo  $nwsDt;   ?></td>
 											<td align="center"><?php echo $db_nwprty; ?></td>
 											<td align="center">
@@ -397,7 +401,7 @@ include_once 'script.php';
 											// } else {
 											//     echo "N.A.";
 											// }
-											// 
+											//
 											?>
 
 											<!-- </td> -->

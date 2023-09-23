@@ -4,8 +4,8 @@ include_once '../includes/inc_config.php';
 include_once $inc_nocache;        //Clearing the cache information
 include_once $adm_session;    //checking for session
 include_once $inc_cnctn;     //Making database Connection
-include_once $inc_usr_fnctn;  //checking for session 
-include_once $inc_fldr_pth; //Floder Path	
+include_once $inc_usr_fnctn;  //checking for session
+include_once $inc_fldr_pth; //Floder Path
 if (
     isset($_POST['btnenewssbmt']) && (trim($_POST['btnenewssbmt']) != "") &&
     isset($_POST['txtname']) && (trim($_POST['txtname']) != "") &&
@@ -20,7 +20,7 @@ if (
     $sts          = glb_func_chkvl($_POST['lststs']);
     $typval    = glb_func_chkvl($_POST['lsttyp']);
     $dept_id    = glb_func_chkvl($_POST['lstprodcat']);
-    
+    $lstacyr  =	glb_func_chkvl(trim($_POST['lstacyr']));
     $nwslnk           = glb_func_chkvl(trim($_POST['txtlnk']));
     $hdndwnfle = glb_func_chkvl($_POST['hdndwnfle']);//file
     $curdt     = date('Y-m-d h:i:s');
@@ -37,11 +37,11 @@ if (
     if ($val != '') {
         $srchval .= "&txtsrchval=" . $val . $chk;
     }
-    $sqrynws_dtl = "select 
+    $sqrynws_dtl = "select
 							nwsm_name
-					   	from 
+					   	from
 					   		nws_mst
-					   	where 
+					   	where
 					   		nwsm_name='$name' and
 							nwsm_id!='$id'";
     $srsnws_dtl = mysqli_query($conn, $sqrynws_dtl);
@@ -53,12 +53,13 @@ if (
         </script>
         <?php
     } else {
-        $uqrynws_mst = "update nws_mst set 
-							nwsm_name='$name',								   
-						    nwsm_desc='$desc',							
+        $uqrynws_mst = "UPDATE nws_mst set
+							nwsm_name='$name',
+                            nwsm_desc='$desc',
 						    nwsm_sts='$sts',
 							nwsm_typ='$typval',
                             nwsm_dept='$dept_id',
+                            nwsm_acyr='$lstacyr',
 							nwsm_dt='$nwsDt',
 							nwsm_lnk='$nwslnk',
 						    nwsm_prty='$prty',
@@ -69,14 +70,14 @@ if (
         $fle_down = 'fledwnld';
 
         			if(isset($_FILES[$fle_down]['tmp_name']) && ($_FILES[$fle_down]['tmp_name']!="")){
-				$dwnldfleval = funcUpldFle($fle_down,'fle');						
+				$dwnldfleval = funcUpldFle($fle_down,'fle');
 				if($dwnldfleval != ""){
 					$dwnldfleval = explode(":",$dwnldfleval,2);
-					$fdest 		= $dwnldfleval[0];					
-					$fsource 	= $dwnldfleval[1];							
+					$fdest 		= $dwnldfleval[0];
+					$fsource 	= $dwnldfleval[1];
 				}
 				$uqrynws_mst .= ",nwsm_dwnfl='$fdest'";
-			}	
+			}
         if (isset($_FILES['flebnrimg']['tmp_name']) && ($_FILES['flebnrimg']['tmp_name'] != "")) {
             $bimgval = funcUpldImg('flebnrimg', 'news');
             if ($bimgval != "") {
@@ -99,9 +100,9 @@ if (
                 }
                 move_uploaded_file($bsource, $a_cat_nwsfldnm . $bdest);
             }
-            if(($fsource!='none') && ($fsource!='') && ($fdest!= "")){ 
-					$flepth      = $a_dwnfl_upldpth.$hdndwnfle;	
-					if(($hdndwnfle != '') && file_exists($flepth)){							   
+            if(($fsource!='none') && ($fsource!='') && ($fdest!= "")){
+					$flepth      = $a_dwnfl_upldpth.$hdndwnfle;
+					if(($hdndwnfle != '') && file_exists($flepth)){
 					unlink($flepth);
 					}
 				   move_uploaded_file($fsource,$a_dwnfl_upldpth.$fdest);

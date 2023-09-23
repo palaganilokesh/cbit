@@ -3,8 +3,8 @@ include_once '../includes/inc_config.php';
 include_once $inc_nocache;        //Clearing the cache information
 include_once $adm_session;    //checking for session
 include_once $inc_cnctn;     //Making database Connection
-include_once $inc_usr_fnctn;  //checking for session 
-include_once $inc_fldr_pth; //Floder Path		
+include_once $inc_usr_fnctn;  //checking for session
+include_once $inc_fldr_pth; //Floder Path
 
 if (
     isset($_POST['btnanewssbmt']) && (trim($_POST['btnanewssbmt']) != "") &&
@@ -23,14 +23,14 @@ if (
     $nwslnk           = glb_func_chkvl(trim($_POST['txtlnk']));
     $dept_id  = glb_func_chkvl($_POST['lstprodcat']);
     $nwsDt           = date('Y-m-d', strtotime($nwsDt));
-
+	$lstacyr  =	glb_func_chkvl(trim($_POST['lstacyr']));
     $curdt    = date('Y-m-d h:i:s');
 
-    $sqrynews_dtl = "SELECT 
+    $sqrynews_dtl = "SELECT
 							nwsm_name
-					   from 
+					   from
 					   		nws_mst
-					   where 
+					   where
 					   		nwsm_name='$name'";
     $srsnews_dtl = mysqli_query($conn, $sqrynews_dtl) or die(mysqli_error($conn));
     $cnt_rec     = mysqli_num_rows($srsnews_dtl);
@@ -55,10 +55,10 @@ if (
         }
         $iqrynews_dtl = "insert into nws_mst(
 		   				   nwsm_name,nwsm_desc,nwsm_dwnfl,nwsm_img,nwsm_prty,
-						   nwsm_typ,nwsm_dept,nwsm_lnk,nwsm_dt,nwsm_sts,nwsm_crtdon,
-						   nwsm_crtdby)values(						   
+						   nwsm_typ,nwsm_dept,nwsm_acyr,nwsm_lnk,nwsm_dt,nwsm_sts,nwsm_crtdon,
+						   nwsm_crtdby)values(
 						   '$name','$desc','$fdest','$bdest','$prty',
-						   '$typval','$dept_id','$nwslnk','$nwsDt','$sts','$curdt',
+						   '$typval','$dept_id','$lstacyr','$nwslnk','$nwsDt','$sts','$curdt',
 						   '$ses_admin')";
 
         $irsnews_dtl = mysqli_query($conn, $iqrynews_dtl) or die(mysqli_error($conn));

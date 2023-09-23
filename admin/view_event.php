@@ -4,7 +4,7 @@ include_once "../includes/inc_nocache.php"; // Clearing the cache information
 include_once "../includes/inc_adm_session.php"; //checking for session
 include_once "../includes/inc_connection.php"; //Making database Connection
 include_once '../includes/inc_config.php';
-include_once '../includes/inc_usr_functions.php'; //Use function for validation and more 
+include_once '../includes/inc_usr_functions.php'; //Use function for validation and more
 include_once "../includes/inc_folder_path.php";
 /***************************************************************/
 //Programm 	  : edit_event.php
@@ -42,15 +42,15 @@ if (isset($_REQUEST['edit']) && $_REQUEST['edit'] != "") {
 	$opt 	= glb_func_chkvl($_REQUEST['optn']);
 	$ck 	= glb_func_chkvl($_REQUEST['chk']);
 }
-$sqryevnt_mst = "SELECT 
+$sqryevnt_mst = "SELECT
 						evntm_name,evntm_id,evntm_desc,evntm_city,evntm_dstrctm_id,
 						evntm_venue,date_format(evntm_strtdt,'%d-%m-%Y') as evntm_strtdt,
 						evtnm_strttm,date_format(evntm_enddt,'%d-%m-%Y') as evntm_enddt,
 						evntm_endtm,evntm_btch,evntm_fle,evntm_prty,
-						evntm_sts,evntm_lnk,evntm_lsttyp,evntm_typ,evntm_dept
-				    from 
+						evntm_sts,evntm_lnk,evntm_lsttyp,evntm_typ,evntm_dept,evntm_acyr
+				    from
 						evnt_mst
-	                where 
+	                where
 						evntm_id=$id";
 $srsevnt_mst  = mysqli_query($conn, $sqryevnt_mst);
 $rowsevnt_mst = mysqli_fetch_assoc($srsevnt_mst);
@@ -70,9 +70,9 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 	$pg         = glb_func_chkvl($_REQUEST['pg']);
 	$countstart = glb_func_chkvl($_REQUEST['countstart']);
 
-	$sqryevntd_dtl = "SELECT 
+	$sqryevntd_dtl = "SELECT
 								   evntm_fle
-								from 
+								from
 								   evnt_mst
 								where
 									evntm_id = '$imgid'";
@@ -80,7 +80,7 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 	$srowevntd_dtl    	= mysqli_fetch_assoc($srsevntd_dtl);
 	$smlimg      		= glb_func_chkvl($srowevntd_dtl['evntm_fle']);
 	$smlimgpth   		= $gevnt_fldnm . $smlimg;
-	$uqryevnt_mst 		= "update 
+	$uqryevnt_mst 		= "update
 										evnt_mst set
 									evntm_fle =''
 									where evntm_id ='$imgid'";
@@ -112,7 +112,7 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 		rules[5] = 'txtnvets:Vets|required|Enter No. of Seats';
 	</script>
 	<?php
-	include_once "../includes/inc_fnct_ajax_validation.php"; //Includes ajax validations				
+	include_once "../includes/inc_fnct_ajax_validation.php"; //Includes ajax validations
 	?>
 	<script language="JavaScript" type="text/javascript" src="wysiwyg.js"></script>
 
@@ -125,18 +125,18 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 			img_id = imgid;
 			if(img_id !=''){
 				var r=window.confirm("Do You Want to Remove Image");
-				if (r==true){						
+				if (r==true){
 					 x="You pressed OK!";
 				  }
 				else
 				  {
 					  return false;
-				  }	
+				  }
         	}
-			document.frmedtevnt.action="view_event.php?edit=+"<?php echo $id;?>"&imgid=<?php echo $id;?>&pg=<?php echo $pg;?>&countstart=<?php echo $countstart.$loc;?>" 
+			document.frmedtevnt.action="view_event.php?edit=+"<?php echo $id;?>"&imgid=<?php echo $id;?>&pg=<?php echo $pg;?>&countstart=<?php echo $countstart.$loc;?>"
 			document.frmedtevnt.submit();
-			document.frmedtevnt.action="view_event.php?edit=<?php echo $imgid;?>&imgid="+img_id+"&pg=<?php echo $pg;?>&countstart=				<?php echo $countstart.$loc;?>" 
-			document.frmedtevnt.submit();	
+			document.frmedtevnt.action="view_event.php?edit=<?php echo $imgid;?>&imgid="+img_id+"&pg=<?php echo $pg;?>&countstart=				<?php echo $countstart.$loc;?>"
+			document.frmedtevnt.submit();
 	}<?php */ ?>
 	</script>
 	<?php
@@ -180,7 +180,7 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 			<?php
 			if ($msg != '') {
 				echo "<center><tr bgcolor='#FFFFFF'>
-                    <td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+                    <td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
                  </tr></center>";
 			}
 			?>
@@ -208,6 +208,14 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 
 								</div>
 							</div>
+							<div class="form-group row">
+								<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Academic Year </label>
+								<div class="col-sm-8">
+									<?php echo $rowsevnt_mst['evntm_acyr']; ?>
+
+								</div>
+							</div>
+
 							<?php
 							if ($rowsevnt_mst['evntm_dept'] != '0') {
 							?>
@@ -217,7 +225,7 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 									<div class="col-sm-8">
 										<?php
 										$dep_id = $rowsevnt_mst['evntm_dept'];
-										$qry = "SELECT prodcatm_name,prodcatm_id	
+										$qry = "SELECT prodcatm_name,prodcatm_id
                               From prodcat_mst where prodcatm_id='$dep_id'";
 										$res = mysqli_query($conn, $qry);
 										$values = mysqli_fetch_assoc($res);
@@ -280,15 +288,15 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 							<!---<tr bgcolor="#FFFFFF">
 				<td bgcolor="#E7F3F7"><strong>Type</strong></td>
 				<td bgcolor="#E7F3F7"><strong>:</strong></td>
-				<td bgcolor="#E7F3F7">				
+				<td bgcolor="#E7F3F7">
 					<?php
-					// $sqrydstrct_mst = "select 
+					// $sqrydstrct_mst = "select
 					// 				ctym_id,ctym_name
-					// 			from 
+					// 			from
 					// 				cty_mst";
 					// $srsdstrct_mst=mysqli_query($conn,$sqrydstrct_mst);
 					// while($rowsdstrct_mst=mysqli_fetch_assoc($srsdstrct_mst)){
-					// 	if($rowsdstrct_mst['ctym_id'] == $rowsevnt_mst['evntm_dstrctm_id']){ 
+					// 	if($rowsdstrct_mst['ctym_id'] == $rowsevnt_mst['evntm_dstrctm_id']){
 					// 		echo ($rowsdstrct_mst['ctym_name']);
 					// 	}
 					// }
@@ -434,14 +442,14 @@ if (isset($_REQUEST['imgid']) && (trim($_REQUEST['imgid']) != "")) {
 											<td width="20%" bgcolor="#f1f6fd"><strong>Status</strong></td>
 										</tr>
 										<?php
-										$sqryimg_dtl = "SELECT 
+										$sqryimg_dtl = "SELECT
 								  evntimgd_name,evntimgd_img,evntimgd_prty,
 								  if(evntimgd_sts = 'a', 'Active','Inactive') as evntimgd_sts
-							 from 
+							 from
 								  evntimg_dtl
-							 where 
-								  evntimgd_evntm_id ='$id' 
-							 order by 
+							 where
+								  evntimgd_evntm_id ='$id'
+							 order by
 								  evntimgd_id";
 										$srsimg_dtl	= mysqli_query($conn, $sqryimg_dtl);
 										$cntevntimg_dtl  = mysqli_num_rows($srsimg_dtl);

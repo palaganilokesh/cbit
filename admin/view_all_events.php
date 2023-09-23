@@ -1,24 +1,24 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
 Programm : view_product_subcategory.php
 Purpose : For Viewing Products sub category
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
 global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
 $loc = "";
-$clspn_val = "6";
+$clspn_val = "7";
 $rd_adpgnm = "add_event.php";
 $rd_edtpgnm = "edit_event.php";
 $rd_crntpgnm = "view_all_events.php";
@@ -47,9 +47,9 @@ if (($_POST['hidchkval'] != "") && isset($_REQUEST['hidchkval'])) {
 	$img        =  array();
 	$imgpth     =  array();
 	for ($i = 0; $i < $count; $i++) {
-		$sqryevnt_mst = "SELECT 
+		$sqryevnt_mst = "SELECT
 			                       evntm_img
-							    from 
+							    from
 					               evnt_mst
 					            where
 					                evntm_id=$del[$i]";
@@ -82,9 +82,9 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 $rowsprpg = 20; //maximum rows per page
 include_once "../includes/inc_paging1.php"; //Includes pagination
 
-$sqrynews_mst1 =  "SELECT 
+$sqrynews_mst1 =  "SELECT
 evntm_id,evntm_name,evntm_fle,evntm_sts,evntm_typ,
-		 evntm_prty,date_format(evntm_strtdt,'%d-%m-%Y') as evntm_strtdt,evntm_city
+		 evntm_prty,date_format(evntm_strtdt,'%d-%m-%Y') as evntm_strtdt,evntm_city,evntm_acyr
 from evnt_mst where evntm_id!=''";
 if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != '') {
     $val = glb_func_chkvl($_REQUEST['txtsrchval']);
@@ -216,7 +216,7 @@ include_once 'script.php';
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <?php
-                                    $sqryprodcat_mst =  "SELECT 
+                                    $sqryprodcat_mst =  "SELECT
 																		evntm_id,evntm_name,evntm_fle,evntm_sts,evntm_typ,
 																				 evntm_prty,date_format(evntm_strtdt,'%d-%m-%Y') as evntm_strtdt,evntm_city
 																		from evnt_mst where evntm_id!=''";
@@ -234,7 +234,7 @@ include_once 'script.php';
                                         <option value="e" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "e") {
                                                                 echo 'selected';
                                                             } ?>>Events</option>
-                                     
+
                                     </select>
                                 </div>
                             </div>
@@ -284,8 +284,9 @@ include_once 'script.php';
                                 <tr>
                                     <td width="8%" class="td_bg"><strong>SL.No.</strong></td>
                                     <td width="28%" class="td_bg"><strong>Name</strong></td>
-                                    <td width="24%" class="td_bg"><strong>Type</strong></td>
-                                    <td width="24%" class="td_bg"><strong>Date</strong></td>
+                                    <td width="15%" class="td_bg"><strong>Type</strong></td>
+                                    <td width="24%" class="td_bg"><strong>Academic Year</strong></td>
+                                    <td width="15%" class="td_bg"><strong>Date</strong></td>
                                     <td width="6%" align="center" class="td_bg"><strong>Rank</strong></td>
                                     <td width="7%" align="center" class="td_bg"><strong>Edit</strong></td>
                                     <td width="7%" class="td_bg" align="center"><strong>
@@ -301,10 +302,10 @@ include_once 'script.php';
                                         $db_nwnm    = $srowevnt_mst['evntm_name'];
                                         $db_nwprty  = $srowevnt_mst['evntm_prty'];
                                         $db_nwsts   = $srowevnt_mst['evntm_sts'];
-                                   
+                                        $db_acyr   = $srowevnt_mst['evntm_acyr'];
                                         $nwsDt        = $srowevnt_mst['evntm_strtdt'];
                                         $nwstyp        = $srowevnt_mst['evntm_typ'];
-                                  
+
                                         $cnt += 1;
                                 ?>
                                         <tr <?php if ($cnt % 2 == 0) {
@@ -313,13 +314,13 @@ include_once 'script.php';
                                                 echo "";
                                             } ?>>
                                             <td><?php echo $cnt; ?></td>
-                                           
+
                                             <td>
 																						<a href="view_event.php?edit=<?php echo $srowevnt_mst['evntm_id']; ?>&pg=<?php echo $pgnum; ?>&countstart=<?php echo $cntstart . $loc; ?>" class="links">
 													<?php echo $srowevnt_mst['evntm_name']; ?>
 												</a>
 
-                                               
+
                                             </td>
                                             <td align="left" valign="top"><?php
                                                                             if ($nwstyp == 'e') {
@@ -331,6 +332,8 @@ include_once 'script.php';
                                                                             }
                                                                             echo $db_nwtypnm;
                                                                             ?></td>
+
+                                             <td align="left"><?php echo  $db_acyr;   ?></td>
                                             <td align="left"><?php echo  $nwsDt;   ?></td>
                                             <td align="center"><?php echo $db_nwprty; ?></td>
                                             <td align="center">
@@ -347,7 +350,7 @@ include_once 'script.php';
                                             // } else {
                                             //     echo "N.A.";
                                             // }
-                                            // 
+                                            //
                                             ?>
 
                                             <!-- </td> -->
@@ -356,7 +359,7 @@ include_once 'script.php';
 
                                             <td align="center">
 																						<input type="checkbox" name="chksts" id="chksts" value="<?php echo $db_evntmid; ?>" <?php if ($srowevnt_mst['evntm_sts'] == 'a') {	echo "checked";	} ?> onClick="addchkval(<?php echo $db_evntmid; ?>,'hidchksts','frmevnt','chksts');">
-                                                       
+
                                             </td>
                                             <td align="center">
 																						<input type="checkbox" name="chkdlt" id="chkdlt" value="<?php echo $db_evntmid; ?>">
