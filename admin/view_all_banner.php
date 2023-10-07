@@ -1,17 +1,17 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
 Programm : view_all_banner.php
 Purpose : For Viewing Home page banners
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
 ************************************************************/
@@ -31,7 +31,7 @@ if(isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts'])!="") || isset($_POST
 {
 	$dchkval = substr($_POST['hdnchksts'],1);
 	$id = glb_func_chkvl($dchkval);
-	$chkallval = glb_func_chkvl($_POST['hdnallval']);				
+	$chkallval = glb_func_chkvl($_POST['hdnallval']);
 	$updtsts = funcUpdtAllRecSts('bnr_mst','bnrm_id',$id,'bnrm_sts',$chkallval);
 	if($updtsts == 'y')
 	{
@@ -41,31 +41,54 @@ if(isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts'])!="") || isset($_POST
 	{
 		$msg = "<font color=red>Record not updated</font>";
 	}
-}	
+}
 if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 {
 	$dchkval = substr($_POST['hdnchkval'],1);
 	$did = glb_func_chkvl($dchkval);
 	$del = explode(',',$did);
 	$count = sizeof($del);
-	$smlimg = array();
-	$smlimgpth = array();
+	$dskimg = array();
+	$dskimgpth = array();
+	$tabimg = array();
+	$tabimgpth = array();
+	$mobimg = array();
+	$mobimgpth = array();
 	for($i=0;$i<$count;$i++)
 	{
-		$sqryprodimgd_dtl = "SELECT bnrm_imgnm from bnr_mst where bnrm_id=$del[$i]";
+		$sqryprodimgd_dtl = "SELECT dskm_imgnm,tabm_imgnm,mobm_imgnm from bnr_mst where bnrm_id=$del[$i]";
 		$srsprodimgd_dtl = mysqli_query($conn,$sqryprodimgd_dtl);
 		$cntrecprodimgd_dtl = mysqli_num_rows($srsprodimgd_dtl);
 		while($srowprodimgd_dtl = mysqli_fetch_assoc($srsprodimgd_dtl))
 		{
-			$smlimg[$i] = glb_func_chkvl($srowprodimgd_dtl['bnrm_imgnm']);
-			$smlimgpth[$i] = $gbnr_fldnm.$smlimg[$i];
+			$dskimg[$i] = glb_func_chkvl($srowprodimgd_dtl['dskm_imgnm']);
+			$dskimgpth[$i] = $gbnr_fldnm.$dskimg[$i];
 			for($j=0;$j<$cntrecprodimgd_dtl;$j++)
 			{
-				if(($smlimg[$i] != "") && file_exists($smlimgpth[$i]))
+				if(($dskimg[$i] != "") && file_exists($dskimgpth[$i]))
 				{
-					unlink($smlimgpth[$i]);
+					unlink($dskimgpth[$i]);
 				}
 			}
+			$tabimg[$i] = glb_func_chkvl($srowprodimgd_dtl['tabm_imgnm']);
+			$tabimgpth[$i] = $gbnr_fldnm.$tabimg[$i];
+			for($j=0;$j<$cntrecprodimgd_dtl;$j++)
+			{
+				if(($tabimg[$i] != "") && file_exists($tabimgpth[$i]))
+				{
+					unlink($tabimgpth[$i]);
+				}
+			}
+			$mobimg[$i] = glb_func_chkvl($srowprodimgd_dtl['mobm_imgnm']);
+			$mobimgpth[$i] = $gbnr_fldnm.$mobimg[$i];
+			for($j=0;$j<$cntrecprodimgd_dtl;$j++)
+			{
+				if(($mobimg[$i] != "") && file_exists($mobimgpth[$i]))
+				{
+					unlink($mobimgpth[$i]);
+				}
+			}
+
 		}
 	}
 	$delsts = funcDelAllRec($conn,'bnr_mst','bnrm_id',$did);
@@ -92,7 +115,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 }
 $rowsprpg = 20;//maximum rows per page
 include_once '../includes/inc_paging1.php';//Includes pagination
-$sqrybnr_mst1 = "SELECT bnrm_id, bnrm_name, bnrm_lnk,bnrm_text,bnrm_btn_name, bnrm_imgnm, bnrm_prty, bnrm_sts from bnr_mst";
+$sqrybnr_mst1 = "SELECT bnrm_id, bnrm_name, bnrm_lnk,bnrm_text,bnrm_btn_name, dskm_imgnm,tabm_imgnm,mobm_imgnm, bnrm_prty, bnrm_sts from bnr_mst";
 if(isset($_REQUEST['txtname']) && (trim($_REQUEST['txtname'])!=""))
 {
 	$txtname = glb_func_chkvl($_REQUEST['txtname']);
@@ -235,7 +258,7 @@ include_once 'script.php';
 									<td colspan="<?php echo $clspn_val;?>" align='center'><?php echo $msg;?></td>
 									<td width="7%" align="right" valign="bottom">
 										<div align="right">
-								
+
 											<input name="btnsts" id="btnsts" type="button" class="btn btn-xs btn-primary" value="Status" onClick="updatests('hdnchksts','frmbnrmst','chksts')">
 										</div>
 									</td>
@@ -272,7 +295,7 @@ include_once 'script.php';
 										$db_prty = $srowbnr_mst['bnrm_prty'];
 										$db_sts  = $srowbnr_mst['bnrm_sts'];
 										$db_txt_alin  = $srowbnr_mst['bnrm_text'];
-										$db_szchrt = $srowbnr_mst['bnrm_imgnm'];
+										$db_szchrt = $srowbnr_mst['dskm_imgnm'];
 										?>
 										<tr <?php if($cnt%2==0){echo "";}else{echo "";}?>>
 											<td><?php echo $cnt;?></td>
@@ -281,24 +304,24 @@ include_once 'script.php';
 												<a href="<?php echo $rd_vwpgnm;?>?vw=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="links"><?php echo $db_subname;?></a>
 											</td>
 											<td align="left">
-												<?php 
+												<?php
 												$imgnm = $db_szchrt;
 												$imgpath = $gbnr_fldnm.$imgnm;
 												if(($imgnm !="") && file_exists($imgpath))
 												{
-													echo "<img src='$imgpath' width='50pixel' height='50pixel'>";     
+													echo "<img src='$imgpath' width='50pixel' height='50pixel'>";
 												}
 												else
 												{
-													echo "NA";            
+													echo "NA";
 												}
 												?>
 											</td>
-											<td align="left"><?php echo $db_sublink;?></td> 
+											<td align="left"><?php echo $db_sublink;?></td>
 											<td align="left">	<?php if($db_txt_alin=='L') echo 'Left';?>
 											<?php if($db_txt_alin=='R') echo 'Right';?>
-												<?php if($db_txt_alin=='C') echo 'Center';?></td> 
-											<td align="center"><?php echo $db_prty;?></td> 
+												<?php if($db_txt_alin=='C') echo 'Center';?></td>
+											<td align="center"><?php echo $db_prty;?></td>
 											<td align="center">
 												<a href="<?php echo $rd_edtpgnm; ?>?edit=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="orongelinks">Edit</a>
 											</td>
@@ -330,9 +353,9 @@ include_once 'script.php';
 										</div>
 									</td>
 								</tr>
-								<?php    
-								$disppg = funcDispPag($conn,'links',$loc,$sqrybnr_mst1,$rowsprpg,$cntstart,$pgnum);     
-								$colspanval = $clspn_val+2;            
+								<?php
+								$disppg = funcDispPag($conn,'links',$loc,$sqrybnr_mst1,$rowsprpg,$cntstart,$pgnum);
+								$colspanval = $clspn_val+2;
 								if($disppg != "")
 								{
 									$disppg = "<br><tr><td colspan='$colspanval' align='center' >$disppg</td></tr>";

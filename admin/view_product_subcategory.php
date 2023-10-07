@@ -1,17 +1,17 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
 Programm : view_product_subcategory.php
 Purpose : For Viewing Products sub category
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
@@ -44,22 +44,36 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 	$del = explode(',', $did);
 	$count = sizeof($del);
 
-	$bnrimg = array();
-	$bnrimgpth = array();
+	$dskimgnm = array();
+	$dskimgnmpth = array();
+	$tabimgnm = array();
+	$tabimgnmpth = array();
+	$mobimgnm = array();
+	$mobimgnmpth = array();
 	for ($i = 0; $i < $count; $i++) {
-		$sqryscat_mst = "SELECT prodscatm_bnrimg from prodscat_mst where prodscatm_id = $del[$i]";
+		$sqryscat_mst = "SELECT prodscatm_dskimg,prodscatm_tabimg,prodscatm_mobimg from prodscat_mst where prodscatm_id = $del[$i]";
 		$srsscat_mst = mysqli_query($conn, $sqryscat_mst);
 		$srowscat_mst = mysqli_fetch_assoc($srsscat_mst);
 
-		$bnrimg[$i] = glb_func_chkvl($srowscat_mst['prodscatm_bnrimg']);
-		$bnrimgpth[$i] = $a_scat_bnrfldnm . $bnrimg[$i];
+		$dskimgnm[$i] = glb_func_chkvl($srowscat_mst['prodscatm_dskimg']);
+		$dskimgnmpth[$i] = $a_scat_bnrfldnm . $dskimgnm[$i];
+		$tabimgnm[$i] = glb_func_chkvl($srowscat_mst['prodscatm_tabimg']);
+		$tabimgnmpth[$i] = $a_scat_bnrfldnm . $tabimgnm[$i];
+		$mobimgnm[$i] = glb_func_chkvl($srowscat_mst['prodscatm_mobimg']);
+		$mobimgnmpth[$i] = $a_scat_bnrfldnm . $mobimgnm[$i];
 	}
 	$delsts = funcDelAllRec($conn,'prodscat_mst', 'prodscatm_id', $did);
 	if ($delsts == 'y') {
 		for ($i = 0; $i < $count; $i++) {
 
-			if (($bnrimg[$i] != "") && file_exists($bnrimgpth[$i])) {
-				unlink($bnrimgpth[$i]);
+			if (($dskimgnm[$i] != "") && file_exists($dskimgnm[$i])) {
+				unlink($dskimgnm[$i]);
+			}
+			if (($tabimgnm[$i] != "") && file_exists($tabimgnm[$i])) {
+				unlink($tabimgnm[$i]);
+			}
+			if (($mobimgnm[$i] != "") && file_exists($mobimgnm[$i])) {
+				unlink($mobimgnm[$i]);
 			}
 		}
 		$msg = "<font color=red>Record deleted successfully</font>";
@@ -77,8 +91,8 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 $rowsprpg = 20; //maximum rows per page
 include_once "../includes/inc_paging1.php"; //Includes pagination
 
-$sqryprodscat_mst1 = "select 
-prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,
+ $sqryprodscat_mst1 = "select
+prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,
 prodscatm_seotitle,prodscatm_seodesc,prodscatm_seokywrd,
 prodscatm_seohone,prodscatm_seohtwo,prodscatm_typ,
 prodscatm_sts,prodscatm_prty,prodscatm_prodcatm_id,
@@ -325,7 +339,7 @@ include_once 'script.php';
 									<td width="24%" class="td_bg"><strong>Main Link</strong></td>
 									<td width="24%" class="td_bg"><strong>Category</strong></td>
 
-									<td width="15%" class="td_bg"><strong>Banner Image</strong></td>
+									<td width="15%" class="td_bg"><strong> Image</strong></td>
 									<td width="15%" class="td_bg"><strong>Type</strong></td>
 									<td width="6%" align="center" class="td_bg"><strong>Rank</strong></td>
 									<td width="7%" align="center" class="td_bg"><strong>Edit</strong></td>
@@ -351,7 +365,7 @@ include_once 'script.php';
 										$db_prty = $srowveh_brnd_mst['prodscatm_prty'];
 										$db_sts  = $srowveh_brnd_mst['prodscatm_sts'];
 
-										$db_scatbnrimg = $srowveh_brnd_mst['prodscatm_bnrimg'];
+										// $db_scatbnrimg = $srowveh_brnd_mst['prodscatm_dskimg'];
 								?>
 										<tr <?php if ($cnt % 2 == 0) {
 												echo "";
@@ -369,10 +383,10 @@ include_once 'script.php';
 											<td align="left">
 												<?php
 
-												$imgnm   = $srowveh_brnd_mst['prodscatm_bnrimg'];
-												$imgpath = $a_scat_bnrfldnm . $imgnm;
-												if (($imgnm != "") && file_exists($imgpath)) {
-													echo "<img src='$imgpath' width='80pixel' height='80pixel'>";
+												$dskimgnm   = $srowveh_brnd_mst['prodscatm_dskimg'];
+												$dskimgpath = $a_scat_bnrfldnm . $dskimgnm;
+												if (($dskimgnm != "") && file_exists($dskimgpath)) {
+													echo "<img src='$dskimgpath' width='80pixel' height='80pixel'>";
 												} else {
 													echo "N.A.";
 												}

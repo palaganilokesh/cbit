@@ -1,20 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***********************************************************
-Programm : edit_product_category.php	
-Package : 
+Programm : edit_product_category.php
+Package :
 Purpose : For Edit Vehicle Product Category
 Created By : Lokesh palagani
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 global $id, $pg, $countstart;
@@ -42,17 +42,17 @@ if (isset($_REQUEST['edit']) && (trim($_REQUEST['edit']) != "") && isset($_REQUE
 	$srchval = glb_func_chkvl($_REQUEST['val']);
 	$chk = glb_func_chkvl($_REQUEST['chk']);
 }
-$sqryprodcat_mst = "SELECT 
+$sqryprodcat_mst = "SELECT
 								prodcatm_name,prodcatm_desc,prodcatm_seotitle,prodcatm_seodesc,
 								prodcatm_seohone,prodcatm_seohtwo,prodcatm_seokywrd,prodcatm_prty,
 								 prodcatm_sts,
-								prodcatm_typ,prodcatm_dsplytyp,prodcatm_bnrimg,prodcatm_prodmnlnksm_id,
+								prodcatm_typ,prodcatm_dsplytyp,prodcatm_dskimg,prodcatm_tabimg,prodcatm_mobimg,prodcatm_prodmnlnksm_id,
 								prodmnlnksm_name,prodmnlnksm_id,prodcatm_icn,prodcatm_admtyp
-							from 
+							from
 								prodcat_mst
 						inner join prodmnlnks_mst
 						on		prodmnlnks_mst.prodmnlnksm_id=prodcat_mst.prodcatm_prodmnlnksm_id
-							where 
+							where
 								prodcatm_id='$id'";
 $srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 $cntrecprodcat_mst = mysqli_num_rows($srsprodcat_mst);
@@ -85,12 +85,12 @@ if (
 		$pgdtlid    = glb_func_chkvl($_REQUEST['vw']);
 		$pg         = glb_func_chkvl($_REQUEST['pg']);
 		$countstart   = glb_func_chkvl($_REQUEST['countstart']);
-		$sqrypgimgd_dtl = "SELECT catm_img from 
+		$sqrypgimgd_dtl = "SELECT catm_img from
 								  catimg_dtl where
 							 catm_cat_id='$pgdtlid'  and catm_id = '$imgid'";
 		$srspgimgd_dtl     = mysqli_query($conn, $sqrypgimgd_dtl);
 		$srowpgimgd_dtl    = mysqli_fetch_assoc($srspgimgd_dtl);
-	
+
 		$smlimg     = glb_func_chkvl($srowpgimgd_dtl['catm_img']);
 		$smlimgpth   = $a_cat_imgfldnm . $smlimg;
 		$flepth  = $a_cat_imgfldnm . $delfle;
@@ -175,7 +175,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			document.frmedtprodcatid.submit();
 		}
 
-	
+
 </script>
 <?php
 include_once $inc_adm_hdr;
@@ -204,7 +204,9 @@ include_once $inc_adm_lftlnk;
 		<input type="hidden" name="hdnval" value="<?php echo $srchval; ?>">
 		<input type="hidden" name="hdnchk" value="<?php echo $chk; ?>">
 		<input type="hidden" name="hdncnt" value="<?php echo $countstart ?>">
-		<input type="hidden" name="hdnbgimg" id="hdnbgimg" value="<?php echo $rowsprodcat_mst['prodcatm_bnrimg']; ?>">
+		<input type="hidden" name="hdndskimg" id="hdndskimg" value="<?php echo $rowsprodcat_mst['prodcatm_dskimg']; ?>">
+		<input type="hidden" name="hdntabimg" id="hdntabimg" value="<?php echo $rowsprodcat_mst['prodcatm_tabimg']; ?>">
+		<input type="hidden" name="hdnmobimg" id="hdnmobimg" value="<?php echo $rowsprodcat_mst['prodcatm_mobimg']; ?>">
 		<input type="hidden" name="hdnsmlimg" id="hdnsmlimg" value="<?php echo $rowsprodscat_mst['prodcatm_icn']; ?>">
 		<div class="card">
 			<div class="card-body">
@@ -216,11 +218,11 @@ include_once $inc_adm_lftlnk;
 							</div>
 							<div class="col-sm-9">
 								<?php
-								$sqryprodmncat_mst = "select 
-								prodmnlnksm_id,prodmnlnksm_name						
-							from 
-								prodmnlnks_mst 
-							where	 
+								$sqryprodmncat_mst = "select
+								prodmnlnksm_id,prodmnlnksm_name
+							from
+								prodmnlnks_mst
+							where
 								prodmnlnksm_sts = 'a'
 							order by
 							   prodmnlnksm_name";
@@ -296,25 +298,67 @@ include_once $inc_adm_lftlnk;
 						</div>
 					</div>
 					<div class="col-md-12">
-						<div class="row mb-2 mt-2">
-							<div class="col-sm-3">
-								<label>Baner Image</label>
-							</div>
-							<div class="col-sm-9">
-								<div class="custom-file">
-									<input name="flebnrimg" type="file" class="form-control" id="flebnrimg">
-								</div>
-								<?php
-								$imgnm = $rowsprodcat_mst['prodcatm_bnrimg'];
-								$imgpath = $a_cat_bnrfldnm . $imgnm;
-								if (($imgnm != "") && file_exists($imgpath)) {
-									echo "<img src='$imgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg' id='chkbximg' value='$imgpath'>Remove Image";
-								} else {
-									echo "N.A.";
-								}
-								?>
-							</div>
+					<div class="row mb-2 mt-2">
+						<div class="col-sm-3">
+							<label>Header Desktop Image</label>
 						</div>
+						<div class="col-sm-9">
+							<div class="custom-file">
+								<input name="fledskimg" type="file" class="form-control" id="fledskimg">
+							</div>
+							<?php
+						  $dskimgnm = $rowsprodcat_mst['prodcatm_dskimg'];
+							$dskimgpath = $a_cat_bnrfldnm . $dskimgnm;
+							if (($dskimgnm != "") && file_exists($dskimgpath)) {
+								echo "<img src='$dskimgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg1' id='chkbximg1' value='$dskimgpath'>Remove Image";
+							} else {
+								echo "N.A.";
+							}
+							?>
+						</div>
+					</div>
+					</div>
+					<div class="col-md-12">
+					<div class="row mb-2 mt-2">
+						<div class="col-sm-3">
+							<label>Header Tablet Image</label>
+						</div>
+						<div class="col-sm-9">
+							<div class="custom-file">
+								<input name="fletabimg" type="file" class="form-control" id="fletabimg">
+							</div>
+							<?php
+							$tabimgnm = $rowsprodcat_mst['prodcatm_tabimg'];
+							$tabimgpath = $a_cat_bnrfldnm . $tabimgnm;
+							if (($tabimgnm != "") && file_exists($tabimgpath)) {
+								echo "<img src='$tabimgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg2' id='chkbximg2' value='$tabimgpath'>Remove Image";
+							} else {
+								echo "N.A.";
+							}
+							?>
+						</div>
+					</div>
+					</div>
+					<div class="col-md-12">
+					<div class="row mb-2 mt-2">
+						<div class="col-sm-3">
+							<label>Header Mobile Image</label>
+						</div>
+						<div class="col-sm-9">
+							<div class="custom-file">
+								<input name="flemobimg" type="file" class="form-control" id="flemobimg">
+							</div>
+							<?php
+							$mobimgnm = $rowsprodcat_mst['prodcatm_mobimg'];
+							$mobimgpath = $a_cat_bnrfldnm . $mobimgnm;
+							if (($mobimgnm != "") && file_exists($mobimgpath)) {
+								echo "<img src='$mobimgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg3' id='chkbximg3' value='$mobimgpath'>Remove Image";
+							} else {
+								echo "N.A.";
+							}
+							?>
+						</div>
+					</div>
 					</div>
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
@@ -485,7 +529,7 @@ include_once $inc_adm_lftlnk;
 							$catm_cat_id = $rowsns['catm_cat_id'];
 							$catm_img = $rowsns['catm_img'];
 							$imgnm   = $catm_img;
-							$imgpath = $a_cat_imgfldnm.$imgnm;	
+							$imgpath = $a_cat_imgfldnm.$imgnm;
 							$catm_prty = $rowsns['catm_prty'];
 							$catm_sts = $rowsns['catm_sts'];
 							?>
@@ -505,7 +549,7 @@ include_once $inc_adm_lftlnk;
 												<?php echo $nfiles_qns; ?>
 											</td>
 											<td width='30%' align='center'>
-												
+
 												<input type="text" name="txtqnsnm1<?php echo $nfiles_qns ?>" id="txtqnsnm1<?php echo $nfiles_qns ?>"
 													value='<?php echo $catm_name; ?>' class="form-control" size="50">
 											</td>
@@ -551,7 +595,7 @@ include_once $inc_adm_lftlnk;
 
 											<?php
 						}
-						
+
 					}
 					else{
 						echo "<tr bgcolor='#FFFFFF'><td colspan='6' align='center' bgcolor='#f1f6fd'>No Records Found.</td></tr>";
@@ -559,7 +603,7 @@ include_once $inc_adm_lftlnk;
 					?>
 					<div id="myDivQns">
 										<table width="100%" cellspacing='2' cellpadding='3'>
-										
+
 											<tr>
 												<td align="center">
 												<input type="hidden" name="hdntotcntrlqns" id="hdntotcntrlqns" value="<?php echo $nfiles_qns; ?>">
@@ -624,13 +668,13 @@ function expandQns() {
                                         ?>';
         var Cntnt = document.getElementById("myDivQns");
 
-        if (document.createRange) { //all browsers, except IE before version 9 					
+        if (document.createRange) { //all browsers, except IE before version 9
             var rangeObj = document.createRange();
             Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
             document.frmedtprodcatid.hdntotcntrlqns.value = nfiles_qns;
-            if (rangeObj.createContextualFragment) { // all browsers, except IE	
+            if (rangeObj.createContextualFragment) { // all browsers, except IE
                 //var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
             } else { //Internet Explorer from version 9
                 Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);

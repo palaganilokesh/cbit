@@ -3,19 +3,19 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /**********************************************************
-Programm : edit_banner.php 
+Programm : edit_banner.php
 Purpose : For Editing Banner
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
-************************************************************/ 
+************************************************************/
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Banner";
@@ -27,7 +27,7 @@ $rd_crntpgnm = "view_all_banner.php";
 $clspn_val = "4";
 if(isset($_POST['btnebnrsbmt']) && (trim($_POST['btnebnrsbmt']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != ""))
 {
-	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files 
+	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
 	include_once "../database/uqry_bnr_mst.php";
 }
 if(isset($_REQUEST['edit']) && (trim($_REQUEST['edit'])!="") && isset($_REQUEST['pg']) && (trim($_REQUEST['pg'])!="") && isset($_REQUEST['countstart']) && (trim($_REQUEST['countstart'])!=""))
@@ -42,7 +42,7 @@ elseif(isset($_REQUEST['hdnbnrid']) && (trim($_REQUEST['hdnbnrid'])!="") && isse
 	$pg = glb_func_chkvl($_REQUEST['hdnpage']);
 	$countstart = glb_func_chkvl($_REQUEST['hdncnt']);
 }
-$sqrybnr_mst = "SELECT bnrm_name, bnrm_desc, bnrm_sts,bnrm_text, bnrm_prty, bnrm_lnk,bnrm_btn_name, bnrm_imgnm from bnr_mst where bnrm_id = $id";
+ $sqrybnr_mst = "SELECT bnrm_name, bnrm_desc, bnrm_sts,bnrm_text, bnrm_prty, bnrm_lnk,bnrm_btn_name, dskm_imgnm, tabm_imgnm, mobm_imgnm from bnr_mst where bnrm_id = $id";
 $srsbnr_mst = mysqli_query($conn,$sqrybnr_mst);
 $cntrec = mysqli_num_rows($srsbnr_mst);
 if($cntrec > 0)
@@ -66,15 +66,15 @@ else
   rules[1]='txtname:Name|alphaspace|Name only characters and numbers';
   rules[2]='txtprior:Priority|required|Enter Rank';
 //   rules[2]='bnrm_btn_name:Priority|required|Enter Button Name';
-  
+
   function setfocus()
   {
   	document.getElementById('txtname').focus();
   }
 </script>
-<?php 
+<?php
 include_once ('script.php');
-include_once ('../includes/inc_fnct_ajax_validation.php');	
+include_once ('../includes/inc_fnct_ajax_validation.php');
 ?>
 <script language="javascript" type="text/javascript">
 	function funcChkDupName()
@@ -129,7 +129,9 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 		<input type="hidden" name="hdnpage" value="<?php echo $pg;?>">
 		<input type="hidden" name="hdncnt" value="<?php echo $countstart?>">
 		<input type="hidden" name="hdnloc" value="<?php echo $loc?>">
-		<input type="hidden" name="hdnbnrimg" id="hdnbnrimg" value="<?php echo $rowsbnr_mst['bnrm_imgnm'];?>">
+		<input type="hidden" name="hdndskimg" id="hdndskimg" value="<?php echo $rowsbnr_mst['dskm_imgnm'];?>">
+		<input type="hidden" name="hdntabimg" id="hdntabimg" value="<?php echo $rowsbnr_mst['tabm_imgnm'];?>">
+		<input type="hidden" name="hdnmobimg" id="hdnmobimg" value="<?php echo $rowsbnr_mst['mobm_imgnm'];?>">
 		<div class="card">
 			<div class="card-body">
 				<div class="row justify-content-center align-items-center">
@@ -144,7 +146,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<!-- <div class="col-md-12">
 						<div class="row mb-2 mt-2">
 							<div class="col-sm-3">
 								<label>Button Name *</label>
@@ -154,13 +156,13 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								<span id="errorsDiv_txtbtnname"></span>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
 							<div class="col-sm-3">
 								<label>Description</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"><?php echo $rowsbnr_mst['bnrm_desc']; ?></textarea>
 							</div>
 						</div>
@@ -168,18 +170,66 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
 							<div class="col-sm-3">
-								<label>Image</label>
+								<label>Header Desktop Image</label>
 							</div>
 							<div class="col-sm-9">
 								<div class="custom-file">
-									<input name="flebnrimg" type="file" class="form-control" id="flebnrimg">
+									<input name="fledskimg" type="file" class="form-control" id="fledskimg">
 								</div>
 								<?php
-								$bnrimgnm = $rowsbnr_mst['bnrm_imgnm'];
-								$bnrimgpath  = $gbnr_fldnm.$bnrimgnm;
-								if(($bnrimgnm !="") && file_exists($bnrimgpath))
+								$dskimgnm = $rowsbnr_mst['dskm_imgnm'];
+								$dskimgpath  = $gbnr_fldnm.$dskimgnm;
+								if(($dskimgnm !="") && file_exists($dskimgpath))
 								{
-									echo "<img src='$bnrimgpath' width='50pixel' height='50pixel'>";
+									echo "<img src='$dskimgpath' width='50pixel' height='50pixel'>";
+								}
+								else
+								{
+									echo "Image not available";
+								}
+								?>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Tablet Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="fletabimg" type="file" class="form-control" id="fletabimg">
+								</div>
+								<?php
+								$tabimgnm = $rowsbnr_mst['tabm_imgnm'];
+								$tabimgpath  = $gbnr_fldnm.$tabimgnm;
+								if(($tabimgnm !="") && file_exists($tabimgpath))
+								{
+									echo "<img src='$tabimgpath' width='50pixel' height='50pixel'>";
+								}
+								else
+								{
+									echo "Image not available";
+								}
+								?>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Mobile Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="flemobimg" type="file" class="form-control" id="flemobimg">
+								</div>
+								<?php
+								$mobimgnm = $rowsbnr_mst['mobm_imgnm'];
+								$mobimgpath  = $gbnr_fldnm.$mobimgnm;
+								if(($mobimgnm !="") && file_exists($mobimgpath))
+								{
+									echo "<img src='$mobimgpath' width='50pixel' height='50pixel'>";
 								}
 								else
 								{
@@ -194,7 +244,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							<div class="col-sm-3">
 								<label>Link</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<input type="text" name="txtlnk" id="txtlnk" size="45" maxlength="250" class="form-control" value="<?php echo $rowsbnr_mst['bnrm_lnk']; ?>">
 							</div>
 						</div>
@@ -210,7 +260,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<option value="R"<?php if($rowsbnr_mst['bnrm_text']=='R') echo 'selected';?>>Right</option>
 									<option value="C"<?php if($rowsbnr_mst['bnrm_text']=='C') echo 'selected';?>>Center</option>
 								</select>
-								
+
 							</div>
 						</div>
 					</div>
@@ -219,7 +269,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							<div class="col-sm-3">
 								<label>Rank *</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<input type="text" name="txtprior" id="txtprior" class="form-control" size="4" maxlength="3" value="<?php echo $rowsbnr_mst['bnrm_prty']; ?>">
 								<span id="errorsDiv_txtprior"></span>
 							</div>
@@ -235,7 +285,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<option value="a"<?php if($rowsbnr_mst['bnrm_sts']=='a') echo 'selected';?>>Active</option>
 									<option value="i"<?php if($rowsbnr_mst['bnrm_sts']=='i') echo 'selected';?>>Inactive</option>
 								</select>
-								
+
 							</div>
 						</div>
 					</div>

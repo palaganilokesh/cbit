@@ -3,25 +3,25 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /**********************************************************
-Programm : add_product_subcategory.php 
+Programm : add_product_subcategory.php
 Purpose : For add Sub Category
 Created By : Bharath
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
-************************************************************/ 
+************************************************************/
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Product Group";
 $pagenm = "Subcategory";
 /*****header link********/
-global $gmsg;	
+global $gmsg;
 if(isset($_POST['btnprodscatsbmt']) && (trim($_POST['btnprodscatsbmt']) != "") && isset($_POST['lstprodmcat']) && (trim($_POST['lstprodmcat']) != "") && isset($_POST['lstprodcat']) && (trim($_POST['lstprodcat']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != ""))
 {
 	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
@@ -32,7 +32,7 @@ $clspn_val   = "4";
 ?>
 <script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script language="javascript" src="../includes/yav.js"></script>
-<script language="javascript" src="../includes/yav-config.js"></script>	
+<script language="javascript" src="../includes/yav-config.js"></script>
 <link rel="stylesheet" type="text/css" href="../includes/yav-style1.css">
 <script language="javascript" type="text/javascript">
  	var rules=new Array();
@@ -46,13 +46,13 @@ $clspn_val   = "4";
 		document.getElementById('lstprodmcat').focus();
 	}
 </script>
-<?php 
+<?php
 include_once ('script.php');
-include_once ('../includes/inc_fnct_ajax_validation.php');	
+include_once ('../includes/inc_fnct_ajax_validation.php');
 ?>
 <script language="javascript" type="text/javascript">
 	function funcChkDupName()
-	{ 
+	{
 		var name = document.getElementById('txtname').value;//name for sub category
 		var prodmncatid = document.getElementById('lstprodmcat').value;//main link id
 		var prodcatid = document.getElementById('lstprodcat').value;//category id
@@ -68,10 +68,10 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 			document.getElementById('errorsDiv_lstprodmcat').innerHTML="";
 			document.getElementById('errorsDiv_lstprodcat').innerHTML="";
 			document.getElementById('errorsDiv_txtname').innerHTML = "";
-		}	
+		}
 	}
 	function stateChanged()
-	{ 
+	{
 		if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete")
 		{
 			var temp=xmlHttp.responseText;
@@ -126,13 +126,13 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
                                         ?>';
         var Cntnt = document.getElementById("myDivQns");
 
-        if (document.createRange) { //all browsers, except IE before version 9 					
+        if (document.createRange) { //all browsers, except IE before version 9
             var rangeObj = document.createRange();
             Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
             document.frmaddprodscat.hdntotcntrlQns.value = nfiles_qns;
-            if (rangeObj.createContextualFragment) { // all browsers, except IE	
+            if (rangeObj.createContextualFragment) { // all browsers, except IE
                 //var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
             } else { //Internet Explorer from version 9
                 Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
@@ -208,16 +208,16 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								</div>
 								<div class="col-sm-9">
 									<?php
-									$sqryprodmncat_mst = "select 
-									prodmnlnksm_id,prodmnlnksm_name						
-							  		 from 
-									prodmnlnks_mst 
-							  		 where	 
+									$sqryprodmncat_mst = "select
+									prodmnlnksm_id,prodmnlnksm_name
+							  		 from
+									prodmnlnks_mst
+							  		 where
 									prodmnlnksm_sts = 'a'
 									order by
 								   	prodmnlnksm_name";
 									$rsprodmncat_mst = mysqli_query($conn,$sqryprodmncat_mst);
-									$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);	
+									$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);
 									?>
 									<select name="lstprodmcat" id="lstprodmcat" class="form-control" onchange="get_cat();">
 										<option value="">--Select Main Link--</option>
@@ -248,7 +248,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<?php
 									$sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst order by prodcatm_name";
 									$rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
-									$cnt_prodcat = mysqli_num_rows($rsprodcat_mst);	
+									$cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 									?>
 									<select name="lstprodcat" id="lstprodcat" class="form-control">
 										<option value="">--Select Category--</option>
@@ -286,22 +286,46 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								<div class="col-sm-3">
 									<label>Description</label>
 								</div>
-								<div class="col-sm-9"> 
+								<div class="col-sm-9">
 									<textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"></textarea>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="row mb-2 mt-2">
-								<div class="col-sm-3">
-									<label>Baner Image</label>
-								</div>
-								<div class="col-sm-9">
-									<div class="custom-file">
-										<input name="flescatimg" type="file" id="flescatimg" class="form-control">
-									</div>
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Desktop Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="fledskimg" type="file" id="fledskimg" class="form-control">
 								</div>
 							</div>
+						</div>
+						</div>
+						<div class="col-md-12">
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Tablet Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="fletabimg" type="file" id="fletabimg" class="form-control">
+								</div>
+							</div>
+						</div>
+						</div>
+						<div class="col-md-12">
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Mobile Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="flemobimg" type="file" id="flemobimg" class="form-control">
+								</div>
+							</div>
+						</div>
 						</div>
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
@@ -313,13 +337,13 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<option value="1" selected>Page Content</option>
 									<option value="2">Photo Gallery</option>
 									<option value="3">Video Gallery</option>
-									<option value="4">Faculty</option>  
+									<option value="4">Faculty</option>
 									</select>
-									
+
 								</div>
 							</div>
 						</div>
-					
+
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
@@ -361,7 +385,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								<div class="col-sm-3">
 									<label>SEO Title</label>
 								</div>
-								<div class="col-sm-9"> 
+								<div class="col-sm-9">
 									<input type="text" name="txtseotitle" id="txtseotitle" size="45" maxlength="250" class="form-control">
 								</div>
 							</div>
@@ -396,7 +420,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
@@ -407,13 +431,13 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
 									<label>Rank *</label>
 								</div>
-								<div class="col-sm-9"> 
+								<div class="col-sm-9">
 									<input type="text" name="txtprior" id="txtprior" class="form-control" size="4" maxlength="3">
 									<span id="errorsDiv_txtprior"></span>
 								</div>
@@ -429,7 +453,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 										<option value="a" selected>Active</option>
 										<option value="i">Inactive</option>
 									</select>
-									
+
 								</div>
 							</div>
 						</div>
@@ -458,12 +482,12 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 												<textarea name="txtansdesc1" cols="35" rows="3" id="txtansdesc1" class="form-control"></textarea><br>
 													<span id="errorsDiv_txtansdesc1" style="color:#FF0000"></span>
 												</td>
-												
+
 												<td width="10%"  align="center">
 													<input type="text" name="txtqnsprty1" id="txtqnsprty1" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtqnsprty1" style="color:#FF0000"></span>
 												</td>
-												<td width="10%" align="center" >					
+												<td width="10%" align="center" >
 													<select name="lstqnssts1" id="lstqnssts1" class="form-control">
 														<option value="a" selected>Active</option>
 														<option value="i">Inactive</option>
@@ -484,7 +508,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								</div>
 									<!-- end questions Session -->
 									<input type="hidden" id="hdntotcntrlQns" name="hdntotcntrlQns" value="1">
-	
+
 						<p class="text-center">
 							<input type="Submit" class="btn btn-primary" name="btnprodscatsbmt" id="btnprodscatsbmt" value="Submit">
 							&nbsp;&nbsp;&nbsp;

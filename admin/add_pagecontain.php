@@ -4,17 +4,17 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************/
 //Programm 	  : add_pagecontain.php
-//Package 	  : 
+//Package 	  :
 //Purpose 	  : For adding Page
-//Created By  : 
-//Created On  :	
-//Modified By : 
-//Modified On : 
+//Created By  :
+//Created On  :
+//Modified By :
+//Modified On :
 //Company 	  : Adroit
 /************************************************************/
 /*****header link********/
@@ -36,7 +36,7 @@ if (
 	$chkdept     = explode('-', $arycatone);
 	$rqst_lstdept     = glb_func_chkvl($_POST['lstdept']);
 	//if((($chkdept[1]=='d') && ($rqst_lstdept !='')) || ($chkdept[1]=='g') || ($chkdept[1]=='n')){
-	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files	
+	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files
 	include_once '../database/iqry_pgcnts_dtl.php';
 	//}
 }
@@ -64,11 +64,11 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	
+
 	<title><?php echo $pgtl; ?></title>
 	<?php
 	include_once('script.php');
-	include_once '../includes/inc_fnct_ajax_validation.php'; //Includes ajax validations				
+	include_once '../includes/inc_fnct_ajax_validation.php'; //Includes ajax validations
 	?>
 	<script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script language="javascript" src="../includes/yav.js"></script>
@@ -87,7 +87,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 			var deptsts = (document.getElementById('lstdept').disabled);
 			var catoneid = (document.getElementById('lstcatone').value);
 			cat_ary 	= Array();
-			cat_ary	 	= catoneid.split("-");	
+			cat_ary	 	= catoneid.split("-");
 			if(cat_ary[1] =='d'){
 				document.getElementById('lstdept').disabled=false;
 				rules[3]='lstdept:Department Name|required|Select Department';
@@ -195,7 +195,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 											// echo "<td align=\'left\' width=\'20%\'>";
 											// echo "<input type=file name=facfle' + nfiles + ' id=facfle' + nfiles + ' class=form-control><br>";
 											// echo "</td>";
-											
+
 											echo "<td align=\'left\' width=\'10%\'>";
 											echo "<input type=\'text\' name=txtphtprior' + nfiles + ' id=txtphtprior' + nfiles + ' class=form-control size=5 maxlength=3>";
 											echo "</td>";
@@ -210,14 +210,14 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 
 			var Cntnt = document.getElementById("myDiv");
 
-			if (document.createRange) { //all browsers, except IE before version 9 
+			if (document.createRange) { //all browsers, except IE before version 9
 
 				var rangeObj = document.createRange();
 				Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 				document.frmpgcntn.hdntotcntrl.value = nfiles;
-				if (rangeObj.createContextualFragment) { // all browsers, except IE	
+				if (rangeObj.createContextualFragment) { // all browsers, except IE
 					//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
 				} else { //Internet Explorer from version 9
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
@@ -279,7 +279,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 												echo "<textarea name=txtvdo' + nfiles_vdo + ' id=txtvdo' + nfiles_vdo + ' cols=35 rows=3 class=form-control></textarea><br>";
 												echo "</td>";
 
-												
+
 
 												echo "<td align=\'center\' width=\'10%\'>";
 												echo "<input type=\'text\' name=txtvdoprior' + nfiles_vdo + ' id=txtvdoprior' + nfiles_vdo + ' class=form-control size=5 maxlength=3>";
@@ -294,13 +294,13 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 												?>';
 				var Cntnt = document.getElementById("myDivVdo");
 
-				if (document.createRange) { //all browsers, except IE before version 9 					
+				if (document.createRange) { //all browsers, except IE before version 9
 					var rangeObj = document.createRange();
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 					document.frmpgcntn.hdntotcntrlvdo.value = nfiles_vdo;
-					if (rangeObj.createContextualFragment) { // all browsers, except IE	
+					if (rangeObj.createContextualFragment) { // all browsers, except IE
 						//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-						//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+						//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
 					} else { //Internet Explorer from version 9
 						Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
@@ -353,13 +353,13 @@ function expandQns() {
                                         ?>';
         var Cntnt = document.getElementById("myDivQns");
 
-        if (document.createRange) { //all browsers, except IE before version 9 					
+        if (document.createRange) { //all browsers, except IE before version 9
             var rangeObj = document.createRange();
             Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
             document.frmpgcntn.hdntotcntrlQns.value = nfiles_qns;
-            if (rangeObj.createContextualFragment) { // all browsers, except IE	
+            if (rangeObj.createContextualFragment) { // all browsers, except IE
                 //var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
             } else { //Internet Explorer from version 9
                 Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
@@ -414,7 +414,7 @@ function expandQns() {
 							<td align='center' valign='middle' bgcolor='#f1f6fd' colspan='$clspn_val' >
 								<font face='Arial' size='2' color = 'red'>
 									$gmsg
-								</font>							
+								</font>
 							</td>
 			  			</tr>";
 						}
@@ -426,16 +426,16 @@ function expandQns() {
 								</div>
 								<div class="col-sm-9">
 									<?php
-									$sqryprodmncat_mst = "SELECT 
-									prodmnlnksm_id,prodmnlnksm_name						
-							  		 from 
-									prodmnlnks_mst 
-							  		 where	 
+									$sqryprodmncat_mst = "SELECT
+									prodmnlnksm_id,prodmnlnksm_name
+							  		 from
+									prodmnlnks_mst
+							  		 where
 									prodmnlnksm_sts = 'a'
 									order by
 								   	prodmnlnksm_name";
 									$rsprodmncat_mst = mysqli_query($conn,$sqryprodmncat_mst);
-									$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);	
+									$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);
 									?>
 									<select name="lstprodmcat" id="lstprodmcat" class="form-control" onchange="get_cat();">
 										<option value="">--Select Main Link--</option>
@@ -494,11 +494,11 @@ function expandQns() {
 									<select name="lstcatone" id="lstcatone" class="form-control" onChange="funcDspScat(),chkDept();">
 										<option value="">--Select--</option>
 										<?php
-										$sqryprodcat_mst = "SELECT 
+										$sqryprodcat_mst = "SELECT
                                       prodcatm_id,prodcatm_name,prodcatm_typ
-                                  from 
+                                  from
                                       prodcat_mst
-                                  where 
+                                  where
                                       prodcatm_sts='a'";
 										if ($ses_admtyp == 'u') {
 											$sqryprodcat_mst .= " and prodcatm_typ='d'";
@@ -535,27 +535,27 @@ function expandQns() {
 
 						<?php /*?><tr bgcolor="#f1f6fd">
 				<td width="18%" align="left" valign="top" bgcolor="#f1f6fd"><strong>Department</strong></td>
-				<td width="2%" align="left" valign="center" bgcolor="#f1f6fd"><strong>:</strong></td> 
+				<td width="2%" align="left" valign="center" bgcolor="#f1f6fd"><strong>:</strong></td>
 				<td width="40%" align="left" valign="top" bgcolor="#f1f6fd">
 				<select name="lstdept" id="lstdept" style="width:150px" >
 				  <option value="">--Select--</option>
 				 <?php
-					$sqrydept_mst="select 
+					$sqrydept_mst="select
 										  deptm_id,deptm_name
-									  from 
+									  from
 										  dept_mst
-									  where 
-										  deptm_sts='a'"; 
-										  
+									  where
+										  deptm_sts='a'";
+
 					if($ses_admtyp =='u'){
-						$sqrydept_dtl ="select 
+						$sqrydept_dtl ="select
 											deptd_deptm_id
 										from
 											lgn_mst
 											inner join dept_dtl on lgnm_id  = deptd_lgnm_id
 										where
 											deptd_lgnm_id ='$ses_adminid'";
-							
+
 						$srrsdept_dtl = mysqli_query($conn,$sqrydept_dtl);
 						$cntrec_deptdtl = mysqli_num_rows($srrsdept_dtl);
 						if($cntrec_deptdtl > 0){
@@ -570,7 +570,7 @@ function expandQns() {
 					?>
 						<option value="<?php echo $rowsdept_mst['deptm_id'];?>"><?php echo $rowsdept_mst['deptm_name'];?></option>
 						<?php
-					 }						 
+					 }
 					 ?>
 					 </select>
 				</td>
@@ -615,18 +615,41 @@ function expandQns() {
 								</div>
 							</div>
 						</div>
-
 						<div class="col-md-12">
-							<div class="row mb-2 mt-2">
-								<div class="col-sm-3">
-									<label>Banner Image</label>
-								</div>
-								<div class="col-sm-9">
-									<input type="file" name="flebnrimg" id="flebnrimg" class="form-control">
-									<span id="errorsDiv_flebnrimg"></span>
-								</div>
-							</div>
-						</div>
+            <div class="row mb-2 mt-2">
+              <div class="col-sm-3">
+                <label>Header Desktop Image</label>
+              </div>
+              <div class="col-sm-9">
+                <input type="file" name="fledskimg" id="fledskimg" class="form-control">
+                <span id="errorsDiv_fledskimg"></span>
+              </div>
+            </div>
+          </div>
+
+					<div class="col-md-12">
+            <div class="row mb-2 mt-2">
+              <div class="col-sm-3">
+                <label>Header Tablet Image</label>
+              </div>
+              <div class="col-sm-9">
+                <input type="file" name="fletabimg" id="fletabimg" class="form-control">
+                <span id="errorsDiv_fletabimg"></span>
+              </div>
+            </div>
+          </div>
+
+					<div class="col-md-12">
+            <div class="row mb-2 mt-2">
+              <div class="col-sm-3">
+                <label>Header Mobile Image</label>
+              </div>
+              <div class="col-sm-9">
+                <input type="file" name="flemobimg" id="flemobimg" class="form-control">
+                <span id="errorsDiv_flemobimg"></span>
+              </div>
+            </div>
+          </div>
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
@@ -732,7 +755,7 @@ function expandQns() {
 
 
 						<!-- End of Name Desc and cat selection -->
-					
+
 						<div class="table-responsive">
 						<div class="col-sm-3">
 									<label>Images: </label>
@@ -748,7 +771,7 @@ function expandQns() {
 									<td width="10%" align="center"><strong>Status</strong></td>
 								</tr>
 							</table>
-						</div> 
+						</div>
 
 						<div class="table-responsive">
 									<table width="100%"  border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered" >
@@ -775,7 +798,7 @@ function expandQns() {
 													<input type="text" name="txtphtprior1" id="txtphtprior1" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtphtprior1" style="color:#FF0000"></span>
 												</td>
-												<td width="10%" align="center" >					
+												<td width="10%" align="center" >
 													<select name="lstphtsts1" id="lstphtsts1" class="form-control">
 														<option value="a" selected>Active</option>
 														<option value="i">Inactive</option>
@@ -794,9 +817,9 @@ function expandQns() {
 										</table>
 									</div>
 								</div>
-						
+
 				 <!-- Start Video Session -->
-						
+
 						<div class="table-responsive">
 						<div class="col-sm-3">
 									<label>Videos: </label>
@@ -824,12 +847,12 @@ function expandQns() {
 												<textarea name="txtvdo1" cols="35" rows="3" id="txtvdo1" class="form-control"></textarea><br>
 													<span id="errorsDiv_txtvdo1" style="color:#FF0000"></span>
 												</td>
-												
+
 												<td width="10%"  align="center">
 													<input type="text" name="txtvdoprior1" id="txtvdoprior1" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtvdoprior1" style="color:#FF0000"></span>
 												</td>
-												<td width="10%" align="center" >					
+												<td width="10%" align="center" >
 													<select name="lstvdosts1" id="lstvdosts1" class="form-control">
 														<option value="a" selected>Active</option>
 														<option value="i">Inactive</option>
@@ -879,12 +902,12 @@ function expandQns() {
 												<textarea name="txtansdesc1" cols="35" rows="3" id="txtansdesc1" class="form-control"></textarea><br>
 													<span id="errorsDiv_txtansdesc1" style="color:#FF0000"></span>
 												</td>
-												
+
 												<td width="10%"  align="center">
 													<input type="text" name="txtqnsprty1" id="txtqnsprty1" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtqnsprty1" style="color:#FF0000"></span>
 												</td>
-												<td width="10%" align="center" >					
+												<td width="10%" align="center" >
 													<select name="lstqnssts1" id="lstqnssts1" class="form-control">
 														<option value="a" selected>Active</option>
 														<option value="i">Inactive</option>
@@ -908,20 +931,20 @@ function expandQns() {
 								<input type="hidden" name="hdntotcntrlvdo" value="1">
 								<input type="hidden" name="hdntotcntrl" value="1">
 
-						
+
 								<p class="text-center">
 							<input type="Submit" class="btn btn-primary" name="btnaddpgcnt" id="btnaddpgcnt" value="Submit">
 							&nbsp;&nbsp;&nbsp;
 							<input type="reset" class="btn btn-primary" name="btnreset" value="Clear" id="btnreset">
 							&nbsp;&nbsp;&nbsp;
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary" onClick="location.href='<?php echo $rd_crntpgnm; ?>'">
-						</p>	
-				
+						</p>
+
 			</form>
 		</div>
-		
+
 	</section>
-	
+
 	<?php include_once "../includes/inc_adm_footer.php"; ?>
 </body>
 

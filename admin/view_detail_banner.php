@@ -1,19 +1,19 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
-Programm : view_detail_banner.php	
+Programm : view_detail_banner.php
 Purpose : For Viewing Banner Details
 Created By : Bharath
 Created On :	27-12-2021
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
 ************************************************************/
 global $id,$pg,$countstart;
@@ -23,7 +23,7 @@ $clspn_val = "4";
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Banner";
-$pagenm = "Banner"; 
+$pagenm = "Banner";
 /*****header link********/
 if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg']) && (trim($_REQUEST['pg'])!="") && isset($_REQUEST['countstart']) && (trim($_REQUEST['countstart'])!=""))
 {
@@ -32,7 +32,7 @@ if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg'
 	$countstart = glb_func_chkvl($_REQUEST['countstart']);
 	$srchval = glb_func_chkvl($_REQUEST['val']);
 }
-$sqrybnr_mst = "SELECT bnrm_name, bnrm_desc,bnrm_btn_name, bnrm_lnk, if(bnrm_sts = 'a', 'Active','Inactive') as bnrm_sts,bnrm_text, bnrm_prty, bnrm_imgnm 
+$sqrybnr_mst = "SELECT bnrm_name, bnrm_desc,bnrm_btn_name, bnrm_lnk, if(bnrm_sts = 'a', 'Active','Inactive') as bnrm_sts,bnrm_text, bnrm_prty, dskm_imgnm, tabm_imgnm, mobm_imgnm
 	from bnr_mst where bnrm_id = $id";
 $srsbnr_mst = mysqli_query($conn,$sqrybnr_mst);
 $rowsbnr_mst = mysqli_fetch_assoc($srsbnr_mst);
@@ -50,7 +50,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 	$msg = "<font color=red>Duplicate Recored Name Exists & Record Not updated</font>";
 }
 ?>
-<script language="javascript">	
+<script language="javascript">
 	function update1() //for update download details
 	{
 		document.frmedtbnrid.action="<?php echo $rd_edtpgnm;?>?vw=<?php echo $id;?>&pg=<?php echo $pg;?>&countstart=<?php echo $countstart.$loc;?>";
@@ -82,7 +82,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 		if($msg !='')
 		{
 	 		echo "<center><tr bgcolor='#FFFFFF'>
-				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
 			 </tr></center>";
 		}
 		?>
@@ -96,12 +96,12 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsbnr_mst['bnrm_name'];?>
 							</div>
 						</div>
-						<div class="form-group row">
+						<!-- <div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Button Name</label>
 							<div class="col-sm-8">
 								<?php echo $rowsbnr_mst['bnrm_btn_name'];?>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Description</label>
 							<div class="col-sm-8">
@@ -120,24 +120,58 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 						<?php if($rowsbnr_mst['bnrm_text']=='L') echo 'Left';?>
 								<?php if($rowsbnr_mst['bnrm_text']=='R') echo 'Right';?>
 									<?php if($rowsbnr_mst['bnrm_text']=='C') echo 'Center';?>
-							
+
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Image</label>
+							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Desktop Image</label>
 							<div class="col-sm-8">
 								<?php
-								$bnrimgnm = $rowsbnr_mst['bnrm_imgnm'];
-								$bnrimgpath  = $gbnr_fldnm.$bnrimgnm;
-								if(($bnrimgnm !="") && file_exists($bnrimgpath))
+								$dskimgnm = $rowsbnr_mst['dskm_imgnm'];
+								$dskimgpath  = $gbnr_fldnm.$dskimgnm;
+								if(($dskimgnm !="") && file_exists($dskimgpath))
 								{
-									echo "<img src='$bnrimgpath' width='100pixel' height='100pixel'>";
+									echo "<img src='$dskimgpath' width='100pixel' height='100pixel'>";
 								}
 								else
 								{
 									echo "Image not available";
 								}
-								?>	
+								?>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Tablet Image</label>
+							<div class="col-sm-8">
+								<?php
+								$tabimgnm = $rowsbnr_mst['tabm_imgnm'];
+							 	 $tabimgpath  = $gbnr_fldnm.$tabimgnm;
+								if(($tabimgnm !="") && file_exists($tabimgpath))
+								{
+									echo "<img src='$tabimgpath' width='100pixel' height='100pixel'>";
+								}
+								else
+								{
+									echo "Image not available";
+								}
+								?>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Mobile Image</label>
+							<div class="col-sm-8">
+								<?php
+								$mobimgnm = $rowsbnr_mst['mobm_imgnm'];
+								$mobimgpath  = $gbnr_fldnm.$mobimgnm;
+								if(($mobimgnm !="") && file_exists($mobimgpath))
+								{
+									echo "<img src='$mobimgpath' width='100pixel' height='100pixel'>";
+								}
+								else
+								{
+									echo "Image not available";
+								}
+								?>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -148,12 +182,12 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Status</label>
-							<div class="col-sm-8"> 
+							<div class="col-sm-8">
 								<?php echo $rowsbnr_mst['bnrm_sts'];?>
 							</div>
 						</div>
 						<p class="text-center">
-							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtbnrid" id="frmedtbnrid" value="Edit" 
+							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtbnrid" id="frmedtbnrid" value="Edit"
 							onclick="update1();">
 							&nbsp;&nbsp;&nbsp;
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary btn-cst" onclick="location.href='<?php echo $rd_crntpgnm;?>?<?php echo $loc;?>'">
@@ -162,6 +196,6 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 				</div>
 			</div>
 		</div>
-	</form> 
+	</form>
 </section>
 <?php include_once "../includes/inc_adm_footer.php";?>

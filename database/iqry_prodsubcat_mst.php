@@ -1,4 +1,4 @@
-<?php	
+<?php
 error_reporting(0);
 include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
@@ -16,7 +16,7 @@ if(isset($_POST['btnprodscatsbmt']) && (trim($_POST['btnprodscatsbmt']) != "") &
 	$prodcattyp   = glb_func_chkvl($_POST['lsttyp']);//list type
 	$desc = addslashes(trim($_POST['txtdesc']));//sub cat desc
 	$prior = glb_func_chkvl($_POST['txtprior']);//rank
-	
+
 	$title = glb_func_chkvl($_POST['txtseotitle']);
 	$seodesc = glb_func_chkvl($_POST['txtseodesc']);
 	$seokywrd = glb_func_chkvl($_POST['txtseokywrd']);
@@ -27,26 +27,48 @@ if(isset($_POST['btnprodscatsbmt']) && (trim($_POST['btnprodscatsbmt']) != "") &
 	$seoh2  = glb_func_chkvl($_POST['txtseohtwo']);
 	$sts = glb_func_chkvl($_POST['lststs']);//status
 	$curdt = date('Y-m-d h-i-s');
-	$sqryprodsubcat_mst = "SELECT prodscatm_name,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id from prodscat_mst where prodscatm_name ='$name' and prodscatm_prodmncatm_id = '$prodmncat' and prodscatm_prodcatm_id='$prodcat'";
+	 $sqryprodsubcat_mst = "SELECT prodscatm_name,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id from prodscat_mst where prodscatm_name ='$name' and prodscatm_prodmncatm_id = '$prodmncat' and prodscatm_prodcatm_id='$prodcat'";
 	$srsprodsubcat_mst = mysqli_query($conn,$sqryprodsubcat_mst);
 	$rows = mysqli_num_rows($srsprodsubcat_mst);
 	if($rows < 1)
 	{
-		if(isset($_FILES['flescatimg']['tmp_name']) && ($_FILES['flescatimg']['tmp_name']!=""))
+		if(isset($_FILES['fledskimg']['tmp_name']) && ($_FILES['fledskimg']['tmp_name']!=""))
 		{
-			$scatimgval = funcUpldImg('flescatimg','scatimg');
-			if($scatimgval != "")
+			$dskimgval = funcUpldImg('fledskimg','dskimg');
+			if($dskimgval != "")
 			{
-				$scatimgary = explode(":",$scatimgval,2);
-				$scatdest = $scatimgary[0];
-				$scatsource = $scatimgary[1];
+				$dskimgary = explode(":",$dskimgval,2);
+				$dskdest = $dskimgary[0];
+				$dsksource = $dskimgary[1];
 			}
 		}
-		
+		if(isset($_FILES['fletabimg']['tmp_name']) && ($_FILES['fletabimg']['tmp_name']!=""))
+		{
+			$tabimgval = funcUpldImg('fletabimg','tabimg');
+			if($tabimgval != "")
+			{
+				$tabimgary = explode(":",$tabimgval,2);
+				$tabdest = $tabimgary[0];
+				$tabsource = $tabimgary[1];
+			}
+		}
+		if(isset($_FILES['flemobimg']['tmp_name']) && ($_FILES['flemobimg']['tmp_name']!=""))
+		{
+			$mobimgval = funcUpldImg('flemobimg','mobimg');
+			if($mobimgval != "")
+			{
+				$mobimgary = explode(":",$mobimgval,2);
+				$mobdest = $mobimgary[0];
+				$mobsource = $mobimgary[1];
+			}
+		}
+
 	 $iqryprodsubcat_mst="INSERT into prodscat_mst
 		( prodscatm_name,
 		prodscatm_desc,
-		prodscatm_bnrimg,
+		prodscatm_dskimg,
+		prodscatm_tabimg,
+		prodscatm_mobimg,
 		prodscatm_typ,
 		prodscatm_seotitle,
 		prodscatm_seodesc,
@@ -60,29 +82,37 @@ if(isset($_POST['btnprodscatsbmt']) && (trim($_POST['btnprodscatsbmt']) != "") &
 		prodscatm_dptname,
 		prodscatm_sts,
 		prodscatm_prty,
-		prodscatm_crtdon,prodscatm_crtdby) 
-		
-		values ('$name','$desc','$scatdest','$prodcattyp','$title', '$seodesc','$seokywrd','$seoh1','$seoh2','$prodcat','$prodmncat','$dtptitle','$dtphead' ,'$dtpname','$sts','$prior','$curdt','$ses_admin')";
+		prodscatm_crtdon,prodscatm_crtdby)
+
+		values ('$name','$desc','$dskdest','$tabdest','$mobdest','$prodcattyp','$title', '$seodesc','$seokywrd','$seoh1','$seoh2','$prodcat','$prodmncat','$dtptitle','$dtphead' ,'$dtpname','$sts','$prior','$curdt','$ses_admin')";
 		$irsprodsubcat_mst= mysqli_query($conn,$iqryprodsubcat_mst) or die(mysqli_error($mysql));
 		if($irsprodsubcat_mst==true)
 		{
 			$pgimgd_pgcntsd_id     = mysqli_insert_id($conn);
-			if(($scatsource!='none') && ($scatsource!='') && ($scatdest != ""))
+			if(($dsksource!='none') && ($dsksource!='') && ($dskdest != ""))
 			{
-				move_uploaded_file($scatsource,$a_scat_bnrfldnm.$scatdest);
+				move_uploaded_file($dsksource,$a_scat_bnrfldnm.$dskdest);
 			}
-			
+			if(($tabsource!='none') && ($tabsource!='') && ($tabdest != ""))
+			{
+				move_uploaded_file($tabsource,$a_scat_bnrfldnm.$tabdest);
+			}
+			if(($mobsource!='none') && ($mobsource!='') && ($mobdest != ""))
+			{
+				move_uploaded_file($mobsource,$a_scat_bnrfldnm.$mobdest);
+			}
+
 			$gmsg = "Record saved successfully";
 		}
 		//Questtions and answers upload start
-$cntcntrlqns   =  glb_func_chkvl($_POST['hdntotcntrlQns']); 
+$cntcntrlqns   =  glb_func_chkvl($_POST['hdntotcntrlQns']);
 if($pgimgd_pgcntsd_id !="" && $cntcntrlqns !="")
 {
 	for($i=1;$i<= $cntcntrlqns;$i++){
 		$prior1      = glb_func_chkvl("txtqnsprty".$i);
 		$prior2      = glb_func_chkvl($_POST[$prior1]);
 		$qnsname    = glb_func_chkvl("txtqnsnm".$i);
-	
+
 		$validname1  = glb_func_chkvl($_POST[$qnsname]);
 		$qnsname    = glb_func_chkvl($_POST[$qnsname]);
 		//$qnsname    =  glb_func_chkvl($_POST[$qnsname]);
@@ -95,13 +125,13 @@ if($pgimgd_pgcntsd_id !="" && $cntcntrlqns !="")
 		if($prior2 ==""){
 			$prior2 	= $pgimgd_pgcntsd_id;
 		}
-		
-		
+
+
 		$qnsans   = glb_func_chkvl("txtansdesc".$i);
 		$curdt             	=  	date('Y-m-d h:i:s');
 		//$vdoname    = glb_func_chkvl($_POST[$vdoname]);
 		$qnsansnm  = glb_func_chkvl($_POST[$qnsans]);
-		$sqrypgqns_dtl="SELECT  pgqnsd_name	from pgqns_dtl	where pgqnsd_name='$qnsname' and	pgqnsd_pgcntsd_id ='$pgimgd_pgcntsd_id'"; 
+		$sqrypgqns_dtl="SELECT  pgqnsd_name	from pgqns_dtl	where pgqnsd_name='$qnsname' and	pgqnsd_pgcntsd_id ='$pgimgd_pgcntsd_id'";
 		$srspgqns_dtl = mysqli_query($conn,$sqrypgqns_dtl);
 	 $cntpgqns_dtl       = mysqli_num_rows($srspgqns_dtl);
 		if($cntpgqns_dtl < 1){
@@ -110,13 +140,13 @@ if($pgimgd_pgcntsd_id !="" && $cntcntrlqns !="")
 								 pgqnsd_name,pgqnsd_pgcntsd_id,pgqnsd_vdo,pgqnsd_typ,
 								 pgqnsd_prty,pgqnsd_sts,pgqnsd_crtdon,pgqnsd_crtdby)values(
 								 '$qnsname','$pgimgd_pgcntsd_id','$qnsansnm','1',
-								 '$prior2','$sts1','$curdt','$ses_admin')";								     
+								 '$prior2','$sts1','$curdt','$ses_admin')";
 				$rspgqns_dtl1   = mysqli_query($conn,$iqrypgqns_dtl);
-				if($rspgqns_dtl1 == true){								
-					$gmsg = "Record saved successfully";		
+				if($rspgqns_dtl1 == true){
+					$gmsg = "Record saved successfully";
 				}
 			}
-		}						
+		}
 	}
 }
 

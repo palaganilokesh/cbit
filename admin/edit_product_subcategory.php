@@ -3,17 +3,17 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /**********************************************************
-Programm : edit_product_subcategory.php 
+Programm : edit_product_subcategory.php
 Purpose : For Editing sub category
 Created By : Bharath
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -38,17 +38,17 @@ if (isset($_REQUEST['edit']) && (trim($_REQUEST['edit']) != "") && isset($_REQUE
 	$pg = glb_func_chkvl($_REQUEST['hdnpage']);
 	$countstart = glb_func_chkvl($_REQUEST['hdncnt']);
 }
-$sqryprodscat_mst = "select 
+$sqryprodscat_mst = "select
 prodscatm_name,prodscatm_sts,prodscatm_desc,prodscatm_prty,
 prodscatm_prodcatm_id,prodscatm_seotitle,prodscatm_seodesc,prodscatm_seokywrd,
 prodscatm_seohone,prodscatm_seohtwo,prodcatm_name,prodscatm_prodmnlnksm_id,
-prodscatm_typ,prodscatm_bnrimg,prodmnlnksm_name,prodscatm_dpthead,prodscatm_dptname,
+prodscatm_typ,prodscatm_dskimg,prodscatm_tabimg,prodscatm_mobimg,prodmnlnksm_name,prodscatm_dpthead,prodscatm_dptname,
 prodscatm_dpttitle
-from 
-prodscat_mst 
+from
+prodscat_mst
 inner join   prodcat_mst on prodcatm_id = prodscatm_prodcatm_id
 inner join   prodmnlnks_mst on prodmnlnksm_id =prodscatm_prodmnlnksm_id
-where 
+where
 prodscatm_id=$id";
 $srsprodscat_mst = mysqli_query($conn, $sqryprodscat_mst);
 $cntrec = mysqli_num_rows($srsprodscat_mst);
@@ -125,7 +125,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 		});
 	}
 	function rmvqns(del_id) {
-		var status = confirm("Are you sure you want to delete ?"); 
+		var status = confirm("Are you sure you want to delete ?");
 		if(status==true)
   {
 		var del_id = del_id;
@@ -133,10 +133,10 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			type: "POST",
 			url: "../includes/inc_getStsk.php",
 			data: 'del_id=' + del_id,
-			success: function (data) {	
+			success: function (data) {
 				// alert(data)
 				alert('Deleted');
-				location.reload();			
+				location.reload();
 			}
 		});
 	}
@@ -166,7 +166,9 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 		<input type="hidden" name="hdncnt" value="<?php echo $countstart ?>">
 		<input type="hidden" name="hdnloc" value="<?php echo $loc ?>">
 		<input type="hidden" name="hdnscatimg" id="hdnscatimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_szchrtimg']; ?>">
-		<input type="hidden" name="hdnscatbnrimg" id="hdnscatbnrimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_bnrimg']; ?>">
+		<input type="hidden" name="hdnscatdskimg" id="hdnscatdskimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_dskimg']; ?>">
+		<input type="hidden" name="hdnscattabimg" id="hdnscattabimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_tabimg']; ?>">
+		<input type="hidden" name="hdnscatmobimg" id="hdnscatmobimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_mobimg']; ?>">
 		<div class="card">
 					<div class="card-body">
 						<div class="row justify-content-center align-items-center">
@@ -177,11 +179,11 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 							</div>
 							<div class="col-sm-9">
 								<?php
-								$sqryprodmncat_mst = "select 
-								prodmnlnksm_id,prodmnlnksm_name						
-								from 
-								prodmnlnks_mst 
-								where	 
+								$sqryprodmncat_mst = "select
+								prodmnlnksm_id,prodmnlnksm_name
+								from
+								prodmnlnks_mst
+								where
 								prodmnlnksm_sts = 'a'
 								order by
 							   prodmnlnksm_name";
@@ -242,26 +244,70 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 					</div>
 
 					<div class="col-md-12">
-						<div class="row mb-2 mt-2">
-							<div class="col-sm-3">
-								<label>Banner Image</label>
-							</div>
-							<div class="col-sm-9">
-								<div class="custom-file">
-									<input name="flescatimg" type="file" class="form-control" id="flescatimg">
-								</div>
-								<?php
-								$scatbnrimgnm = $rowsprodscat_mst['prodscatm_bnrimg'];
-								$scatbnrimgpath = $a_scat_bnrfldnm . $scatbnrimgnm;
-								if (($scatbnrimgnm != "") && file_exists($scatbnrimgpath)) {
-									echo "<img src='$scatbnrimgpath' width='60pixel' height='60pixel'><br><input type='checkbox' name='chkbximg' id='chkbximg' value='$scatbnrimgpath'>Remove Image";
-									// echo "<img src='$scatbnrimgpath' width='50pixel' height='50pixel'>";
-								} else {
-									echo "N.A";
-								}
-								?>
-							</div>
+					<div class="row mb-2 mt-2">
+						<div class="col-sm-3">
+							<label>Header Desktop Image</label>
 						</div>
+						<div class="col-sm-9">
+							<div class="custom-file">
+								<input name="flescatdskimg" type="file" class="form-control" id="flescatdskimg">
+							</div>
+							<?php
+							$scatdskimgnm = $rowsprodscat_mst['prodscatm_dskimg'];
+							$scatdskimgpath = $a_scat_bnrfldnm . $scatdskimgnm;
+							if (($scatdskimgnm != "") && file_exists($scatdskimgpath)) {
+								echo "<img src='$scatdskimgpath' width='60pixel' height='60pixel'><br><input type='checkbox' name='chkbximg1' id='chkbximg1' value='$scatdskimgpath'>Remove Image";
+								// echo "<img src='$scatdskimgpath' width='50pixel' height='50pixel'>";
+							} else {
+								echo "N.A";
+							}
+							?>
+						</div>
+					</div>
+					</div>
+					<div class="col-md-12">
+					<div class="row mb-2 mt-2">
+						<div class="col-sm-3">
+							<label>Header Tablet Image</label>
+						</div>
+						<div class="col-sm-9">
+							<div class="custom-file">
+								<input name="flescattabimg" type="file" class="form-control" id="flescattabimg">
+							</div>
+							<?php
+							$scattabimgnm = $rowsprodscat_mst['prodscatm_tabimg'];
+							$scattabimgpath = $a_scat_bnrfldnm . $scattabimgnm;
+							if (($scattabimgnm != "") && file_exists($scattabimgpath)) {
+								echo "<img src='$scattabimgpath' width='60pixel' height='60pixel'><br><input type='checkbox' name='chkbximg2' id='chkbximg2' value='$scattabimgpath'>Remove Image";
+								// echo "<img src='$scattabimgpath' width='50pixel' height='50pixel'>";
+							} else {
+								echo "N.A";
+							}
+							?>
+						</div>
+					</div>
+					</div>
+					<div class="col-md-12">
+					<div class="row mb-2 mt-2">
+						<div class="col-sm-3">
+							<label>Header Mobile Image</label>
+						</div>
+						<div class="col-sm-9">
+							<div class="custom-file">
+								<input name="flescatmobimg" type="file" class="form-control" id="flescatmobimg">
+							</div>
+							<?php
+							$scatmobimgnm = $rowsprodscat_mst['prodscatm_mobimg'];
+							$scatmobimgpath = $a_scat_bnrfldnm . $scatmobimgnm;
+							if (($scatmobimgnm != "") && file_exists($scatmobimgpath)) {
+								echo "<img src='$scatmobimgpath' width='60pixel' height='60pixel'><br><input type='checkbox' name='chkbximg3' id='chkbximg3' value='$scatmobimgpath'>Remove Image";
+								// echo "<img src='$scatmobimgpath' width='50pixel' height='50pixel'>";
+							} else {
+								echo "N.A";
+							}
+							?>
+						</div>
+					</div>
 					</div>
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
@@ -440,7 +486,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 												<?php echo $nfiles_qns; ?>
 											</td>
 											<td width='35%' align='center'>
-											
+
 												<input type="text" name="txtqnsnm1<?php echo $nfiles_qns ?>" id="txtqnsnm1<?php echo $nfiles_qns ?>"
 													value='<?php echo $pgqnsd_name ?>' class="form-control" size="50">
 											</td>
@@ -474,7 +520,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 
 											<?php
 						}
-						
+
 					}
 					else{
 						echo "<tr bgcolor='#FFFFFF'><td colspan='6' align='center' bgcolor='#f1f6fd'>No Records Found.</td></tr>";
@@ -482,7 +528,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 					?>
 					<div id="myDivQns">
 										<table width="100%" cellspacing='2' cellpadding='3'>
-										
+
 											<tr>
 												<td align="center">
 												<input type="hidden" name="hdntotcntrlqns" id="hdntotcntrlqns" value="<?php echo $nfiles_qns; ?>">
@@ -526,7 +572,7 @@ function expandQns() {
                                         echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
                                         echo "</td>";
 
-                                       
+
 
 
                                         echo "<td align=\'left\' width=\'10%\'>";
@@ -542,13 +588,13 @@ function expandQns() {
                                         ?>';
         var Cntnt = document.getElementById("myDivQns");
 
-        if (document.createRange) { //all browsers, except IE before version 9 					
+        if (document.createRange) { //all browsers, except IE before version 9
             var rangeObj = document.createRange();
             Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
             document.frmedtscat.hdntotcntrlqns.value = nfiles_qns;
-            if (rangeObj.createContextualFragment) { // all browsers, except IE	
+            if (rangeObj.createContextualFragment) { // all browsers, except IE
                 //var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
             } else { //Internet Explorer from version 9
                 Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);

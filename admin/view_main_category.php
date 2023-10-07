@@ -4,17 +4,17 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
-Programm : view_main_category.php	
+Programm : view_main_category.php
 Purpose : For Viewing all Main Categories
 Created By : Bharath
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $offset;
@@ -46,9 +46,9 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 	$del = explode(',', $did);
 	$count = sizeof($del);
 	for ($i = 0; $i < $count; $i++) {
-		$sqryprodcat_mst = "select 
-								prodmnlnksm_bnrimg	
-						  from 
+		$sqryprodcat_mst = "select
+								prodmnlnksm_dskimg
+						  from
 								prodmnlnks_mst
 						  where
 								prodmnlnksm_id=$del[$i]";
@@ -56,7 +56,7 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 		$cntrec_prodcat	 = mysqli_num_rows($srsprodcat_mst);
 		if ($cntrec_prodcat > 0) {
 			$srowprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst);
-			$bnrimg[$i]      = glb_func_chkvl($srowprodcat_mst['prodmnlnksm_bnrimg']);
+			$bnrimg[$i]      = glb_func_chkvl($srowprodcat_mst['prodmnlnksm_dskimg']);
 			$bnrimgpth[$i]   = $a_mnlnks_bnrfldnm . $bnrimg[$i];
 		}
 	}
@@ -122,7 +122,7 @@ include_once 'script.php'; ?>
 		// 		return false;
 		// 	}
 
-		// 	var optn = document.frmaddprodmnlnks.lstsrchby.value;			
+		// 	var optn = document.frmaddprodmnlnks.lstsrchby.value;
 		// 	if(optn == 'n'){
 		// 		if(document.frmaddprodmnlnks.txtsrchval.value==""){
 		// 			alert("Enter Name");
@@ -252,10 +252,10 @@ include_once $inc_adm_hdr;
 								</td>
 							</tr>
 							<?php
-							$sqryprodmcat_mst1 = "select 
+							$sqryprodmcat_mst1 = "select
 									  	prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_sts,prodmnlnksm_prty,
-										prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_bnrimg						       		
-							       from 
+										prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_dskimg
+							       from
 								   		prodmnlnks_mst";
 							if (isset($_REQUEST['val']) && $_REQUEST['val'] != "") {
 								$val = glb_func_chkvl($_REQUEST['val']);
@@ -281,7 +281,7 @@ include_once $inc_adm_hdr;
 									$db_dplytyp	= $srowprodcat_mst['prodmnlnksm_dsplytyp'];
 									$db_sts		= $srowprodcat_mst['prodmnlnksm_sts'];
 									$db_prty	= $srowprodcat_mst['prodmnlnksm_prty'];
-									$imgnm   = $srowprodcat_mst['prodmnlnksm_bnrimg'];
+									$imgnm   = $srowprodcat_mst['prodmnlnksm_dskimg'];
 									//$db_mncatimg = $srowprodmcat_mst['prodmn_catm_smlimg'];
 									//$db_mncatbnrimg = $srowprodcat_mst['prodmn_catm_bnrimg'];
 							?>
@@ -296,7 +296,7 @@ include_once $inc_adm_hdr;
 										</td>
 										<td align="left">
 											<?php
-											$imgnm   = $srowprodcat_mst['prodmnlnksm_bnrimg'];
+											$imgnm   = $srowprodcat_mst['prodmnlnksm_dskimg'];
 
 											$imgpath = $a_mnlnks_bnrfldnm . $imgnm;
 											if (($imgnm != "") && file_exists($imgpath)) {

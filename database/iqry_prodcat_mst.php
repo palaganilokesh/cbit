@@ -30,23 +30,39 @@ if (
 	$sts = $_POST['lststs'];
 	$dt = date('Y-m-d h:i:s');
 
-	$sqryprodcat_mst = "SELECT 
+	$sqryprodcat_mst = "SELECT
 								prodcatm_name,prodcatm_prodmnlnksm_id,prodcatm_admtyp
-					      	from 
+					      	from
 						    	prodcat_mst
-					      	where 
+					      	where
 						  		 prodcatm_name ='$name'
 								 and
 								  prodcatm_prodmnlnksm_id ='$prodcat' and prodcatm_admtyp='$admtyp'";
 	$srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 	$cntrec_cat = mysqli_num_rows($srsprodcat_mst);
 	if ($cntrec_cat < 1) {
-		if (isset($_FILES['flebnrimg']['tmp_name']) && ($_FILES['flebnrimg']['tmp_name'] != "")) {
-			$bimgval = funcUpldImg('flebnrimg', 'bimg');
-			if ($bimgval != "") {
-				$bimgary = explode(":", $bimgval, 2);
-				$bdest = $bimgary[0];
-				$bsource = $bimgary[1];
+		if (isset($_FILES['fledskimg']['tmp_name']) && ($_FILES['fledskimg']['tmp_name'] != "")) {
+			$dskimgval = funcUpldImg('fledskimg', 'dskimg');
+			if ($dskimgval != "") {
+				$dskimgary = explode(":", $dskimgval, 2);
+				$dskdest = $dskimgary[0];
+				$dsksource = $dskimgary[1];
+			}
+		}
+		if (isset($_FILES['fletabimg']['tmp_name']) && ($_FILES['fletabimg']['tmp_name'] != "")) {
+			$tabimgval = funcUpldImg('fletabimg', 'tabimg');
+			if ($tabimgval != "") {
+				$tabimgary = explode(":", $tabimgval, 2);
+				$tabdest = $tabimgary[0];
+				$tabsource = $tabimgary[1];
+			}
+		}
+		if (isset($_FILES['flemobimg']['tmp_name']) && ($_FILES['flemobimg']['tmp_name'] != "")) {
+			$mobimgval = funcUpldImg('flemobimg', 'mobimg');
+			if ($mobimgval != "") {
+				$mobimgary = explode(":", $mobimgval, 2);
+				$mobdest = $mobimgary[0];
+				$mobsource = $mobimgary[1];
 			}
 		}
 		if (isset($_FILES['icnimg']['tmp_name']) && ($_FILES['icnimg']['tmp_name'] != "")) {
@@ -57,13 +73,13 @@ if (
 				$ssource = $simgary[1];
 			}
 		}
-		$iqryprodcat_mst = "INSERT into prodcat_mst(
-						      prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_bnrimg,
+		 $iqryprodcat_mst = "INSERT into prodcat_mst(
+						      prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_dskimg,prodcatm_tabimg,prodcatm_mobimg,
 							  prodcatm_icn,prodcatm_typ,prodcatm_admtyp,
 							  prodcatm_seotitle,prodcatm_dsplytyp,prodcatm_seodesc,prodcatm_seokywrd,
 							  prodcatm_seohone,prodcatm_seohtwo,prodcatm_sts,prodcatm_prty,
-							  prodcatm_crtdon,prodcatm_crtdby)values(							  
-						      '$prodcat','$name','$desc','$bdest','$sdest','$cattyp','$admtyp',
+							  prodcatm_crtdon,prodcatm_crtdby)values(
+						      '$prodcat','$name','$desc','$dskdest','$tabdest','$mobdest','$sdest','$cattyp','$admtyp',
 							  '$seotitle','$disptyp','$seodesc','$seokywrd',
 							  '$seoh1','$seoh2','$sts',$prior,
 							  '$dt','$ses_admin')";
@@ -71,13 +87,19 @@ if (
 		$irsprodcat_mst = mysqli_query($conn, $iqryprodcat_mst);
 		if ($irsprodcat_mst == true) {
 			$pgimgd_pgcntsd_id = mysqli_insert_id($conn);
-			if (($bsource != 'none') && ($bsource != '') && ($bdest != "")) {
-				move_uploaded_file($bsource, $a_cat_bnrfldnm . $bdest);
+			if (($dsksource != 'none') && ($dsksource != '') && ($dskdest != "")) {
+				move_uploaded_file($dsksource, $a_cat_bnrfldnm . $dskdest);
+			}
+			if (($tabsource != 'none') && ($tabsource != '') && ($tabdest != "")) {
+				move_uploaded_file($tabsource, $a_cat_bnrfldnm . $tabdest);
+			}
+			if (($mobsource != 'none') && ($mobsource != '') && ($mobdest != "")) {
+				move_uploaded_file($mobsource, $a_cat_bnrfldnm . $mobdest);
 			}
 			if (($ssource != 'none') && ($ssource != '') && ($sdest != "")) {
 				move_uploaded_file($ssource, $a_cat_icnfldnm . $sdest);
 			}
-		
+
 		//Questtions and answers upload start
 
 		$cntcntrlqns = glb_func_chkvl($_POST['hdntotcntrlQns']);
@@ -89,10 +111,10 @@ if (
 
 				$validname1 = glb_func_chkvl($_POST[$qnsname]);
 				$qnsname =  glb_func_chkvl($_POST[$qnsname]);
-			
+
 				if ($validname1 == "") {
 					$qnsname =$validname1;
-				
+
 				}
 				$qnssts = "lstqnssts" . $i;
 				$sts1 = $_POST[$qnssts];
@@ -111,7 +133,7 @@ if (
 					}
 				}
 $curdt = date('Y-m-d h:i:s');
-				
+
 $sqrypgimg_dtl="SELECT  catm_name from 	catimg_dtl where  catm_name='$qnsname' and 	catm_cat_id ='$pgimgd_pgcntsd_id'";
 $srspgimg_dtl = mysqli_query($conn,$sqrypgimg_dtl);
 $cntpgimg_dtl = mysqli_num_rows($srspgimg_dtl);
@@ -125,10 +147,10 @@ $cntpgimg_dtl = mysqli_num_rows($srspgimg_dtl);
 								 '$prior2','$sts1','$curdt','$ses_admin')";
 						$rspgqns_dtl1 = mysqli_query($conn, $iqrypgqns_dtl);
 						if ($rspgqns_dtl1 == true) {
-							if(($ssource2!='none') && ($ssource2!='') && ($sdest2 != "")){ 
+							if(($ssource2!='none') && ($ssource2!='') && ($sdest2 != "")){
 								//$sdest = $id."-".$sdest;
 								move_uploaded_file($ssource2,$a_cat_imgfldnm.$sdest2);
-							}		
+							}
 							$gmsg = "Record saved successfully";
 						}
 					}

@@ -1,21 +1,21 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***********************************************************
-Programm : add_category.php	
-Package : 
+Programm : add_category.php
+Package :
 Purpose : For add category
 Created By : lokesh
 
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -56,7 +56,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 	function funcChkDupName() {
 		var name = document.getElementById('txtname').value;
 		var ad_typ = document.getElementById('admtyp').value;
-		
+
 		var prodmcatid = document.getElementById('lstprodcat').value;
 		if ((name != "") && (prodmcatid != "")) {
 			var url = "chkduplicate.php?prodcatname=" + name + "&prodmcatid=" + prodmcatid;
@@ -78,78 +78,78 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			}
 		}
 	}
-	function get_admsn_dtls()
-		  {
-		  	var slctdtyp = $("#lstprodcat").val();
-		  	$.ajax({
-		  		type: "POST",
-		  		url: "../includes/inc_getStsk.php",
-		  		data:'adm_typ='+slctdtyp,
-		  		success: function(data){
-		  			// alert(data)
-		  			$("#admtyp").html(data);
-		  		}
-		  	});
-		  }
-			
-		/*----Questions and answers Start Hear-*/
 
-		var nfiles_qns = 1;
+	function get_admsn_dtls() {
+		var slctdtyp = $("#lstprodcat").val();
+		$.ajax({
+			type: "POST",
+			url: "../includes/inc_getStsk.php",
+			data: 'adm_typ=' + slctdtyp,
+			success: function(data) {
+				// alert(data)
+				$("#admtyp").html(data);
+			}
+		});
+	}
 
-function expandQns() {
-    nfiles_qns++;
-    if (nfiles_qns <= 200) {
-        var htmlTxt = '<?php
-                                        echo "<table border=\'0\' cellpadding=\'1\' cellspacing=\'1\' width=\'100%\'>";
-                                        echo "<tr>";
-                                        echo "<td align=\'center\' width=\'5%\'> ' + nfiles_qns + '</td>";
-                                        echo "<td align=\'left\' width=\'35%\'>";
-                                        echo "<input type=text name=txtqnsnm' + nfiles_qns + ' id=txtqnsnm' + nfiles_qns + ' class=form-control size=\'25\'>";
-                                        echo "</td>";
+	/*----Questions and answers Start Hear-*/
 
-                                        // echo "<td align=\'left\' width=\'35%\'>";
-                                        // echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
-                                        // echo "</td>";
+	var nfiles_qns = 1;
 
-                                        echo "<td align=center width=35%>";
-                								echo "<input type=file name=flebimg' + nfiles_qns + ' id=flebimg' + nfiles_qns + ' class=form-control><br>";
-              							  echo "</td>";
+	function expandQns() {
+		nfiles_qns++;
+		if (nfiles_qns <= 200) {
+			var htmlTxt = '<?php
+											echo "<table border=\'0\' cellpadding=\'1\' cellspacing=\'1\' width=\'100%\'>";
+											echo "<tr>";
+											echo "<td align=\'center\' width=\'5%\'> ' + nfiles_qns + '</td>";
+											echo "<td align=\'left\' width=\'35%\'>";
+											echo "<input type=text name=txtqnsnm' + nfiles_qns + ' id=txtqnsnm' + nfiles_qns + ' class=form-control size=\'25\'>";
+											echo "</td>";
+
+											// echo "<td align=\'left\' width=\'35%\'>";
+											// echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
+											// echo "</td>";
+
+											echo "<td align=center width=35%>";
+											echo "<input type=file name=flebimg' + nfiles_qns + ' id=flebimg' + nfiles_qns + ' class=form-control><br>";
+											echo "</td>";
 
 
-                                        echo "<td align=\'left\' width=\'10%\'>";
-                                        echo "<input type=\'text\' name=txtqnsprty' + nfiles_qns + ' id=txtqnsprty' + nfiles_qns + ' class=form-control size=5 maxlength=3>";
-                                        echo "</td>";
+											echo "<td align=\'left\' width=\'10%\'>";
+											echo "<input type=\'text\' name=txtqnsprty' + nfiles_qns + ' id=txtqnsprty' + nfiles_qns + ' class=form-control size=5 maxlength=3>";
+											echo "</td>";
 
-                                        echo "<td align=center width=\'10%\'>";
-                                        echo "<select name=lstqnssts' + nfiles_qns + ' id=lstqnssts' + nfiles_qns + ' class=form-control>";
-                                        echo "<option value=a>Active</option>";
-                                        echo "<option value=i>Inactive</option>";
-                                        echo "</select>";
-                                        echo "</td></tr></table>";
-                                        ?>';
-        var Cntnt = document.getElementById("myDivQns");
+											echo "<td align=center width=\'10%\'>";
+											echo "<select name=lstqnssts' + nfiles_qns + ' id=lstqnssts' + nfiles_qns + ' class=form-control>";
+											echo "<option value=a>Active</option>";
+											echo "<option value=i>Inactive</option>";
+											echo "</select>";
+											echo "</td></tr></table>";
+											?>';
+			var Cntnt = document.getElementById("myDivQns");
 
-        if (document.createRange) { //all browsers, except IE before version 9 					
-            var rangeObj = document.createRange();
-            Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
-            document.frmaddprodcat.hdntotcntrlQns.value = nfiles_qns;
-            if (rangeObj.createContextualFragment) { // all browsers, except IE	
-                //var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+			if (document.createRange) { //all browsers, except IE before version 9
+				var rangeObj = document.createRange();
+				Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
+				document.frmaddprodcat.hdntotcntrlQns.value = nfiles_qns;
+				if (rangeObj.createContextualFragment) { // all browsers, except IE
+					//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
+					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
-            } else { //Internet Explorer from version 9
-                Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
-            }
-        } else { //Internet Explorer before version 9
-            Cntnt.insertAdjacentHTML("BeforeBegin", htmlTxt);
-        }
-        document.getElementById('hdntotcntrlQns').value = nfiles_qns;
-        document.frmaddprodcat.hdntotcntrlQns.value = nfiles_qns;
-    } else {
-        alert("Maximum 200 image's Only");
-        return false;
-    }
-}
+				} else { //Internet Explorer from version 9
+					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
+				}
+			} else { //Internet Explorer before version 9
+				Cntnt.insertAdjacentHTML("BeforeBegin", htmlTxt);
+			}
+			document.getElementById('hdntotcntrlQns').value = nfiles_qns;
+			document.frmaddprodcat.hdntotcntrlQns.value = nfiles_qns;
+		} else {
+			alert("Maximum 200 image's Only");
+			return false;
+		}
+	}
 </script>
 <?php include_once $inc_adm_hdr; ?>
 <section class="content">
@@ -209,18 +209,18 @@ function expandQns() {
 								</div>
 								<div class="col-sm-9">
 									<?php
-									$sqryprodmncat_mst = "SELECT 
-									prodmnlnksm_id,prodmnlnksm_name						
-								from 
-									 prodmnlnks_mst 
-								where	 
+									$sqryprodmncat_mst = "SELECT
+									prodmnlnksm_id,prodmnlnksm_name
+								from
+									 prodmnlnks_mst
+								where
 									 prodmnlnksm_sts = 'a'
 								 order by
 									prodmnlnksm_name";
 									$rsprodmncat_mst = mysqli_query($conn, $sqryprodmncat_mst);
 									$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);
 									?>
-									<select name="lstprodcat" id="lstprodcat" class="form-control"  onchange="get_admsn_dtls();">
+									<select name="lstprodcat" id="lstprodcat" class="form-control" onchange="get_admsn_dtls();">
 										<option value="">--Select Main Links--</option>
 										<?php
 										if ($cnt_prodmncat > 0) {
@@ -240,8 +240,8 @@ function expandQns() {
 						</div>
 
 						<div id="admtyp" class="col-md-12">
-								</div>	
-						
+						</div>
+
 
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
@@ -249,7 +249,7 @@ function expandQns() {
 									<label>Category Name *</label>
 								</div>
 								<div class="col-sm-9">
-									<input name="txtname" type="text" id="txtname" size="560"  class="form-control">
+									<input name="txtname" type="text" id="txtname" size="560" class="form-control">
 									<!-- onBlur="funcChkDupName()" -->
 									<span id="errorsDiv_txtname"></span>
 								</div>
@@ -268,11 +268,35 @@ function expandQns() {
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
-									<label>Banner Image</label>
+									<label>Header Desktop Image</label>
 								</div>
 								<div class="col-sm-9">
 									<div class="custom-file">
-										<input name="flebnrimg" type="file" class="form-control" id="flebnrimg" maxlength="250">
+										<input name="fledskimg" type="file" class="form-control" id="fledskimg" maxlength="250">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Header Tablet Image</label>
+								</div>
+								<div class="col-sm-9">
+									<div class="custom-file">
+										<input name="fletabimg" type="file" class="form-control" id="fletabimg" maxlength="250">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Header Mobile Image</label>
+								</div>
+								<div class="col-sm-9">
+									<div class="custom-file">
+										<input name="flemobimg" type="file" class="form-control" id="flemobimg" maxlength="250">
 									</div>
 								</div>
 							</div>
@@ -393,58 +417,58 @@ function expandQns() {
 								</div>
 							</div>
 						</div>
-						
-	<!-- Start questions Session -->
-	<div class="table-responsive">
+
+						<!-- Start questions Session -->
+						<div class="table-responsive">
 							<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
 								<tr bgcolor="#FFFFFF">
-								<td width="5%" align="center"><strong>SL.No.</strong></td>
-										<td width="35%" align="center"><strong>Name</strong></td>
-										<td width="35%" align="center"><strong>Image</strong></td>
-										<td width="10%" align="center"><strong>Rank</strong></td>
-										<td width="10%" align="center"><strong>Status</strong></td>
+									<td width="5%" align="center"><strong>SL.No.</strong></td>
+									<td width="35%" align="center"><strong>Name</strong></td>
+									<td width="35%" align="center"><strong>Image</strong></td>
+									<td width="10%" align="center"><strong>Rank</strong></td>
+									<td width="10%" align="center"><strong>Status</strong></td>
 								</tr>
 							</table>
 						</div>
-						 <div class="table-responsive">
-									<table width="100%"  border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered" >
-										<table width="100%" border="0" cellspacing="3" cellpadding="3">
-											<tr bgcolor="#FFFFFF">
-											<td width="5%" align="center">1</td>
-												<td width="35%"  align="center">
-													<input type="text" name="txtqnsnm1" id="txtqnsnm1" placeholder="Name" class="form-control" size="15"><br>
-													<span id="errorsDiv_txtqnsnm1" style="color:#FF0000"></span>
-												</td>
-												<td width="35%"  align="center">
-												<input type="file" name="flebimg1" cols="35" rows="3" id="flebimg1" class="form-control"><br>
-													<span id="errorsDiv_flebimg1" style="color:#FF0000"></span>
-												</td>
-												
-												<td width="10%"  align="center">
-													<input type="text" name="txtqnsprty1" id="txtqnsprty1" class="form-control" size="15"><br>
-													<span id="errorsDiv_txtqnsprty1" style="color:#FF0000"></span>
-												</td>
-												<td width="10%" align="center" >					
-													<select name="lstqnssts1" id="lstqnssts1" class="form-control">
-														<option value="a" selected>Active</option>
-														<option value="i">Inactive</option>
-													</select>
-												</td>
-											</tr>
-										</table>
-									</table>
-									<div id="myDivQns">
-										<table width="100%" cellspacing='2' cellpadding='3'>
-											<tr>
-												<td align="center">
-													<input name="btnadd" type="button" onClick="expandQns()" value="Add Another Image" class="btn btn-primary mb-3">
-												</td>
-											</tr>
-										</table>
-									</div>
-								</div>
-									<!-- end questions Session -->
-									<input type="hidden" name="hdntotcntrlQns" value="1">
+						<div class="table-responsive">
+							<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
+								<table width="100%" border="0" cellspacing="3" cellpadding="3">
+									<tr bgcolor="#FFFFFF">
+										<td width="5%" align="center">1</td>
+										<td width="35%" align="center">
+											<input type="text" name="txtqnsnm1" id="txtqnsnm1" placeholder="Name" class="form-control" size="15"><br>
+											<span id="errorsDiv_txtqnsnm1" style="color:#FF0000"></span>
+										</td>
+										<td width="35%" align="center">
+											<input type="file" name="flebimg1" cols="35" rows="3" id="flebimg1" class="form-control"><br>
+											<span id="errorsDiv_flebimg1" style="color:#FF0000"></span>
+										</td>
+
+										<td width="10%" align="center">
+											<input type="text" name="txtqnsprty1" id="txtqnsprty1" class="form-control" size="15"><br>
+											<span id="errorsDiv_txtqnsprty1" style="color:#FF0000"></span>
+										</td>
+										<td width="10%" align="center">
+											<select name="lstqnssts1" id="lstqnssts1" class="form-control">
+												<option value="a" selected>Active</option>
+												<option value="i">Inactive</option>
+											</select>
+										</td>
+									</tr>
+								</table>
+							</table>
+							<div id="myDivQns">
+								<table width="100%" cellspacing='2' cellpadding='3'>
+									<tr>
+										<td align="center">
+											<input name="btnadd" type="button" onClick="expandQns()" value="Add Another Image" class="btn btn-primary mb-3">
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<!-- end questions Session -->
+						<input type="hidden" name="hdntotcntrlQns" value="1">
 						<p class="text-center">
 							<input type="Submit" class="btn btn-primary" name="btnprodcatsbmt" id="btnprodcatsbmt" value="Submit">
 							&nbsp;&nbsp;&nbsp;

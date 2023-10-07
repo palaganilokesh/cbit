@@ -1,12 +1,12 @@
 <?php
 
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************/
 //Programm 	  : Pagecontain.php
@@ -48,17 +48,17 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 	$bnrimg      =  array();
 	$bnrimgpth   =  array();
 	for ($i = 0; $i < $count; $i++) {
-		$sqrypgprc_dtl = "select 
+		$sqrypgprc_dtl = "select
 							   pgimgd_id
-							from 
+							from
 							   pgimg_dtl
 							where
 								pgimgd_pgcntsd_id=$del[$i]";
 		$srspgclr_dtl     = mysqli_query($conn, $sqrypgprc_dtl);
 		$srowprodprc_dtl  = mysqli_fetch_assoc($srspgclr_dtl);
-		$sqrypgimgd_dtl	  = "select 
+		$sqrypgimgd_dtl	  = "select
 								    pgimgd_img
-								 from 
+								 from
 								    pgimg_dtl
 								 where
 									pgimgd_pgcntsd_id=$del[$i]";
@@ -73,9 +73,9 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 				}
 			}
 		}
-		$sqrypgcntsd_dtl  = "SELECT 
-								    pgcntsd_bnrimg
-								 from 
+		$sqrypgcntsd_dtl  = "SELECT
+								    pgcntsd_dskimg
+								 from
 								    pgcnts_dtl
 								 where
 									pgcntsd_id=$del[$i]";
@@ -83,7 +83,7 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 		$cntrec_dtl = mysqli_num_rows($srspgcntsd_dtl);
 		if ($cntrec_dtl > 0) {
 			$srowpgcntsd_dtl = mysqli_fetch_assoc($srspgcntsd_dtl);
-			$bnrimg[$i]      = glb_func_chkvl($srowpgcntsd_dtl['pgcntsd_bnrimg']);
+			$bnrimg[$i]      = glb_func_chkvl($srowpgcntsd_dtl['pgcntsd_dskimg']);
 			$bnrimgpth[$i]   = $a_pgcnt_bnrfldnm . $bnrimg[$i];
 			for ($j = 0; $j < $cntrec_dtl; $j++) {
 				if (($bnrimg[$i] != "") && file_exists($bnrimgpth[$i])) {
@@ -111,7 +111,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) != '')) {
 	}
 }
 $rowsprpg  = 20; //maximum rows per page
-include_once '../includes/inc_paging1.php'; //Includes pagination	
+include_once '../includes/inc_paging1.php'; //Includes pagination
 $rqst_stp      	= $rqst_arymdl[1];
 $rqst_stp_attn     = explode("::", $rqst_stp);
 $rqst_stp_chk      	= $rqst_arymdl[0];
@@ -337,7 +337,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 																															echo $_REQUEST['txtsrchval'];
 																														}
 																														?>" id="txtsrchval">
-							
+
 							</div>
 
 						</div>
@@ -352,14 +352,14 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 								<select name="lstdept" id="lstdept" class="form-control">
 									<option value="">--Select--</option>
 									<?php
-									$sqrydept_mst = "select 
+									$sqrydept_mst = "select
 													  deptm_id,deptm_name
-												 from 
+												 from
 													  vw_pgcnts_prodcat_prodscat_mst
-												 where 
+												 where
 													deptm_id !=''";
 									if ($ses_admtyp == 'u') {
-										$sqrydept_dtl = "select 
+										$sqrydept_dtl = "select
 															deptd_deptm_id
 														from
 															lgn_mst
@@ -375,9 +375,9 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 											$sqrydept_mst .= " and deptm_id = $deptid";
 										}
 									}
-									$sqrydept_mst .= " group by 
+									$sqrydept_mst .= " group by
 													  deptm_id
-												 order by 
+												 order by
 													  deptm_name";
 									$stsdept_mst = mysqli_query($conn, $sqrydept_mst);
 									while ($rowsdept_mst = mysqli_fetch_assoc($stsdept_mst)) {
@@ -402,13 +402,13 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 								<select name="lstcatone" id="lstcatone" class="form-control">
 									<option value="">--Select--</option>
 									<?php
-									$sqrycatone_mst = "select 
+									$sqrycatone_mst = "select
 													  prodcatm_id,prodcatm_name
-												   from 
+												   from
 													  vw_pgcnts_prodcat_prodscat_mst
-												   group by 
+												   group by
 													  prodcatm_id
-												   order by 
+												   order by
 													  prodcatm_name";
 									$stscatone_mst = mysqli_query($conn, $sqrycatone_mst);
 									while ($rowscatone_mst = mysqli_fetch_assoc($stscatone_mst)) {
@@ -436,15 +436,15 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 								<select name="lstcattwo" id="lstcattwo" class="form-control">
 									<option value="">--Select--</option>
 									<?php
-									$sqrycattwo_mst = "select 
+									$sqrycattwo_mst = "select
 													  prodscatm_id,prodscatm_name
-												 from 
+												 from
 													  vw_pgcnts_prodcat_prodscat_mst
-												 where 
+												 where
 													prodscatm_id !=''
-												 group by 
+												 group by
 													  prodscatm_id
-												 order by 
+												 order by
 													  prodscatm_name";
 									$stscattwo_mst = mysqli_query($conn, $sqrycattwo_mst);
 									while ($rowscattwo_mst = mysqli_fetch_assoc($stscattwo_mst)) {
@@ -460,7 +460,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 
 						</div>
 					</div>
-				
+
 					<div class="col-sm-4">
 						<div class="form-group">
 						<strong>Exact</strong>
@@ -469,7 +469,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 																			echo 'checked';
 																	}	?>>
 																		<input type="submit" value="Search" class="btn btn-primary" name="btnsbmt">
-								
+
 								<a href="<?php echo $rd_crntpgnm; ?>" class="btn btn-primary">Refresh</a>
 								<?php
 								if (($rqst_stp_attn[1] == '2') || ($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
@@ -477,7 +477,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									<input name="btn" type="button" class="btn btn-primary" value=" + Add" onClick="addnew()">
 								<?php
 								}
-								?> 
+								?>
 
 						</div>
 					</div>
@@ -519,7 +519,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 							<td width="28%" class="td_bg"><strong>Name</strong></td>
 							<td width="15%" class="td_bg"><strong>Subcategory</strong></td>
 							<td width="15%" class="td_bg"><strong>Category</strong></td>
-							<td width="15%" class="td_bg"><strong>Banner Image</strong></td>
+							<td width="15%" class="td_bg"><strong> Image</strong></td>
 							<td width="15%" class="td_bg"><strong>Type</strong></td>
 							<td width="10%" align="center" class="td_bg"><strong>Rank</strong></td>
 							<?php
@@ -540,10 +540,10 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 						</tr>
 						<!-- lok -->
 						<?php
-						$sqrypgcnts_dtl1 =   "select 
+						 $sqrypgcnts_dtl1 =   "select
 												pgcntsd_id,pgcntsd_name,pgcntsd_desc,pgcntsd_sts,
-												pgcntsd_prty,prodcatm_name,prodscatm_name,pgcntsd_typ,pgcntsd_bnrimg
-										  from  
+												pgcntsd_prty,prodcatm_name,prodscatm_name,pgcntsd_typ,pgcntsd_dskimg
+										  from
 												vw_pgcnts_prodcat_prodscat_mst
 										  where
 												pgcntsd_id	!= ''";
@@ -625,7 +625,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									<td align="left" valign="top"><?php echo $db_pgcntcatnm; ?></td>
 									<td align="left" valign="top">
 										<?php
-										$imgnm   = $srowpgcnts_dtl['pgcntsd_bnrimg'];
+										$imgnm   = $srowpgcnts_dtl['pgcntsd_dskimg'];
 										$imgpath = $a_pgcnt_bnrfldnm . $imgnm;
 										if (($imgnm != "") && file_exists($imgpath)) {
 											echo "<img src='$imgpath' width='80pixel' height='80pixel'>";

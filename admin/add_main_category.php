@@ -1,20 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***********************************************************
-Programm : add_main_category.php	
-Package : 
+Programm : add_main_category.php
+Package :
 Purpose : For add main category
 Created By : Bharath
 Created On :	20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -159,11 +159,35 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
-									<label>Banner Image</label>
+									<label>Header Desktop Image</label>
 								</div>
 								<div class="col-sm-9">
 									<div class="custom-file">
-										<input name="flebnrimg" type="file" class="form-control" id="flebnrimg" maxlength="250">
+										<input name="fledskimg" type="file" class="form-control" id="fledskimg" maxlength="250">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Header Tablet Image</label>
+								</div>
+								<div class="col-sm-9">
+									<div class="custom-file">
+										<input name="fletabimg" type="file" class="form-control" id="fletabimg" maxlength="250">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="row mb-2 mt-2">
+								<div class="col-sm-3">
+									<label>Header Mobile Image</label>
+								</div>
+								<div class="col-sm-9">
+									<div class="custom-file">
+										<input name="flemobimg" type="file" class="form-control" id="flemobimg" maxlength="250">
 									</div>
 								</div>
 							</div>

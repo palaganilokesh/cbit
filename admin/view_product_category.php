@@ -4,17 +4,17 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
-Programm : view_product_category.php	
+Programm : view_product_category.php
 Purpose : For Viewing all Categories
 Created By : Bharath
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
@@ -45,12 +45,16 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 	$did 	    =  glb_func_chkvl($dchkval);
 	$del        =  explode(',', $did);
 	$count      =  sizeof($del);
-	$bnrimg      =  array();
-	$bnrimgpth   =  array();
+	$dskimg      =  array();
+	$dskimgpth   =  array();
+	$tabimg      =  array();
+	$tabimgpth   =  array();
+	$mobimg      =  array();
+	$mobimgpth   =  array();
 	for ($i = 0; $i < $count; $i++) {
-		$sqryprodcat_mst = "select 
-									prodcatm_bnrimg
-								from 
+		$sqryprodcat_mst = "select
+									prodcatm_dskimg
+								from
 									prodcat_mst
 								where
 									prodcatm_id=$del[$i]";
@@ -58,15 +62,31 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 		$cntrec_prodcat	 = mysqli_num_rows($srsprodcat_mst);
 		if ($cntrec_prodcat > 0) {
 			$srowprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst);
-			$bnrimg[$i]      = glb_func_chkvl($srowprodcat_mst['prodcatm_bnrimg']);
-			$bnrimgpth[$i]   = $a_cat_bnrfldnm . $bnrimg[$i];
+			$dskimg[$i]      = glb_func_chkvl($srowprodcat_mst['prodcatm_dskimg']);
+			$dskimgpth[$i]   = $a_cat_bnrfldnm . $dskimg[$i];
+		}
+		if ($cntrec_prodcat > 0) {
+			$srowprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst);
+			$tabimg[$i]      = glb_func_chkvl($srowprodcat_mst['prodcatm_tabimg']);
+			$tabimgpth[$i]   = $a_cat_bnrfldnm . $tabimg[$i];
+		}
+		if ($cntrec_prodcat > 0) {
+			$srowprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst);
+			$mobimg[$i]      = glb_func_chkvl($srowprodcat_mst['prodcatm_mobimg']);
+			$mobimgpth[$i]   = $a_cat_bnrfldnm . $mobimg[$i];
 		}
 	}
 	$delsts = funcDelAllRec($conn,'prodcat_mst', 'prodcatm_id', $did);
 	if ($delsts == 'y') {
 		for ($i = 0; $i < $count; $i++) {
-			if (($bnrimg[$i] != "") && file_exists($bnrimgpth[$i])) {
-				unlink($bnrimgpth[$i]);
+			if (($dskimg[$i] != "") && file_exists($dskimgpth[$i])) {
+				unlink($dskimgpth[$i]);
+			}
+			if (($tabimg[$i] != "") && file_exists($dskimgpth[$i])) {
+				unlink($dskimgpth[$i]);
+			}
+			if (($mobimg[$i] != "") && file_exists($mobimgpth[$i])) {
+				unlink($mobimgpth[$i]);
 			}
 		}
 		$msg   = "<font color=red>Record deleted successfully</font>";
@@ -205,11 +225,11 @@ include_once $inc_adm_hdr;
 						<div class="col-sm-3">
 							<div class="form-group">
 								<?php
-								$sqryprodmcat_mst = "select 
-							prodmnlnksm_id,prodmnlnksm_name						
-								from 
-								 prodmnlnks_mst 
-									where	 
+								$sqryprodmcat_mst = "select
+							prodmnlnksm_id,prodmnlnksm_name
+								from
+								 prodmnlnks_mst
+									where
 							 prodmnlnksm_sts = 'a'
 						 order by
 							prodmnlnksm_name";
@@ -278,7 +298,7 @@ include_once $inc_adm_hdr;
 								<td width="21%"><strong>Category Name</strong></td>
 								<td width="15%" class="td_bg"><strong>Main Links</strong></td>
 
-								<td width="15%" class="td_bg"><strong>Banner Image</strong></td>
+								<td width="15%" class="td_bg"><strong> Image</strong></td>
 								<td width="8%" class="td_bg"><strong>Type</strong></td>
 								<td width="9%" align="center"><strong>Rank</strong></td>
 								<td width="6%" align="center"><strong>Edit</strong></td>
@@ -290,11 +310,11 @@ include_once $inc_adm_hdr;
 								</td>
 							</tr>
 							<?php
-							$sqryprodcat_mst1 = "select 
+							$sqryprodcat_mst1 = "select
 						prodcatm_id,prodcatm_name,prodcatm_sts,prodcatm_prty,
-						prodcatm_typ,prodcatm_dsplytyp,prodcatm_bnrimg,
-						prodcatm_prodmnlnksm_id,prodmnlnksm_name						       		
-						from 
+						prodcatm_typ,prodcatm_dsplytyp,prodcatm_dskimg,
+						prodcatm_prodmnlnksm_id,prodmnlnksm_name
+						from
 					   prodcat_mst
 						inner join prodmnlnks_mst
 						on		prodmnlnks_mst.prodmnlnksm_id=prodcat_mst.prodcatm_prodmnlnksm_id";
@@ -334,7 +354,7 @@ include_once $inc_adm_hdr;
 									$db_sts	= $srowprodcat_mst['prodcatm_sts'];
 									$db_hmprty = $srowprodcat_mst['prodcatm_hmprty'];
 									//$db_catimg = $srowprodcat_mst['prodcatm_smlimg'];
-									//$db_catbnrimg = $srowprodcat_mst['prodcatm_bnrimg'];
+									// echo $db_catbnrimg = $srowprodcat_mst['prodcatm_dskimg'];
 							?>
 									<tr <?php if ($cnt % 2 == 0) {
 											echo "";
@@ -347,29 +367,28 @@ include_once $inc_adm_hdr;
 										</td>
 										<td><?php echo $db_mncatname; ?></td>
 										<!-- <td align="left">
-										<?php
-										$imgnm = $db_catimg;
-										$imgpath = $gcat_fldnm . $imgnm;
-										if (($imgnm != "") && file_exists($imgpath)) {
-											echo "<img src='$imgpath' width='50pixel' height='50pixel' style='background-color:red;'>";
-										} else {
-											echo "NA";
-										}
-										?>
-									</td> -->
-										<td align="left">
 											<?php
-											$bnrimgnm = $db_catbnrimg;
-											$bnrimgpath = $gcat_fldnm . $bnrimgnm;
-											$imgnm   = $srowprodcat_mst['prodcatm_bnrimg'];
-											$imgpath = $a_cat_bnrfldnm . $imgnm;
-											if (($imgnm != "") && file_exists($imgpath)) {
-												echo "<img src='$imgpath' width='80pixel' height='80pixel'>";
+											 $dskimgnm   = $srowprodcat_mst['prodcatm_dskimg'];
+
+											 $dskimgpath = $rtpth. $a_cat_bnrfldnm . $dskimgnm;
+											if (($dskimgnm != "") && file_exists($dskimgpath)) {
+												echo "<img src=' $dskimgpath' width='50 pixel' height='50 pixel' style='background-color:red;'>";
 											} else {
-												echo "N.A";
+												echo "NA";
 											}
 											?>
-										</td>
+										</td> -->
+										<td align="left">
+							<?php
+							$dskimgnm   = $srowprodcat_mst['prodcatm_dskimg'];
+							$dskimgpath = $a_cat_bnrfldnm . $dskimgnm;
+							if (($dskimgnm != "") && file_exists($dskimgpath)) {
+								echo "<img src='$dskimgpath' width='80pixel' height='80pixel'>";
+							} else {
+								echo "N.A.";
+							}
+							?>
+</td>
 										<td align="center"><?php echo funcDsplyTyp($db_dplytyp); ?></td>
 										<td align="center"><?php echo $db_prty; ?></td>
 										<td align="center">
