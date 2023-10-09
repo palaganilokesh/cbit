@@ -1,5 +1,4 @@
 <?php
-
 error_reporting(0);
 include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
@@ -14,8 +13,7 @@ include_once $inc_fldr_pth; //Making paging validation
 //Company 	  : Adroit
 /************************************************************/
 global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $clspn_val, $rd_crntpgnm, $rd_adpgnm,
-	$rd_vwpgnm, $rd_edtpgnm;
-
+$rd_vwpgnm, $rd_edtpgnm;
 $clspn_val   = "8";
 $rd_adpgnm   = "add_pagecontain.php";
 $rd_edtpgnm  = "edit_pagecontain.php";
@@ -45,8 +43,8 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 	$smlimgpth  =  array();
 	//$bgimg      =  array();
 	//$bgimgpth   =  array();
-	$bnrimg      =  array();
-	$bnrimgpth   =  array();
+	$dskimg      =  array();
+	$dskimgpth   =  array();
 	for ($i = 0; $i < $count; $i++) {
 		$sqrypgprc_dtl = "select
 							   pgimgd_id
@@ -83,11 +81,11 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
 		$cntrec_dtl = mysqli_num_rows($srspgcntsd_dtl);
 		if ($cntrec_dtl > 0) {
 			$srowpgcntsd_dtl = mysqli_fetch_assoc($srspgcntsd_dtl);
-			$bnrimg[$i]      = glb_func_chkvl($srowpgcntsd_dtl['pgcntsd_dskimg']);
-			$bnrimgpth[$i]   = $a_pgcnt_bnrfldnm . $bnrimg[$i];
+			$dskimg[$i]      = glb_func_chkvl($srowpgcntsd_dtl['pgcntsd_dskimg']);
+			$dskimgpth[$i]   = $a_pgcnt_bnrfldnm . $dskimg[$i];
 			for ($j = 0; $j < $cntrec_dtl; $j++) {
-				if (($bnrimg[$i] != "") && file_exists($bnrimgpth[$i])) {
-					unlink($bnrimgpth[$i]);
+				if (($dskimg[$i] != "") && file_exists($dskimgpth[$i])) {
+					unlink($dskimgpth[$i]);
 				}
 			}
 		}
@@ -542,7 +540,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 						<?php
 						 $sqrypgcnts_dtl1 =   "select
 												pgcntsd_id,pgcntsd_name,pgcntsd_desc,pgcntsd_sts,
-												pgcntsd_prty,prodcatm_name,prodscatm_name,pgcntsd_typ,pgcntsd_dskimg
+												pgcntsd_prty,prodcatm_name,prodscatm_name,pgcntsd_typ,pgcntsd_dskimg,pgcntsd_tabimg,pgcntsd_mobimg
 										  from
 												vw_pgcnts_prodcat_prodscat_mst
 										  where

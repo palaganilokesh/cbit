@@ -3,15 +3,15 @@ error_reporting(0);
 include_once '../includes/inc_nocache.php'; // Clearing the cache information
 include_once '../includes/inc_adm_session.php'; //checking for session
 include_once '../includes/inc_connection.php'; //Making database Connection
-include_once '../includes/inc_usr_functions.php'; //Use function for validation and more 
+include_once '../includes/inc_usr_functions.php'; //Use function for validation and more
 include_once '../includes/inc_config.php';
 include_once '../includes/inc_folder_path.php';
 /***************************************************************/
-//Programm 	  : edit_pagecontain.php	 
-//Created By  : 
-//Created On  :	
-//Modified By : 
-//Modified On : 
+//Programm 	  : edit_pagecontain.php
+//Created By  :
+//Created On  :
+//Modified By :
+//Modified On :
 //Company 	  : Adroit
 /************************************************************/
 global $id, $pg, $cntstart, $loc, $rd_crntpgnm;
@@ -35,7 +35,7 @@ if (
 	$rqst_lstdept     = glb_func_chkvl($_POST['lstdept']);
 
 	//if((($chkdept[1]=='d') && ($rqst_lstdept !='')) || ($chkdept[1]=='g') || ($chkdept[1]=='n')){
-	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files	
+	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
 	include_once "../database/uqry_pgcnts_dtl.php";
 	//}
 }
@@ -68,17 +68,17 @@ if (
 	if ($optn != "" && $lstdpt != "") {
 		$loc = "&optn=" . $optn . "&lstdept=" . $lstdpt;
 	}
-	$sqrypgcnts_dtl = "SELECT 
+	$sqrypgcnts_dtl = "SELECT
 							pgcntsd_id,pgcntsd_name,pgcntsd_desc,pgcntsd_lnk,pgcntsd_prodmnlnks_id,
 							pgcntsd_prodcatm_id,pgcntsd_fle,pgcntsd_prodscatm_id,pgcntsd_typ,
 							pgcntsd_sts,pgcntsd_prty,prodcatm_name,prodscatm_name,
 							pgcntsd_seotitle,pgcntsd_seodesc,pgcntsd_seokywrd,pgcntsd_seohone,
-							pgcntsd_seohtwo,pgcntsd_deptm_id,pgcntsd_bnrimg
-						 from 
-							vw_pgcnts_prodcat_prodscat_mst					  							
-						 where 
+							pgcntsd_seohtwo,pgcntsd_deptm_id,pgcntsd_dskimg,pgcntsd_tabimg,pgcntsd_mobimg
+						 from
+							vw_pgcnts_prodcat_prodscat_mst
+						 where
 							pgcntsd_id=$id";
-		// echo $sqrypgcnts_dtl;					
+		// echo $sqrypgcnts_dtl;
 	$srspgcnts_dtl  = mysqli_query($conn, $sqrypgcnts_dtl);
 	$cntrec_pgcnts = mysqli_num_rows($srspgcnts_dtl);
 	if ($cntrec_pgcnts  > 0) {
@@ -99,7 +99,7 @@ if (
 		$db_pgcntprty	  = $rowspgcnts_dtl['pgcntsd_prty'];
 		$db_pgcntsts	  = $rowspgcnts_dtl['pgcntsd_sts'];
 		$db_pgcntsdype     = $rowspgcnts_dtl['pgcntsd_typ'];
-		
+
 	} else {
 		header("Location:" . $rd_crntpgnm);
 		exit();
@@ -112,9 +112,9 @@ if (
 		$pgdtlid    = glb_func_chkvl($_REQUEST['edtpgcntid']);
 		$pg         = glb_func_chkvl($_REQUEST['pg']);
 		$cntstart   = glb_func_chkvl($_REQUEST['cntstart']);
-		$sqrypgimgd_dtl = "select 
+		$sqrypgimgd_dtl = "select
 								  pgimgd_img,pgimgd_fle
-							 from 
+							 from
 								  pgimg_dtl
 							 where
 								  pgimgd_pgcntsd_id='$pgdtlid'  and
@@ -219,18 +219,18 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 	<script language="javascript" src="../includes/yav-config.js"></script>
 	<script language="javascript" type="text/javascript">
 		var rules = new Array();
-		
+
 		rules[0] = 'lstprodmcat:mainlinks Name|required|Select Mainlink name';
 		rules[1] = 'lstcat1:Categoryone Name|required|Select Category name';
 		rules[4] = 'txtname:Name|required|Enter name';
 		rules[5] = 'txtprty:Rank|required|Enter Rank';
 		rules[6] = 'txtprty:Rank|numeric|Enter Only Numbers';
-		
+
 		/*function chkDept(){
 			var deptsts = (document.getElementById('lstdept').disabled);
 			var catoneid = (document.getElementById('lstcat1').value);
 			cat_ary 	= Array();
-			cat_ary	 	= catoneid.split("-");	
+			cat_ary	 	= catoneid.split("-");
 			if(cat_ary[1] =='d'){
 				rules[3]='lstdept:Department Name|required|Select Department';
 				document.getElementById('lstdept').disabled=false;
@@ -245,7 +245,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 	</script>
 	<?php
 	include_once('script.php');
-	include_once "../includes/inc_fnct_ajax_validation.php"; //Includes ajax validations				
+	include_once "../includes/inc_fnct_ajax_validation.php"; //Includes ajax validations
 	?>
 	<script language="javascript">
 		function setfocus() {
@@ -267,7 +267,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 		}<?php */ ?>
 			var pagcntnname, pgcntid, catname;
 			pgcntid = <?php echo $id; ?>;
-			
+
 			mnlnks = document.getElementById('lstprodmcat').value;
 			catname = document.getElementById('lstcat1').value;
 			scatname = document.getElementById('lstcat2').value;
@@ -365,8 +365,8 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 				cntryary = tempary[inc].split(":");
 				id = cntryary[0];
 				name = cntryary[1];
-				//optn 	 	= document.createElement("OPTION");					
-				//optn.value 	= id;					
+				//optn 	 	= document.createElement("OPTION");
+				//optn.value 	= id;
 				//optn.text 	= name;
 				//var newopt	= new Option(name,id);
 				hdnprodscatid = document.getElementById('hdnprodscatid').value;
@@ -379,7 +379,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 		}
 		function get_cat() {
 		var mncatval = $("#lstprodmcat").val();
-	
+
 		$.ajax({
 			type: "POST",
 			url: "../includes/inc_getStsk.php",
@@ -393,7 +393,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 	function funcDspScat() {
 		var lstcatone = $("#lstcat1").val();
 		var mcatid = $("#lstprodmcat").val();
-		
+
 		$.ajax({
 			type: "POST",
 			url: "../includes/inc_getStsk.php",
@@ -463,7 +463,9 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 			<input type="hidden" name="hdnlstdept" id="hdnlstdept" value="<?php echo $lstdpt; ?>">
 			<input type="hidden" name="hdnprodscatid" id="hdnprodscatid" value="<?php echo $db_pgscatid; ?>">
 			<input type="hidden" name="hdnevntnm" id="hdnevntnm" value="<?php echo $db_pgcntfl ?>">
-			<input type="hidden" name="hdnbgimg" id="hdnbgimg" value="<?php echo $rowspgcnts_dtl['pgcntsd_bnrimg']; ?>">
+			<input type="hidden" name="hdndskgimg" id="hdndskgimg" value="<?php echo $rowspgcnts_dtl['pgcntsd_dskimg']; ?>">
+			<input type="hidden" name="hdntabgimg" id="hdntabgimg" value="<?php echo $rowspgcnts_dtl['pgcntsd_tabimg']; ?>">
+			<input type="hidden" name="hdnmobgimg" id="hdnmobgimg" value="<?php echo $rowspgcnts_dtl['pgcntsd_mobimg']; ?>">
 			<input type="hidden" name="lstchkdept" id="lstchkdept">
 			<input type="hidden" name="hdnprodscatid" id="hdnprodscatid" value="<?php echo $rowspgcnts_dtl['pgcntsd_prodcatm_id']; ?>">
 			<input type="hidden" name="hdnprodfnscatid" id="hdnprodfnscatid" value="<?php echo $rowspgcnts_dtl['pgcntsd_prodscatm_id']; ?>">
@@ -477,7 +479,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							</div>
 							<div class="col-sm-9">
 								<?php
-								$sqryprodmncat_mst = "SELECT 	prodmnlnksm_id,prodmnlnksm_name						
+								$sqryprodmncat_mst = "SELECT 	prodmnlnksm_id,prodmnlnksm_name
 								from prodmnlnks_mst 	where	 prodmnlnksm_sts = 'a'order by prodmnlnksm_name";
 								$rsprodmncat_mst = mysqli_query($conn, $sqryprodmncat_mst);
 								$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);
@@ -508,7 +510,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							<div class="col-sm-9">
 								<select name="lstcat1" id="lstcat1" class="form-control" onchange="funcDspScat(),chkDept();">
 								<option value="<?php echo $rowspgcnts_dtl['pgcntsd_prodcatm_id'] ?>"><?php echo $db_catname	; ?></option>
-								
+
 								</select>
 								<span id="errorsDiv_lstcat1"></span>
 							</div>
@@ -556,7 +558,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 									<select name="lstcat2" id="lstcat2" class="form-control">
 										<?php
 										echo $scatids = $rowspgcnts_dtl['pgcntsd_prodscatm_id'];
-										$sqryscatone_mst = "select prodscatm_id,prodscatm_name	from 
+										$sqryscatone_mst = "select prodscatm_id,prodscatm_name	from
 									vw_prodcat_prodscat_mst where prodscatm_id='$scatids'";
 										$srsscatone_mst = mysqli_query($conn, $sqryscatone_mst) or die(mysqli_error($conn));
 										while ($rowsscatone_mst = mysqli_fetch_assoc($srsscatone_mst)) {
@@ -582,19 +584,19 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 					   <select name="lstdept" id="lstdept" style="width:240px" >
                               <option value="">--Department--</option>
                               <?php
-								  $sqrydept_mst = "select 
+								  $sqrydept_mst = "select
 														deptm_id,deptm_name
-													from 
+													from
 														dept_mst
-													where 
-														deptm_sts='a'"; 
+													where
+														deptm_sts='a'";
 									if($ses_admtyp =='u'){
-										$sqrydept_dtl ="select 
+										$sqrydept_dtl ="select
 															deptd_deptm_id
 														from
 															lgn_mst
 															inner join dept_dtl on lgnm_id  = deptd_lgnm_id
-															inner join dept_mst on deptm_id   = deptd_deptm_id 	
+															inner join dept_mst on deptm_id   = deptd_deptm_id
 														where
 															deptd_lgnm_id ='$ses_adminid'";
 										$srrsdept_dtl = mysqli_query($conn,$sqrydept_dtl);
@@ -605,9 +607,9 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 											$sqrydept_mst .=" and deptm_id = $deptid";
 										}
 									}
-									$sqrydept_mst .=" order by deptm_name";								
-								 $srsdept_mst= mysqli_query($conn,$sqrydept_mst) or die(mysqli_error());								
-								 while($rowsdept_mst = mysqli_fetch_assoc($srsdept_mst)){ 
+									$sqrydept_mst .=" order by deptm_name";
+								 $srsdept_mst= mysqli_query($conn,$sqrydept_mst) or die(mysqli_error());
+								 while($rowsdept_mst = mysqli_fetch_assoc($srsdept_mst)){
 					   			 $slctd="";
 								 if($rowsdept_mst['deptm_id'] ==  $rowspgcnts_dtl['pgcntsd_deptm_id']){
 										 $slctd="selected";
@@ -616,7 +618,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
         						 <option value="<?php echo $rowsdept_mst['deptm_id']; ?>" <?php echo $slctd;  ?>><?php echo $rowsdept_mst['deptm_name']; ?></option>
 								<?php
 								 }
-								 ?>					 
+								 ?>
 					</select>
 				  </td>
                    <td bgcolor="#f1f6fd" style="color:#FF0000"><div id="errorsDiv_lstdept"></div></td>
@@ -653,25 +655,67 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="row mb-2 mt-2">
-								<div class="col-sm-3">
-									<label>Banner Image</label>
-								</div>
-								<div class="col-sm-9">
-									<div class="custom-file">
-										<input name="flebnrimg" type="file" class="form-control" id="flebnrimg">
-									</div>
-									<?php
-									$imgnm   = $rowspgcnts_dtl['pgcntsd_bnrimg'];
-									$imgpath = $a_pgcnt_bnrfldnm . $imgnm;
-									if (($imgnm != "") && file_exists($imgpath)) {
-										echo "<img src='$imgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg' id='chkbximg' value='$imgpath'>Remove Iamge";
-									} else {
-										echo "Image not available";
-									}
-									?>
-								</div>
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Desktop Image</label>
 							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="fledskimg" type="file" class="form-control" id="fledskimg">
+								</div>
+								<?php
+								$dskimgnm   = $rowspgcnts_dtl['pgcntsd_dskimg'];
+								$dskimgpath = $a_pgcnt_bnrfldnm . $dskimgnm;
+								if (($dskimgnm != "") && file_exists($dskimgpath)) {
+									echo "<img src='$dskimgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg1' id='chkbximg1' value='$dskimgpath'>Remove Iamge";
+								} else {
+									echo "Image not available";
+								}
+								?>
+							</div>
+						</div>
+						</div>
+						<div class="col-md-12">
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Tablet Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="fletabimg" type="file" class="form-control" id="fletabimg">
+								</div>
+								<?php
+								$tabimgnm   = $rowspgcnts_dtl['pgcntsd_tabimg'];
+								$tabimgpath = $a_pgcnt_bnrfldnm . $tabimgnm;
+								if (($tabimgnm != "") && file_exists($tabimgpath)) {
+									echo "<img src='$tabimgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg2' id='chkbximg2' value='$tabimgpath'>Remove Iamge";
+								} else {
+									echo "Image not available";
+								}
+								?>
+							</div>
+						</div>
+						</div>
+						<div class="col-md-12">
+						<div class="row mb-2 mt-2">
+							<div class="col-sm-3">
+								<label>Header Mobile Image</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="custom-file">
+									<input name="flemobimg" type="file" class="form-control" id="flemobimg">
+								</div>
+								<?php
+								$mobimgnm   = $rowspgcnts_dtl['pgcntsd_mobimg'];
+								$mobimgpath = $a_pgcnt_bnrfldnm . $mobimgnm;
+								if (($mobimgnm != "") && file_exists($mobimgpath)) {
+									echo "<img src='$mobimgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg3' id='chkbximg3' value='$mobimgpath'>Remove Iamge";
+								} else {
+									echo "Image not available";
+								}
+								?>
+							</div>
+						</div>
 						</div>
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
@@ -1034,7 +1078,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 													value="<?php echo $pgcntqns_name; ?>">
 
 
-																
+
 															<tr>
 																<td width='5%'>
 																	<?php echo $nfiles_qns; ?>
@@ -1127,13 +1171,13 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 											echo "</td></tr></table><br>";
 											?>';
 			var Cntnt = document.getElementById("myDiv");
-			if (document.createRange) { //all browsers, except IE before version 9 				
+			if (document.createRange) { //all browsers, except IE before version 9
 				var rangeObj = document.createRange();
 				Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 				document.frmedtpgcntn.hdntotcntrl.value = nfiles;
-				if (rangeObj.createContextualFragment) { // all browsers, except IE	
+				if (rangeObj.createContextualFragment) { // all browsers, except IE
 					//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla						 				
+					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 				} else { //Internet Explorer from version 9
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 				}
@@ -1167,13 +1211,13 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 												echo "</td></tr></table><br>";
 												?>';
 				var Cntnt = document.getElementById("myDivVdo");
-				if (document.createRange) { //all browsers, except IE before version 9 				
+				if (document.createRange) { //all browsers, except IE before version 9
 					var rangeObj = document.createRange();
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 					document.frmedtpgcntn.hdntotcntrlvdo.value = nfiles_vdo;
-					if (rangeObj.createContextualFragment) { // all browsers, except IE	
+					if (rangeObj.createContextualFragment) { // all browsers, except IE
 						//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-						//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+						//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 					} else { //Internet Explorer from version 9
 						Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 					}
@@ -1213,13 +1257,13 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 												echo "</td></tr></table>";
 												?>';
 				var Cntnt = document.getElementById("myDivQns");
-				if (document.createRange) { //all browsers, except IE before version 9 					
+				if (document.createRange) { //all browsers, except IE before version 9
 					var rangeObj = document.createRange();
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 					document.frmedtpgcntn.hdntotcntrlqns.value = nfiles_qns;
-					if (rangeObj.createContextualFragment) { // all browsers, except IE	
+					if (rangeObj.createContextualFragment) { // all browsers, except IE
 						//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-						//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+						//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 					} else { //Internet Explorer from version 9
 						Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 					}

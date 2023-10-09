@@ -1,10 +1,10 @@
 <?php
 	include_once '../includes/inc_nocache.php'; // Clearing the cache information
 	include_once '../includes/inc_adm_session.php';//checking for session
-	include_once '../includes/inc_usr_functions.php';//Use function for validation and more	
-	include_once '../includes/inc_folder_path.php';		//Use function to set folder path	
-	
-	if(isset($_POST['btnedtphcntn']) && (trim($_POST['btnedtphcntn']) != "") && 	
+	include_once '../includes/inc_usr_functions.php';//Use function for validation and more
+	include_once '../includes/inc_folder_path.php';		//Use function to set folder path
+
+	if(isset($_POST['btnedtphcntn']) && (trim($_POST['btnedtphcntn']) != "") &&
 	   isset($_POST['txtname']) && (trim($_POST['txtname']) != "") &&
 	   isset($_POST['lstcat1']) && (trim($_POST['lstcat1']) != "") &&
 	   isset($_REQUEST['edtpgcntid']) && (trim($_REQUEST['edtpgcntid'])!= "")){
@@ -12,10 +12,12 @@
 		$chkdept     =explode('-',$arycatone);
 		$rqst_lstdept     = glb_func_chkvl($_POST['lstdept']);
 		//if((($chkdept[1]=='d') && ($rqst_lstdept !='')) || ($chkdept[1]=='g') || ($chkdept[1]=='n')){
-			
+
 		$id 	  	 = glb_func_chkvl($_REQUEST['edtpgcntid']);
 		$pgcnt_id  	 = glb_func_chkvl($_REQUEST['hdnpgimg_id']);
-		$hdnbgimg	 = glb_func_chkvl($_POST['hdnbgimg']);	
+		$hdndskimg	 = glb_func_chkvl($_POST['hdndskgimg']);
+		$hdntabimg	 = glb_func_chkvl($_POST['hdntabgimg']);
+		$hdnmobimg	 = glb_func_chkvl($_POST['hdnmobgimg']);
 		$name     	 = glb_func_chkvl($_POST['txtname']);
 		$lnk     	 = glb_func_chkvl($_POST['txtlnk']);
 		$desc     	 = addslashes(trim($_POST['txtdesc']));
@@ -34,14 +36,14 @@
 		}
 		else{
 			$deptmnt = 'NULL';
-		}		
+		}
 		$catone   = $chkdept[0];
 		if(isset($_POST['lstcat2']) && (trim($_POST['lstcat2']) != '')){
 			$cattwo   = glb_func_chkvl($_POST['lstcat2']);
 		}
 		else{
 			$cattwo = 'NULL';
-		}	
+		}
 		$cntcntrl    = glb_func_chkvl($_POST['hdntotcntrl']);
 		$prior   	 = glb_func_chkvl($_POST['txtprty']);
 		$sts      	 = glb_func_chkvl($_POST['lststs']);
@@ -55,9 +57,9 @@
 		$lstctone 	 = glb_func_chkvl($_REQUEST['lstcatone']);//category id
 		$lstcttwo 	 = glb_func_chkvl($_REQUEST['lstcattwo']);
 		$lstdpt      = glb_func_chkvl($_REQUEST['hdnlstdept']);
-		$rd_vwpgnm   = "view_pagecontain_detail.php";	
-		// $rd_vwpgnm   = "view_all_pagecontain.php";	
-		
+		$rd_vwpgnm   = "view_pagecontain_detail.php";
+		// $rd_vwpgnm   = "view_all_pagecontain.php";
+
 	   $hdnfle_evnt = $id."-".glb_func_chkvl($_REQUEST['hdnevntnm']);
 		if(isset($_REQUEST['chkexact']) && trim($_REQUEST['chkexact'])=='y'){
 		  $chk="&chkexact=y";
@@ -66,25 +68,25 @@
 			 $srchval= "&optn=".$optn."&txtsrchval=".$val.$chk;
 		}
 		if($optn !="" && $lstctone != ""){
-			$srchval = "&optn=".$optn."&lstcatone=".$lstctone;			
+			$srchval = "&optn=".$optn."&lstcatone=".$lstctone;
 		}
 		if($optn !="" && $lstcttwo != ""){
-			$srchval = "&optn=".$optn."&lstcattwo=".$lstcttwo;			
+			$srchval = "&optn=".$optn."&lstcattwo=".$lstcttwo;
 		}
 		if($optn !="" && $lstdpt != ""){
-			$loc = "&optn=".$optn."&lstdept=".$lstdpt;			
+			$loc = "&optn=".$optn."&lstdept=".$lstdpt;
 		}
-		
-		$sqrypgcnts_dtl="select 
+
+		$sqrypgcnts_dtl="select
 							 pgcntsd_name
-		                 from 
+		                 from
 							 pgcnts_dtl
-					     where 
+					     where
 							 pgcntsd_name='$name' and
 							 pgcntsd_prodcatm_id='$catone'";
 		if(isset($_POST['lstcat2']) && (trim($_POST['lstcat2']) != '')){
 			$sqrypgcnts_dtl .=" and pgcntsd_prodscatm_id='$cattwo' ";
-		}				 
+		}
 		if(isset($_POST['lstdept']) && (trim($_POST['lstdept']) != '')){
 			$sqrypgcnts_dtl .=" and pgcntsd_deptm_id ='$deptmnt'";
 		}
@@ -92,14 +94,14 @@
 		$srspgcnts_dtl = mysqli_query($conn,$sqrypgcnts_dtl) or die (mysqli_error($conn));
 		$cnt_pgcnts   = mysqli_num_rows($srspgcnts_dtl);
 		if($cnt_pgcnts > 0){
-			
+
 		?>
 				<script>location.href="<?php echo $rd_vwpgnm;?>?edtpgcntid=<?php echo $id;?>&sts=d&pg=<?php echo $pg;?>&cntstart=<?php echo $cntstart;?><?php echo $srchval;?>";</script>
 			<?php
-			
+
 		}
 		elseif($_REQUEST['btnedtphcntn'] == 'Submit'){
-	     $uqrypgcnts_dtl="UPDATE pgcnts_dtl set 
+	     $uqrypgcnts_dtl="UPDATE pgcnts_dtl set
 						 pgcntsd_name='$name',
 						 pgcntsd_desc='$desc',
 						 pgcntsd_lnk='$lnk',
@@ -121,77 +123,129 @@
 		$evntdest   = "";
 		$fle_evnt	= 'evntfle';
 	/*	if(isset($_FILES[$fle_evnt]['tmp_name']) && ($_FILES[$fle_evnt]['tmp_name']!="")){
-				$dwnldfleval = funcUpldFle($fle_evnt,'');						
+				$dwnldfleval = funcUpldFle($fle_evnt,'');
 				if($dwnldfleval != ""){
 					$dwnldfleval = explode(":",$dwnldfleval,2);
-					$evntdest 		= $dwnldfleval[0];					
-					$evntsource 	= $dwnldfleval[1];												
+					$evntdest 		= $dwnldfleval[0];
+					$evntsource 	= $dwnldfleval[1];
 				}
 		 $uqrypgcnts_dtl .= ",pgcntsd_fle='$evntdest'";
 		}
 				$uqrypgcnts_dtl .= " where    pgcntsd_id= '$id'";
-							
+
 		$urspgcnts_dtl = mysqli_query($conn,$uqrypgcnts_dtl) or die (mysql_error());
 		if($urspgcnts_dtl==true){
-			if(($evntsource!='none') && ($evntsource!='') && ($evntdest!= "")){ 
+			if(($evntsource!='none') && ($evntsource!='') && ($evntdest!= "")){
 					 $evntflpath      = $gevnt_fldnm.$hdnfle_evnt;
-					 if(($hdnfle_evnt != '') && file_exists($evntflpath)){							   
+					 if(($hdnfle_evnt != '') && file_exists($evntflpath)){
 					 unlink($evntflpath);
 					 }
-					 move_uploaded_file($evntsource,$gevnt_fldnm.$id."-".$evntdest);	
+					 move_uploaded_file($evntsource,$gevnt_fldnm.$id."-".$evntdest);
 				}*/
 		 /*********************************Change*********************************/
 		 if(isset($_FILES[$fle_evnt]['tmp_name']) && ($_FILES[$fle_evnt]['tmp_name']!="")){
-				$dwnldfleval = funcUpldFle($fle_evnt,'');						
+				$dwnldfleval = funcUpldFle($fle_evnt,'');
 				if($dwnldfleval != ""){
 					$dwnldfleval = explode(":",$dwnldfleval,2);
-					$evntdest 		= $dwnldfleval[0];					
-					$evntsource 	= $dwnldfleval[1];												
+					$evntdest 		= $dwnldfleval[0];
+					$evntsource 	= $dwnldfleval[1];
 				}
-				if(($evntsource!='none') && ($evntsource!='') && ($evntdest!= "")){ 
+				if(($evntsource!='none') && ($evntsource!='') && ($evntdest!= "")){
 					 $evntflpath      = $gevnt_fldnm.$hdnfle_evnt;
-					 if(($hdnfle_evnt != '') && file_exists($evntflpath)){							   
+					 if(($hdnfle_evnt != '') && file_exists($evntflpath)){
 					 unlink($evntflpath);
 					 }
 					 move_uploaded_file($evntsource,$gevnt_fldnm.$evntdest);
-					 $uqrypgcnts_dtl .= ",pgcntsd_fle='$evntdest'";	
+					 $uqrypgcnts_dtl .= ",pgcntsd_fle='$evntdest'";
 				}
-		 }		
-		 else{			
+		 }
+		 else{
 			if(isset($_POST['chkbxfle']) && ($_POST['chkbxfle'] != "")){
-				$delupflnm = $_POST['chkbxfle'];	
-				$delupflpth = $gevnt_fldnm.$id."-".$delupflnm;								
+				$delupflnm = $_POST['chkbxfle'];
+				$delupflpth = $gevnt_fldnm.$id."-".$delupflnm;
 				if(isset($delupflnm) && file_exists($delupflpth)){
-					unlink($delupflpth);											
+					unlink($delupflpth);
 					$uqrypgcnts_dtl .= ",pgcntsd_fle=''";
-				}					
-			}				
-		}
-		if(isset($_FILES['flebnrimg']['tmp_name']) && ($_FILES['flebnrimg']['tmp_name'] != "")){							
-			$bimgval = funcUpldImg('flebnrimg','bimg');
-			if($bimgval != ""){
-				$bimgary    = explode(":",$bimgval,2);
-				$bdest 		= $bimgary[0];					
-				$bsource 	= $bimgary[1];					
-			}		
-			if(($bsource!='none') && ($bsource!='') && ($bdest != "")){ 
-					$bgimgpth      = $a_pgcnt_bnrfldnm.$hdnbgimg;
-					if(($hdnbgimg != '') && file_exists($bgimgpth)){
-						unlink($bgimgpth);
-					}
-				move_uploaded_file($bsource,$a_pgcnt_bnrfldnm.$bdest);				
-				$uqrypgcnts_dtl .= ",pgcntsd_bnrimg='$bdest'";
+				}
 			}
 		}
-		else{			
-			if(isset($_POST['chkbximg']) && ($_POST['chkbximg'] != "")){
-				$delimgnm   = $_POST['chkbximg'];	
-				$delimgpth  = $a_pgcnt_bnrfldnm.$delimgnm;								
-				if(isset($delimgnm) && file_exists($delimgpth)){
-					unlink($delimgpth);											
-					echo $uqrypgcnts_dtl .= ",pgcntsd_bnrimg=''";
-				}					
-			}				
+		if(isset($_FILES['fledskimg']['tmp_name']) && ($_FILES['fledskimg']['tmp_name'] != "")){
+			$dskimgval = funcUpldImg('fledskimg','dskimg');
+			if($dskimgval != ""){
+				$dskimgary    = explode(":",$dskimgval,2);
+				$dskdest 		= $dskimgary[0];
+				$dsksource 	= $dskimgary[1];
+			}
+			if(($dsksource!='none') && ($dsksource!='') && ($dskdest != "")){
+					$dskimgpth      = $a_pgcnt_bnrfldnm.$hdndskimg;
+					if(($hdndskimg != '') && file_exists($dskimgpth)){
+						unlink($dskimgpth);
+					}
+				move_uploaded_file($dsksource,$a_pgcnt_bnrfldnm.$dskdest);
+				$uqrypgcnts_dtl .= ",pgcntsd_dskimg='$dskdest'";
+			}
+		}
+		else{
+			if(isset($_POST['chkbximg1']) && ($_POST['chkbximg1'] != "")){
+				$deldskimgnm   = $_POST['chkbximg1'];
+				$deldskimgpth  = $a_pgcnt_bnrfldnm.$deldskimgnm;
+				if(isset($deldskimgnm) && file_exists($deldskimgpth)){
+					unlink($deldskimgpth);
+					echo $uqrypgcnts_dtl .= ",pgcntsd_dskimg=''";
+				}
+			}
+		}
+		if(isset($_FILES['fletabimg']['tmp_name']) && ($_FILES['fletabimg']['tmp_name'] != "")){
+			$tabimgval = funcUpldImg('fletabimg','tabimg');
+			if($tabimgval != ""){
+				$tabimgary    = explode(":",$tabimgval,2);
+				$tabdest 		= $tabimgary[0];
+				$tabsource 	= $tabimgary[1];
+			}
+			if(($tabsource!='none') && ($tabsource!='') && ($tabdest != "")){
+					$tabimgpth      = $a_pgcnt_bnrfldnm.$hdntabimg;
+					if(($hdntabimg != '') && file_exists($tabimgpth)){
+						unlink($tabimgpth);
+					}
+				move_uploaded_file($tabsource,$a_pgcnt_bnrfldnm.$tabdest);
+				$uqrypgcnts_dtl .= ",pgcntsd_tabimg='$tabdest'";
+			}
+		}
+		else{
+			if(isset($_POST['chkbximg2']) && ($_POST['chkbximg2'] != "")){
+				$deltabimgnm   = $_POST['chkbximg2'];
+				$deltabimgpth  = $a_pgcnt_bnrfldnm.$deltabimgnm;
+				if(isset($deltabimgnm) && file_exists($deltabimgpth)){
+					unlink($deltabimgpth);
+					echo $uqrypgcnts_dtl .= ",pgcntsd_tabimg=''";
+				}
+			}
+		}
+		if(isset($_FILES['flemobimg']['tmp_name']) && ($_FILES['flemobimg']['tmp_name'] != "")){
+			$mobimgval = funcUpldImg('flemobimg','mobimg');
+			if($mobimgval != ""){
+				$mobimgary    = explode(":",$mobimgval,2);
+				$mobdest 		= $mobimgary[0];
+				$mobsource 	= $mobimgary[1];
+			}
+			if(($mobsource!='none') && ($mobsource!='') && ($mobdest != "")){
+					$mobimgpth      = $a_pgcnt_bnrfldnm.$hdnmobimg;
+					if(($hdnmobimg != '') && file_exists($mobimgpth)){
+						unlink($mobimgpth);
+					}
+				move_uploaded_file($mobsource,$a_pgcnt_bnrfldnm.$mobdest);
+				$uqrypgcnts_dtl .= ",pgcntsd_mobimg='$mobdest'";
+			}
+		}
+		else{
+			if(isset($_POST['chkbximg3']) && ($_POST['chkbximg3'] != "")){
+				$delmobimgnm   = $_POST['chkbximg3'];
+				$delmobimgpth  = $a_pgcnt_bnrfldnm.$delmobimgnm;
+				if(isset($delmobimgnm) && file_exists($delmobimgpth)){
+					unlink($delmobimgpth);
+					echo $uqrypgcnts_dtl .= ",pgcntsd_mobimg=''";
+				}
+			}
 		}
 		$uqrypgcnts_dtl .= " where pgcntsd_id= '$id'";
 		$urspgcnts_dtl = mysqli_query($conn,$uqrypgcnts_dtl) or die (mysqli_error($conn));
@@ -210,60 +264,60 @@
 					$prty   = glb_func_chkvl("txtvdoprior".$i);
 					$prty   = glb_func_chkvl($_POST[$prty]);
 					$vdosts  = "lstvdosts".$i;
-					$sts     = $_POST[$vdosts];		
+					$sts     = $_POST[$vdosts];
 					if($prty ==""){
 						$prty 	= $id;
 					}
 					$vdolnk    = glb_func_chkvl("txtvdo".$i);
 					//$vdoname    = glb_func_chkvl($_POST[$vdoname]);
 					$vdolnknm  = glb_func_chkvl($_POST[$vdolnk]);
-					if($pgdtlid != ''){						
-					 /* $sqrypg_dtl = "select 
+					if($pgdtlid != ''){
+					 /* $sqrypg_dtl = "select
 										pgvdod_vdo
 									 from
 										pgvdo_dtl
-									 where 
-										pgvdod_name ='$vdoname' and 
-										pgvdod_id   ='$pgdtlid' and 
-										pgvdod_pgcntsd_id ='$id'"; 
-						$srpgvdod_dtl 	= mysql_query($sqrypg_dtl);		
+									 where
+										pgvdod_name ='$vdoname' and
+										pgvdod_id   ='$pgdtlid' and
+										pgvdod_pgcntsd_id ='$id'";
+						$srpgvdod_dtl 	= mysql_query($sqrypg_dtl);
 						$cntrec_pgvdo = mysql_num_rows($srpgvdod_dtl);
 						if($cntrec_pgvdo > 0){*/
 							$uqrypgvdod_dtl = "UPDATE pgvdo_dtl set
-												  pgvdod_name = '$vdoname', 
+												  pgvdod_name = '$vdoname',
 												  pgvdod_vdo = '$vdolnknm',
 												  pgvdod_sts = '$sts',
-												  pgvdod_prty = '$prty',											  	  
+												  pgvdod_prty = '$prty',
 												  pgvdod_mdfdon= '$curdt',
 												  pgvdod_mdfdby = '$ses_admin'
-											  where 
-												  pgvdod_pgcntsd_id = '$id' and 
-												  pgvdod_id='$pgdtlid'";	 	
-							$srpgvdod_dtl = mysqli_query($conn,$uqrypgvdod_dtl);							
-						//}												
-					}	
+											  where
+												  pgvdod_pgcntsd_id = '$id' and
+												  pgvdod_id='$pgdtlid'";
+							$srpgvdod_dtl = mysqli_query($conn,$uqrypgvdod_dtl);
+						//}
+					}
 					else{
-						 $sqrypg_dtl ="SELECT 
+						 $sqrypg_dtl ="SELECT
 										 pgvdod_vdo
 									  from
 										 pgvdo_dtl
-									  where 
-										 pgvdod_name ='$vdoname' and 
-										 pgvdod_pgcntsd_id ='$id'"; 
-						$srpgvdod_dtl 	= mysqli_query($conn,$sqrypg_dtl);		
+									  where
+										 pgvdod_name ='$vdoname' and
+										 pgvdod_pgcntsd_id ='$id'";
+						$srpgvdod_dtl 	= mysqli_query($conn,$sqrypg_dtl);
 						$cntrec_pgvdo = mysqli_num_rows($srpgvdod_dtl);
 						if($cntrec_pgvdo < 1){
 							 $iqrypg_dtl ="INSERT into pgvdo_dtl(
 										   pgvdod_name,pgvdod_vdo,pgvdod_sts,pgvdod_prty,
 										   pgvdod_pgcntsd_id,pgvdod_typ,pgvdod_crtdon,pgvdod_crtdby)values(
 										   '$vdoname','$vdolnknm','$sts','$prty',
-										   '$id','1','$curdt','$ses_admin')";  
+										   '$id','1','$curdt','$ses_admin')";
 							$srpgvdod_dtl = mysqli_query($conn,$iqrypg_dtl);
 						}
-					}																		
-				}//End of For Loop	
+					}
+				}//End of For Loop
 			 }
-			
+
 			   if($id!="" && $cntcntrl !="" ){
 				for($i=1;$i<=$cntcntrl;$i++){
 					$cntrlid  	 = glb_func_chkvl("hdnpgdid".$i);
@@ -272,7 +326,7 @@
 					$phtval   	 = glb_func_chkvl($_POST[$phtcntrl_nm]);
 					$phtcntrl_desig  = glb_func_chkvl("txtphtdesig".$i);
 					$phtcntrl_desig       = glb_func_chkvl($_POST[$phtcntrl_desig]);
-					
+
 					$phtname     =  $phtval;
 					if($phtval ==""){
 						$phtname = $name;
@@ -283,39 +337,39 @@
 						$prtyval = $i;
 					}
 					$phtsts 	  = glb_func_chkvl("lstphtsts".$i);
-					$sts     	  = glb_func_chkvl($_POST[$phtsts]);		
-						
+					$sts     	  = glb_func_chkvl($_POST[$phtsts]);
+
 					//**********************IMAGE UPLOADING START*******************************//
-				     $simg='flesmlimg'.$i; 
+				     $simg='flesmlimg'.$i;
 				 $fac_fle='facfle'.$i;
-						 
-					//*------------------------------------Update small image----------------------------*/	
-					
+
+					//*------------------------------------Update small image----------------------------*/
+
 					//if(isset($_FILES[$simg]['tmp_name']) && ($_FILES[$simg]['tmp_name']!="")){
-					    $simgval = funcUpldImg($simg,'simg'); 	
+					    $simgval = funcUpldImg($simg,'simg');
 						if($simgval != ""){
 							$simgary = explode(":",$simgval,2);
-							$sdest 		= $simgary[0];					
-							$ssource 	= $simgary[1];					
-						}	
-						$facltyval = funcUpldFLe($fac_fle,'fle'); 	
+							$sdest 		= $simgary[0];
+							$ssource 	= $simgary[1];
+						}
+						$facltyval = funcUpldFLe($fac_fle,'fle');
 						if($facltyval != ""){
 							$facltyary = explode(":",$facltyval,2);
-							$facdest 		= $facltyary[0];					
-							$facsource 	= $facltyary[1];					
-						}	
-					
+							$facdest 		= $facltyary[0];
+							$facsource 	= $facltyary[1];
+						}
+
 						if($pgdtlid != ''){
-						
-						  $sqrypg_dtl = "SELECT 
+
+						  $sqrypg_dtl = "SELECT
 											pgimgd_img,pgimgd_fle
 										 from
 											pgimg_dtl
-										 where 
-											pgimgd_name ='$phtname' and 
-											pgimgd_id !='$pgdtlid' and 
-											pgimgd_pgcntsd_id ='$id'"; 
-							$srpgimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl);		
+										 where
+											pgimgd_name ='$phtname' and
+											pgimgd_id !='$pgdtlid' and
+											pgimgd_pgcntsd_id ='$id'";
+							$srpgimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl);
 							$cntrec_pgimg = mysqli_num_rows($srpgimgd_dtl);
 							if($cntrec_pgimg < 1){
 							//echo "text";
@@ -331,7 +385,7 @@
 									unlink($facpth);
 								}
 								$uqrypgimgd_dtl ="UPDATE pgimg_dtl set
-													  pgimgd_name = '$phtname'"; 
+													  pgimgd_name = '$phtname'";
 							if(isset($_FILES[$simg]['tmp_name']) && ($_FILES[$simg]['tmp_name']!="")){
 								$uqrypgimgd_dtl .=" ,pgimgd_img = '$sdest'";
 							}
@@ -342,42 +396,42 @@
 													  pgimgd_prty = '$prtyval',											  	                                                  pgimgd_desig = '$phtcntrl_desig',
 													  pgimgd_mdfdon= '$curdt',
 													  pgimgd_mdfdby = '$ses_admin'
-												  where 
-													  pgimgd_pgcntsd_id = '$id' and 
-													  pgimgd_id='$pgdtlid'";	 	
+												  where
+													  pgimgd_pgcntsd_id = '$id' and
+													  pgimgd_id='$pgdtlid'";
 
-								$srpgimgd_dtl = mysqli_query($conn,$uqrypgimgd_dtl) or die (mysqli_error($conn));							
-							}																		
+								$srpgimgd_dtl = mysqli_query($conn,$uqrypgimgd_dtl) or die (mysqli_error($conn));
+							}
 						}
 						else{
-							$sqrypg_dtl = "SELECT 
+							$sqrypg_dtl = "SELECT
 												pgimgd_img,pgimgd_fle
 										   from
 												pgimg_dtl
-										   where 
-											 	pgimgd_name ='$phtname' and 
-												pgimgd_pgcntsd_id='$id'"; 
-							$srpgimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl) or die (mysqli_error($conn));		
+										   where
+											 	pgimgd_name ='$phtname' and
+												pgimgd_pgcntsd_id='$id'";
+							$srpgimgd_dtl 	= mysqli_query($conn,$sqrypg_dtl) or die (mysqli_error($conn));
 							$cntrec_pgimg = mysqli_num_rows($srpgimgd_dtl);
 							if($cntrec_pgimg < 1){
 								$iqrypg_dtl ="INSERT into pgimg_dtl(
 											  pgimgd_name,pgimgd_desig,pgimgd_img,pgimgd_fle,pgimgd_sts,pgimgd_prty,
 											  pgimgd_pgcntsd_id,pgimgd_typ,pgimgd_crtdon,pgimgd_crtdby)values(
 											  '$phtname','$phtcntrl_desig','$sdest','$facdest','$sts','$prtyval',
-											  '$id','1','$curdt','$ses_admin')";  
+											  '$id','1','$curdt','$ses_admin')";
 								$srpgimgd_dtl = mysqli_query($conn,$iqrypg_dtl) or die (mysqli_error($conn));
 							}
 						}
 						if($srpgimgd_dtl){
-							if(($ssource!='none') && ($ssource!='') && ($sdest != "")){ 
-								move_uploaded_file($ssource,$a_phtgalspath.$sdest);			
+							if(($ssource!='none') && ($ssource!='') && ($sdest != "")){
+								move_uploaded_file($ssource,$a_phtgalspath.$sdest);
 							}
-							if(($facsource!='none') && ($facsource!='') && ($facdest != "")){ 
-								move_uploaded_file($facsource,$a_phtgalbpath.$facdest);			
+							if(($facsource!='none') && ($facsource!='') && ($facdest != "")){
+								move_uploaded_file($facsource,$a_phtgalbpath.$facdest);
 							}
-						}							
-					//}																	
-				}//End of For Loop				 
+						}
+					//}
+				}//End of For Loop
 		  }
 		  	// questions and answers start
  $cntcntrlqns = glb_func_chkvl($_POST['hdntotcntrlqns']);
@@ -387,7 +441,7 @@
 		 $cntrlid  = glb_func_chkvl("hdnpgqnsid".$i);
 		 $pgdtlid  = glb_func_chkvl($_POST[$cntrlid]);
 		 $qnsname   = glb_func_chkvl("txtqnsnm1".$i);
-		 
+
 		 $validname  = glb_func_chkvl($_POST[$qnsname]);
 		 $qnsname    =  glb_func_chkvl($_POST[$qnsname]);
 		 if($validname ==""){
@@ -396,67 +450,67 @@
 		 $prty   = glb_func_chkvl("txtqnsprty".$i);
 		 $prty   = glb_func_chkvl($_POST[$prty]);
 		 $qnssts  = "lstqnssts".$i;
-		 $sts     = $_POST[$qnssts];		
+		 $sts     = $_POST[$qnssts];
 		 if($prty ==""){
 			 $prty 	= $id;
 		 }
 		 $ansdesc    = glb_func_chkvl("txtansdesc".$i);
 		 //$qnsname    = glb_func_chkvl($_POST[$qnsname]);
 		 $qnsansdesc  = glb_func_chkvl($_POST[$ansdesc]);
-		 if($pgdtlid != ''){	
-						 
-	 
+		 if($pgdtlid != ''){
+
+
 				 $uqrypgvdod_dtl2 = "UPDATE  pgcntqnsm_dtl set
-				 pgcntqns_name = '$qnsname', 
+				 pgcntqns_name = '$qnsname',
 				 pgcntqns_vdo = '$qnsansdesc',
 				 pgcntqns_sts = '$sts',
-				 pgcntqns_prty = '$prty',											  	  
+				 pgcntqns_prty = '$prty',
 				 pgcntqns_mdfdon= '$curdt',
 				 pgcntqns_mdfdby = '$ses_admin'
-									 where 
-									 pgcntqns_pgcntsd_id = '$id' and 
-									 pgcntqns_id='$pgdtlid'";	
-									//  echo $uqrypgvdod_dtl2;exit; 	
-				 $srpgqns_dtl = mysqli_query($conn,$uqrypgvdod_dtl2);							
-			 //}												
-		 }	
+									 where
+									 pgcntqns_pgcntsd_id = '$id' and
+									 pgcntqns_id='$pgdtlid'";
+									//  echo $uqrypgvdod_dtl2;exit;
+				 $srpgqns_dtl = mysqli_query($conn,$uqrypgvdod_dtl2);
+			 //}
+		 }
 		 else{
-			 
-			  $sqrypg_dtl2 ="SELECT 
+
+			  $sqrypg_dtl2 ="SELECT
 			 pgcntqns_name
 							 from
 							 pgcntqnsm_dtl
-							 where 
-							 pgcntqns_name ='$qnsname' and 
-							 pgcntqns_pgcntsd_id ='$id'"; 
-			 $srpgvdod_dtl1 	= mysqli_query($conn,$sqrypg_dtl2);		
+							 where
+							 pgcntqns_name ='$qnsname' and
+							 pgcntqns_pgcntsd_id ='$id'";
+			 $srpgvdod_dtl1 	= mysqli_query($conn,$sqrypg_dtl2);
 			 $cntrec_pgvdo1 = mysqli_num_rows($srpgvdod_dtl1);
 			 if($cntrec_pgvdo1 < 1){
 				 $iqrypgqns_dtl ="INSERT into pgcntqnsm_dtl(
 					 pgcntqns_name,pgcntqns_vdo,pgcntqns_sts,pgcntqns_prty,
 					 pgcntqns_pgcntsd_id,pgcntqns_typ,pgcntqns_crtdon,pgcntqns_crtdby)values(
 								  '$qnsname','$qnsansdesc','$sts','$prty',
-								  '$id','1','$curdt','$ses_admin')";  
-									// echo  $iqrypgqns_dtl; 
+								  '$id','1','$curdt','$ses_admin')";
+									// echo  $iqrypgqns_dtl;
 				 $srpgvdod_dtl2 = mysqli_query($conn,$iqrypgqns_dtl);
 			 }
-		 }																		
-	 }//End of For Loop	
+		 }
+	 }//End of For Loop
   }
 		  if($urspgcnts_dtl == true){
-			  
+
 		   ?>
 				<script>location.href="<?php echo $rd_vwpgnm;?>?edtpgcntid=<?php echo $id;?>&sts=y&pg=<?php echo $pg;?>&cntstart=<?php echo $cntstart;?><?php echo $srchval;?>";</script>
 			<?php
-			
+
 			}
 			else{
-				
+
 			?>
 				<script>location.href="<?php echo $rd_vwpgnm;?>?edtpgcntid=<?php echo $id;?>&sts=n&pg=<?php echo $pg;?>&cntstart=<?php echo $cntstart;?><?php echo $srchval;?>";
-				</script>				
-		 <?php 
-		
+				</script>
+		 <?php
+
 		   }
 		//}
 		//}

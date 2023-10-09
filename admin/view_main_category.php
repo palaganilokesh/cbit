@@ -300,7 +300,7 @@ include_once $inc_adm_hdr;
 
 											$imgpath = $a_mnlnks_bnrfldnm . $imgnm;
 											if (($imgnm != "") && file_exists($imgpath)) {
-												echo "<img src='$imgpath' width='50 pixel' height='50 pixel' style='background-color:red;'>";
+												echo "<img src='$imgpath' width='50 pixel' height='50 pixel'>";
 											} else {
 												echo "NA";
 											}
