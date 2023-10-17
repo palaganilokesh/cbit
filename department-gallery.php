@@ -4,7 +4,7 @@
 // echo "</pre>";
 include_once "includes/inc_connection.php";
 include_once "includes/inc_usr_functions.php";
-include_once 'includes/inc_paging_functions_dist.php';  //Making paging validation	
+include_once 'includes/inc_paging_functions_dist.php';  //Making paging validation
 include_once "includes/inc_folder_path.php";
 $page_title = "Department of Civil Engineering | Chaitanya Bharathi Institute of Technology";
 $page_seo_title = "Department of Civil Engineering | Chaitanya Bharathi Institute of Technology";
@@ -28,9 +28,9 @@ $pt_scat_nm = funcStrUnRplc($pt_scat_nm1);
 $txt = explode('_', $pt_scat_nm);
 $pt_id = $txt[1];
 $pt_scat_nm = $txt[0];
-$sqrydept_mst = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg";
+$sqrydept_mst = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_dskimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_dskimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_dskimg";
 if ($_REQUEST['mnlnks'] == 'departments' ||  $pt_scat_nm != '') {
-	$sqrydept_mst .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
+	$sqrydept_mst .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_typ";
 }
 $sqrydept_mst .= " from prodmnlnks_mst inner join prodcat_mst on prodcatm_prodmnlnksm_id =prodmnlnksm_id";
 if ($_REQUEST['mnlnks'] == 'departments' || $pt_scat_nm != '') {
@@ -81,16 +81,16 @@ if ($cnt_dept > 0) {
 	$prodscatm_name1		= $prodscatm_name;
 	$prodcatm_name		= $srows_dept_gallery['prodcatm_name'];
 	$cn_cat_url = funcStrRplc($prodcatm_name);
-	$prodcatm_bimg		= $srows_dept_gallery['prodcatm_bnrimg'];
+	$prodcatm_bimg		= $srows_dept_gallery['prodcatm_dskimg'];
 	$prodmnlnksm_typ		= $srows_dept_gallery['prodmnlnksm_typ'];
 	$prodmnlnksm_name		= $srows_dept_gallery['prodmnlnksm_name'];
 	$cn_mn_url = funcStrRplc($prodmnlnksm_name);
 	$prodmnlnksm_name1		= $prodmnlnksm_name;
 	$prodscatm_desc  = $srows_dept_gallery['prodscatm_desc'];
 	$prodscatm_typ  = $srows_dept_gallery['prodscatm_typ'];
-	$prodcat_bnr	    = $srows_dept_gallery['prodcatm_bnrimg'];
+	$prodcat_bnr	    = $srows_dept_gallery['prodcatm_dskimg'];
 	$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-	$prodscat_bnr 	    = $srows_dept_gallery['prodscatm_bnrimg'];
+	$prodscat_bnr 	    = $srows_dept_gallery['prodscatm_dskimg'];
 	if ($glry_cat != '' || isset($glry_cat)) {
 		$title = "$prodcatm_name";
 		$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
@@ -126,11 +126,11 @@ if ($cnt_dept > 0) {
 		}
 	}
 	if (isset($_REQUEST['phtid']) && trim($_REQUEST['phtid']) != "") {
-		
-	
+
+
 	 	$sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst where (phtcatm_id='$pt_id' or phtcatm_name='$pt_nm')  and phtcatm_sts='a' and phtcatm_deprtmnt='$catone_id'";
 								$srsphtcat_dtl = mysqli_query($conn,$sqryphtcat_mst);
-		
+
 							while($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)){
 							$pht_name=$srowsphtcat_dtl['phtcatm_name'];
 							$pht_nm_url=funcStrRplc($pht_name);
@@ -138,7 +138,7 @@ if ($cnt_dept > 0) {
 							$pht_id=$srowsphtcat_dtl['phtcatm_id'];
 							$title = "$pht_name";
 							}
-								
+
 	}
 } else {
 	header("Location:$ind_loc");
@@ -183,11 +183,11 @@ if ($cnt_dept > 0) {
 					<li><?php echo $prodscatm_name1; ?></li>
 					<?php
 				}
-				
-			
+
+
 				}
 				?>
-				
+
 			</ul>
 		</div>
 	</div>

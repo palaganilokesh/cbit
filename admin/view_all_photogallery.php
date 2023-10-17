@@ -1,23 +1,23 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************/
-//Programm 	  : photogallery.php	
+//Programm 	  : photogallery.php
 //Package 	  : ICAI
-//Purpose 	  : For Viewing New photogallery 
+//Purpose 	  : For Viewing New photogallery
 //Created By  : Lokesh Palagani
-//Created On  :	
-//Modified By : 
-//Modified On : 
+//Created On  :
+//Modified By :
+//Modified On :
 //Company 	  : Adroit
 /************************************************************/
-global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $a_phtgalspath;
+global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $a_phtgalspath,$ses_deptid;
 /*****header link********/
 $pagemncat = "Gallery";
 $pagecat = "Photos";
@@ -49,16 +49,16 @@ if (($_POST['hidchkval'] != "") && isset($_REQUEST['hidchkval'])) {
 	$simgpth = array();
 	$bimgpth = array();
 	for ($i = 0; $i < $count; $i++) {
-		$sqryprod_mst = "SELECT 
+		$sqryprod_mst = "SELECT
 			                       phtm_simg
-					            from 
+					            from
 					               pht_mst
 					            where
 					              phtm_phtd_id=$del[$i]";
 		$srsprod_mst = mysqli_query($conn, $sqryprod_mst);
 		$srowprod_mst = mysqli_fetch_assoc($srsprod_mst);
 		$simg[$i] = glb_func_chkvl($srowprod_mst['phtm_simg']);
-		//$bimg[$i]    = glb_func_chkvl($srowprod_mst['phtm_bimgnm']);				
+		//$bimg[$i]    = glb_func_chkvl($srowprod_mst['phtm_bimgnm']);
 		$simgpth[$i] = $a_phtgalspath . $simg[$i];
 		//$bimgpth[$i] = $bgimgfldnm.$bimg[$i];
 	}
@@ -119,7 +119,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 	$msg = "<font color=red>Dupilicate name Record not updated</font>";
 }
 $rowsprpg = 20; //maximum rows per page
-include_once '../includes/inc_paging1.php'; //Includes pagination	
+include_once '../includes/inc_paging1.php'; //Includes pagination
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -209,7 +209,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 
 <body onLoad="onload();">
 <?php include_once $inc_adm_hdr; ?>
-	
+
 	<section class="content">
 		<div class="content-header">
 			<div class="container-fluid">
@@ -257,13 +257,9 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 					<input type="hidden" name="hdnallval" id="hdnallval">
 					<div class="col-md-12">
 						<div class="row justify-content-left align-items-center mt-3">
-							<div class="col-sm-7">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<div class="col-8">
-										<div class="row">
-											<div class="col-10">
-												<td width="9%">
-													<select name="lstsrchby" onChange="chng()" class="form-control">
+									<select name="lstsrchby" onChange="chng()" class="form-control">
 														<option value="">--Select--</option>
 														<option value="p" <?php if (isset($_REQUEST['lstsrchby']) && trim($_REQUEST['lstsrchby']) == 'p') {
 															echo 'selected';
@@ -276,14 +272,17 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 															echo 'selected';
 														} ?>>Category</option>
 													</select>
-												</td>
-												<td width="40%">
-													<div id="div1" <?php if (!isset($_REQUEST['optn']) || (trim($_REQUEST['optn']) == "p") || (trim($_REQUEST['optn']) == "")) {
+								</div>
+							</div>
+
+
+													<div id="div1"  class="col-sm-3" <?php if (!isset($_REQUEST['optn']) || (trim($_REQUEST['optn']) == "p") || (trim($_REQUEST['optn']) == "")) {
 														echo "style=\"display:block\"";
 													} else {
 														echo "style=\"display:none\"";
 													} ?>>
-														<input type="text" class="form-control" name="txtsrchval" value="<?php if (isset($_POST['txtsrchval']) && trim($_POST['txtsrchval']) != "") {
+														<div class="form-group">
+														<input type="text" placeholder="Search By Name" class="form-control" name="txtsrchval" value="<?php if (isset($_POST['txtsrchval']) && trim($_POST['txtsrchval']) != "") {
 															echo $_POST['txtsrchval'];
 														} else if (
 															isset($_REQUEST['val']) && (trim($_REQUEST['val']) != "") &&
@@ -292,26 +291,23 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 															echo $_REQUEST['val'];
 														}
 														?>" id="txtsrchval">
-														<strong>Exact</strong>
-														<input type="checkbox" name="chkexact" value="1" <?php
-														if (isset($_POST['chkexact']) && (trim($_POST['chkexact']) == 1)) {
-															echo 'checked';
-														} elseif (isset($_REQUEST['chk']) && (trim($_REQUEST['chk']) == 'y')) {
-															echo 'checked';
-														}
-														?>>
+
 													</div>
-													<div id="div2" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "c")) {
+													</div>
+													<div id="div2" class="col-sm-3" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "c")) {
 														echo "style=\"display:block\"";
 													} else {
 														echo "style=\"display:none\"";
 													} ?>>
+													<div class="form-group">
 														<select name="lstphtcat" id="lstphtcat" class="form-control">
 															<option value="">--Select--</option>
 															<?php
-															$sqryphtcat_mst = "SELECT phtcatm_id,phtcatm_name
-											  from phtcat_mst
-											  where phtcatm_sts='a'";
+															$sqryphtcat_mst = "SELECT phtcatm_id,phtcatm_name from phtcat_mst
+														  where phtcatm_sts='a'";
+																if($ses_admtyp=='d'){
+																	$sqryphtcat_mst .= " and phtcatm_deprtmnt='$ses_deptid' ";
+																}
 															//order by phtcatm_prty
 															$stsphtcat_mst = mysqli_query($conn, $sqryphtcat_mst);
 															while ($rowsphtcat_mst = mysqli_fetch_assoc($stsphtcat_mst)) {
@@ -326,15 +322,17 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 															?>
 														</select>
 													</div>
-												</td>
 											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-sm-4">
+											<div class="col-sm-3">
 								<div class="form-group">
-
+								Exact
+														<input type="checkbox" name="chkexact" value="1" <?php
+														if (isset($_POST['chkexact']) && (trim($_POST['chkexact']) == 1)) {
+															echo 'checked';
+														} elseif (isset($_REQUEST['chk']) && (trim($_REQUEST['chk']) == 'y')) {
+															echo 'checked';
+														}
+														?>>
 									&nbsp;&nbsp;&nbsp;
 									<input type="submit" value="Search" class="btn btn-primary" name="btnsbmt"/>
 									<a href="<?php echo $rd_crntpgnm; ?>" class="btn btn-primary">Refresh</a>
@@ -378,17 +376,13 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 												onClick="Check(document.frmphtgal.chkdlt,'Check_dctr')"></strong></td>
 								</tr>
 
-
-
-
-								<?php
-								$sqryphtgal_dtl1 = "SELECT 
-									 phtd_id,phtd_name,phtd_type,phtd_rank,phtd_sts,
-									 phtcatm_id,phtcatm_name,phtd_phtcatm_id
-				                  from 
-							   		 pht_dtl
-									inner join  
-				phtcat_mst on phtcat_mst.phtcatm_id = pht_dtl.phtd_phtcatm_id";
+	<?php
+		$sqryphtgal_dtl1 = "SELECT phtd_id,phtd_name,phtd_type,phtd_rank,phtd_sts, phtcatm_id,phtcatm_name,phtd_phtcatm_id
+				                  from		 pht_dtl
+									inner join	phtcat_mst on phtcat_mst.phtcatm_id = pht_dtl.phtd_phtcatm_id";
+										if($ses_admtyp=='d'){
+											$sqryphtgal_dtl1 .= " and phtcatm_deprtmnt='$ses_deptid' ";
+										}
 								if (
 									isset($_REQUEST['optn']) && trim($_REQUEST['optn']) == 'p'
 									&& isset($_REQUEST['val']) && trim($_REQUEST['val']) != ""
@@ -413,7 +407,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 								$srsphtgal_dtl = mysqli_query($conn, $sqryphtgal_dtl) or die(mysqli_error($conn));
 								$cnt = 0;
 								while ($srowphtgal_dtl = mysqli_fetch_assoc($srsphtgal_dtl)) {
-									
+
 									$db_typ = $srowphtgal_dtl['phtd_type'];
 									$cnt += 1;
 									?>
@@ -447,7 +441,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 												class="orongelinks">Edit</a>
 										</td>
 
-										
+
 										<td align="center">
 											<input type="checkbox" name="chksts" id="chksts" value="<?php echo $srowphtgal_dtl['phtd_id']; ?>"
 												<?php if ($srowphtgal_dtl['phtd_sts'] == 'a') {
@@ -459,7 +453,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 											<input type="checkbox" name="chkdlt" id="chkdlt" value="<?php echo $srowphtgal_dtl['phtd_id']; ?>">
 										</td>
 									</tr>
-									
+
 									<?php
 								}
 								?>
@@ -477,7 +471,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 								</td>
 							</tr>
 							<?php
-						
+
 							$disppg = funcDispPag($conn,'links', $loc, $sqryphtgal_dtl1, $rowsprpg, $cntstart, $pgnum);
 							$colspanval = $clspn_val + 2;
 							if ($disppg != "") {
@@ -500,5 +494,5 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 </section>
 </body>
 
-<?php include_once "../includes/inc_adm_footer.php"; ?>							
+<?php include_once "../includes/inc_adm_footer.php"; ?>
 </html>

@@ -21,7 +21,7 @@ $pagemncat = "Setup";
 $pagecat = "Product Group";
 $pagenm = "Subcategory";
 /*****header link********/
-global $gmsg;
+global $gmsg,$ses_deptid;
 if(isset($_POST['btnprodscatsbmt']) && (trim($_POST['btnprodscatsbmt']) != "") && isset($_POST['lstprodmcat']) && (trim($_POST['lstprodmcat']) != "") && isset($_POST['lstprodcat']) && (trim($_POST['lstprodcat']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != ""))
 {
 	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
@@ -208,14 +208,12 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 								</div>
 								<div class="col-sm-9">
 									<?php
-									$sqryprodmncat_mst = "select
-									prodmnlnksm_id,prodmnlnksm_name
-							  		 from
-									prodmnlnks_mst
-							  		 where
-									prodmnlnksm_sts = 'a'
-									order by
-								   	prodmnlnksm_name";
+									$sqryprodmncat_mst = "SELECT	prodmnlnksm_id,prodmnlnksm_name	 from	prodmnlnks_mst
+							  		 where prodmnlnksm_sts = 'a'";
+										 	if($ses_admtyp=='d'){
+												$sqryprodmncat_mst .= " and prodmnlnksm_name='Departments' ";
+											}
+											$sqryprodmncat_mst .= "	order by	prodmnlnksm_name";
 									$rsprodmncat_mst = mysqli_query($conn,$sqryprodmncat_mst);
 									$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);
 									?>

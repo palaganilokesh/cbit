@@ -1,55 +1,111 @@
 <?php
-	function funcUpldImg($cntrlnm,$imgnm)
-	{
-		if(isset($_FILES[$cntrlnm]) && ($_FILES[$cntrlnm]!=""))
-		{
-			$dest 		= $_FILES[$cntrlnm];
-			$source 	= $_FILES[$cntrlnm]['tmp_name'];
-			$imgdtl		= "";			
-			if(($source != "none") && ($source != "")){
-			 
-				$imagesize = getimagesize($source);
-				if($imagesize['mime'] == 'image/gif' || $imagesize['mime'] == 'image/jpeg' || 
-				   $imagesize['mime'] == 'image/bmp' || $imagesize['mime'] == 'image/png' ||
-				   $imagesize['mime'] == 'application/x-shockwave-flash' || $imagesize['mime'] == 'image/tiff' ||
-				   $imagesize['mime'] == 'image/psd')
-				{					 					
-					switch($imagesize[2]) 
-					{ 
-						case 0: 
-							echo '<BR> Image is unknown <BR>'; 
-							break; 
-						case 1: 
-							$dest =uniqid($imgnm).'.gif'; 
-							break; 
-						case 2: 
-						   $dest = uniqid($imgnm).'.jpg'; 
-							break; 
-						case 3: 
-							$dest = uniqid($imgnm).'.png'; 
-							break;
-						case 4: 
-							$dest = uniqid($imgnm).'.swf'; 
-							break;	
-						case 5: 
-							$dest = uniqid($imgnm).'.psd'; 
-							break;	
-						case 6: 
-							$dest = uniqid($imgnm).'.bmp'; 
-							break; 
-						case 7: 
-							$dest = uniqid($imgnm).'.tiff'; 
-							break;
-						case 8: 
-							$dest = uniqid($imgnm).'.tiff'; 
-							break; 					 
-					}
-					$imgdtl = $dest.":".$source;					
-					return $imgdtl;
-				} 
-			}				
+function funcUpldImg($cntrlnm, $imgnm)
+{
+	if (isset($_FILES[$cntrlnm]) && ($_FILES[$cntrlnm] != "")) {
+		$dest = $_FILES[$cntrlnm];
+		$source = $_FILES[$cntrlnm]['tmp_name'];
+		$imgdtl = "";
+		if (($source != "none") && ($source != "")) {
+			$mimeType = mime_content_type($source);
+			// Define an array of allowed MIME types
+			$allowedMimeTypes = array(
+				'image/gif',
+				'image/jpeg',
+				'image/bmp',
+				'image/png',
+				'image/webp',
+				// Added support for WebP
+				'image/tiff',
+				'image/psd',
+				'image/svg+xml' // Added support for SVG
+			);
+			if (in_array($mimeType, $allowedMimeTypes)) {
+				// Determine the file extension based on the MIME type
+				$extension = '';
+				switch ($mimeType) {
+					case 'image/gif':
+						$extension = 'gif';
+						break;
+					case 'image/jpeg':
+						$extension = 'jpg';
+						break;
+					case 'image/bmp':
+						$extension = 'bmp';
+						break;
+					case 'image/png':
+						$extension = 'png';
+						break;
+					case 'image/webp':
+						$extension = 'webp';
+						break;
+					case 'image/tiff':
+						$extension = 'tiff';
+						break;
+					case 'image/psd':
+						$extension = 'psd';
+						break;
+					case 'image/svg+xml':
+						$extension = 'svg';
+						break;
+				}
+				$dest = uniqid($imgnm) . '.' . $extension;
+				$imgdtl = $dest . ":" . $source;
+				return $imgdtl;
+			}
 		}
-	}	
+	}
+}
+	// function funcUpldImg($cntrlnm,$imgnm)
+	// {
+	// 	if(isset($_FILES[$cntrlnm]) && ($_FILES[$cntrlnm]!=""))
+	// 	{
+	// 		$dest 		= $_FILES[$cntrlnm];
+	// 		$source 	= $_FILES[$cntrlnm]['tmp_name'];
+	// 		$imgdtl		= "";			
+	// 		if(($source != "none") && ($source != "")){
+			 
+	// 			$imagesize = getimagesize($source);
+	// 			if($imagesize['mime'] == 'image/gif' || $imagesize['mime'] == 'image/jpeg' || 
+	// 			   $imagesize['mime'] == 'image/bmp' || $imagesize['mime'] == 'image/png' ||
+	// 			   $imagesize['mime'] == 'application/x-shockwave-flash' || $imagesize['mime'] == 'image/tiff' ||
+	// 			   $imagesize['mime'] == 'image/psd')
+	// 			{					 					
+	// 				switch($imagesize[2]) 
+	// 				{ 
+	// 					case 0: 
+	// 						echo '<BR> Image is unknown <BR>'; 
+	// 						break; 
+	// 					case 1: 
+	// 						$dest =uniqid($imgnm).'.gif'; 
+	// 						break; 
+	// 					case 2: 
+	// 					   $dest = uniqid($imgnm).'.jpg'; 
+	// 						break; 
+	// 					case 3: 
+	// 						$dest = uniqid($imgnm).'.png'; 
+	// 						break;
+	// 					case 4: 
+	// 						$dest = uniqid($imgnm).'.swf'; 
+	// 						break;	
+	// 					case 5: 
+	// 						$dest = uniqid($imgnm).'.psd'; 
+	// 						break;	
+	// 					case 6: 
+	// 						$dest = uniqid($imgnm).'.bmp'; 
+	// 						break; 
+	// 					case 7: 
+	// 						$dest = uniqid($imgnm).'.tiff'; 
+	// 						break;
+	// 					case 8: 
+	// 						$dest = uniqid($imgnm).'.tiff'; 
+	// 						break; 					 
+	// 				}
+	// 				$imgdtl = $dest.":".$source;					
+	// 				return $imgdtl;
+	// 			} 
+	// 		}				
+	// 	}
+	// }	
 
 	
 	/***************************************************************/

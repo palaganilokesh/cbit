@@ -1,22 +1,22 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************/
 //Programm 	  : photocategory
-//Purpose 	  : For Viewing New photocategory 
+//Purpose 	  : For Viewing New photocategory
 //Created By  :Lokesh Palagani
 //Created On  :	01-07-2023
-//Modified By : 
-//Modified On : 
+//Modified By :
+//Modified On :
 //Company 	  : Adroit
 /************************************************************/
-global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
+global $msg, $loc, $rowsprpg, $dispmsg, $disppg,$ses_deptid;
 /*****header link********/
 $pagemncat = "Gallery";
 $pagecat = "Category";
@@ -79,9 +79,12 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 }
 
 $rowsprpg  = 20; //maximum rows per page
-include_once '../includes/inc_paging1.php'; //Includes pagination	
+include_once '../includes/inc_paging1.php'; //Includes pagination
 
 $sqryphtcat_mst1 = "SELECT phtcatm_id,phtcatm_name,phtcatm_img,phtcatm_typ, phtcatm_sts,phtcatm_prty from phtcat_mst";
+if($ses_admtyp=='d'){
+	$sqryphtcat_mst1 .= " where phtcatm_deprtmnt='$ses_deptid' ";
+}
 if (isset($_REQUEST['val']) && trim($_REQUEST['val']) != "") {
 	$val = glb_func_chkvl($_REQUEST['val']);
 	if (isset($_REQUEST['chk']) && trim($_REQUEST['chk']) == 'y') {
@@ -92,6 +95,7 @@ if (isset($_REQUEST['val']) && trim($_REQUEST['val']) != "") {
 		$sqryphtcat_mst1 .= " where phtcatm_name like '%$val%'";
 	}
 }
+
 $sqryphtcat_mst = $sqryphtcat_mst1 . " order by phtcatm_prty desc limit $offset,$rowsprpg";
 $srsphtcat_mst = mysqli_query($conn, $sqryphtcat_mst) or die(mysqli_error($conn));
 $cnt_recs = mysqli_num_rows($srsphtcat_mst);
@@ -123,7 +127,7 @@ include_once 'script.php';
 				document.frmphtcat.txtsrchval.focus();
 				return false;
 			}
-		
+
 
 
 			var val = document.frmphtcat.txtsrchval.value;
@@ -271,7 +275,7 @@ include_once 'script.php';
 													echo "";
 												} ?>>
 											<td><?php echo $cnt; ?></td>
-										
+
 											<td>
 												<a href="<?php echo $rd_vwpgnm; ?>?vw=<?php echo $db_subid; ?>&pg=<?php echo $pgnum; ?>&countstart=<?php echo $cntstart . $loc; ?>" class="links"><?php echo $db_subname; ?></a>
 											</td>
@@ -286,7 +290,7 @@ include_once 'script.php';
 												}
 												?>
 											</td>
-										
+
 											<td align="left"> <?php if ($db_typ == 'c') echo 'College'; ?>
 												<?php if ($db_typ == 'd') echo 'Department'; ?>
 											</td>

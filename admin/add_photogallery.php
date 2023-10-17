@@ -4,12 +4,12 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 
 
-global $gmsg;
+global $gmsg,$ses_deptid;
 /*****header link********/
 $pagemncat = "Gallery";
 $pagecat = "Photos";
@@ -26,15 +26,15 @@ $pagenm = "Photos";
 // 	$chkdept     = explode('-', $arycatone);
 // 	$rqst_lstdept     = glb_func_chkvl($_POST['lstdept']);
 // 	//if((($chkdept[1]=='d') && ($rqst_lstdept !='')) || ($chkdept[1]=='g') || ($chkdept[1]=='n')){
-// 	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files	
+// 	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files
 // 	include_once '../database/iqry_pgcnts_dtl.php';
 // 	//}
 // }
-global $gmsg;	
+global $gmsg;
 	if(isset($_POST['btnadprodsbmt']) && (trim($_POST['btnadprodsbmt']) != "")  &&
 	   isset($_POST['txtname1']) && (trim($_POST['txtname1'])!='') &&
 	   isset($_POST['txtprty1']) && ($_POST['txtprty1'])!=''){
-		 include_once '../includes/inc_fnct_fleupld.php'; // For uploading files	
+		 include_once '../includes/inc_fnct_fleupld.php'; // For uploading files
 		 include_once '../database/iqry_phtgal_dtl.php';
 	}
 $rd_crntpgnm = "view_all_photogallery.php";
@@ -48,24 +48,24 @@ if ($rqst_stp_attn_chk[0] == '2') {
 	$rqst_stp      	= $rqst_arymdl[0];
 	$rqst_stp_attn     = explode("::", $rqst_stp);
 }
-$sesvalary = explode(",", $_SESSION['sesmod']);
-if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
-	if ($ses_admtyp != 'a') {
-		header("Location:main.php");
-		exit();
-	}
-}
+// $sesvalary = explode(",", $_SESSION['sesmod']);
+// if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
+// 	if ($ses_admtyp != 'a') {
+// 		header("Location:main.php");
+// 		exit();
+// 	}
+// }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-	
+
 	<title><?php echo $pgtl; ?></title>
 	<?php
 	include_once('script.php');
-	include_once '../includes/inc_fnct_ajax_validation.php'; //Includes ajax validations				
+	include_once '../includes/inc_fnct_ajax_validation.php'; //Includes ajax validations
 	?>
 	<script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 <script language="javascript" src="../includes/yav.js"></script>
@@ -82,7 +82,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 			var deptsts = (document.getElementById('lstdept').disabled);
 			var catoneid = (document.getElementById('lstphcat').value);
 			cat_ary 	= Array();
-			cat_ary	 	= catoneid.split("-");	
+			cat_ary	 	= catoneid.split("-");
 			if(cat_ary[1] =='d'){
 				document.getElementById('lstdept').disabled=false;
 				rules[3]='lstdept:Department Name|required|Select Department';
@@ -178,7 +178,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 											echo "<td align=\'center\' width=\'5%\'> ' + nfiles + '</td>";
 											echo "<td align=\'left\' width=\'15%\'>";
 											echo "<input type=text name=txtphtname' + nfiles + ' id=txtphtname1' + nfiles + ' class=form-control size=\'10\'>";
-										
+
 											echo "<td align=\'left\' width=\'35%\'>";
 											echo "<input type=file name=flesimg' + nfiles + ' id=flesimg' + nfiles + ' class=form-control><br>";
 											echo "</td>";
@@ -198,14 +198,14 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 
 			var Cntnt = document.getElementById("myDiv");
 
-			if (document.createRange) { //all browsers, except IE before version 9 
+			if (document.createRange) { //all browsers, except IE before version 9
 
 				var rangeObj = document.createRange();
 				Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 				document.frmpgcntn.hdntotcntrl.value = nfiles;
-				if (rangeObj.createContextualFragment) { // all browsers, except IE	
+				if (rangeObj.createContextualFragment) { // all browsers, except IE
 					//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
 				} else { //Internet Explorer from version 9
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
@@ -249,8 +249,8 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 				}
 			}
 		}
-		
-	
+
+
 	</script>
 </head>
 
@@ -289,7 +289,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							<td align='center' valign='middle' bgcolor='#f1f6fd' colspan='$clspn_val' >
 								<font face='Arial' size='2' color = 'red'>
 									$gmsg
-								</font>							
+								</font>
 							</td>
 			  			</tr>";
 						}
@@ -302,9 +302,16 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 								<div class="col-sm-9">
 									<select name="addtype" id="addtype" class="form-control"onchange="get_cat();">
 									<option value="">--Select --</option>
+									<?php
+									if($ses_admtyp=='a' || $ses_admtyp=='wm'){
+										?>
 										<option value="c" >College</option>
+										<?php
+									}
+									?>
+
 										<option value="d">Department</option>
-										
+
 									</select>
 								</div>
 							</div>
@@ -316,7 +323,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 								</div>
 								<div class="col-sm-9">
 									<select name="lstphcat" id="lstphcat" class="form-control">
-										
+
 									</select>
 								</div>
 							</div>
@@ -332,10 +339,11 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 										<?php
 										$sqryprodcat_mst = "SELECT phtcatm_id,phtcatm_name from phtcat_mst
 										where phtcatm_sts='a'	";
-										if ($ses_admtyp == 'u') {
-											$sqryprodcat_mst .= " and phtcatm_typ='d'";
+										if ($ses_admtyp == 'd') {
+											$sqryprodcat_mst .= " and phtcatm_typ='d'  and phtcatm_deprtmnt='$ses_deptid'";
 										}
-										$sqryprodcat_mst .= "	order by phtcatm_prty";
+
+									 	$sqryprodcat_mst .= "	order by phtcatm_prty";
 										$srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 										while ($rowsprodcat_mst = mysqli_fetch_assoc($srsprodcat_mst)) {
 											$dbprodcat_typ 	= $rowsprodcat_mst['prodcatm_typ'];
@@ -343,7 +351,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 											$dbprodcat_name = $rowsprodcat_mst['prodcatm_name'];
 											?>
 										<option value="<?php echo $rowsprodcat_mst['phtcatm_id'];?>"<?php if(isset($_POST['lstphcat']) && $_POST['lstphcat']!="") echo 'selected';?>><?php echo stripslashes($rowsprodcat_mst['phtcatm_name']);?></option>
-										
+
 									<?php 	}
 										?>
 									</select>
@@ -352,32 +360,32 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 								</div>
 							</div>
 						</div> -->
-				
+
 						<input type="hidden" name='lstdept' id='lstdept'>
 
 						<?php /*?><tr bgcolor="#f1f6fd">
 				<td width="18%" align="left" valign="top" bgcolor="#f1f6fd"><strong>Department</strong></td>
-				<td width="2%" align="left" valign="center" bgcolor="#f1f6fd"><strong>:</strong></td> 
+				<td width="2%" align="left" valign="center" bgcolor="#f1f6fd"><strong>:</strong></td>
 				<td width="40%" align="left" valign="top" bgcolor="#f1f6fd">
 				<select name="lstdept" id="lstdept" style="width:150px" >
 				  <option value="">--Select--</option>
 				 <?php
-					$sqrydept_mst="select 
+					$sqrydept_mst="select
 										  deptm_id,deptm_name
-									  from 
+									  from
 										  dept_mst
-									  where 
-										  deptm_sts='a'"; 
-										  
+									  where
+										  deptm_sts='a'";
+
 					if($ses_admtyp =='u'){
-						$sqrydept_dtl ="select 
+						$sqrydept_dtl ="select
 											deptd_deptm_id
 										from
 											lgn_mst
 											inner join dept_dtl on lgnm_id  = deptd_lgnm_id
 										where
 											deptd_lgnm_id ='$ses_adminid'";
-							
+
 						$srrsdept_dtl = mysqli_query($conn,$sqrydept_dtl);
 						$cntrec_deptdtl = mysqli_num_rows($srrsdept_dtl);
 						if($cntrec_deptdtl > 0){
@@ -392,7 +400,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 					?>
 						<option value="<?php echo $rowsdept_mst['deptm_id'];?>"><?php echo $rowsdept_mst['deptm_name'];?></option>
 						<?php
-					 }						 
+					 }
 					 ?>
 					 </select>
 				</td>
@@ -439,7 +447,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							</div>
 						</div>
 
-						
+
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
 								<div class="col-sm-3">
@@ -473,7 +481,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 								<tr bgcolor="#FFFFFF">
 									<td width="5%" align="center"><strong>SL.No.</strong></td>
 									<td width="15%" align="left"><strong>Name</strong></td>
-								
+
 									<td width="35%" align="left"><strong>Image</strong></td>
 									<td width="10%" align="left"><strong>Rank</strong></td>
 									<td width="10%" align="center"><strong>Status</strong></td>
@@ -490,7 +498,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 													<input type="text" name="txtphtname1" id="txtphtname1" placeholder="Name" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtphtname1" style="color:#FF0000"></span>
 												</td>
-											
+
 												<td width="35%"  align="center">
 													<input type="file" name="flesimg1" id="flesimg1" class="form-control" size="15"><br>
 													<span id="errorsDiv_flesimg1" style="color:#FF0000"></span>
@@ -499,7 +507,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 													<input type="text" name="txtphtprior1" id="txtphtprior1" class="form-control" size="15"><br>
 													<span id="errorsDiv_txtphtprior1" style="color:#FF0000"></span>
 												</td>
-												<td width="10%" align="center" >					
+												<td width="10%" align="center" >
 													<select name="lstphtsts1" id="lstphtsts1" class="form-control">
 														<option value="a" selected>Active</option>
 														<option value="i">Inactive</option>
@@ -520,19 +528,19 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 								</div>
 								<input type="hidden" name="hdntotcntrl" value="1">
 
-						
+
 								<p class="text-center">
 							<input type="Submit" class="btn btn-primary" name="btnadprodsbmt" id="btnadprodsbmt" value="Submit">
 							&nbsp;&nbsp;&nbsp;
 							<input type="reset" class="btn btn-primary" name="btnreset" value="Clear" id="btnreset">
 							&nbsp;&nbsp;&nbsp;
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary" onClick="location.href='<?php echo $rd_crntpgnm; ?>'">
-						</p>	
-				
+						</p>
+
 			</form>
 		</div>
 	</section>
-	
+
 	<?php include_once "../includes/inc_adm_footer.php"; ?>
 </body>
 

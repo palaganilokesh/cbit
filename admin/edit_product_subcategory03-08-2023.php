@@ -3,17 +3,17 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /**********************************************************
-Programm : edit_product_subcategory.php 
+Programm : edit_product_subcategory.php
 Purpose : For Editing sub category
 Created By : Bharath
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -38,17 +38,17 @@ if (isset($_REQUEST['edit']) && (trim($_REQUEST['edit']) != "") && isset($_REQUE
 	$pg = glb_func_chkvl($_REQUEST['hdnpage']);
 	$countstart = glb_func_chkvl($_REQUEST['hdncnt']);
 }
-$sqryprodscat_mst = "select 
+$sqryprodscat_mst = "select
 prodscatm_name,prodscatm_sts,prodscatm_desc,prodscatm_prty,
 prodscatm_prodcatm_id,prodscatm_seotitle,prodscatm_seodesc,prodscatm_seokywrd,
 prodscatm_seohone,prodscatm_seohtwo,prodcatm_name,prodscatm_prodmnlnksm_id,
-prodscatm_typ,prodscatm_bnrimg,prodmnlnksm_name,prodscatm_dpthead,prodscatm_dptname,
+prodscatm_typ,prodscatm_dskimg,prodmnlnksm_name,prodscatm_dpthead,prodscatm_dptname,
 prodscatm_dpttitle
-from 
-prodscat_mst 
+from
+prodscat_mst
 inner join   prodcat_mst on prodcatm_id = prodscatm_prodcatm_id
 inner join   prodmnlnks_mst on prodmnlnksm_id =prodscatm_prodmnlnksm_id
-where 
+where
 prodscatm_id=$id";
 $srsprodscat_mst = mysqli_query($conn, $sqryprodscat_mst);
 $cntrec = mysqli_num_rows($srsprodscat_mst);
@@ -148,7 +148,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 		<input type="hidden" name="hdncnt" value="<?php echo $countstart ?>">
 		<input type="hidden" name="hdnloc" value="<?php echo $loc ?>">
 		<input type="hidden" name="hdnscatimg" id="hdnscatimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_szchrtimg']; ?>">
-		<input type="hidden" name="hdnscatbnrimg" id="hdnscatbnrimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_bnrimg']; ?>">
+		<input type="hidden" name="hdnscatbnrimg" id="hdnscatbnrimg" value="<?php echo $rowsvehbrnd_mst['prodscatm_dskimg']; ?>">
 		<div class="card">
 			<div class="card-body">
 				<div class="row justify-content-center align-items-center">
@@ -159,11 +159,11 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 							</div>
 							<div class="col-sm-9">
 								<?php
-								$sqryprodmncat_mst = "select 
-								prodmnlnksm_id,prodmnlnksm_name						
-								from 
-								prodmnlnks_mst 
-								where	 
+								$sqryprodmncat_mst = "select
+								prodmnlnksm_id,prodmnlnksm_name
+								from
+								prodmnlnks_mst
+								where
 								prodmnlnksm_sts = 'a'
 								order by
 							   prodmnlnksm_name";
@@ -233,7 +233,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 									<input name="flescatimg" type="file" class="form-control" id="flescatimg">
 								</div>
 								<?php
-								$scatbnrimgnm = $rowsprodscat_mst['prodscatm_bnrimg'];
+								$scatbnrimgnm = $rowsprodscat_mst['prodscatm_dskimg'];
 								$scatbnrimgpath = $a_scat_bnrfldnm . $scatbnrimgnm;
 								if (($scatbnrimgnm != "") && file_exists($scatbnrimgpath)) {
 									echo "<img src='$scatbnrimgpath' width='60pixel' height='60pixel'><br><input type='checkbox' name='chkbximg' id='chkbximg' value='$scatbnrimgpath'>Remove Image";

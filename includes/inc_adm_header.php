@@ -57,9 +57,7 @@ error_reporting(0);
 								<p>Dashboard</p>
 							</a>
 						</li>
-						<?php
-						if ($ses_admtyp == 'a') {
-						?>
+
 							<li class="nav-item has-treeview <?php if ($pagemncat == "Setup") {
 																									echo "menu-open";
 																								} ?>">
@@ -70,6 +68,9 @@ error_reporting(0);
 								<ul class="nav nav-treeview <?php if ($pagemncat == "Setup") {
 																							echo "menu-open";
 																						} ?>">
+																							<?php
+						if ($ses_admtyp == 'a' || $ses_admtyp == 'wm') {
+						?>
 									<li class="nav-item">
 										<a href="view_main_category.php" class="nav-link <?php if ($pagenm == "main category") {
 																																				echo "active";
@@ -86,6 +87,12 @@ error_reporting(0);
 											<p>Category</p>
 										</a>
 									</li>
+									<?php
+						}
+
+						if ($ses_admtyp == 'a' || $ses_admtyp == 'wm'  || $ses_admtyp == 'd' ) {
+						?>
+
 									<li class="nav-item">
 										<a href="view_product_subcategory.php" class="nav-link <?php if ($pagenm == "Subcategory") {
 																																							echo "active";
@@ -118,6 +125,9 @@ error_reporting(0);
 											<p>Events / News</p>
 										</a>
 									</li>
+									<?php
+						}
+						?>
 									<!-- <li class="nav-item">
 										<a href="view_all_stdtestmnl.php" class="nav-link <?php if ($pagenm == "Student Testimonial") {
 																																				echo "active";
@@ -134,12 +144,15 @@ error_reporting(0);
                                         <p>Admission</p>
                                     </a>
                                 </li> -->
+																<?php
+						if ($ses_admtyp == 'a' || $ses_admtyp == 'wm') {
+						?>
 									<li class="nav-item">
 										<a href="product.php" class="nav-link <?php if ($pagenm == "Downloads Category") {
 																														echo "active";
 																													} ?>">
 											<i class="far fa-dot-circle nav-icon"></i>
-											<p>Downloads Category</p>
+											<p>Academic Year</p>
 										</a>
 									</li>
 									<li class="nav-item">
@@ -147,7 +160,7 @@ error_reporting(0);
 																																		echo "active";
 																																	} ?>">
 											<i class="far fa-dot-circle nav-icon"></i>
-											<p> Downloads</p>
+											<p> Class Time Table</p>
 										</a>
 									</li>
 									<li class="nav-item">
@@ -190,10 +203,11 @@ error_reporting(0);
 											<p> About Us</p>
 										</a>
 									</li>
+									<?php }
+						?>
 								</ul>
 							</li>
-						<?php }
-						?>
+
 						<!-- End setup cat -->
 						<!-- Start Placement menu -->
 						<!-- <li class="nav-item has-treeview <?php if ($pagemncat == "Placements") {
@@ -227,7 +241,7 @@ error_reporting(0);
 						<!-- End Placement menu -->
 						<!-- Start Gallery menu -->
 						<?php
-						if ($ses_admtyp == 'd' || $ses_admtyp == 'a') {
+						if ($ses_admtyp == 'd' || $ses_admtyp == 'a' || $ses_admtyp == 'wm') {
 						?>
 							<li class="nav-item has-treeview <?php if ($pagemncat == "Gallery") {
 																									echo "menu-open";
@@ -271,7 +285,7 @@ error_reporting(0);
 						?>
 						<!-- Start Page content -->
 						<?php
-						if ($ses_admtyp == 'd' || $ses_admtyp == 'a') {
+						if ($ses_admtyp == 'd' || $ses_admtyp == 'a'  || $ses_admtyp == 'wm') {
 						?>
 							<li class="nav-item has-treeview <?php if ($pagemncat == "Page Content") {
 																									echo "menu-open";
@@ -297,9 +311,37 @@ error_reporting(0);
 						}
 						?>
 						<!-- end Page content -->
-						<!-- Start enquiry content -->
+						<!-- Start Users -->
 						<?php
 						if ($ses_admtyp == 'a') {
+						?>
+							<li class="nav-item has-treeview <?php if ($pagemncat == "Users") {
+																									echo "menu-open";
+																								} ?>">
+								<a href="#" class="nav-link">
+									<i class="nav-icon fas fa-circle"></i>
+									<p>Users<i class="right fas fa-angle-left"></i></p>
+								</a>
+								<ul class="nav nav-treeview <?php if ($pagemncat == "Users") {
+																							echo "menu-open";
+																						} ?>">
+									<li class="nav-item">
+										<a href="view_all_users.php" class="nav-link <?php if ($pagenm == "Users") {
+																																		echo "active";
+																																	} ?>">
+											<i class="far fa-dot-circle nav-icon"></i>
+											<p>Users</p>
+										</a>
+									</li>
+								</ul>
+							</li>
+						<?php
+						}
+						?>
+						<!-- end Users -->
+						<!-- Start enquiry content -->
+						<?php
+						if ($ses_admtyp == 'a' || $ses_admtyp == 'wm') {
 						?>
 							<li class="nav-item has-treeview <?php if ($pagemncat == "Enquiry") {
 																									echo "menu-open";

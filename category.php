@@ -40,9 +40,9 @@ if (
 	$catid1 = glb_func_chkvl($_REQUEST['catid']);
 	$req_cat = funcStrUnRplc($catid1);
 	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){
-	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg,prodcatm_admtyp";
+	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_dskimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_dskimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_dskimg,prodcatm_admtyp";
 	if ($_REQUEST['mnlnks'] == 'departments' ||  $req_scat != '') {
-		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
+		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_typ";
 	}
 	$sqrypgcnts_mst1 .= " from prodmnlnks_mst inner join prodcat_mst on prodcatm_prodmnlnksm_id =prodmnlnksm_id";
 	if ($_REQUEST['mnlnks'] == 'departments' || $req_scat != '') {
@@ -107,17 +107,17 @@ if (
 		$prodscatm_name1		= $prodscatm_name;
 		$prodcatm_name		= $srowspgcnts_mst['prodcatm_name'];
 		$cn_cat_url = funcStrRplc($prodcatm_name);
-		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodmnlnksm_typ		= $srowspgcnts_mst['prodmnlnksm_typ'];
 		$prodmnlnksm_name		= $srowspgcnts_mst['prodmnlnksm_name'];
 		$cn_mn_url = funcStrRplc($prodmnlnksm_name);
 		$prodmnlnksm_name1		= $prodmnlnksm_name;
 		$prodscatm_desc  = $srowspgcnts_mst['prodscatm_desc'];
 		$prodscatm_typ  = $srowspgcnts_mst['prodscatm_typ'];
-		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
-		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
+		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_dskimg'];
+		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_dskimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
 
 		if (($catone_id != '' || isset($catone_id))) {

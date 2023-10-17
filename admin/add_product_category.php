@@ -7,6 +7,7 @@ include_once $inc_cnctn; //Making database Connection
 include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***********************************************************
 Programm : add_category.php
 Package :

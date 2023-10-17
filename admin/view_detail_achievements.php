@@ -1,19 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
-Programm : view_detail_banner.php	
+Programm : view_detail_banner.php
 Purpose : For Viewing Banner Details
 Created By : Bharath
 Created On :	27-12-2021
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
 ************************************************************/
 global $id,$pg,$countstart;
@@ -32,7 +33,7 @@ if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg'
 	$countstart = glb_func_chkvl($_REQUEST['countstart']);
 	$srchval = glb_func_chkvl($_REQUEST['val']);
 }
-$sqryachmnt_mst = "SELECT achmntm_name, achmntm_desc, achmntm_lnk, if(achmntm_sts = 'a', 'Active','Inactive') as achmntm_sts,achmntm_sdesc, achmntm_prty, achmntm_imgnm 
+$sqryachmnt_mst = "SELECT achmntm_name, achmntm_desc, achmntm_lnk, if(achmntm_sts = 'a', 'Active','Inactive') as achmntm_sts,achmntm_sdesc, achmntm_prty, achmntm_imgnm
 	from achmnt_mst where achmntm_id = $id";
 $srsachmnt_mst = mysqli_query($conn,$sqryachmnt_mst);
 $rowsachmnt_mst = mysqli_fetch_assoc($srsachmnt_mst);
@@ -50,7 +51,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 	$msg = "<font color=red>Duplicate Recored Name Exists & Record Not updated</font>";
 }
 ?>
-<script language="javascript">	
+<script language="javascript">
 	function update2() //for update download details
 	{
 		document.frmedtachmntid.action="<?php echo $rd_edtpgnm;?>?vw=<?php echo $id;?>&pg=<?php echo $pg;?>&countstart=<?php echo $countstart.$loc;?>";
@@ -82,7 +83,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 		if($msg !='')
 		{
 	 		echo "<center><tr bgcolor='#FFFFFF'>
-				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
 			 </tr></center>";
 		}
 		?>
@@ -114,7 +115,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsachmnt_mst['achmntm_lnk'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Image</label>
 							<div class="col-sm-8">
@@ -129,7 +130,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								{
 									echo "Image not available";
 								}
-								?>	
+								?>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -140,12 +141,12 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Status</label>
-							<div class="col-sm-8"> 
+							<div class="col-sm-8">
 								<?php echo $rowsachmnt_mst['achmntm_sts'];?>
 							</div>
 						</div>
 						<p class="text-center">
-							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtachmntid" id="frmedtachmntid" value="Edit" 
+							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtachmntid" id="frmedtachmntid" value="Edit"
 							onclick="update2();">
 							&nbsp;&nbsp;&nbsp;
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary btn-cst" onclick="location.href='<?php echo $rd_crntpgnm;?>?<?php echo $loc;?>'">
@@ -154,6 +155,6 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 				</div>
 			</div>
 		</div>
-	</form> 
+	</form>
 </section>
 <?php include_once "../includes/inc_adm_footer.php";?>

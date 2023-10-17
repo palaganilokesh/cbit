@@ -1,20 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***********************************************************
-Programm : add_category.php	
-Package : 
+Programm : add_category.php
+Package :
 Purpose : For add category
 Created By : Bharath
 Created On :	20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -22,7 +22,7 @@ $pagemncat = "Gallery";
 $pagecat = "Category";
 $pagenm = "Category";
 /*****header link********/
-global $gmsg;
+global $gmsg,$ses_deptid;
 if (isset($_POST['btnaddphcat']) && (trim($_POST['btnaddphcat']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != "")) {
 	include_once "../includes/inc_fnct_fleupld.php";
 	include_once "../database/iqry_phtcat_mst.php";
@@ -39,7 +39,7 @@ $clspn_val = "4";
 <script language="javascript" type="text/javascript">
 	var rules = new Array();
 	// rules[0] = 'lstprodcat:Category|required|Select Department';
-	
+
 	rules[0] = 'txtprior:Priority|required|Enter Rank';
 	rules[1] = 'txtprior:Priority|numeric|Enter Only Numbers';
     rules[2] = 'txtname:Name|required|Enter Category Name';
@@ -60,7 +60,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 		function funcChkDupName()
 		{
 			var name;
-			name = document.getElementById('txtname').value;		
+			name = document.getElementById('txtname').value;
 			if(name != "")
 			{
 				var url = "chkvalidname.php?phcatname="+name;
@@ -71,30 +71,30 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			else
 			{
 				document.getElementById('errorsDiv_txtname').value = "";
-			}	
+			}
 		}
-		function stateChanged() 
-		{ 
+		function stateChanged()
+		{
 			if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete")
-			{ 	
+			{
 				var temp=xmlHttp.responseText;
 				document.getElementById("errorsDiv_txtname").innerHTML = temp;
 				if(temp!=0)
 				{
 					document.getElementById('txtname').focus();
-				}		
+				}
 			}
-		}			
+		}
 
           function disptype() {
         var div1 = document.getElementById("div1");
         if (document.frmaddphotocat.addtype.value == 'd') {
             div1.style.display = "block";
-           
-        } 
+
+        }
         else if (document.frmaddphotocat.addtype.value == 'c') {
             div1.style.display = "none";
-           
+
         }
     }
 </script>
@@ -156,9 +156,14 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 								</div>
 								<div class="col-sm-9">
 									<select name="addtype" id="addtype" class="form-control" onchange="disptype()">
-										<option value="c" selected>College</option>
+									<option >Select Type</option>
+									<?php if($ses_admtyp=='wm' || $ses_admtyp=='a'){
+										?>
+												<option value="c" selected>College</option>
+										<?php	}?>
+
 										<option value="d">Department</option>
-										
+
 									</select>
 								</div>
 							</div>
@@ -171,11 +176,15 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 									<label>Department *</label>
 								</div>
 								<div class="col-sm-9">
-									
+
 									<select name="lstprodcat" id="lstprodcat" class="form-control">
                                         <option value="">--Select Department--</option>
                                         <?php
-                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG'";
+																				if($ses_admtyp=='d'){
+																					$sqryprodcat_mst .= " and prodcatm_id='$ses_deptid' ";
+																				}
+																				$sqryprodcat_mst .= "	order by prodcatm_name";
                                         $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
                                         $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 										if( $cnt_prodcat > 0)
@@ -190,7 +199,11 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 												<?php
 											}
 										}
-                  $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+                  $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG'";
+									if($ses_admtyp=='d'){
+										$sqryprodcat_mst1 .= " and prodcatm_id='$ses_deptid' ";
+									}
+									$sqryprodcat_mst1 .= "	order by prodcatm_name";
                                         $rsprodcat_mst1 = mysqli_query($conn,$sqryprodcat_mst1);
                                         $cnt_prodcat1 = mysqli_num_rows($rsprodcat_mst1);
 										if( $cnt_prodcat1 > 0)
@@ -212,8 +225,8 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 							</div>
 						</div>
 
-								</div>	
-						
+								</div>
+
 
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">
@@ -250,8 +263,8 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 								</div>
 							</div>
 						</div>
-						
-						
+
+
 
 						<div class="col-md-12">
 							<div class="row mb-2 mt-2">

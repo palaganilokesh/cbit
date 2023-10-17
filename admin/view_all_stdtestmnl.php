@@ -1,18 +1,18 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
 Programm : view_product_subcategory.php
 Purpose : For Viewing Products sub category
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
@@ -63,7 +63,7 @@ include_once "../includes/inc_paging1.php"; //Includes pagination
 
 $sqrystdtestmnl_mst1 = "select
 std_testmnlm_id,std_testmnlm_name,std_testmnlm_sts,std_testmnlm_prty,std_testmnlm_typ,
-std_testmnlm_dwnfl,date_format(std_testmnlm_dt,'%d-%m-%Y') as std_testmnlm_dt						    
+std_testmnlm_dwnfl,date_format(std_testmnlm_dt,'%d-%m-%Y') as std_testmnlm_dt
 from
 std_testmnl_mst";
 if (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != "")) {
@@ -238,10 +238,10 @@ include_once 'script.php';
                 <?php
                 // $sqrystdtestmnl_mst1 = "select
                 //                std_testmnlm_id,std_testmnlm_name,std_testmnlm_sts,std_testmnlm_prty,std_testmnlm_typ,
-                //                std_testmnlm_dwnfl,date_format(std_testmnlm_dt,'%d-%m-%Y') as std_testmnlm_dt						    
+                //                std_testmnlm_dwnfl,date_format(std_testmnlm_dt,'%d-%m-%Y') as std_testmnlm_dt
                 //            from
                 //                std_testmnl_mst
-                //            where 
+                //            where
                 //                std_testmnlm_id != ''";
                 // $srsnews_mst = mysqli_query($conn, $sqrystdtestmnl_mst1);
                 // $cnt_prodcat = mysqli_num_rows($srsnews_mst);
@@ -277,14 +277,14 @@ include_once 'script.php';
                       <!-- <td align="left"> -->
                       <?php
 
-                      // $imgnm   = $srowveh_brnd_mst['prodscatm_bnrimg'];
+                      // $imgnm   = $srowveh_brnd_mst['prodscatm_dskimg'];
                       // $imgpath = $a_scat_bnrfldnm . $imgnm;
                       // if (($imgnm != "") && file_exists($imgpath)) {
                       //     echo "<img src='$imgpath' width='80pixel' height='80pixel'>";
                       // } else {
                       //     echo "N.A.";
                       // }
-                      // 
+                      //
                       ?>
 
                       <!-- </td> -->

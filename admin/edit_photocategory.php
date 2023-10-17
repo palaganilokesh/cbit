@@ -3,31 +3,31 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /**********************************************************
-Programm : edit_banner.php 
+Programm : edit_banner.php
 Purpose : For Editing Banner
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
-************************************************************/ 
+************************************************************/
 /*****header link********/
 $pagemncat = "Gallery";
 $pagecat = "Category";
 $pagenm = "Category";
 /*****header link********/
-global $id,$pg,$countstart;
+global $id,$pg,$countstart,$ses_deptid;
 $rd_vwpgnm = "view_detail_photocategory.php";
 $rd_crntpgnm = "view_all_photocategory.php";
 $clspn_val = "4";
 if(isset($_POST['btnedtphcat']) && (trim($_POST['btnedtphcat']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != ""))
 {
-	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files 
+	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
 	include_once "../database/uqry_phtcat_mst.php";
 }
 if(isset($_REQUEST['edit']) && (trim($_REQUEST['edit'])!="") && isset($_REQUEST['pg']) && (trim($_REQUEST['pg'])!="") && isset($_REQUEST['countstart']) && (trim($_REQUEST['countstart'])!=""))
@@ -71,9 +71,9 @@ else
   	document.getElementById('txtname').focus();
   }
 </script>
-<?php 
+<?php
 include_once ('script.php');
-include_once ('../includes/inc_fnct_ajax_validation.php');	
+include_once ('../includes/inc_fnct_ajax_validation.php');
 ?>
 <script language="javascript" type="text/javascript">
 	function funcChkDupName()
@@ -105,7 +105,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 			}
 		}
 	}
-   
+
 </script>
 <?php include_once $inc_adm_hdr; ?>
 <section class="content">
@@ -144,9 +144,9 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
                                 <!-- onchange="disptype()" -->
 									<option value="c"<?php if($rowsbnr_mst['phtcatm_typ']=='c') echo 'selected';?>>College</option>
 									<option value="d"<?php if($rowsbnr_mst['phtcatm_typ']=='d') echo 'selected';?>>Department</option>
-									
+
 								</select>
-								
+
 							</div>
 						</div>
 					</div>
@@ -158,29 +158,37 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<label>Department *</label>
 								</div>
 								<div class="col-sm-9">
-								
+
 
 									<select name="lstprodcat" id="lstprodcat" class="form-control">
                                         <option value="">--Select Department--</option>
                                         <?php
-                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG'";
+																				if($ses_admtyp=='d'){
+																					$sqryprodcat_mst .= " and prodcatm_id='$ses_deptid' ";
+																				}
+																				$sqryprodcat_mst .= " 	order by prodcatm_name";
                                         $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
                                         $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 										if( $cnt_prodcat > 0)
 										{   ?>
                                             <option disabled>-- UG --</option>
-                                            <?php											
+                                            <?php
                                             while($rowsprodcat_mst=mysqli_fetch_assoc($rsprodcat_mst))
 											{
 												$catid = $rowsprodcat_mst['prodcatm_id'];
 												$catname = $rowsprodcat_mst['prodcatm_name'];
 												?>
                                                 <option value="<?php echo $catid;?>"<?php if($rowsbnr_mst['phtcatm_deprtmnt']==$catid) echo 'selected';?>><?php echo $catname;?></option>
-												
+
 												<?php
 											}
 										}
-                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG'";
+																				if($ses_admtyp=='d'){
+																					$sqryprodcat_mst .= " and prodcatm_id='$ses_deptid' ";
+																				}
+																				$sqryprodcat_mst .= "	order by prodcatm_name";
                                         $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
                                         $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 										if( $cnt_prodcat > 0)
@@ -204,7 +212,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 						</div>
                         <?php
                     }?>
-                      
+
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
 							<div class="col-sm-3">
@@ -221,7 +229,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							<div class="col-sm-3">
 								<label>Description</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"><?php echo $rowsbnr_mst['phtcatm_desc']; ?></textarea>
 							</div>
 						</div>
@@ -250,14 +258,14 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							</div>
 						</div>
 					</div>
-					
-					
+
+
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
 							<div class="col-sm-3">
 								<label>Rank *</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<input type="text" name="txtprior" id="txtprior" class="form-control" size="4" maxlength="3" value="<?php echo $rowsbnr_mst['phtcatm_prty']; ?>">
 								<span id="errorsDiv_txtprior"></span>
 							</div>
@@ -273,7 +281,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<option value="a"<?php if($rowsbnr_mst['phtcatm_sts']=='a') echo 'selected';?>>Active</option>
 									<option value="i"<?php if($rowsbnr_mst['phtcatm_sts']=='i') echo 'selected';?>>Inactive</option>
 								</select>
-								
+
 							</div>
 						</div>
 					</div>

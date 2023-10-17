@@ -1,17 +1,18 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
 Programm : view_all_popup.php
 Purpose : For Viewing Home page popups
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
 ************************************************************/
@@ -31,7 +32,7 @@ if(isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts'])!="") || isset($_POST
 {
 	$dchkval = substr($_POST['hdnchksts'],1);
 	$id = glb_func_chkvl($dchkval);
-	$chkallval = glb_func_chkvl($_POST['hdnallval']);				
+	$chkallval = glb_func_chkvl($_POST['hdnallval']);
 	$updtsts = funcUpdtAllRecSts('popup_mst','popupm_id',$id,'popupm_sts',$chkallval);
 	if($updtsts == 'y')
 	{
@@ -41,7 +42,7 @@ if(isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts'])!="") || isset($_POST
 	{
 		$msg = "<font color=red>Record not updated</font>";
 	}
-}	
+}
 if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 {
 	$dchkval = substr($_POST['hdnchkval'],1);
@@ -235,7 +236,7 @@ include_once 'script.php';
 									<td colspan="<?php echo $clspn_val;?>" align='center'><?php echo $msg;?></td>
 									<td width="7%" align="right" valign="bottom">
 										<div align="right">
-								
+
 											<input name="btnsts" id="btnsts" type="button" class="btn btn-xs btn-primary" value="Status" onClick="updatests('hdnchksts','frmpopupmst','chksts')">
 										</div>
 									</td>
@@ -270,7 +271,7 @@ include_once 'script.php';
 										$db_sublink = $srowpopup_mst['popupm_lnk'];
 										$db_prty = $srowpopup_mst['popupm_prty'];
 										$db_sts  = $srowpopup_mst['popupm_sts'];
-										
+
 										$db_szchrt = $srowpopup_mst['popupm_imgnm'];
 										?>
 										<tr <?php if($cnt%2==0){echo "";}else{echo "";}?>>
@@ -280,22 +281,22 @@ include_once 'script.php';
 												<a href="<?php echo $rd_vwpgnm;?>?vw=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="links"><?php echo $db_subname;?></a>
 											</td>
 											<td align="left">
-												<?php 
+												<?php
 												$imgnm = $db_szchrt;
 												$imgpath = $gbnr_fldnm.$imgnm;
 												if(($imgnm !="") && file_exists($imgpath))
 												{
-													echo "<img src='$imgpath' width='50pixel' height='50pixel'>";     
+													echo "<img src='$imgpath' width='50pixel' height='50pixel'>";
 												}
 												else
 												{
-													echo "NA";            
+													echo "NA";
 												}
 												?>
 											</td>
-											<td align="left"><?php echo $db_sublink;?></td> 
-											
-											<td align="center"><?php echo $db_prty;?></td> 
+											<td align="left"><?php echo $db_sublink;?></td>
+
+											<td align="center"><?php echo $db_prty;?></td>
 											<td align="center">
 												<a href="<?php echo $rd_edtpgnm; ?>?edit=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="orongelinks">Edit</a>
 											</td>
@@ -327,9 +328,9 @@ include_once 'script.php';
 										</div>
 									</td>
 								</tr>
-								<?php    
-								$disppg = funcDispPag($conn,'links',$loc,$sqrypopup_mst1,$rowsprpg,$cntstart,$pgnum);     
-								$colspanval = $clspn_val+2;            
+								<?php
+								$disppg = funcDispPag($conn,'links',$loc,$sqrypopup_mst1,$rowsprpg,$cntstart,$pgnum);
+								$colspanval = $clspn_val+2;
 								if($disppg != "")
 								{
 									$disppg = "<br><tr><td colspan='$colspanval' align='center' >$disppg</td></tr>";

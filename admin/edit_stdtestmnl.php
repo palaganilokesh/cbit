@@ -5,11 +5,11 @@ include_once "../includes/inc_adm_session.php"; //checking for session
 include_once "../includes/inc_connection.php"; //Making database Connection
 include_once "../includes/inc_usr_functions.php"; //checking for session
 include_once '../includes/inc_config.php';       //Making paging validation
-include_once '../includes/inc_folder_path.php'; //Floder Path	
+include_once '../includes/inc_folder_path.php'; //Floder Path
 include_once 'searchpopcalendar.php';
 
 /***************************************************************/
-//Programm 	  		: edit_brand.php	
+//Programm 	  		: edit_brand.php
 //Purpose 	  			: Updating new brand
 //Created By  		: Mallikarjuna
 //Created On  		:	16/04/2013
@@ -32,7 +32,7 @@ if (
     isset($_POST['edtnw']) && ($_POST['edtnw'] != "") &&
     isset($_POST['txtprior']) && ($_POST['txtprior'] != "")
 ) {
-    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files		
+    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
     include_once "../database/uqry_std_testmnl_mst.php";
 }
 if (
@@ -52,12 +52,12 @@ if (
     $pg         = $_REQUEST['hdnpage'];
     $countstart = $_REQUEST['hdncnt'];
 }
-$sqrystdtestmnl_dtl = "select 
+$sqrystdtestmnl_dtl = "select
 std_testmnlm_name,std_testmnlm_desc,std_testmnlm_prty,std_testmnlm_sts,std_testmnlm_img,std_testmnlm_lnk,
 std_testmnlm_dwnfl,std_testmnlm_typ,date_format(std_testmnlm_dt,'%d-%m-%Y') as std_testmnlm_dt
-from 
+from
 std_testmnl_mst
-where 
+where
 std_testmnlm_id='$id'";
 $srsstdtestmnl_dtl  = mysqli_query($conn, $sqrystdtestmnl_dtl);
 $cntrec_stdtestmnl  = mysqli_num_rows($srsstdtestmnl_dtl);
@@ -156,7 +156,7 @@ include_once $inc_adm_lftlnk;
         <input type="hidden" name="hdnval" value="<?php echo $srchval; ?>">
         <input type="hidden" name="hdnchk" value="<?php echo $chk; ?>">
         <input type="hidden" name="hdncnt" value="<?php echo $countstart ?>">
-        <input type="hidden" name="hdnbgimg" id="hdnbgimg" value="<?php echo $rowsprodcat_mst['prodcatm_bnrimg']; ?>">
+        <input type="hidden" name="hdnbgimg" id="hdnbgimg" value="<?php echo $rowsprodcat_mst['prodcatm_dskimg']; ?>">
         <input type="hidden" name="hdnsmlimg" id="hdnsmlimg" value="<?php echo $rowsprodscat_mst['prodcatm_icn']; ?>">
         <div class="card">
             <div class="card-body">

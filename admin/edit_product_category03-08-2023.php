@@ -1,20 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***********************************************************
-Programm : edit_product_category.php	
-Package : 
+Programm : edit_product_category.php
+Package :
 Purpose : For Edit Vehicle Product Category
 Created By : Lokesh palagani
 Created On : 20-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 global $id, $pg, $countstart;
@@ -41,17 +41,17 @@ if (isset($_REQUEST['edit']) && (trim($_REQUEST['edit']) != "") && isset($_REQUE
 	$srchval = glb_func_chkvl($_REQUEST['val']);
 	$chk = glb_func_chkvl($_REQUEST['chk']);
 }
-$sqryprodcat_mst = "SELECT 
+$sqryprodcat_mst = "SELECT
 								prodcatm_name,prodcatm_desc,prodcatm_seotitle,prodcatm_seodesc,
 								prodcatm_seohone,prodcatm_seohtwo,prodcatm_seokywrd,prodcatm_prty,
 								 prodcatm_sts,
-								prodcatm_typ,prodcatm_dsplytyp,prodcatm_bnrimg,prodcatm_prodmnlnksm_id,
+								prodcatm_typ,prodcatm_dsplytyp,prodcatm_dskimg,prodcatm_prodmnlnksm_id,
 								prodmnlnksm_name,prodmnlnksm_id,prodcatm_icn,prodcatm_admtyp
-							from 
+							from
 								prodcat_mst
 						inner join prodmnlnks_mst
 						on		prodmnlnks_mst.prodmnlnksm_id=prodcat_mst.prodcatm_prodmnlnksm_id
-							where 
+							where
 								prodcatm_id='$id'";
 $srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 $cntrecprodcat_mst = mysqli_num_rows($srsprodcat_mst);
@@ -134,7 +134,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 		});
 	}
 	function rmvqns(del_id) {
-		var status = confirm("Are you sure you want to delete ?"); 
+		var status = confirm("Are you sure you want to delete ?");
 		if(status==true)
   {
 		var del_id = del_id;
@@ -142,16 +142,16 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 			type: "POST",
 			url: "../includes/inc_getStsk.php",
 			data: 'del_id=' + del_id,
-			success: function (data) {	
+			success: function (data) {
 				// alert(data)
 				alert('Deleted');
-				location.reload();			
+				location.reload();
 			}
 		});
 	}
 
 	}
-	
+
 </script>
 <?php
 include_once $inc_adm_hdr;
@@ -180,7 +180,7 @@ include_once $inc_adm_lftlnk;
 		<input type="hidden" name="hdnval" value="<?php echo $srchval; ?>">
 		<input type="hidden" name="hdnchk" value="<?php echo $chk; ?>">
 		<input type="hidden" name="hdncnt" value="<?php echo $countstart ?>">
-		<input type="hidden" name="hdnbgimg" id="hdnbgimg" value="<?php echo $rowsprodcat_mst['prodcatm_bnrimg']; ?>">
+		<input type="hidden" name="hdnbgimg" id="hdnbgimg" value="<?php echo $rowsprodcat_mst['prodcatm_dskimg']; ?>">
 		<input type="hidden" name="hdnsmlimg" id="hdnsmlimg" value="<?php echo $rowsprodscat_mst['prodcatm_icn']; ?>">
 		<div class="card">
 			<div class="card-body">
@@ -192,11 +192,11 @@ include_once $inc_adm_lftlnk;
 							</div>
 							<div class="col-sm-9">
 								<?php
-								$sqryprodmncat_mst = "select 
-								prodmnlnksm_id,prodmnlnksm_name						
-							from 
-								prodmnlnks_mst 
-							where	 
+								$sqryprodmncat_mst = "select
+								prodmnlnksm_id,prodmnlnksm_name
+							from
+								prodmnlnks_mst
+							where
 								prodmnlnksm_sts = 'a'
 							order by
 							   prodmnlnksm_name";
@@ -281,7 +281,7 @@ include_once $inc_adm_lftlnk;
 									<input name="flebnrimg" type="file" class="form-control" id="flebnrimg">
 								</div>
 								<?php
-								$imgnm = $rowsprodcat_mst['prodcatm_bnrimg'];
+								$imgnm = $rowsprodcat_mst['prodcatm_dskimg'];
 								$imgpath = $a_cat_bnrfldnm . $imgnm;
 								if (($imgnm != "") && file_exists($imgpath)) {
 									echo "<img src='$imgpath' width='80pixel' height='80pixel'><br><input type='checkbox' name='chkbximg' id='chkbximg' value='$imgpath'>Remove Image";
@@ -513,7 +513,7 @@ include_once $inc_adm_lftlnk;
 
 											<?php
 						}
-						
+
 					}
 					else{
 						echo "<tr bgcolor='#FFFFFF'><td colspan='6' align='center' bgcolor='#f1f6fd'>No Records Found.</td></tr>";
@@ -521,7 +521,7 @@ include_once $inc_adm_lftlnk;
 					?>
 					<div id="myDivQns">
 										<table width="100%" cellspacing='2' cellpadding='3'>
-										
+
 											<tr>
 												<td align="center">
 												<input type="hidden" name="hdntotcntrlqns" id="hdntotcntrlqns" value="<?php echo $nfiles_qns; ?>">
@@ -569,7 +569,7 @@ function expandQns() {
                                         echo "<textarea name=txtansdesc' + nfiles_qns + ' id=txtansdesc' + nfiles_qns + ' cols=35 rows=3 class=form-control></textarea><br>";
                                         echo "</td>";
 
-                                       
+
 
 
                                         echo "<td align=\'left\' width=\'10%\'>";
@@ -585,13 +585,13 @@ function expandQns() {
                                         ?>';
         var Cntnt = document.getElementById("myDivQns");
 
-        if (document.createRange) { //all browsers, except IE before version 9 					
+        if (document.createRange) { //all browsers, except IE before version 9
             var rangeObj = document.createRange();
             Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
             document.frmedtprodcatid.hdntotcntrlqns.value = nfiles_qns;
-            if (rangeObj.createContextualFragment) { // all browsers, except IE	
+            if (rangeObj.createContextualFragment) { // all browsers, except IE
                 //var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+                //Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
             } else { //Internet Explorer from version 9
                 Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);

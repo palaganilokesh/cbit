@@ -1,19 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
-Programm : view_detail_alumni.php	
+Programm : view_detail_alumni.php
 Purpose : For Viewing alumni Details
 Created By : Bharath
 Created On :	27-12-2021
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
 ************************************************************/
 global $id,$pg,$countstart;
@@ -23,7 +24,7 @@ $clspn_val = "4";
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "alumni";
-$pagenm = "alumni"; 
+$pagenm = "alumni";
 /*****header link********/
 if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg']) && (trim($_REQUEST['pg'])!="") && isset($_REQUEST['countstart']) && (trim($_REQUEST['countstart'])!=""))
 {
@@ -32,7 +33,7 @@ if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg'
 	$countstart = glb_func_chkvl($_REQUEST['countstart']);
 	$srchval = glb_func_chkvl($_REQUEST['val']);
 }
-$sqryalumni_mst = "SELECT alumnim_name, alumnim_desc, alumnim_batch,alumnim_job,alumnim_lnk, if(alumnim_sts = 'a', 'Active','Inactive') as alumnim_sts, alumnim_prty, alumnim_imgnm 
+$sqryalumni_mst = "SELECT alumnim_name, alumnim_desc, alumnim_batch,alumnim_job,alumnim_lnk, if(alumnim_sts = 'a', 'Active','Inactive') as alumnim_sts, alumnim_prty, alumnim_imgnm
 	from alumni_mst where alumnim_id = $id";
 $srsalumni_mst = mysqli_query($conn,$sqryalumni_mst);
 $rowsalumni_mst = mysqli_fetch_assoc($srsalumni_mst);
@@ -50,7 +51,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 	$msg = "<font color=red>Duplicate Recored Name Exists & Record Not updated</font>";
 }
 ?>
-<script language="javascript">	
+<script language="javascript">
 	function update1() //for update download details
 	{
 		document.frmedtalumniid.action="<?php echo $rd_edtpgnm;?>?vw=<?php echo $id;?>&pg=<?php echo $pg;?>&countstart=<?php echo $countstart.$loc;?>";
@@ -82,7 +83,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 		if($msg !='')
 		{
 	 		echo "<center><tr bgcolor='#FFFFFF'>
-				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
 			 </tr></center>";
 		}
 		?>
@@ -96,7 +97,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsalumni_mst['alumnim_name'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Description</label>
 							<div class="col-sm-8">
@@ -121,7 +122,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsalumni_mst['alumnim_job'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Image</label>
 							<div class="col-sm-8">
@@ -136,7 +137,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								{
 									echo "Image not available";
 								}
-								?>	
+								?>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -147,12 +148,12 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Status</label>
-							<div class="col-sm-8"> 
+							<div class="col-sm-8">
 								<?php echo $rowsalumni_mst['alumnim_sts'];?>
 							</div>
 						</div>
 						<p class="text-center">
-							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtalumniid" id="frmedtalumniid" value="Edit" 
+							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtalumniid" id="frmedtalumniid" value="Edit"
 							onclick="update1();">
 							&nbsp;&nbsp;&nbsp;
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary btn-cst" onclick="location.href='<?php echo $rd_crntpgnm;?>?<?php echo $loc;?>'">
@@ -161,6 +162,6 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 				</div>
 			</div>
 		</div>
-	</form> 
+	</form>
 </section>
 <?php include_once "../includes/inc_adm_footer.php";?>

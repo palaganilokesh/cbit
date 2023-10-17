@@ -1,18 +1,19 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
 Programm : view_all_gnrlenqry.php
 Purpose : For Viewing Home page gnrlenqrys
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
 ************************************************************/
@@ -32,7 +33,7 @@ if( isset($_POST['hdnallval']) && (trim($_POST['hdnallval'])!=""))
 {
 	$dchkval = substr($_POST['hdnchksts'],1);
 	$id = glb_func_chkvl($dchkval);
-	$chkallval = glb_func_chkvl($_POST['hdnallval']);				
+	$chkallval = glb_func_chkvl($_POST['hdnallval']);
 	$updtsts = funcUpdtAllRecSts('gnrlenqry_mst','gnrlenqrym_id',$id,'gnrlenqrym_sts',$chkallval);
 	if($updtsts == 'y')
 	{
@@ -42,7 +43,7 @@ if( isset($_POST['hdnallval']) && (trim($_POST['hdnallval'])!=""))
 	{
 		$msg = "<font color=red>Record not updated</font>";
 	}
-}	
+}
 if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 {
 	$dchkval = substr($_POST['hdnchkval'],1);
@@ -51,7 +52,7 @@ if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 	$count = sizeof($del);
 	$smlimg = array();
 	$smlimgpth = array();
-	
+
 	$delsts = funcDelAllRec($conn,'gnrlenqry_mst','gnrlenqrym_id',$did);
 	if($delsts == 'y' )
 	{
@@ -186,7 +187,7 @@ include_once 'script.php';
 			<div class="card-body p-0">
 				<form method="post" action="<?php $_SERVER['SCRIPT_FILENAME'];?>" name="frmgnrlenqrymst" id="frmgnrlenqrymst">
 					<input type="hidden" name="hdnchkval" id="hdnchkval">
-					
+
 					<input type="hidden" name="hdnallval" id="hdnallval">
 					<div class="col-md-12">
 						<div class="row justify-content-left align-items-center mt-3">
@@ -207,7 +208,7 @@ include_once 'script.php';
 									&nbsp;&nbsp;&nbsp;
 									<input type="submit" value="Search" class="btn btn-primary" name="btnsbmt" onClick="srch();">
 									<a href="<?php echo $rd_crntpgnm; ?>" class="btn btn-primary">Refresh</a>
-								
+
 								</div>
 							</div>
 						</div>
@@ -218,7 +219,7 @@ include_once 'script.php';
 								<tr>
 									<td colspan="<?php echo $clspn_val;?>" align='center'></td>
 									<!-- <?php echo $msg;?> -->
-									
+
 									<td width="20%" align="left" valign="bottom">
 										<div align="center">
 											<input name="btndel" id="btndel" type="button" class="btn btn-xs btn-primary" value="Delete" onClick="deleteall('hdnchkval','frmgnrlenqrymst','chkdlt');">
@@ -230,8 +231,8 @@ include_once 'script.php';
 									<td width="28%" class="td_bg"><strong>Name</strong></td>
 									<td width="15%" class="td_bg"><strong> Email</strong></td>
 									<td width="15%" class="td_bg"><strong>Date & Time</strong></td>
-																		
-									
+
+
 									<td width="20%" class="td_bg" align="center"><strong>
 									<input type="checkbox" name="Check_dctr" id="Check_dctr" value="yes" onClick="Check(document.frmgnrlenqrymst.chkdlt,'Check_dctr')"></strong></td>
 								</tr>
@@ -247,17 +248,17 @@ include_once 'script.php';
 										$db_subname = $srowgnrlenqry_mst['gnrlenqrym_name'];
 										$db_dt = $srowgnrlenqry_mst['gnrlenqrym_crtdon'];
 										$db_email = $srowgnrlenqry_mst['gnrlenqrym_emailid'];
-										
+
 										?>
 										<tr <?php if($cnt%2==0){echo "";}else{echo "";}?>>
 											<td><?php echo $cnt;?></td>
 																						<td>
 												<a href="<?php echo $rd_vwpgnm;?>?vw=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="links"><?php echo $db_subname;?></a>
 											</td>
-											
-											<td align="left"><?php echo $db_email;?></td> 
-											<td align="left"><?php echo $db_dt;?></td> 
-											
+
+											<td align="left"><?php echo $db_email;?></td>
+											<td align="left"><?php echo $db_dt;?></td>
+
 											<td align="center">
 												<input type="checkbox" name="chkdlt" id="chkdlt" value="<?php echo $db_subid;?>">
 											</td>
@@ -272,16 +273,16 @@ include_once 'script.php';
 								?>
 								<tr>
 									<td colspan="<?php echo $clspn_val;?>">&nbsp;</td>
-									
+
 									<td width="20%" align="left" valign="bottom">
 										<div align="center">
 											<input name="btndel" id="btndel" type="button" value="Delete" onClick="deleteall('hdnchkval','frmgnrlenqrymst','chkdlt');" class="btn btn-xs btn-primary">
 										</div>
 									</td>
 								</tr>
-								<?php    
-								$disppg = funcDispPag($conn,'links',$loc,$sqrygnrlenqry_mst1,$rowsprpg,$cntstart,$pgnum);     
-								$colspanval = $clspn_val+2;            
+								<?php
+								$disppg = funcDispPag($conn,'links',$loc,$sqrygnrlenqry_mst1,$rowsprpg,$cntstart,$pgnum);
+								$colspanval = $clspn_val+2;
 								if($disppg != "")
 								{
 									$disppg = "<br><tr><td colspan='$colspanval' align='center' >$disppg</td></tr>";

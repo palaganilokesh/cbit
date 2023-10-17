@@ -1,19 +1,20 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
-Programm : view_detail_gnrlenqry.php	
+Programm : view_detail_gnrlenqry.php
 Purpose : For Viewing gnrlenqry Details
 Created By : Bharath
 Created On :	27-12-2021
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
 ************************************************************/
 global $id,$pg,$countstart;
@@ -76,11 +77,11 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 		if($msg !='')
 		{
 	 		echo "<center><tr bgcolor='#FFFFFF'>
-				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
 			 </tr></center>";
 		}
 		?>
-        
+
 		<div class="card">
 			<div class="card-body">
 				<div class="row justify-content-center">
@@ -91,7 +92,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsgnrlenqry_mst['gnrlenqrym_name'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Email</label>
 							<div class="col-sm-8">
@@ -116,15 +117,15 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsgnrlenqry_mst['gnrlenqrym_msg'];?>
 							</div>
 						</div>
-                        
+
 						<p class="text-center">
-							
+
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary btn-cst" onclick="location.href='<?php echo $rd_crntpgnm;?>?<?php echo $loc;?>'">
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
-	</form> 
+	</form>
 </section>
 <?php include_once "../includes/inc_adm_footer.php";?>

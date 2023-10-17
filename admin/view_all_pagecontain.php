@@ -13,7 +13,7 @@ include_once $inc_fldr_pth; //Making paging validation
 //Company 	  : Adroit
 /************************************************************/
 global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $clspn_val, $rd_crntpgnm, $rd_adpgnm,
-$rd_vwpgnm, $rd_edtpgnm;
+$rd_vwpgnm, $rd_edtpgnm,$ses_deptid;
 $clspn_val   = "8";
 $rd_adpgnm   = "add_pagecontain.php";
 $rd_edtpgnm  = "edit_pagecontain.php";
@@ -297,10 +297,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 				<div class="row justify-content-left align-items-center mt-3">
 					<div class="col-sm-3">
 						<div class="form-group">
-							<div class="col-8">
-								<div class="row">
-									<div class="col-10">
-										<select name="lstsrchby" id="lstsrchby" onChange="chng()" class="form-control">
+							<select name="lstsrchby" id="lstsrchby" onChange="chng()" class="form-control">
 											<option value="">--Select--</option>
 											<option value="nm" <?php if (isset($_REQUEST['lstsrchby']) && trim($_REQUEST['lstsrchby']) == 'nm') {
 																						echo 'selected';
@@ -319,19 +316,18 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 																							} ?>>Subcategory</option>
 										</select>
 
-									</div>
-								</div>
-							</div>
+
 						</div>
 					</div>
-					<div class="col-sm-4">
-						<div class="form-group">
-							<div id="div1" <?php if (!isset($_REQUEST['optn']) || (trim($_REQUEST['optn']) == "nm") || (trim($_REQUEST['optn']) == "")) {
+
+
+							<div id="div1"  class="col-sm-3" <?php if (!isset($_REQUEST['optn']) || (trim($_REQUEST['optn']) == "nm") || (trim($_REQUEST['optn']) == "")) {
 																echo "style=\"display:block\"";
 															} else {
 																echo "style=\"display:none\"";
 															} ?>>
-								<input type="text" name="txtsrchval" class="form-control" value="<?php if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != "") {
+																<div class="form-group">
+								<input type="text" name="txtsrchval" placeholder="Search By Name" class="form-control" value="<?php if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != "") {
 																															echo $_REQUEST['txtsrchval'];
 																														}
 																														?>" id="txtsrchval">
@@ -339,28 +335,26 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 							</div>
 
 						</div>
-					</div>
-					<div class="col-sm-3">
-						<div class="form-group">
-							<div id="div2" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "d")) {
+
+
+
+							<div id="div2" class="col-sm-3" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "d")) {
 																echo "style=\"display:block\"";
 															} else {
 																echo "style=\"display:none\"";
 															} ?>>
+																<div class="form-group">
 								<select name="lstdept" id="lstdept" class="form-control">
 									<option value="">--Select--</option>
 									<?php
-									$sqrydept_mst = "select
+									$sqrydept_mst = "SELECT
 													  deptm_id,deptm_name
 												 from
 													  vw_pgcnts_prodcat_prodscat_mst
 												 where
 													deptm_id !=''";
-									if ($ses_admtyp == 'u') {
-										$sqrydept_dtl = "select
-															deptd_deptm_id
-														from
-															lgn_mst
+									if ($ses_admtyp == 'd') {
+										$sqrydept_dtl = "SELECT	deptd_deptm_id	from lgn_mst
 															inner join dept_dtl on lgnm_id  = deptd_lgnm_id
 														where
 															deptd_lgnm_id ='$ses_adminid'";
@@ -373,10 +367,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 											$sqrydept_mst .= " and deptm_id = $deptid";
 										}
 									}
-									$sqrydept_mst .= " group by
-													  deptm_id
-												 order by
-													  deptm_name";
+									$sqrydept_mst .= " group by deptm_id order by  deptm_name";
 									$stsdept_mst = mysqli_query($conn, $sqrydept_mst);
 									while ($rowsdept_mst = mysqli_fetch_assoc($stsdept_mst)) {
 									?>
@@ -387,27 +378,28 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									}
 									?>
 								</select>
-							</div>
+
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="form-group">
-							<div id="div3" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "catone")) {
+
+
+							<div id="div3"  class="col-sm-3" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "catone")) {
 																echo "style=\"display:block\"";
 															} else {
 																echo "style=\"display:none\"";
 															} ?>>
+															<div class="form-group">
 								<select name="lstcatone" id="lstcatone" class="form-control">
 									<option value="">--Select--</option>
 									<?php
-									$sqrycatone_mst = "select
-													  prodcatm_id,prodcatm_name
+									$sqrycatone_mst = "SELECT prodcatm_id,prodcatm_name
 												   from
-													  vw_pgcnts_prodcat_prodscat_mst
-												   group by
-													  prodcatm_id
-												   order by
-													  prodcatm_name";
+													  vw_pgcnts_prodcat_prodscat_mst ";
+														if($ses_admtyp=='d'){
+															$sqrycatone_mst .= " where prodcatm_id='$ses_deptid' ";
+														}
+														$sqrycatone_mst .="  group by prodcatm_id
+												   order by prodcatm_name";
 									$stscatone_mst = mysqli_query($conn, $sqrycatone_mst);
 									while ($rowscatone_mst = mysqli_fetch_assoc($stscatone_mst)) {
 									?>
@@ -419,18 +411,19 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									}
 									?>
 								</select>
-							</div>
+
 
 
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="form-group">
-							<div id="div4" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "cattwo")) {
+
+
+							<div id="div4" class="col-sm-3" <?php if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "cattwo")) {
 																echo "style=\"display:block\"";
 															} else {
 																echo "style=\"display:none\"";
 															} ?>>
+																<div class="form-group">
 								<select name="lstcattwo" id="lstcattwo" class="form-control">
 									<option value="">--Select--</option>
 									<?php
@@ -439,11 +432,11 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 												 from
 													  vw_pgcnts_prodcat_prodscat_mst
 												 where
-													prodscatm_id !=''
-												 group by
-													  prodscatm_id
-												 order by
-													  prodscatm_name";
+													prodscatm_id !=''";
+													if($ses_admtyp=='d'){
+														$sqrycattwo_mst .= " and prodcatm_id='$ses_deptid' ";
+													}
+													$sqrycattwo_mst .= "	 group by prodscatm_id	 order by prodscatm_name";
 									$stscattwo_mst = mysqli_query($conn, $sqrycattwo_mst);
 									while ($rowscattwo_mst = mysqli_fetch_assoc($stscattwo_mst)) {
 									?>
@@ -455,11 +448,9 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									?>
 								</select>
 							</div>
-
-						</div>
 					</div>
 
-					<div class="col-sm-4">
+					<div class="col-sm-3">
 						<div class="form-group">
 						<strong>Exact</strong>
 								<input type="checkbox" name="chkexact" id="chkexact" value="y" <?php
@@ -469,13 +460,9 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 																		<input type="submit" value="Search" class="btn btn-primary" name="btnsbmt">
 
 								<a href="<?php echo $rd_crntpgnm; ?>" class="btn btn-primary">Refresh</a>
-								<?php
-								if (($rqst_stp_attn[1] == '2') || ($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
-								?>
+
 									<input name="btn" type="button" class="btn btn-primary" value=" + Add" onClick="addnew()">
-								<?php
-								}
-								?>
+
 
 						</div>
 					</div>
@@ -490,27 +477,19 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 						<tr>
 							<td colspan="<?php echo $clspn_val; ?>" align='center'><?php echo $msg; ?></td>
 
-							<?php
-							if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
-							?>
+
 								<td width="8%" align="right" valign="bottom">
 									<div align="right">
 										<input name="btnsts" id="btnsts" type="button" value="Status" class="btn btn-xs btn-primary" onClick="updatests('hdnchksts','frmpgcntn','chksts')">
 
 									</div>
 								</td>
-							<?php
-							}
 
-							if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
-							?>
 								<td width="8%" align="right" valign="bottom">
 									<div align="right">
 										<input name="btndel" id="btndel" type="button" value="Delete" class="btn btn-xs btn-primary" onClick="deleteall('hdnchkval','frmpgcntn','chkdlt');">
 								</td>
-							<?php
-							}
-							?>
+
 						</tr>
 						<tr>
 							<td width="8%" class="td_bg"><strong>SL.No.</strong></td>
@@ -521,34 +500,33 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 							<td width="15%" class="td_bg"><strong>Type</strong></td>
 							<td width="10%" align="center" class="td_bg"><strong>Rank</strong></td>
 							<?php
-							if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
+							// if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
 							?>
 								<td width="10%" align="center" class="td_bg"><strong>Edit</strong></td>
 								<td width="10%" class="td_bg" align="center"><strong>
 										<input type="checkbox" name="Check_ctr" id="Check_ctr" value="yes" onClick="Check(document.frmpgcntn.chksts,'Check_ctr')"></strong></td>
 							<?php
-							}
-							if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
+							// }
+							// if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
 							?>
 								<td width="7%" class="td_bg" align="center"><strong>
 										<input type="checkbox" name="Check_dctr" id="Check_dctr" value="yes" onClick="Check(document.frmpgcntn.chkdlt,'Check_dctr')"></strong></td>
 							<?php
-							}
+							// }
 							?>
 						</tr>
 						<!-- lok -->
 						<?php
-						 $sqrypgcnts_dtl1 =   "select
-												pgcntsd_id,pgcntsd_name,pgcntsd_desc,pgcntsd_sts,
-												pgcntsd_prty,prodcatm_name,prodscatm_name,pgcntsd_typ,pgcntsd_dskimg,pgcntsd_tabimg,pgcntsd_mobimg
+						 $sqrypgcnts_dtl1 =   "SELECT pgcntsd_id,pgcntsd_name,pgcntsd_desc,pgcntsd_sts,	pgcntsd_prty,prodcatm_name,prodscatm_name,pgcntsd_typ,pgcntsd_dskimg,pgcntsd_tabimg,pgcntsd_mobimg
 										  from
 												vw_pgcnts_prodcat_prodscat_mst
 										  where
 												pgcntsd_id	!= ''";
 
+
 						// deptm_id,deptm_name,
-						if ($ses_admtyp == 'u') {
-							$sqrypgcnts_dtl1 .= "and pgcntsd_deptm_id = $_SESSION[sesdeptid]";
+						if($ses_admtyp=='d'){
+							$sqrypgcnts_dtl1 .= " and prodcatm_id='$ses_deptid' ";
 						}
 						if (
 							isset($_REQUEST['optn']) && trim($_REQUEST['optn']) == 'nm' &&
@@ -635,25 +613,24 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									<td align="left" valign="top"><?php echo funcDsplyCattwoTyp($db_pgcntstyp); ?> </td>
 									<td align="right" valign="top"><?php echo $db_pgcntsprty; ?></td>
 									<?php
-									if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
+									// if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
 									?>
 										<td align="center" valign="top">
 											<a href="<?php echo $rd_edtpgnm; ?>?edtpgcntid=<?php echo $db_pgcntsid; ?>&pg=<?php echo $pgnum; ?>&cntstart=<?php echo $cntstart . $loc; ?>" class="mainlinks">Edit</a>
 										</td>
 										<td align="center" valign="top">
-											<input type="checkbox" name="chksts" id="chksts" value="<?php echo $db_pgcntsid; ?>" <?php if ($db_pgcntsts == 'a') {
-																																																							echo "checked";
-																																																						} ?> onClick="addchkval(<?php echo $db_pgcntsid; ?>,'hdnchksts','frmpgcntn','chksts');">
+											<input type="checkbox" name="chksts" id="chksts" value="<?php echo $db_pgcntsid; ?>"
+											<?php if ($db_pgcntsts == 'a') {echo "checked";		} ?> onClick="addchkval(<?php echo $db_pgcntsid; ?>,'hdnchksts','frmpgcntn','chksts');">
 										</td>
 									<?php
-									}
-									if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
+									// }
+									// if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
 									?>
 										<td align="center" valign="top">
 											<input type="checkbox" name="chkdlt" id="chkdlt" value="<?php echo $db_pgcntsid; ?>">
 										</td>
 									<?php
-									}
+									// }
 									?>
 								</tr>
 						<?php
@@ -664,7 +641,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 						?>
 						<tr>
 							<?php
-							if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
+							// if (($rqst_stp_attn[1] == '3') || ($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
 							?>
 								<td colspan="<?php echo $clspn_val; ?>">&nbsp;</td>
 								<td width="7%" align="right" valign="bottom">
@@ -673,8 +650,8 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									</div>
 								</td>
 							<?php
-							}
-							if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
+							// }
+							// if (($rqst_stp_attn[1] == '4') || $ses_admtyp == 'a') {
 							?>
 								<td width="7%" align="right" valign="bottom">
 									<div align="right">
@@ -682,7 +659,7 @@ $sesvalary = explode(",", $_SESSION['sesmod']);
 									</div>
 								</td>
 							<?php
-							}
+							// }
 							?>
 						</tr>
 						<?php

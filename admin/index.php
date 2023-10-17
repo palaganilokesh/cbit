@@ -10,11 +10,12 @@ $_SESSION['sesadminid']    = ""; //define the session admin
 $_SESSION['sesadmin']      = ""; //define the session admin
 $_SESSION['sesadmtyp']     = ""; //define the session type
 $_SESSION['seslgntrckid']   = "";
-global $gmsg; //message for Invalid User Id or Password	
+$_SESSION['sesdeptid']   = "";
+global $gmsg; //message for Invalid User Id or Password
 
 if (isset($_REQUEST['cp']) && (trim($_REQUEST['cp']) != "")) {
   $gmsg = "<font color='red'><b>Password Changed. <br>  Please enter new password for login.</b></font>";
-} //check whether variable is set or not 
+} //check whether variable is set or not
 
 if (
   isset($_POST['txtuid']) && (trim($_POST['txtuid']) != "") &&
@@ -24,14 +25,14 @@ if (
   $uid     = glb_func_chkvl($_POST['txtuid']);
   $pwd     = md5(trim($_POST['txtpwd']));
 
-  $sqrylgn_mst = "select 
-							lgnm_id,lgnm_uid,lgnm_typ 
-						from 
-							lgn_mst 
-						where							
+  $sqrylgn_mst = "SELECT
+							lgnm_id,lgnm_uid,lgnm_typ,lgnm_dept_id
+						from
+							lgn_mst
+						where
 							lgnm_uid=binary('" . mysqli_real_escape_string($conn, $uid) . "') and
-							lgnm_pwd=binary('" . mysqli_real_escape_string($conn, $pwd) . "') and							
-							(lgnm_typ = 'a' or lgnm_typ = 'u' or lgnm_typ = 'd') and 
+							lgnm_pwd=binary('" . mysqli_real_escape_string($conn, $pwd) . "') and
+							(lgnm_typ = 'a' or lgnm_typ = 'wm' or lgnm_typ = 'd') and
 							lgnm_sts = 'a'"; //select record from database.
 
   // echo  $sqrylgn_mst; exit;
@@ -42,15 +43,18 @@ if (
     //if record is equal to zero
     $gmsg = "<font color=red><b>Invalid User Id or Password</b></font>";
   } elseif ($cntrec == 1) {
-    //if record is equal to one			
+    //if record is equal to one
     $srowlgn_mst  = mysqli_fetch_assoc($srslgn_mst);
     $db_lgnm_id    = $srowlgn_mst['lgnm_id'];
     $db_lgnm_uid  = $srowlgn_mst['lgnm_uid'];
     $db_lgnm_typ  = $srowlgn_mst['lgnm_typ'];
+    $db_dept_id  = $srowlgn_mst['lgnm_dept_id'];
 
     $_SESSION['sesadminid']  = $db_lgnm_id; //assign value of user id to admin session
     $_SESSION['sesadmin']   = $db_lgnm_uid; //assign value of user name to admin session
     $_SESSION['sesadmtyp']  = $db_lgnm_typ; //assign value of user type to typ session
+    $_SESSION['sesdeptid']  = $db_dept_id; //assign value of department session
+
     $curdt                  = date('Y-m-d h:i:s');
 
     $sid                    =  session_id();
@@ -127,15 +131,15 @@ if (
 
         <form onSubmit="return performCheck('frmlgn', rules, 'inline');" method="post" name="frmlgn">
           <div class="input-group mb-3">
-        
+
             <input type="text" class="form-control" placeholder="User Name" name="txtuid" id="txtuid">
-          
+
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
               </div>
             </div>
-          
+
           </div>
           <!-- <span id="errorsDiv_txtpwd"></span> -->
           <div class="input-group mb-3">

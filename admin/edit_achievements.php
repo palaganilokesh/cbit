@@ -3,19 +3,20 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /**********************************************************
-Programm : edit_banner.php 
+Programm : edit_banner.php
 Purpose : For Editing Banner
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
-************************************************************/ 
+************************************************************/
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Achievements";
@@ -27,7 +28,7 @@ $rd_crntpgnm = "vw_all_achievements.php";
 $clspn_val = "4";
 if(isset($_POST['btneachmntsbmt']) && (trim($_POST['btneachmntsbmt']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != ""))
 {
-	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files 
+	include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
 	include_once "../database/uqry_achmnt_mst.php";
 }
 if(isset($_REQUEST['edit']) && (trim($_REQUEST['edit'])!="") && isset($_REQUEST['pg']) && (trim($_REQUEST['pg'])!="") && isset($_REQUEST['countstart']) && (trim($_REQUEST['countstart'])!=""))
@@ -70,9 +71,9 @@ else
   	document.getElementById('txtname').focus();
   }
 </script>
-<?php 
+<?php
 include_once ('script.php');
-include_once ('../includes/inc_fnct_ajax_validation.php');	
+include_once ('../includes/inc_fnct_ajax_validation.php');
 ?>
 <script language="javascript" type="text/javascript">
 	function funcChkDupName()
@@ -147,7 +148,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							<div class="col-sm-3">
 								<label>Short Description</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<textarea name="txtsdesc" cols="60" rows="2" id="txtsdesc" class="form-control"><?php echo $rowsachmnt_mst['achmntm_sdesc']; ?></textarea>
 							</div>
 						</div>
@@ -157,7 +158,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							<div class="col-sm-3">
 								<label>Description</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<textarea name="txtdesc" cols="60" rows="3" id="txtdesc" class="form-control"><?php echo $rowsachmnt_mst['achmntm_desc']; ?></textarea>
 							</div>
 						</div>
@@ -191,18 +192,18 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 							<div class="col-sm-3">
 								<label>Link</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<input type="text" name="txtlnk" id="txtlnk"  class="form-control" value="<?php echo $rowsachmnt_mst['achmntm_lnk']; ?>">
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="col-md-12">
 						<div class="row mb-2 mt-2">
 							<div class="col-sm-3">
 								<label>Rank *</label>
 							</div>
-							<div class="col-sm-9"> 
+							<div class="col-sm-9">
 								<input type="text" name="txtprior" id="txtprior" class="form-control" size="4" maxlength="3" value="<?php echo $rowsachmnt_mst['achmntm_prty']; ?>">
 								<span id="errorsDiv_txtprior"></span>
 							</div>
@@ -218,7 +219,7 @@ include_once ('../includes/inc_fnct_ajax_validation.php');
 									<option value="a"<?php if($rowsachmnt_mst['achmntm_sts']=='a') echo 'selected';?>>Active</option>
 									<option value="i"<?php if($rowsachmnt_mst['achmntm_sts']=='i') echo 'selected';?>>Inactive</option>
 								</select>
-								
+
 							</div>
 						</div>
 					</div>

@@ -3,17 +3,18 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /**********************************************************
-Programm : add_banner.php 
+Programm : add_banner.php
 Purpose : For add Vehicle Brand Details
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -23,7 +24,7 @@ $pagenm = "About Us";
 /*****header link********/
 global $gmsg;
 if (isset($_POST['btnaddabtus']) && (trim($_POST['btnaddabtus']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != "")) {
-    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files 
+    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
     include_once "../database/iqry_abtus_mst.php";
 }
 

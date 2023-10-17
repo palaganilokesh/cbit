@@ -32,7 +32,7 @@
                     $qklnk_disptype     = $srowpqklnk_mst['prodmnlnksm_dsplytyp'];
                   ?>
                     <li class="col-lg-4 col-md-4 col-6">
-                   
+
                       <a target="_blank" href="<?php echo $rtpth . $ft_mn_url . '/' . $ft_cat_url;?>"><?php echo $qklnk_name; ?></a>
                     </li>
 
@@ -325,7 +325,7 @@
 </script>
 <script>
 function srch() {
-  
+
     txtsrchval2 = document.frmsearch.txtsrchval2.value;
     if (txtsrchval2 == "") {
       alert("Please Enter Search criteria");
@@ -333,7 +333,7 @@ function srch() {
       return false;
     }
     if (txtsrchval2 != "") {
-      
+
       var srchid2 = document.frmsearch.txtsrchval2.value;
       var srch2 = srchid2.replaceAll(' ', '-');
       document.frmsearch.action = "<?php echo $rtpth; ?>search-results.php?txtsrchval2=" + srchid2;
@@ -390,7 +390,7 @@ function srch() {
 <script>
   $(function() {
     $(".social-close button").click(function() {
-      // $("#fixed-social").css({"transform":"translateX(-100%);"}); 
+      // $("#fixed-social").css({"transform":"translateX(-100%);"});
       $("#fixed-social").css('transform', 'translateX(' + -100 + '%)');
     });
   });
@@ -419,7 +419,7 @@ function srch() {
         </div>
 
       </div>
-      
+
     </div>
   </div>
 </div>
@@ -470,7 +470,7 @@ while ($i < sizeof($faclty_arr)) {
 	$facid1 = $srowfaclty1['faculty_dtl_id'];
 	$facnm1 = $srowfaclty1['faculty_simgnm'];
   $facdesc1 = $srowfaclty1['faculty_desc'];
-  
+
 	$faclty_file1    = $srowfaclty1['faculty_file'];
 	 $fact_fle_path1      = $u_phtgalfaculty . $faclty_file1;
 	if (($faclty_file1 != "") && file_exists($fact_fle_path1)) {
@@ -481,18 +481,18 @@ while ($i < sizeof($faclty_arr)) {
   ?>
  <div id="facultyDetailsModal<?php echo $facid1; ?>" class="modal fade" role="dialog">
 											<div class="modal-dialog modal-lg">
-												
+
 												<div class="modal-content">
 													<div class="modal-header">
                           <h4 class="modal-title">
 															<?php echo $facnm1; ?>
 														</h4>
 														<button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-														
+
 													</div>
 													<div class="modal-body">
                             <p><?php echo $facdesc1;?></p>
-                            <?php 
+                            <?php
                             if($faclty_file1!=''){
                               ?>
                                <p>	<a href='<?php echo $facty_file1;?>'  target='_blank' >View File</a></p>
@@ -511,7 +511,7 @@ while ($i < sizeof($faclty_arr)) {
 
 <!-- <script>
 function facltymodel(facid) {
-  
+
   debugger
   var facid=facid;
 

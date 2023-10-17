@@ -31,25 +31,25 @@ if (
 	if($req_scat=='UG' || $req_scat=='PG' || $req_scat=='ug' || $req_scat=='pg' )
 	{
 		$admtyp=$req_scat;
-		$req_scat='';	
+		$req_scat='';
 	}
 	$mnlnks1=glb_func_chkvl($_REQUEST['imnlnks']);
 	$req_mnlnks=funcStrUnRplc($mnlnks1);
-	
+
 	$catid1=glb_func_chkvl($_REQUEST['icatid']);
 	$req_cat=funcStrUnRplc($catid1);
-	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){	
-	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg,prodcatm_admtyp";
+	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){
+	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_dskimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_dskimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_dskimg,prodcatm_admtyp";
 	if ($_REQUEST['imnlnks'] == 'departments' ||  $req_scat!='') {
-		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
+		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_typ";
 	}
 	$sqrypgcnts_mst1 .= " from prodmnlnks_mst inner join prodcat_mst on prodcatm_prodmnlnksm_id =prodmnlnksm_id";
 	if ($_REQUEST['imnlnks'] == 'departments' || $req_scat!='') {
 		$sqrypgcnts_mst1 .= " inner join prodscat_mst on prodscatm_prodcatm_id=prodcatm_id";
 	}
 	$sqrypgcnts_mst1 .= " where prodmnlnksm_sts='a' and prodcatm_sts = 'a'";
-	// echo $sqrypgcnts_mst1;exit;	
-	//-----------------------------------------------------------------------//	
+	// echo $sqrypgcnts_mst1;exit;
+	//-----------------------------------------------------------------------//
 	if (isset($_REQUEST['icatid']) && (trim($_REQUEST['icatid']) != "")) {
 		$catone_id1 = glb_func_chkvl($_REQUEST['icatid']);
 		$catone_id=funcStrUnRplc($catone_id1);
@@ -61,7 +61,7 @@ if (
 		$cattwo_id_1=$cattwo_id = funcStrUnRplc($cattwo_id2);
 		if($cattwo_id_1=='UG' || $cattwo_id_1=='PG' || $cattwo_id_1=='ug' || $cattwo_id_1=='pg' )
 	{
-		$cattwo_id_1='';	
+		$cattwo_id_1='';
 	}
 	else{
 		$cattwo_id_1=$cattwo_id_1;
@@ -86,7 +86,7 @@ if (
 	}
 	// $pgqry = $sqrypgcnts_mst1;
 	$sqrypgcnts_mst2 = "group by prodcatm_id order by prodcatm_prty asc";
-	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){			
+	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){
 			$sqrypgcnts_mst2 .= " limit 1";
 		}*/
 	$sqrypgcnts_mst  	= $sqrypgcnts_mst1 . " " . $sqrypgcnts_mst2;
@@ -105,17 +105,17 @@ if (
 		$prodscatm_name1		=$prodscatm_name;
 		$prodcatm_name		= $srowspgcnts_mst['prodcatm_name'];
 		$cn_cat_url=funcStrRplc($prodcatm_name);
-		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodmnlnksm_typ		= $srowspgcnts_mst['prodmnlnksm_typ'];
 		$prodmnlnksm_name		= $srowspgcnts_mst['prodmnlnksm_name'];
 		$cn_mn_url=funcStrRplc($prodmnlnksm_name);
 		$prodmnlnksm_name1		=$prodmnlnksm_name;
 		$prodscatm_desc  = $srowspgcnts_mst['prodscatm_desc'];
 		$prodscatm_typ  = $srowspgcnts_mst['prodscatm_typ'];
-		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
-		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
+		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_dskimg'];
+		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_dskimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
 		if (($catone_id != '' || isset($catone_id)) && ($_REQUEST['iscatid']=='')) {
 			$title = "$prodcatm_name";
@@ -125,12 +125,12 @@ if (
 			}
 			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
-			} 
+			}
 			else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
 			}
 		}
-		else if ($cattwo_id_1 != '' || isset($cattwo_id_1)) 
+		else if ($cattwo_id_1 != '' || isset($cattwo_id_1))
 		{
 			$title = "$prodscatm_name";
 			$bngimgpth = $u_scat_bnrfldnm . $prodscat_bnr;
@@ -139,11 +139,11 @@ if (
 			}
 			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
-			} 
+			}
 			else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
-		} 
+		}
 		else {
 			// $title = $prodcatm_name;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
@@ -152,7 +152,7 @@ if (
 			}
 			else if($prodmnlnksm_bnr != "" && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
-			} 
+			}
 			else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
@@ -166,7 +166,7 @@ if (
 			// 		$bnrimgpth = $rtpth . $u_cat_bnrfldnm ."default-banner.jpg";
 			// 	}
 			// }
-	} 
+	}
 	else {
 		header("Location:$ind_loc");
 		exit();
@@ -207,8 +207,8 @@ $body_class = "homepage";
 			<h1><?php echo $title; ?></h1>
 			<ul>
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-			
-				
+
+
 				<?php	if ($_REQUEST['imnlnks'] != '' && $_REQUEST['icatid'] != '') {
 			 $bdscat="SELECT prodcatm_name from prodcat_mst where prodcatm_prodmnlnksm_id='$mnlnks_id' group by  prodcatm_id order by prodcatm_prty asc limit 1";
 				$res_cats=mysqli_query($conn,$bdscat);
@@ -216,16 +216,16 @@ $body_class = "homepage";
 				$bred_cat_url=$value_cat['prodcatm_name'];
 				$brd_cat_url=funcStrRplc($bred_cat_url);
 				?>
-			
+
 				<li><a href="<?php echo $rtpth .'main-links/'. $cn_mn_url . '/' . $brd_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
 				<?php if( $_REQUEST['iscatid'] == ''){
 					?>
 	<li><?php echo $prodcatm_name; ?></li>
 	<?php
 				}
-			
-			
-				
+
+
+
 				}
 				?>
 				<?php
@@ -237,7 +237,7 @@ $body_class = "homepage";
 				$bred_scat_url=$value['prodscatm_name'];
 				$brd_scat_url=funcStrRplc($bred_scat_url);
 				?>
-				
+
 				<li><a href="<?php echo $rtpth .'main-links/'. $cn_mn_url . '/' . $cn_cat_url.'/'.$brd_scat_url;?>"><?php echo $prodcatm_name; ?></a></li>
 				<li><?php echo $prodscatm_name1; ?></li>
 				<?php
@@ -305,7 +305,7 @@ if ($_REQUEST['imnlnks'] == 'departments') {
 			<div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-12 order-md-1 order-2">
 <!-- category level gallery -->
 			<div class="campus-content pr-20 ">
-								<?php 
+								<?php
  $sqryphtcat_mst1="SELECT catm_id,catm_name,catm_img,catm_sts,catm_prty from  catimg_dtl where  catm_cat_id  ='$catone_id ' and 	catm_sts = 'a'   order by 	catm_prty asc";
 			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
 			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);
@@ -326,7 +326,7 @@ if ($_REQUEST['imnlnks'] == 'departments') {
 											$galryimages = $rtpth . $bimgpath;
 										} else {
 											$galryimages   = $rtpth . $gusrglry_fldnm . 'default.jpg';
-										}	
+										}
 										?>
                     <li class="col-xxl-4 col-lg-4 col-md-4 col-6 mb-2"
                         data-responsive="<?php echo $galryimages; ?> 375, <?php echo $galryimages; ?> 480, <?php echo $galryimages; ?> 800"
@@ -339,13 +339,13 @@ if ($_REQUEST['imnlnks'] == 'departments') {
                         </a>
 												<p><?php echo $pht_name; ?></p>
                     </li>
-                    <?php } ?>  
+                    <?php } ?>
                 </ul>
             </div>
         </div>
-				<?php 
-				} 
-				?>  
+				<?php
+				}
+				?>
                 </div>
 				<?php
 				// <!-- gallery  menu based on gallery section on admin side-->
@@ -379,7 +379,7 @@ if ($_REQUEST['imnlnks'] == 'departments') {
                                     data-responsive="<?php echo $galryimgpth;?> 375, <?php echo $galryimgpth;?> 480, <?php echo $galryimgpth;?> 800 "
                                     data-src="<?php echo $galryimgpth;?> "
                                     data-sub-html="<h4>Category 1</h4>">
-				
+
                                     <a href="<?php echo $rtpth.'dept-gallery/'.$dept_pht_url.'/'.$cn_mn_url.'/'.$cn_cat_url.'/'.$cn_scat_url.'_'.$phtcatid;?>">
                                         <img class="img-responsive w-100"
                                             src="<?php echo $galryimgpth;?>">
@@ -418,10 +418,10 @@ if ($_REQUEST['imnlnks'] == 'departments') {
 						$prodscatm_desc=$srowspgcnts_mst['prodscatm_desc'];
 						if ( $req_scat !='') {
 							echo $prodscatm_desc;
-							
+
 						} else {
 							echo $prodcatm_desc;
-						
+
 						}
 						$testqns = "SELECT pgqnsd_id,pgqnsd_pgcntsd_id,pgqnsd_name,pgqnsd_vdo,pgqnsd_sts,pgqnsd_prty from  pgqns_dtl where";
 						if ($_REQUEST['imnlnks'] == 'departments' || $req_scat!='') {

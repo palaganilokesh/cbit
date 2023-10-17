@@ -1,20 +1,21 @@
-<?php
+Class Time Table<?php
 
 include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /**********************************************************
-Programm : add_banner.php 
+Programm : add_banner.php
 Purpose : For add Vehicle Brand Details
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -24,7 +25,7 @@ $pagenm = "Downloads";
 /*****header link********/
 global $gmsg;
 if (isset($_POST['btnadddwnlds']) && (trim($_POST['btnadddwnlds']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != "")) {
-    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files 
+    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
     include_once "../database/iqry_dwnld_dtl.php";
 }
 $rd_crntpgnm = "view_downloads.php";
@@ -103,12 +104,12 @@ include_once('../includes/inc_fnct_ajax_validation.php');
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Add Downloads</h1>
+                    <h1 class="m-0 text-dark">Add Class Time Table</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Add Downloads</li>
+                        <li class="breadcrumb-item active">Add Class Time Table</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -151,7 +152,7 @@ include_once('../includes/inc_fnct_ajax_validation.php');
                         <div class="col-md-12">
                             <div class="row mb-2 mt-2">
                                 <div class="col-sm-3">
-                                    <label>Product Name</label>
+                                    <label>Academic Year</label>
                                 </div>
                                 <!-- <div class="col-sm-9">
                                     <input name="txtname" type="text" id="txtname" size="45" maxlength="40" onBlur="funcChkDupName()" class="form-control">

@@ -36,10 +36,10 @@ if (
 	$catid1=glb_func_chkvl($_REQUEST['catid']);
 	$req_cat=funcStrUnRplc($catid1);
 
-	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){	
-	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg";
+	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){
+	$sqrypgcnts_mst1 = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_dskimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_dskimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_dskimg";
 	if ($req_mnlnks == 'departments' || $req_scat!='') {
-		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
+		$sqrypgcnts_mst1 .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_typ";
 	}
 	$sqrypgcnts_mst1 .= " from prodmnlnks_mst inner join prodcat_mst on prodcatm_prodmnlnksm_id =prodmnlnksm_id";
 	if ($req_mnlnks == 'departments' || $req_scat!='') {
@@ -48,7 +48,7 @@ if (
 
 	$sqrypgcnts_mst1 .= " where prodmnlnksm_sts='a' and prodcatm_sts = 'a'";
 	// echo $sqrypgcnts_mst1;
-	//-----------------------------------------------------------------------//	
+	//-----------------------------------------------------------------------//
 	if (isset($req_cat) && (trim($req_cat) != "")) {
 		$catone_id = glb_func_chkvl($req_cat);
 		$sqrypgcnts_mst1 .= " and prodcatm_name = '$catone_id'";
@@ -72,7 +72,7 @@ if (
 	}
 	$pgqry = $sqrypgcnts_mst1;
 	$sqrypgcnts_mst2 = "group by prodcatm_id order by prodcatm_prty asc";
-	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){			
+	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){
 			$sqrypgcnts_mst2 .= " limit 1";
 		}*/
 	$sqrypgcnts_mst  	= $sqrypgcnts_mst1 . " " . $sqrypgcnts_mst2;
@@ -88,15 +88,15 @@ if (
 		$catone_id	        = $srowspgcnts_mst['prodcatm_id'];
 		$prodscatm_name		= $srowspgcnts_mst['prodscatm_name'];
 		$prodcatm_name		= $srowspgcnts_mst['prodcatm_name'];
-		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodmnlnksm_typ		= $srowspgcnts_mst['prodmnlnksm_typ'];
 		$prodmnlnksm_name		= $srowspgcnts_mst['prodmnlnksm_name'];
 		$prodscatm_desc  = $srowspgcnts_mst['prodscatm_desc'];
 		$prodscatm_typ  = $srowspgcnts_mst['prodscatm_typ'];
-		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
-		
+		$prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_dskimg'];
+
 		if ($catone_id != '' || isset($catone_id)) {
 			$title = "$prodcatm_name";
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
@@ -195,7 +195,7 @@ $body_class = "homepage";
 				if ($req_mnlnks == 'departments') {
 				?>
 					<!-- <li><a href="<?php echo $rtpth; ?>departments.php"><?php echo $cattwo_id; ?></a></li> -->
-			
+
 					<li><a href="<?php echo $rtpth; ?>departments.php"><?php echo $prodmnlnksm_name . " / " . $prodcatm_name; ?></a></li>
 					<li><?php echo $prodscatm_name; ?></li>
 				<?php
@@ -265,15 +265,15 @@ if ($req_mnlnks == 'departments') {
 			<div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-12 order-md-1 order-2">
 <!-- category level gallery -->
 			<div class="campus-content pr-20 ">
-								<?php 
+								<?php
 
-	
+
  $sqryphtcat_mst1="SELECT catm_id,catm_name,catm_img,	catm_sts,catm_prty from  catimg_dtl where  catm_cat_id  ='$catone_id ' and 	catm_sts = 'a'   order by 	catm_prty asc";
-					
+
 			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
 			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);
 			if($cntrec_phtcat1 > 0){
-			    
+
 ?>
 <h3>Gallery Section</h3>
                 <div class="cont ">
@@ -290,8 +290,8 @@ if ($req_mnlnks == 'departments') {
 											$galryimages = $rtpth . $bimgpath;
 										} else {
 											$galryimages   = $rtpth . $gusrglry_fldnm . 'default.jpg';
-											
-										}	
+
+										}
 										?>
                     <li class="col-xxl-4 col-lg-4 col-md-4 col-6 mb-2"
                         data-responsive="<?php echo $galryimages; ?> 375, <?php echo $galryimages; ?> 480, <?php echo $galryimages; ?> 800"
@@ -301,25 +301,25 @@ if ($req_mnlnks == 'departments') {
                             <div class="demo-gallery-poster">
                                 <img src="https://sachinchoolur.github.io/lightgallery.js/static/img/zoom.png">
                             </div>
-													
+
                         </a>
 												<p><?php echo $pht_name; ?></p>
                     </li>
-                    <?php } ?>  
+                    <?php } ?>
                 </ul>
             </div>
         </div>
-				<?php 
-				} 
-				
-				?>  
+				<?php
+				}
+
+				?>
 
                 </div>
 
 				<?php
 				// <!-- gallery  menu based on gallery section on admin side-->
 				if($prodscatm_typ==2){
-				
+
 	$sqryphtcat_mst = "SELECT phtd_id,phtcatm_name, phtd_phtcatm_id,phtcatm_img, phtd_name, phtd_desc,phtd_rank, phtd_sts, phtd_crtdon, phtd_crtdby, phtd_mdfdon, phtd_mdfdby, phtm_id, phtm_phtd_id, phtm_phtcatm_id, phtm_simgnm, phtm_simg, phtm_prty, phtm_sts, phtm_crtdon, phtm_crtdby, phtm_mdfdon, phtm_mdfdby,phtcatm_name,phtcatm_id,phtcatm_desc,phtcatm_deprtmnt from vw_phtd_phtm_mst left join phtcat_mst on  phtcat_mst.phtcatm_id = vw_phtd_phtm_mst.phtm_phtcatm_id where phtcatm_deprtmnt='$catone_id' and phtm_sts = 'a' and phtcatm_sts = 'a' and phtd_sts = 'a' and phtcatm_typ = 'd' group by phtcatm_id order by  phtcatm_prty asc";
 		$srsphtcat_dtl = mysqli_query($conn, $sqryphtcat_mst);
 		$cntrec_phtcat = mysqli_num_rows($srsphtcat_dtl);
@@ -345,7 +345,7 @@ if ($req_mnlnks == 'departments') {
 		$galryimgpth = $rtpth . $galpath;
 	} else {
 		$galryimgpth   = $rtpth . $gusrglry_fldnm . 'default.jpg';
-		
+
 	}
 	?>
 	<li class="col-xxl-4 col-lg-4 col-md-4 col-6 mb-2"
@@ -361,7 +361,7 @@ if ($req_mnlnks == 'departments') {
                                     </a>
                                     <h2 class="cat-caption"><?php echo $phtcat_name; ?></h2>
                                 </li>
-																
+
 	<?php
 		}
 		?>

@@ -1,17 +1,18 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
 Programm : view_all_banner.php
 Purpose : For Viewing Home page banners
 Created By : Bharath
 Created On : 05-01-2022
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
@@ -46,9 +47,9 @@ if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
     $smlimg = array();
     $smlimgpth = array();
     for ($i = 0; $i < $count; $i++) {
-        $sqryprodimgd_dtl = "select 
+        $sqryprodimgd_dtl = "select
 			                       brndm_img,brndm_zmimg
-							    from 
+							    from
 					               brnd_mst
 					            where
 					                brndm_id=$del[$i]";
@@ -83,7 +84,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 
 
 
-$sqrybrnd_mst1 = "select abtusm_id,abtusm_name,abtusm_imgnm,abtusm_sts,abtusm_lnk,abtusm_prty 
+$sqrybrnd_mst1 = "select abtusm_id,abtusm_name,abtusm_imgnm,abtusm_sts,abtusm_lnk,abtusm_prty
 from
 abtus_mst";
 if (isset($_REQUEST['optn']) && (trim($_REQUEST['optn']) == "t")) {
@@ -124,7 +125,7 @@ include_once 'script.php';
         if (document.frmabtus.lstsrchby.value == 't') {
             div1.style.display = "block";
             div2.style.display = "none";
-        } 
+        }
         else if (document.frmabtus.lstsrchby.value == 'a') {
             div1.style.display = "none";
             div2.style.display = "block";

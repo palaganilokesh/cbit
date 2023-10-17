@@ -25,7 +25,7 @@ $pagecat = "Updates / Notifications";
 $pagenm = "Updates / Notifications";
 /*****header link********/
 
-global $gmsg;
+global $gmsg,$ses_deptid;
 if (isset($_POST['btnanewssbmt']) && (trim($_POST['btnanewssbmt']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprty']) && (trim($_POST['txtprty']) != "")) {
 	include_once "../includes/inc_fnct_fleupld.php";
 	include_once "../database/iqry_news_dtl.php";
@@ -259,10 +259,17 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 								</div>
 								<div class="col-sm-9">
 									<select name="lsttyp" id="lsttyp" class="form-control" onchange="disptype()">
+									<option >Select Type</option>
 										<!-- <option value="1" selected>Results Updates</option> -->
+										<?php if ($ses_admtyp == 'a' || $ses_admtyp == 'wm') {
+										?>
 										<option value="2">College Notifications</option>
 										<!-- <option value="3">University Notifications</option> -->
 										<option value="4">Announcements</option>
+										<?php
+										}
+										?>
+
 										<option value="5">Department Notifications</option>
 									</select>
 								</div>
@@ -279,7 +286,11 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 									<select name="lstprodcat" id="lstprodcat" class="form-control">
                                         <option value="">--Select Department--</option>
                                         <?php
-                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+                                        $sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' ";
+																				if($ses_admtyp=='d'){
+																					$sqryprodcat_mst .= " and prodcatm_id='$ses_deptid' ";
+																				}
+																				$sqryprodcat_mst .= "	order by prodcatm_name";
                                         $rsprodcat_mst = mysqli_query($conn,$sqryprodcat_mst);
                                         $cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 										if( $cnt_prodcat > 0)
@@ -294,7 +305,12 @@ include_once('../includes/inc_fnct_ajax_validation.php');
 												<?php
 											}
 										}
-                $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+                $sqryprodcat_mst1 = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' ";
+									if($ses_admtyp=='d'){
+																					$sqryprodcat_mst1 .= " and prodcatm_id='$ses_deptid' ";
+																				}
+																				$sqryprodcat_mst1 .= "	order by prodcatm_name";
+
                                         $rsprodcat_mst1 = mysqli_query($conn,$sqryprodcat_mst1);
                                         $cnt_prodcat1 = mysqli_num_rows($rsprodcat_mst1);
 										if( $cnt_prodcat1 > 0)

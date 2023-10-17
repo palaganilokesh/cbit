@@ -6,6 +6,7 @@ include_once $inc_cnctn; //Making database Connection
 include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
 Programm : view_detail_product_category.php
 Purpose : For Viewing Category Details
@@ -151,7 +152,7 @@ include_once $inc_adm_lftlnk;
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Baner Image</label>
 							<div class="col-sm-8">
 								<?php
-								$imgnm   = $rowsprodcat_mst['prodcatm_bnrimg'];
+								$imgnm   = $rowsprodcat_mst['prodcatm_dskimg'];
 								$imgpath = $a_cat_bnrfldnm . $imgnm;
 								if (($imgnm != "") && file_exists($imgpath)) {
 									echo "<img src='$imgpath' width='80pixel' height='80pixel'>";

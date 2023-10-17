@@ -1,9 +1,9 @@
 <?php
 error_reporting(0);
 session_start();
-include_once 'includes/inc_config.php'; //Making paging validation	
+include_once 'includes/inc_config.php'; //Making paging validation
 include_once 'includes/inc_connection.php'; //Making database Connection
-include_once 'includes/inc_usr_functions.php'; //checking for session	
+include_once 'includes/inc_usr_functions.php'; //checking for session
 //include_once 'includes/inc_usr_sessions.php';
 include_once 'includes/inc_folder_path.php';
 $page_title = "Departments | Chaitanya Bharathi Institute of Technology";
@@ -64,13 +64,13 @@ include('header.php');
 	</div>
 </section>
 <?php
-$sqry_dept = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_bnrimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_admtyp,prodcatm_prodmnlnksm_id,prodcatm_id,prodcatm_name,prodcatm_desc,prodcatm_bnrimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty,prodscatm_id,prodscatm_name
+$sqry_dept = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_dskimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_admtyp,prodcatm_prodmnlnksm_id,prodcatm_id,prodcatm_name,prodcatm_desc,prodcatm_dskimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty,prodscatm_id,prodscatm_name
  from  prodmnlnks_mst
  inner join  prodcat_mst on prodcatm_prodmnlnksm_id = prodmnlnksm_id
  inner join prodscat_mst on prodscatm_prodcatm_id = prodcatm_id
  where prodmnlnksm_id !='' and prodmnlnksm_sts ='a' and prodmnlnksm_sts = 'a' and prodcatm_sts='a'  and prodmnlnksm_name='Departments' group by prodcatm_id";
 
-//  ,prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_dpttitle,prodscatm_dpthead,prodscatm_dptname,prodscatm_sts,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id,prodscatm_prty
+//  ,prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_dpttitle,prodscatm_dpthead,prodscatm_dptname,prodscatm_sts,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id,prodscatm_prty
 //  left join prodscat_mst on prodscatm_prodcatm_id = prodcatm_id
 //  and prodscatm_sts='a'
 // group by prodcatm_id
@@ -98,7 +98,7 @@ if ($dept_cnt > 0) {
 						$d_mnl_url=funcStrRplc($deptmnnm);
 						$d_catid= $srowdept_mst['prodcatm_id'];
 						$d_scatid = $srowdept_mst['prodscatm_id'];
-						$deptnm = $srowdept_mst['prodcatm_name']; //sub category department title 
+						$deptnm = $srowdept_mst['prodcatm_name']; //sub category department title
 						$d_cat_url=funcStrRplc($deptnm);
 						$depttyp = $srowdept_mst['prodcatm_admtyp'];
 						$d_sctnm= $srowdept_mst['prodscatm_name'];
@@ -107,7 +107,7 @@ if ($dept_cnt > 0) {
 						$deptimg = $u_cat_icnfldnm . $deptimgnm;
 						// $imgpath = $gusrbrnd_upldpth . $imgnm;
 						if (($deptimgnm != "")) {
-							
+
 							$deptimgpth = $rtpth . $deptimg;
 						} else {
 							$deptimgpth   = $rtpth.$u_cat_bnrfldnm.'default.jpg';
@@ -123,7 +123,7 @@ if ($dept_cnt > 0) {
 									<a href="<?php echo $rtpth . $d_mnl_url . '/' . $d_cat_url.'/'.$d_scat_url; ?>">
 										<h3><?php echo  $deptnm; ?></h3>
 									</a>
-									
+
 									<a href="<?php echo $rtpth . $d_mnl_url . '/' . $d_cat_url.'/'.$d_scat_url; ?>" class="read-more-btn ">Read more<i class="flaticon-next "></i></a>
 								</div>
 							</div>

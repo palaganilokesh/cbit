@@ -25,22 +25,22 @@ if (
 	isset($_REQUEST['prodid']) && (trim($_REQUEST['prodid']) != "") ||
 	isset($_REQUEST['scatid']) && (trim($_REQUEST['scatid']) != "")
 ) {
-	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){	
+	//or (isset($_REQUEST['txtsrchval']) && (trim($_REQUEST['txtsrchval']) != ''))){
 	$sqrypgcnts_mst1 = "SELECT
-		prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_bnrimg,prodmnlnksm_typ,
+		prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_dskimg,prodmnlnksm_typ,
 		prodmnlnksm_sts,prodmnlnksm_prty,
 		pgcntsd_id,prodscatm_id,prodcatm_id,prodscatm_dpthead,prodscatm_dptname,
 		pgcntsd_name,pgcntsd_desc,prodscatm_name,prodscatm_desc,pgcntsd_lnk,
 		prodcatm_name,pgcntsd_fle,prodcatm_typ,prodcatm_desc,prodscatm_dpttitle,
-		 prodcatm_bnrimg,prodscatm_bnrimg,pgcntsd_bnrimg,pgcntsd_prodmnlnks_id,prodscatm_typ
+		 prodcatm_dskimg,prodscatm_dskimg,pgcntsd_dskimg,pgcntsd_prodmnlnks_id,prodscatm_typ
 	 from
 		vw_pgcnts_prodcat_prodscat_mst
 	where
 		prodmnlnksm_sts='a' and
 		prodcatm_sts = 'a' and
 		pgcntsd_sts = 'a' ";
-	// echo $sqrypgcnts_mst1;exit;	
-	//-----------------------------------------------------------------------//	
+	// echo $sqrypgcnts_mst1;exit;
+	//-----------------------------------------------------------------------//
 	if (isset($_REQUEST['catid']) && (trim($_REQUEST['catid']) != "")) {
 		$catone_id1 = glb_func_chkvl($_REQUEST['catid']);
 		$catone_id=funcStrUnRplc($catone_id1);
@@ -67,7 +67,7 @@ if (
 	}
 	$pgqry = $sqrypgcnts_mst1;
 	$sqrypgcnts_mst2 = "group by pgcntsd_id order by pgcntsd_prty,prodscatm_prty,prodcatm_prty,prodmnlnksm_prty desc";
-	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){			
+	/*if(isset($_REQUEST['dept']) && (trim($_REQUEST['dept'])!="")){
 		$sqrypgcnts_mst2 .= " limit 1";
 	}*/
 	$sqrypgcnts_mst  	= $sqrypgcnts_mst1 . " " . $sqrypgcnts_mst2;
@@ -87,22 +87,22 @@ if (
 		$pgcntnt_name	= $srowspgcnts_mst['pgcntsd_name'];
 		$pgcnt_nm_url=funcStrRplc($pgcntnt_name);
 		$prodcatm_name5		= $srowspgcnts_mst['prodcatm_name'];
-	
+
 		$pgcnt_cat_url=funcStrRplc($prodcatm_name5);
 		$prodmnlnksm_name		= $srowspgcnts_mst['prodmnlnksm_name'];
 		$pgcnt_mn_url=funcStrRplc($prodmnlnksm_name);
-		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_bnrimg'];
+		$prodcatm_bimg		= $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodmnlnksm_typ		= $srowspgcnts_mst['prodmnlnksm_typ'];
-	
+
 		$prodscatm_desc  = $srowspgcnts_mst['prodscatm_desc'];
 		$prodscatm_typ  = $srowspgcnts_mst['prodscatm_typ'];
-	$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_bnrimg'];
+	$prodcat_bnr	    = $srowspgcnts_mst['prodcatm_dskimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-		 $prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_bnrimg'];
+		 $prodscat_bnr 	    = $srowspgcnts_mst['prodscatm_dskimg'];
 		$prodscat_pth = $u_scat_bnrfldnm . $prodscat_bnr;
-		$pgcnt_bnr 		    = $srowspgcnts_mst['pgcntsd_bnrimg'];
+		$pgcnt_bnr 		    = $srowspgcnts_mst['pgcntsd_dskimg'];
 		$pgcnt_pth	        = $u_pgcnt_bnrfldnm . $pgcnt_bnr;
-		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_bnrimg'];
+		$prodmnlnksm_bnr 	    = $srowspgcnts_mst['prodmnlnksm_dskimg'];
 		$bngimgpth1 = $u_mnlnks_bnrfldnm . $prodmnlnksm_bnr;
 
 		if ($prodid != '' || isset($prodid)) {
@@ -113,18 +113,18 @@ if (
 			}
 			else if (($prodscat_bnr != "") && file_exists($prodscat_pth)) {
 				$bnrimgpth = $rtpth.$prodscat_pth;
-			} 
+			}
 			else if (($prodcat_bnr != "") && file_exists($prodcat_pth)) {
-			
+
 					$bnrimgpth = $rtpth . $prodcat_pth;
 			}
-		
+
 			else if(($prodmnlnksm_bnr!= "") && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
 			} else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
-		} 
+		}
 		else {
 			$title = $prodcatm_name5;
 			$bngimgpth = $u_cat_bnrfldnm . $prodcatm_bimg;
@@ -133,14 +133,14 @@ if (
 			}
 			else if(($prodmnlnksm_bnr != "") && file_exists($bngimgpth1)){
 				$bnrimgpth = $rtpth . $bngimgpth1;
-			} 
+			}
 			 else {
 				$bnrimgpth = $rtpth . $u_cat_bnrfldnm . "default-banner.jpg";
 			}
 		}
-	
+
 	} else {
-		
+
 		header("Location:index.php");
 		exit();
 	}
@@ -177,7 +177,7 @@ $body_class = "homepage";
 			<h1><?php echo $title; ?></h1>
 			<ul>
 				<li><a href="<?php echo $rtpth; ?>home">Home</a></li>
-		
+
 				<?php if ($_REQUEST['mnlnks'] != 'departments' && $_REQUEST['mnlnks'] != 'admissions') {
 				?>
 					<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url;?>"><?php echo $prodmnlnksm_name; ?></a></li>
@@ -203,7 +203,7 @@ $body_class = "homepage";
 				?>
 				<?php
 				if ($_REQUEST['mnlnks'] == 'departments') {
-				
+
 				?>	<?php
 				$bdqry1="SELECT prodscatm_name from prodscat_mst where prodscatm_prodcatm_id='$catone_id5' group by  prodscatm_prodcatm_id order by prodscatm_prty asc limit 1";
 				$res1=mysqli_query($conn,$bdqry1);
@@ -211,7 +211,7 @@ $body_class = "homepage";
 				$breds_scat_url=$value1['prodscatm_name'];
 				$brd_url=funcStrRplc($breds_scat_url);
 				?>
-				
+
 					<li><a href="<?php echo $rtpth; ?>departments"><?php echo $prodmnlnksm_name ;?></a></li>
 					<li><a href="<?php echo $rtpth . $pgcnt_mn_url . '/' . $pgcnt_cat_url.'/'.$brd_url; ?>"><?php echo $prodcatm_name5; ?></a></li>
 					<?php
@@ -224,7 +224,7 @@ $body_class = "homepage";
 					<li><?php echo $pgcntnt_name; ?></li>
 				<?php
 				}
-			
+
 				?>
 			</ul>
 		</div>
@@ -288,13 +288,13 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 			<div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-12 order-md-1 order-2">
 				<?php
 				// faculty menu
-				
+
 				if($prodscatm_name5=='People'){
-					
+
 				if ( $pgcntnt_name == 'Faculty' || $pgcntnt_name == 'Admin Staff' || $pgcntnt_name == 'Technical Staff') {
 					$sqryfaculty_mst = "SELECT faculty_id,faculty_dept_id,faculty_rank,faculty_sts,faculty_dtl_id,faculty_mst_id,faculty_dtl_dept_id,faculty_simgnm,faculty_desgn,faculty_desc,faculty_simg,faculty_file,faculty_prty,faculty_dtl_sts
 			 from faculty_mst
-			  inner join faculty_dtl on faculty_mst_id=faculty_id 
+			  inner join faculty_dtl on faculty_mst_id=faculty_id
 				where faculty_dept_id='$catone_id5' and faculty_sts='a' and faculty_dtl_sts='a' ";
 					if ($pgcntnt_name == 'Faculty') {
 						$sqryfaculty_mst .= " and faculty_typ='F' ";
@@ -352,7 +352,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 															<h1 class="common-sm-heading mb-2"><?php echo  $faclty_name; ?></h1>
 																<div class="post">
 																<p><?php echo  $faclty_desg; ?></p>
-																<?php 
+																<?php
 															if($faclty_desc!=''){
 																?>
 																<a href="" data-bs-toggle="modal" data-bs-target="#facultyDetailsModal<?php echo $faclty_id; ?>" class="read-more-btn">Read more<i class="flaticon-next "></i></a>
@@ -430,7 +430,7 @@ if ($_REQUEST['mnlnks'] == 'departments') {
 					<?php
 					if ($prodid != '') {
 						$sqryvdom_mst1 = "SELECT pgvdod_id,pgvdod_pgcntsd_id,pgvdod_name,pgvdod_typ,	pgvdod_vdo,pgvdod_prty,pgvdod_sts from  pgvdo_dtl where  pgvdod_pgcntsd_id  ='$pgcnt_id5' and 	pgvdod_sts = 'a' order by 	pgvdod_prty asc";
-						// echo $sqryvdom_mst1;		
+						// echo $sqryvdom_mst1;
 						$srsvdom_dtl1 = mysqli_query($conn, $sqryvdom_mst1);
 						$cntrec_vdom1 = mysqli_num_rows($srsvdom_dtl1);
 						if ($cntrec_vdom1 > 0) {

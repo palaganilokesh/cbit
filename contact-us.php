@@ -38,7 +38,7 @@ function frmenq(){
 	document.getElementById("frmenqstd").submit();
 }
 </script>
-?>
+
 
 
 <div class="page-banner-area bg-2">

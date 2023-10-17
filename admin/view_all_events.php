@@ -16,7 +16,7 @@ Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
-global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
+global $msg, $loc, $rowsprpg, $dispmsg, $disppg,$ses_deptid;
 $loc = "";
 $clspn_val = "7";
 $rd_adpgnm = "add_event.php";
@@ -86,6 +86,7 @@ $sqrynews_mst1 =  "SELECT
 evntm_id,evntm_name,evntm_fle,evntm_sts,evntm_typ,
 		 evntm_prty,date_format(evntm_strtdt,'%d-%m-%Y') as evntm_strtdt,evntm_city,evntm_acyr
 from evnt_mst where evntm_id!=''";
+
 if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != '') {
     $val = glb_func_chkvl($_REQUEST['txtsrchval']);
     $loc .= "&txtsrchval=" . $val;
@@ -108,6 +109,9 @@ if (isset($_REQUEST['lsttyp']) && trim($_REQUEST['lsttyp']) != '') {
         $sqrynews_mst1 .= " $lsttypfldnm like '%$lsttyp%'";
     }
 }
+if ($ses_admtyp == 'd' ) {
+    $sqrynews_mst1 .=" and evntm_dept='$ses_deptid'";
+ }
 $sqrynews_mst = $sqrynews_mst1 . " order by evntm_name asc limit $offset,$rowsprpg";
 $srsnews_mst = mysqli_query($conn, $sqrynews_mst);
 $serchres = mysqli_num_rows($srsnews_mst);
@@ -343,7 +347,7 @@ include_once 'script.php';
                                             <!-- <td align="left"> -->
                                             <?php
 
-                                            // $imgnm   = $srowveh_brnd_mst['prodscatm_bnrimg'];
+                                            // $imgnm   = $srowveh_brnd_mst['prodscatm_dskimg'];
                                             // $imgpath = $a_scat_bnrfldnm . $imgnm;
                                             // if (($imgnm != "") && file_exists($imgpath)) {
                                             //     echo "<img src='$imgpath' width='80pixel' height='80pixel'>";

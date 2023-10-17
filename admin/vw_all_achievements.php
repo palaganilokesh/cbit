@@ -1,18 +1,19 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
 Programm : view_all_banner.php
 Purpose : For Viewing Home page banners
 Created By : Lokesh palagni
 Created On : 21-06-2023
-Modified By : 
+Modified By :
 Modified On :
 Company : Adroit
 ************************************************************/
@@ -32,7 +33,7 @@ if(isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts'])!="") || isset($_POST
 {
 	$dchkval = substr($_POST['hdnchksts'],1);
 	$id = glb_func_chkvl($dchkval);
-	$chkallval = glb_func_chkvl($_POST['hdnallval']);				
+	$chkallval = glb_func_chkvl($_POST['hdnallval']);
 	$updtsts = funcUpdtAllRecSts('achmnt_mst','achmntm_id',$id,'achmntm_sts',$chkallval);
 	if($updtsts == 'y')
 	{
@@ -42,7 +43,7 @@ if(isset($_POST['hdnchksts']) && (trim($_POST['hdnchksts'])!="") || isset($_POST
 	{
 		$msg = "<font color=red>Record not updated</font>";
 	}
-}	
+}
 if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
 {
 	$dchkval = substr($_POST['hdnchkval'],1);
@@ -236,7 +237,7 @@ include_once 'script.php';
 									<td colspan="<?php echo $clspn_val;?>" align='center'><?php echo $msg;?></td>
 									<td width="7%" align="right" valign="bottom">
 										<div align="right">
-								
+
 											<input name="btnsts" id="btnsts" type="button" class="btn btn-xs btn-primary" value="Status" onClick="updatests('hdnchksts','frmachmntmst','chksts')">
 										</div>
 									</td>
@@ -250,7 +251,7 @@ include_once 'script.php';
 									<td width="8%" class="td_bg"><strong>SL.No.</strong></td>
 									<td width="28%" class="td_bg"><strong>Name</strong></td>
 									<td width="15%" class="td_bg"><strong>Image</strong></td>
-									
+
 									<td width="6%" align="center" class="td_bg"><strong>Rank</strong></td>
 									<td width="7%" align="center" class="td_bg"><strong>Edit</strong></td>
 									<td width="7%" class="td_bg" align="center"><strong>
@@ -271,7 +272,7 @@ include_once 'script.php';
 										$db_sublink = $srowachmnt_mst['achmntm_lnk'];
 										$db_prty = $srowachmnt_mst['achmntm_prty'];
 										$db_sts  = $srowachmnt_mst['achmntm_sts'];
-									
+
 										$db_szchrt = $srowachmnt_mst['achmntm_imgnm'];
 										?>
 										<tr <?php if($cnt%2==0){echo "";}else{echo "";}?>>
@@ -281,21 +282,21 @@ include_once 'script.php';
 												<a href="<?php echo $rd_vwpgnm;?>?vw=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="links"><?php echo $db_subname;?></a>
 											</td>
 											<td align="left">
-												<?php 
+												<?php
 												$imgnm = $db_szchrt;
 												$imgpath = $gachmnt_fldnm.$imgnm;
 												if(($imgnm !="") && file_exists($imgpath))
 												{
-													echo "<img src='$imgpath' width='50pixel' height='50pixel'>";     
+													echo "<img src='$imgpath' width='50pixel' height='50pixel'>";
 												}
 												else
 												{
-													echo "NA";            
+													echo "NA";
 												}
 												?>
 											</td>
-											
-											<td align="center"><?php echo $db_prty;?></td> 
+
+											<td align="center"><?php echo $db_prty;?></td>
 											<td align="center">
 												<a href="<?php echo $rd_edtpgnm; ?>?edit=<?php echo $db_subid;?>&pg=<?php echo $pgnum;?>&countstart=<?php echo $cntstart.$loc;?>" class="orongelinks">Edit</a>
 											</td>
@@ -327,9 +328,9 @@ include_once 'script.php';
 										</div>
 									</td>
 								</tr>
-								<?php    
-								$disppg = funcDispPag($conn,'links',$loc,$sqryachmnt_mst1,$rowsprpg,$cntstart,$pgnum);     
-								$colspanval = $clspn_val+2;            
+								<?php
+								$disppg = funcDispPag($conn,'links',$loc,$sqryachmnt_mst1,$rowsprpg,$cntstart,$pgnum);
+								$colspanval = $clspn_val+2;
 								if($disppg != "")
 								{
 									$disppg = "<br><tr><td colspan='$colspanval' align='center' >$disppg</td></tr>";

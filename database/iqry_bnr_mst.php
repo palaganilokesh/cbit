@@ -39,7 +39,7 @@ if(isset($_POST['btnbnrsbmt']) && (trim($_POST['btnbnrsbmt']) != "") && isset($_
 			if($tabimgval != "")
 			{
 				$tabimgary = explode(":",$tabimgval,2);
-				$tabdest = $tabimgary[0];
+			 	$tabdest = $tabimgary[0];
 				$tabsource = $tabimgary[1];
 			}
 		}

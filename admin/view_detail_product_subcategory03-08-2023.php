@@ -1,19 +1,19 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
-Programm : view_detail_product_subcategory.php	
+Programm : view_detail_product_subcategory.php
 Purpose : For Viewing sub category Details
 Created By : Bharath
 Created On :	21-01-2022
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
 ************************************************************/
 global $id,$pg,$countstart;
@@ -23,7 +23,7 @@ $clspn_val = "4";
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Product Group";
-$pagenm = "Subcategory"; 
+$pagenm = "Subcategory";
 /*****header link********/
 if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg']) && (trim($_REQUEST['pg'])!="") && isset($_REQUEST['countstart']) && (trim($_REQUEST['countstart'])!=""))
 {
@@ -32,25 +32,25 @@ if(isset($_REQUEST['vw']) && (trim($_REQUEST['vw'])!="") && isset($_REQUEST['pg'
 	$countstart = glb_func_chkvl($_REQUEST['countstart']);
 	$srchval = glb_func_chkvl($_REQUEST['val']);
 }
-$sqryprodscat_mst="select 
+$sqryprodscat_mst="select
 prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_prodcatm_id,
 prodscatm_prodmnlnksm_id,prodcatm_prty,
 if(prodscatm_sts = 'a', 'Active','Inactive') as prodscatm_sts,prodscatm_prty,
 prodscatm_seotitle,prodscatm_seodesc,prodscatm_seokywrd,prodscatm_seohone,
 prodscatm_seohtwo,prodcatm_name,prodscatm_typ,
-prodscatm_bnrimg,prodmnlnksm_name,prodscatm_dpthead,prodscatm_dptname,
+prodscatm_dskimg,prodmnlnksm_name,prodscatm_dpthead,prodscatm_dptname,
  prodscatm_dpttitle
-from 
+from
  prodscat_mst inner join prodcat_mst on prodcatm_id = prodscatm_prodcatm_id
 inner join prodmnlnks_mst on prodmnlnksm_id = prodscatm_prodmnlnksm_id
-where 
+where
 prodscatm_id=$id";
 $srsprodscat_mst  = mysqli_query($conn,$sqryprodscat_mst);
 $rowsprodscat_mst = mysqli_fetch_assoc($srsprodscat_mst);
 
 $db_scattype	 = $rowsprodscat_mst['prodscatm_typ'];//type
 $loc= "&val=$srchval";
-if(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y"))	
+if(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y"))
 {
 	$msg = "<font color=red>Record updated successfully</font>";
 }
@@ -63,7 +63,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 	$msg = "<font color=red>Duplicate Recored Name Exists & Record Not updated</font>";
 }
 ?>
-<script language="javascript">	
+<script language="javascript">
 	function update1() //for update download details
 	{
 		document.frmedtprodscatid.action="<?php echo $rd_edtpgnm;?>?vw=<?php echo $id;?>&pg=<?php echo $pg;?>&countstart=<?php echo $countstart.$loc;?>";
@@ -95,7 +95,7 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 		if($msg !='')
 		{
 	 		echo "<center><tr bgcolor='#FFFFFF'>
-				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
 			 </tr></center>";
 		}
 		?>
@@ -127,12 +127,12 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsprodscat_mst['prodscatm_desc'];?>
 							</div>
 						</div>
-					
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Banner Image</label>
 							<div class="col-sm-8">
 								<?php
-								$scatbnrimgnm = $rowsprodscat_mst['prodscatm_bnrimg'];
+								$scatbnrimgnm = $rowsprodscat_mst['prodscatm_dskimg'];
 								$scatbnrimgpath = $a_scat_bnrfldnm.$scatbnrimgnm;
 								if(($scatbnrimgnm !="") && file_exists($scatbnrimgpath))
 								{
@@ -142,25 +142,25 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								{
 									echo "Image not available";
 								}
-								?>	
+								?>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Type</label>
 							<div class="col-sm-8">
-								<?php echo funcDsplyCattwoTyp($db_scattype);?> 
+								<?php echo funcDsplyCattwoTyp($db_scattype);?>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Department  Title</label>
 							<div class="col-sm-8">
-								<?php echo $rowsprodscat_mst['prodscatm_dpttitle'];?> 
+								<?php echo $rowsprodscat_mst['prodscatm_dpttitle'];?>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Head of the Department Name</label>
 							<div class="col-sm-8">
-								<?php echo $rowsprodscat_mst['prodscatm_dpthead'];?> 
+								<?php echo $rowsprodscat_mst['prodscatm_dpthead'];?>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -181,21 +181,21 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 								<?php echo $rowsprodscat_mst['prodscatm_seokywrd'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">SEO H1</label>
 							<div class="col-sm-8">
 								<?php echo $rowsprodscat_mst['prodscatm_seohone'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">SEO H2 </label>
 							<div class="col-sm-8">
 								<?php echo $rowsprodscat_mst['prodscatm_seohtwo'];?>
 							</div>
 						</div>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Rank</label>
 							<div class="col-sm-8">
@@ -204,12 +204,12 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 						</div>
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Status</label>
-							<div class="col-sm-8"> 
+							<div class="col-sm-8">
 								<?php echo $rowsprodscat_mst['prodscatm_sts'];?>
 							</div>
 						</div>
 						<p class="text-center">
-							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtprodscatid" id="frmedtprodscatid" value="Edit" 
+							<input type="Submit" class="btn btn-primary btn-cst" name="frmedtprodscatid" id="frmedtprodscatid" value="Edit"
 							onclick="update1();">
 							&nbsp;&nbsp;&nbsp;
 							<input type="button" name="btnBack" value="Back" class="btn btn-primary btn-cst" onclick="location.href='<?php echo $rd_crntpgnm;?>?<?php echo $loc;?>'">
@@ -218,6 +218,6 @@ elseif(isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
 				</div>
 			</div>
 		</div>
-	</form> 
+	</form>
 </section>
 <?php include_once "../includes/inc_adm_footer.php";?>

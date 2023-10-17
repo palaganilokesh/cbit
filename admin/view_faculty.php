@@ -1,23 +1,23 @@
 <?php
 error_reporting(0);
-include_once '../includes/inc_config.php'; //Making paging validation 
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
-include_once $inc_pgng_fnctns; //Making paging validation 
+include_once $inc_usr_fnctn; //checking for session
+include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************/
-//Programm 	  : faculty.php	
+//Programm 	  : faculty.php
 //Package 	  : ICAI
-//Purpose 	  : For Viewing New faculty 
+//Purpose 	  : For Viewing New faculty
 //Created By  : Lokesh Palagani
-//Created On  :	
-//Modified By : 
-//Modified On : 
+//Created On  :
+//Modified By :
+//Modified On :
 //Company 	  : Adroit
 /************************************************************/
-global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $a_phtgalfaculty;
+global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $a_phtgalfaculty,$ses_deptid;
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Faculty";
@@ -49,16 +49,16 @@ if (($_POST['hidchkval'] != "") && isset($_REQUEST['hidchkval'])) {
 	$simgpth = array();
 	$bimgpth = array();
 	for ($i = 0; $i < $count; $i++) {
-		$sqryprod_mst = "SELECT 
+		$sqryprod_mst = "SELECT
 			                       phtm_simg
-					            from 
+					            from
 					               pht_mst
 					            where
 					              phtm_phtd_id=$del[$i]";
 		$srsprod_mst = mysqli_query($conn, $sqryprod_mst);
 		$srowprod_mst = mysqli_fetch_assoc($srsprod_mst);
 		$simg[$i] = glb_func_chkvl($srowprod_mst['phtm_simg']);
-		//$bimg[$i]    = glb_func_chkvl($srowprod_mst['phtm_bimgnm']);				
+		//$bimg[$i]    = glb_func_chkvl($srowprod_mst['phtm_bimgnm']);
 		$simgpth[$i] = $a_phtgalspath . $simg[$i];
 		//$bimgpth[$i] = $bgimgfldnm.$bimg[$i];
 	}
@@ -119,7 +119,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 	$msg = "<font color=red>Dupilicate name Record not updated</font>";
 }
 $rowsprpg = 20; //maximum rows per page
-include_once '../includes/inc_paging1.php'; //Includes pagination	
+include_once '../includes/inc_paging1.php'; //Includes pagination
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -137,7 +137,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 		}
 
 		function validate() {
-		
+
 					if (document.frmfaclty.lstfaculty.value == "") {
 					alert("Please Select Department");
 					document.frmfaclty.lstfaculty.focus();
@@ -152,7 +152,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 
 <body onLoad="onload();">
 <?php include_once $inc_adm_hdr; ?>
-	
+
 	<section class="content">
 		<div class="content-header">
 			<div class="container-fluid">
@@ -171,7 +171,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 		</div>
 		<!-- Default box -->
 		<div class="card">
-		
+
 			<div class="card-body p-0">
 				<form method="POST" action="" name="frmfaclty" id="frmfaclty" >
 				<!-- onSubmit="return validate()" -->
@@ -192,6 +192,9 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 											  from faculty_mst
 												inner join  prodcat_mst on prodcatm_id= faculty_dept_id
 											  where faculty_sts='a'";
+												if($ses_admtyp=='d'){
+													$sqryfaculty_mst .= " and prodcatm_id='$ses_deptid' ";
+												}
 															//order by faculty_prty
 															$stsfaculty_mst = mysqli_query($conn, $sqryfaculty_mst);
 															while ($rowsfaculty_mst = mysqli_fetch_assoc($stsfaculty_mst)) {
@@ -226,15 +229,15 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 								<tr>
 									<td colspan="<?php echo $clspn_val; ?>" align='center'></td>
 
-									<td width="7%" align="right" valign="bottom">
-										<div align="right">
+									<td width="7%" align="center" valign="bottom">
+										<div align="center">
 
 											<input name="btnsts" id="btnsts" type="button" class="btn btn-xs btn-primary" value="Status"
 												onClick="updatests('hidchksts','frmfaclty','chksts')">
 										</div>
 									</td>
-									<td width="7%" align="right" valign="bottom">
-										<div align="right">
+									<td width="7%" align="center" valign="bottom">
+										<div align="center">
 											<input name="btndel" id="btndel" type="button" class="btn btn-xs btn-primary" value="Delete"
 												onClick="deleteall('hidchkval','frmfaclty','chkdlt');">
 										</div>
@@ -243,7 +246,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 								<tr>
 									<td width="5%" class="td_bg"><strong>SL.No.</strong></td>
 									<td width="28%" class="td_bg"><strong>Department Name</strong></td>
-								
+
 									<td width="6%" align="center" class="td_bg"><strong>Rank</strong></td>
 									<td width="20%" align="center" class="td_bg"><strong>Edit</strong></td>
 									<td width="7%" class="td_bg" align="center"><strong>
@@ -260,7 +263,7 @@ include_once '../includes/inc_paging1.php'; //Includes pagination
 
 								<?php
 								$sqryphtgal_dtl1 = "SELECT faculty_id,faculty_dept_id,faculty_sts,faculty_mst_id,faculty_dtl_dept_id,faculty_dtl_sts,faculty_rank,prodcatm_id,prodcatm_name
-								  from 
+								  from
 							   	faculty_mst
 									inner join  faculty_dtl on faculty_mst_id=faculty_id
 									inner join  prodcat_mst on prodcatm_id= faculty_dept_id";
@@ -274,10 +277,17 @@ if (isset($_REQUEST['lstfaculty']) && (trim($_REQUEST['lstfaculty']) != "")) {
 		$sqryphtgal_dtl1 .= " and faculty_dept_id like '%$lstfaculty%'";
 	}
 }
+if($ses_admtyp=='d'){
+	$sqryphtgal_dtl1 .= " and prodcatm_id='$ses_deptid' ";
+}
 
 							$sqryphtgal_dtl = $sqryphtgal_dtl1 . " group by faculty_mst_id asc";
 							// echo $sqryphtgal_dtl;
 								$srsphtgal_dtl = mysqli_query($conn, $sqryphtgal_dtl) or die(mysqli_error($conn));
+								$rows=mysqli_num_rows($srsphtgal_dtl);
+								if($rows>0){
+
+
 								$cnt = 0;
 								while ($srowphtgal_dtl = mysqli_fetch_assoc($srsphtgal_dtl)) {
 									$cnt += 1;
@@ -295,7 +305,7 @@ if (isset($_REQUEST['lstfaculty']) && (trim($_REQUEST['lstfaculty']) != "")) {
 											<a href="view_detail_faculty.php?vw=<?php echo $srowphtgal_dtl['faculty_id']; ?>&pg=<?php echo $pgnum; ?>&countstart=<?php echo $cntstart . $loc; ?>"
 												class="links"><?php echo $srowphtgal_dtl['prodcatm_name']; ?></a>
 										</td>
-									
+
 										<td align="center">
 											<?php echo $srowphtgal_dtl['faculty_rank']; ?>
 										</td>
@@ -306,7 +316,7 @@ if (isset($_REQUEST['lstfaculty']) && (trim($_REQUEST['lstfaculty']) != "")) {
 												class="orongelinks">Edit</a>
 										</td>
 
-										
+
 										<td align="center">
 											<input type="checkbox" name="chksts" id="chksts" value="<?php echo $srowphtgal_dtl['faculty_id']; ?>"
 												<?php if ($srowphtgal_dtl['faculty_sts'] == 'a') {
@@ -318,25 +328,30 @@ if (isset($_REQUEST['lstfaculty']) && (trim($_REQUEST['lstfaculty']) != "")) {
 											<input type="checkbox" name="chkdlt" id="chkdlt" value="<?php echo $srowphtgal_dtl['faculty_id']; ?>">
 										</td>
 									</tr>
-									
+
 									<?php
 								}
+							}
+							else{
+								$nomsg="No Records Found In Database";
+								$dispmsg = "<tr><td colspan='$colspanval' align='center' >$msg</td></tr>";
+							}
 								?>
 								<tr>
 								<td colspan="<?php echo $clspn_val; ?>">&nbsp;</td>
-								<td width="7%" align="right" valign="bottom">
-									<div align="right">
+								<td width="7%" align="center" valign="bottom">
+									<div align="center">
 										<input name="btnsts" id="btnsts" type="button" value="Status" 	onClick="updatests('hidchksts','frmfaclty','chksts')" class="btn btn-xs btn-primary">
 									</div>
 								</td>
-								<td width="7%" align="right" valign="bottom">
-									<div align="right">
+								<td width="7%" align="center" valign="bottom">
+									<div align="center">
 										<input name="btndel" id="btndel" type="button" value="Delete" onClick="deleteall('hidchkval','frmfaclty','chkdlt');" class="btn btn-xs btn-primary">
 									</div>
 								</td>
 							</tr>
 							<?php
-						
+
 							$disppg = funcDispPag($conn,'links', $loc, $sqryphtgal_dtl1, $rowsprpg, $cntstart, $pgnum);
 							$colspanval = $clspn_val + 2;
 							if ($disppg != "") {
@@ -359,5 +374,5 @@ if (isset($_REQUEST['lstfaculty']) && (trim($_REQUEST['lstfaculty']) != "")) {
 </section>
 </body>
 
-<?php include_once "../includes/inc_adm_footer.php"; ?>							
+<?php include_once "../includes/inc_adm_footer.php"; ?>
 </html>

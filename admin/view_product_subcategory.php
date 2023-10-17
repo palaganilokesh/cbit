@@ -15,7 +15,7 @@ Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
-global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
+global $msg, $loc, $rowsprpg, $dispmsg, $disppg,$ses_deptid;
 $clspn_val = "8";
 $rd_adpgnm = "add_product_subcategory.php";
 $rd_edtpgnm = "edit_product_subcategory.php";
@@ -91,7 +91,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 $rowsprpg = 20; //maximum rows per page
 include_once "../includes/inc_paging1.php"; //Includes pagination
 
- $sqryprodscat_mst1 = "select
+ $sqryprodscat_mst1 = "SELECT
 prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,
 prodscatm_seotitle,prodscatm_seodesc,prodscatm_seokywrd,
 prodscatm_seohone,prodscatm_seohtwo,prodscatm_typ,
@@ -130,6 +130,9 @@ if (isset($_REQUEST['txtname']) && (trim($_REQUEST['txtname']) != "")) {
 	} else {
 		$sqryprodscat_mst1 .= " and prodscatm_name like '%$txtname%'";
 	}
+}
+if($ses_admtyp=='d'){
+	$sqryprodscat_mst1 .= " and prodcatm_id='$ses_deptid' ";
 }
 //$sqryprodscat_mst1 = $sqryprodscat_mst1.$sqryprodscat_mst2;
 $sqryprodscat_mst = $sqryprodscat_mst1 . " order by prodmnlnksm_name, prodcatm_name, prodscatm_name limit $offset, $rowsprpg";
@@ -242,6 +245,10 @@ include_once 'script.php';
 								<div class="form-group">
 									<?php
 									$sqryprodmcat_mst = "SELECT prodmnlnksm_id, prodmnlnksm_name from prodmnlnks_mst where prodmnlnksm_id != ''";
+									if($ses_admtyp=='d'){
+										$sqryprodmcat_mst .= " and prodmnlnksm_name='Departments' ";
+									}
+
 									$srsprodmcat_mst = mysqli_query($conn, $sqryprodmcat_mst);
 									$cnt_prodmcat = mysqli_num_rows($srsprodmcat_mst);
 									?>
@@ -267,6 +274,9 @@ include_once 'script.php';
 								<div class="form-group">
 									<?php
 									$sqryprodcat_mst = "SELECT prodcatm_id, prodcatm_name from prodcat_mst where prodcatm_id != ''";
+									if($ses_admtyp=='d'){
+										$sqryprodcat_mst .= " and prodcatm_id='$ses_deptid' ";
+									}
 									$srsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 									$cnt_prodcat = mysqli_num_rows($srsprodcat_mst);
 									?>

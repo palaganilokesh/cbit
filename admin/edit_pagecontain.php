@@ -14,7 +14,7 @@ include_once '../includes/inc_folder_path.php';
 //Modified On :
 //Company 	  : Adroit
 /************************************************************/
-global $id, $pg, $cntstart, $loc, $rd_crntpgnm;
+global $id, $pg, $cntstart, $loc, $rd_crntpgnm,$ses_deptid;
 $rd_crntpgnm = "view_all_pagecontain.php";
 $rd_vwpgnm   = "view_pagecontain_detail.php";
 $rd_edtpgnm  = "edit_pagecontain.php";
@@ -176,36 +176,21 @@ if (
 	exit();
 }
 
-$rqst_stp      	= $rqst_arymdl[1];
-$rqst_stp_attn     = explode("::", $rqst_stp);
-$rqst_stp_chk      	= $rqst_arymdl[0];
-$rqst_stp_attn_chk     = explode("::", $rqst_stp_chk);
-if ($rqst_stp_attn_chk[0] == '2') {
-	$rqst_stp      	= $rqst_arymdl[0];
-	$rqst_stp_attn     = explode("::", $rqst_stp);
-}
-$sesvalary = explode(",", $_SESSION['sesmod']);
-if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1') || ($rqst_stp_attn[1] == '2')) {
-	if ($ses_admtyp != 'a') {
-		header("Location:main.php");
-		exit();
-	}
-}
-$rqst_stp      	= $rqst_arymdl[1];
-$rqst_stp_attn     = explode("::", $rqst_stp);
-$rqst_stp_chk      	= $rqst_arymdl[0];
-$rqst_stp_attn_chk     = explode("::", $rqst_stp_chk);
-if ($rqst_stp_attn_chk[0] == '2') {
-	$rqst_stp      	= $rqst_arymdl[0];
-	$rqst_stp_attn     = explode("::", $rqst_stp);
-}
-$sesvalary = explode(",", $_SESSION['sesmod']);
-if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
-	if ($ses_admtyp != 'a') {
-		header("Location:main.php");
-		exit();
-	}
-}
+// $rqst_stp      	= $rqst_arymdl[1];
+// $rqst_stp_attn     = explode("::", $rqst_stp);
+// $rqst_stp_chk      	= $rqst_arymdl[0];
+// $rqst_stp_attn_chk     = explode("::", $rqst_stp_chk);
+// if ($rqst_stp_attn_chk[0] == '2') {
+// 	$rqst_stp      	= $rqst_arymdl[0];
+// 	$rqst_stp_attn     = explode("::", $rqst_stp);
+// }
+// $sesvalary = explode(",", $_SESSION['sesmod']);
+// if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
+// 	if ($ses_admtyp != 'a') {
+// 		header("Location:main.php");
+// 		exit();
+// 	}
+// }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -479,8 +464,11 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							</div>
 							<div class="col-sm-9">
 								<?php
-								$sqryprodmncat_mst = "SELECT 	prodmnlnksm_id,prodmnlnksm_name
-								from prodmnlnks_mst 	where	 prodmnlnksm_sts = 'a'order by prodmnlnksm_name";
+								$sqryprodmncat_mst = "SELECT 	prodmnlnksm_id,prodmnlnksm_name	from prodmnlnks_mst 	where	 prodmnlnksm_sts = 'a' ";
+								if($ses_admtyp=='d'){
+									$sqryprodmncat_mst .= " and prodmnlnksm_name='Departments' ";
+								}
+								$sqryprodmncat_mst .= " order by prodmnlnksm_name";
 								$rsprodmncat_mst = mysqli_query($conn, $sqryprodmncat_mst);
 								$cnt_prodmncat = mysqli_num_rows($rsprodmncat_mst);
 								?>

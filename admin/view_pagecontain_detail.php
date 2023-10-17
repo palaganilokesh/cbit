@@ -11,7 +11,7 @@ error_reporting(0);
 	//Programm 	  : view_pagecontain_detail.php
 	//Package 	  :
 	//Purpose 	  : View pagecontain details
-	//Created By  : Mallikarjuna
+	//Created By  :
 	//Created On  :
 	//Modified By :
 	//Modified On :
@@ -519,11 +519,11 @@ $pagenm = "Page Contents";
 
 						<p class="text-center">
 						<?php
-					if(($rqst_stp_attn[1]=='3') || ($rqst_stp_attn[1]=='4') || $ses_admtyp =='a'){
+					// if(($rqst_stp_attn[1]=='3') || ($rqst_stp_attn[1]=='4') || $ses_admtyp =='a'){
 				?>
 						<input type="Submit" class="btn btn-primary btn-cst" name="btnedtphcntn" id="btnedtphcntn" value="Edit" onClick="update();">
 						<?php
-						}
+						// }
 						?>
 
 							&nbsp;&nbsp;&nbsp;

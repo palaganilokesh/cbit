@@ -16,7 +16,7 @@ Modified By :
 Modified On :
 Company : Adroit
  ************************************************************/
-global $msg, $loc, $rowsprpg, $dispmsg, $disppg;
+global $msg, $loc, $rowsprpg, $dispmsg, $disppg, $ses_deptid;
 $clspn_val = "7";
 $rd_adpgnm = "add_news.php";
 $rd_edtpgnm = "edit_news.php";
@@ -28,8 +28,7 @@ $pagemncat = "Setup";
 $pagecat = "Updates / Notifications";
 $pagenm = "Updates / Notifications";
 /*****header link********/
-if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts']))
-{
+if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts'])) {
 	$dchkval = substr($_POST['hdnchksts'], 1);
 	$id       = glb_func_chkvl($dchkval);
 	$updtsts = funcUpdtAllRecSts('nws_mst', 'nwsm_id', $id, 'nwsm_sts');
@@ -51,58 +50,46 @@ if (($_POST['hdnchksts'] != "") && isset($_REQUEST['hdnchksts']))
 // 		$msg = "<font color=red>Record can't be deleted(child records exist)</font>";
 // 	}
 // }
-if(($_POST['hdnchkval']!="") && isset($_REQUEST['hdnchkval']))
-{
-	$dchkval = substr($_POST['hdnchkval'],1);
+if (($_POST['hdnchkval'] != "") && isset($_REQUEST['hdnchkval'])) {
+	$dchkval = substr($_POST['hdnchkval'], 1);
 	$did = glb_func_chkvl($dchkval);
-	$del = explode(',',$did);
+	$del = explode(',', $did);
 	$count = sizeof($del);
 	$smlimg = array();
 	$smlimgpth = array();
-	for($i=0;$i<$count;$i++)
-	{
+	for ($i = 0; $i < $count; $i++) {
 		$sqryprodimgd_dtl = "SELECT nwsm_img,nwsm_dwnfl from nws_mst where nwsm_id=$del[$i]";
 		// echo $sqryprodimgd_dtl;exit;
-		$srsprodimgd_dtl = mysqli_query($conn,$sqryprodimgd_dtl);
+		$srsprodimgd_dtl = mysqli_query($conn, $sqryprodimgd_dtl);
 		$cntrecprodimgd_dtl = mysqli_num_rows($srsprodimgd_dtl);
-		while($srowprodimgd_dtl = mysqli_fetch_assoc($srsprodimgd_dtl))
-		{
+		while ($srowprodimgd_dtl = mysqli_fetch_assoc($srsprodimgd_dtl)) {
 			$smlimg[$i] = glb_func_chkvl($srowprodimgd_dtl['nwsm_img']);
-			$smlimgpth[$i] = $a_cat_nwsfldnm.$smlimg[$i];
+			$smlimgpth[$i] = $a_cat_nwsfldnm . $smlimg[$i];
 			$fle[$i] = glb_func_chkvl($srowprodimgd_dtl['nwsm_dwnfl']);
-			$flepth[$i] = $a_dwnfl_upldpth.$fle[$i];
-			for($j=0;$j<$cntrecprodimgd_dtl;$j++)
-			{
-				if(($smlimg[$i] != "") && file_exists($smlimgpth[$i]))
-				{
+			$flepth[$i] = $a_dwnfl_upldpth . $fle[$i];
+			for ($j = 0; $j < $cntrecprodimgd_dtl; $j++) {
+				if (($smlimg[$i] != "") && file_exists($smlimgpth[$i])) {
 					unlink($smlimgpth[$i]);
 				}
-				if(($fle[$i] != "") && file_exists($flepth[$i]))
-				{
+				if (($fle[$i] != "") && file_exists($flepth[$i])) {
 					unlink($flepth[$i]);
 				}
 			}
 		}
 	}
 	$delsts = funcDelAllRec($conn, 'nws_mst', 'nwsm_id', $did);
-	if($delsts == 'y' )
-	{
+	if ($delsts == 'y') {
 		$msg = "<font color=red>Record deleted successfully</font>";
-	}
-	elseif($delsts == 'n')
-	{
+	} elseif ($delsts == 'n') {
 		$msg = "<font color=red>Record can't be deleted(child records exist)</font>";
 	}
 }
 
-if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y"))
-{
+if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 	$msg = "<font color=red>Record updated successfully</font>";
-} elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "n"))
-{
+} elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "n")) {
 	$msg = "<font color=red>Record not updated</font>";
-} elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d"))
- {
+} elseif (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "d")) {
 	$msg = "<font color=red>Duplicate Recored Name Exists & Record Not updated</font>";
 }
 
@@ -112,13 +99,12 @@ include_once "../includes/inc_paging1.php"; //Includes pagination
 
 $sqrynews_mst1 =  "SELECT
 nwsm_id,nwsm_name,nwsm_sts,nwsm_prty,nwsm_typ,
-nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_acyr
+nwsm_dwnfl,date_format(nwsm_dt,'%d-%m-%Y') as nwsm_dt,nwsm_acyr,nwsm_dept
 from
 nws_mst
 where
 nwsm_id != ''";
-if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != '')
- {
+if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != '') {
 	$val = glb_func_chkvl($_REQUEST['txtsrchval']);
 	$loc .= "&txtsrchval=" . $val;
 	$fldnm = " and nwsm_name";
@@ -129,8 +115,7 @@ if (isset($_REQUEST['txtsrchval']) && trim($_REQUEST['txtsrchval']) != '')
 		$sqrynews_mst1 .= " $fldnm like '%$val%'";
 	}
 }
-if (isset($_REQUEST['lsttyp']) && trim($_REQUEST['lsttyp']) != '')
- {
+if (isset($_REQUEST['lsttyp']) && trim($_REQUEST['lsttyp']) != '') {
 	$lsttyp = glb_func_chkvl($_REQUEST['lsttyp']);
 	$loc .= "&lsttyp=" . $lsttyp;
 	$lsttypfldnm = " and nwsm_typ";
@@ -141,21 +126,23 @@ if (isset($_REQUEST['lsttyp']) && trim($_REQUEST['lsttyp']) != '')
 		$sqrynews_mst1 .= " $lsttypfldnm like '%$lsttyp%'";
 	}
 }
+if ($ses_admtyp == 'd') {
+	$sqrynews_mst1 .= " and nwsm_dept=$ses_deptid";
+}
+
 $sqrynews_mst = $sqrynews_mst1 . " order by nwsm_name asc limit $offset,$rowsprpg";
 $srsnews_mst = mysqli_query($conn, $sqrynews_mst);
 $serchres = mysqli_num_rows($srsnews_mst);
 include_once 'script.php';
 ?>
 <script language="javascript">
-	function addnew()
-	{
+	function addnew() {
 		document.frmnews.action = "<?php echo $rd_adpgnm; ?>";
 		document.frmnews.submit();
 	}
 
 
-	function validate()
-	 {
+	function validate() {
 		var urlval = "";
 		if (document.frmnews.txtsrchval.value == "" && document.frmnews.lsttyp.value == "") {
 			alert("Enter Name");
@@ -265,19 +252,23 @@ include_once 'script.php';
 
 									<select name="lsttyp" id="lsttyp" class="form-control">
 										<!--  <option value="n" selected>News</option>-->
-										<option value="">Select type </option>
-										<!-- <option value="1" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "1") {
-																				echo 'selected';
-																			} ?>>Results Updates</option> -->
-										<option value="2" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "2") {
-																				echo 'selected';
-																			} ?>>College Notifications</option>
-										<!-- <option value="3" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "3") {
-																				echo 'selected';
-																			} ?>>University Notifications</option> -->
-										<option value="4" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "4") {
-																				echo 'selected';
-																			} ?>>Announcements</option>
+										<?php if ($ses_admtyp == 'a' || $ses_admtyp == 'wm') {
+										?>
+											<option value="">Select type </option>
+											<!-- <option value="1" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "1") {
+																								echo 'selected';
+																							} ?>>Results Updates</option> -->
+											<option value="2" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "2") {
+																					echo 'selected';
+																				} ?>>College Notifications</option>
+											<!-- <option value="3" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "3") {
+																								echo 'selected';
+																							} ?>>University Notifications</option> -->
+											<option value="4" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "4") {
+																					echo 'selected';
+																				} ?>>Announcements</option>
+										<?php
+										} ?>
 										<option value="5" <?php if (isset($_REQUEST['lsttyp']) && $_REQUEST['lsttyp'] == "5") {
 																				echo 'selected';
 																			} ?>>Department Notifications</option>
@@ -385,7 +376,7 @@ include_once 'script.php';
 																										echo $db_nwtypnm;
 																										?></td>
 
-<td align="left"><?php echo  $nwsacyr;   ?></td>
+											<td align="left"><?php echo  $nwsacyr;   ?></td>
 											<td align="left"><?php echo  $nwsDt;   ?></td>
 											<td align="center"><?php echo $db_nwprty; ?></td>
 											<td align="center">
@@ -394,7 +385,7 @@ include_once 'script.php';
 											<!-- <td align="left"> -->
 											<?php
 
-											// $imgnm   = $srowveh_brnd_mst['prodscatm_bnrimg'];
+											// $imgnm   = $srowveh_brnd_mst['prodscatm_dskimg'];
 											// $imgpath = $a_scat_bnrfldnm . $imgnm;
 											// if (($imgnm != "") && file_exists($imgpath)) {
 											//     echo "<img src='$imgpath' width='80pixel' height='80pixel'>";

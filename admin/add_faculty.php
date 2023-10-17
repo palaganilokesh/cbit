@@ -4,12 +4,12 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 
 
-global $gmsg;
+global $gmsg,$ses_deptid;
 /*****header link********/
 $pagemncat = "Setup";
 $pagecat = "Faculty";
@@ -26,7 +26,7 @@ $pagenm = "Faculty";
 // 	$chkdept     = explode('-', $arycatone);
 // 	$rqst_lstdept     = glb_func_chkvl($_POST['lstdept']);
 // 	//if((($chkdept[1]=='d') && ($rqst_lstdept !='')) || ($chkdept[1]=='g') || ($chkdept[1]=='n')){
-// 	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files	
+// 	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files
 // 	include_once '../database/iqry_pgcnts_dtl.php';
 // 	//}
 // }
@@ -35,7 +35,7 @@ if (
 	isset($_POST['btnadprodsbmt']) && (trim($_POST['btnadprodsbmt']) != "")  &&
 	isset($_POST['txtprty1']) && ($_POST['txtprty1']) != ''
 ) {
-	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files	
+	include_once '../includes/inc_fnct_fleupld.php'; // For uploading files
 	include_once '../database/iqry_faculty_mst.php';
 }
 $rd_crntpgnm = "view_faculty.php";
@@ -50,12 +50,12 @@ if ($rqst_stp_attn_chk[0] == '2') {
 	$rqst_stp_attn     = explode("::", $rqst_stp);
 }
 $sesvalary = explode(",", $_SESSION['sesmod']);
-if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
-	if ($ses_admtyp != 'a') {
-		header("Location:main.php");
-		exit();
-	}
-}
+// if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
+// 	if ($ses_admtyp != 'a') {
+// 		header("Location:main.php");
+// 		exit();
+// 	}
+// }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -66,7 +66,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 	<title><?php echo $pgtl; ?></title>
 	<?php
 	include_once('script.php');
-	include_once '../includes/inc_fnct_ajax_validation.php'; //Includes ajax validations				
+	include_once '../includes/inc_fnct_ajax_validation.php'; //Includes ajax validations
 	?>
 	<script language="javaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 	<script language="javascript" src="../includes/yav.js"></script>
@@ -83,7 +83,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 			var deptsts = (document.getElementById('lstdept').disabled);
 			var catoneid = (document.getElementById('lstphcat').value);
 			cat_ary 	= Array();
-			cat_ary	 	= catoneid.split("-");	
+			cat_ary	 	= catoneid.split("-");
 			if(cat_ary[1] =='d'){
 				document.getElementById('lstdept').disabled=false;
 				rules[3]='lstdept:Department Name|required|Select Department';
@@ -188,14 +188,14 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 
 			var Cntnt = document.getElementById("myDiv");
 
-			if (document.createRange) { //all browsers, except IE before version 9 
+			if (document.createRange) { //all browsers, except IE before version 9
 
 				var rangeObj = document.createRange();
 				Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
 				document.frmpgcntn.hdntotcntrl.value = nfiles;
-				if (rangeObj.createContextualFragment) { // all browsers, except IE	
+				if (rangeObj.createContextualFragment) { // all browsers, except IE
 					//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla	
+					//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 
 				} else { //Internet Explorer from version 9
 					Cntnt.insertAdjacentHTML('BeforeBegin', htmlTxt);
@@ -274,7 +274,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 							<td align='center' valign='middle' bgcolor='#f1f6fd' colspan='$clspn_val' >
 								<font face='Arial' size='2' color = 'red'>
 									$gmsg
-								</font>							
+								</font>
 							</td>
 			  			</tr>";
 						}
@@ -289,7 +289,12 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 									<select name="lstprodcat" id="lstprodcat" class="form-control" onchange="funcChkDupName()">
 										<option value="">--Select Department--</option>
 										<?php
-										$sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' order by prodcatm_name";
+										$sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='UG' ";
+										if ($ses_admtyp == 'd') {
+											$sqryprodcat_mst .= " and prodcatm_id=$ses_deptid";
+																}
+													$sqryprodcat_mst.="	order by prodcatm_name";
+
 										$rsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 										$cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 										if ($cnt_prodcat > 0) {   ?>
@@ -303,7 +308,13 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 											<?php
 											}
 										}
-										$sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' order by prodcatm_name";
+										$sqryprodcat_mst = "SELECT prodcatm_id,prodcatm_name from prodcat_mst where prodcatm_typ='d' and prodcatm_admtyp='PG' ";
+										if ($ses_admtyp == 'd') {
+											$sqryprodcat_mst .= " and prodcatm_id=$ses_deptid";
+																}
+													$sqryprodcat_mst.="	order by prodcatm_name";
+
+
 										$rsprodcat_mst = mysqli_query($conn, $sqryprodcat_mst);
 										$cnt_prodcat = mysqli_num_rows($rsprodcat_mst);
 										if ($cnt_prodcat > 0) {   ?>
@@ -330,27 +341,27 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 
 						<?php /*?><tr bgcolor="#f1f6fd">
 				<td width="18%" align="left" valign="top" bgcolor="#f1f6fd"><strong>Department</strong></td>
-				<td width="2%" align="left" valign="center" bgcolor="#f1f6fd"><strong>:</strong></td> 
+				<td width="2%" align="left" valign="center" bgcolor="#f1f6fd"><strong>:</strong></td>
 				<td width="40%" align="left" valign="top" bgcolor="#f1f6fd">
 				<select name="lstdept" id="lstdept" style="width:150px" >
 				  <option value="">--Select--</option>
 				 <?php
-					$sqrydept_mst="select 
+					$sqrydept_mst="select
 										  deptm_id,deptm_name
-									  from 
+									  from
 										  dept_mst
-									  where 
-										  deptm_sts='a'"; 
-										  
+									  where
+										  deptm_sts='a'";
+
 					if($ses_admtyp =='u'){
-						$sqrydept_dtl ="select 
+						$sqrydept_dtl ="select
 											deptd_deptm_id
 										from
 											lgn_mst
 											inner join dept_dtl on lgnm_id  = deptd_lgnm_id
 										where
 											deptd_lgnm_id ='$ses_adminid'";
-							
+
 						$srrsdept_dtl = mysqli_query($conn,$sqrydept_dtl);
 						$cntrec_deptdtl = mysqli_num_rows($srrsdept_dtl);
 						if($cntrec_deptdtl > 0){
@@ -365,7 +376,7 @@ if (!in_array(2, $sesvalary) || ($rqst_stp_attn[1] == '1')) {
 					?>
 						<option value="<?php echo $rowsdept_mst['deptm_id'];?>"><?php echo $rowsdept_mst['deptm_name'];?></option>
 						<?php
-					 }						 
+					 }
 					 ?>
 					 </select>
 				</td>

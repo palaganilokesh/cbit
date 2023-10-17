@@ -1,19 +1,19 @@
 <?php
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
 /***************************************************************
-Programm : view_detail_product_category.php	
+Programm : view_detail_product_category.php
 Purpose : For Viewing Category Details
 Created By : Bharath
 Created On : 30/10/2013
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -35,15 +35,15 @@ if (isset($_REQUEST['vw']) && (trim($_REQUEST['vw']) != "") && isset($_REQUEST['
 
 $sqryprodcat_mst = "SELECT prodcatm_id,
 prodcatm_name,prodcatm_desc,prodcatm_seotitle,prodcatm_seodesc,
-prodcatm_seohone,prodcatm_seohtwo,prodcatm_seokywrd,prodcatm_prty, 
+prodcatm_seohone,prodcatm_seohtwo,prodcatm_seokywrd,prodcatm_prty,
 if(prodcatm_sts = 'a', 'Active','Inactive') as prodcatm_sts,
-prodcatm_typ,prodcatm_dsplytyp,prodcatm_bnrimg,prodcatm_prodmnlnksm_id,
+prodcatm_typ,prodcatm_dsplytyp,prodcatm_dskimg,prodcatm_prodmnlnksm_id,
 prodmnlnksm_name,prodcatm_icn,prodcatm_admtyp
-from 
+from
 prodcat_mst
 inner join 	prodmnlnks_mst
 on		prodmnlnks_mst.prodmnlnksm_id=prodcat_mst.prodcatm_prodmnlnksm_id
-where 
+where
 prodcatm_id=$id";
 $srsprodcat_mst  = mysqli_query($conn, $sqryprodcat_mst);
 $cntrecprodcat_mst = mysqli_num_rows($srsprodcat_mst);
@@ -134,7 +134,7 @@ include_once $inc_adm_lftlnk;
 						</div>
 							<?php
 						}?>
-						
+
 						<div class="form-group row">
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Category Name </label>
 							<div class="col-sm-8">
@@ -151,7 +151,7 @@ include_once $inc_adm_lftlnk;
 							<label for="txtname" class="col-sm-2 col-md-2 col-form-label">Baner Image</label>
 							<div class="col-sm-8">
 								<?php
-								$imgnm   = $rowsprodcat_mst['prodcatm_bnrimg'];
+								$imgnm   = $rowsprodcat_mst['prodcatm_dskimg'];
 								$imgpath = $a_cat_bnrfldnm . $imgnm;
 								if (($imgnm != "") && file_exists($imgpath)) {
 									echo "<img src='$imgpath' width='80pixel' height='80pixel'>";
@@ -249,8 +249,8 @@ include_once $inc_adm_lftlnk;
 						$srsns = mysqli_query($conn, $sqns);
 						$cntqns=mysqli_num_rows($srsns);
 						if ($cntqns > 0) {
-							
-					
+
+
 						$nfiles = "";
 						while ($rowsns = mysqli_fetch_assoc($srsns)) {
 							$nfiles+=1;
@@ -261,7 +261,7 @@ include_once $inc_adm_lftlnk;
 								<?php $arytitle = explode("-",$rowsns['pgqnsd_name']);?>
 										<td width="35%" align="center"><?php echo $arytitle[1]; ?></td>
 										<td width="35%" align="center"><?php echo $rowsns['pgqnsd_vdo']; ?></td>
-										
+
 										<td width="10%" align="center"><?php echo $rowsns['pgqnsd_prty']; ?></td>
 										<td width="10%" align="center"><?php echo $rowsns['pgqnsd_sts']; ?></td>
 								</tr>
@@ -272,7 +272,7 @@ include_once $inc_adm_lftlnk;
 					else{
 						?>
 						<td width="10%"  align="center"><?php echo "No Record Found"; ?></td>
-						
+
 				<?php	}
 						?>
 						<p class="text-center">

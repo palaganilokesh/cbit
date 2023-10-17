@@ -1,14 +1,14 @@
 <?php
 error_reporting(0);
-	  include_once '../includes/inc_config.php';       //Making paging validation	
+	  include_once '../includes/inc_config.php';       //Making paging validation
 	  include_once $inc_nocache;        //Clearing the cache information
 	  include_once $adm_session;    //checking for session
 	  include_once $inc_cnctn;     //Making database Connection
-	  include_once $inc_usr_fnctn;  //checking for session	
-	  include_once $inc_fldr_pth;//Floder Path	
-	global $rowsphtcat_mst; 
+	  include_once $inc_usr_fnctn;  //checking for session
+	  include_once $inc_fldr_pth;//Floder Path
+	global $rowsphtcat_mst;
 	/**************************************/
-	//Programm 	  : edit_photos.php	
+	//Programm 	  : edit_photos.php
 	//Company 	  : Adroit
 	/**************************************/
   /*****header link********/
@@ -16,67 +16,67 @@ $pagemncat = "Gallery";
 $pagecat = "Photos";
 $pagenm = "Photos";
 /*****header link********/
-	global $id,$pg,$cntstart,$loc,$a_phtgalspath1,$rd_crntpgnm,$rd_vwpgnm,$clspn_val;	
+	global $id,$pg,$cntstart,$loc,$a_phtgalspath1,$rd_crntpgnm,$rd_vwpgnm,$clspn_val,$ses_deptid;
 
 	$rd_crntpgnm = "edit_photogallery.php";
 	$rd_vwpgnm   = "view_detail_photogallery.php";
-	$clspn_val   = "4";	
+	$clspn_val   = "4";
 	if(isset($_POST['btnedtpht']) && (trim($_POST['btnedtpht']) != "")){
-   
-		 include_once '../includes/inc_fnct_fleupld.php'; // For uploading files	
+
+		 include_once '../includes/inc_fnct_fleupld.php'; // For uploading files
 		 include_once '../database/uqry_pht_mst.php';
-		
+
 	}
-	
+
 		$id         = glb_func_chkvl($_REQUEST['vw']);
 		$pg         = glb_func_chkvl($_REQUEST['pg']);
 		$cntstart	= glb_func_chkvl($_REQUEST['countstart']);
 		$val  		= glb_func_chkvl($_REQUEST['txtsrchval']);
 		if($val !=''){
-			
+
 			$loc .= "&txtsrchval=$val";
 		}
-		$chk  		=  glb_func_chkvl($_REQUEST['chkexact']); 
+		$chk  		=  glb_func_chkvl($_REQUEST['chkexact']);
 		if($chk!= ""){
 			$loc .= "&chkexact=$chk";
-		}	
-	//  $sqryphtcat_mst="SELECT 
+		}
+	//  $sqryphtcat_mst="SELECT
 	// 						  phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,
 	// 						  phtm_sts,phtcatm_name,phtcatm_id
    	// 					    from    pht_dtl
-	// 	                inner join 
+	// 	                inner join
 	// 		             phtcat_mst on phtcat_mst.phtcatm_id = pht_mst.phtm_phtcatm_id
-	// 					    inner join 
-	// 		             pht_mst on pht_dtl.phtd_id = pht_mst. 	phtm_phtd_id	
-	// 				  	where 
+	// 					    inner join
+	// 		             pht_mst on pht_dtl.phtd_id = pht_mst. 	phtm_phtd_id
+	// 				  	where
 	// 	                  phtm_phtd_id=$id";
 	// 	$srsphtcat_mst  = mysqli_query($conn,$sqryphtcat_mst);
 	// 	$cntrec =mysqli_num_rows($srsphtcat_mst);
 	// 	if($cntrec > 0){
 	// 		$rowsphtcat_mst1 = mysqli_fetch_assoc($srsphtcat_mst);
 	// 	   }
-		  	
-	   $imgid      = glb_func_chkvl($_REQUEST['imgid']);	 
+
+	   $imgid      = glb_func_chkvl($_REQUEST['imgid']);
 	   $pg         = glb_func_chkvl($_REQUEST['pg']);
 	   $cntstart   = glb_func_chkvl($_REQUEST['countstart']);
-	   
+
 	  // $id         = glb_func_chkvl($_REQUEST['vw']);
-	    $sqryprodimgd_dtl="select 
+	    $sqryprodimgd_dtl="select
 							   phtm_simg
-						  from 
+						  from
 							   pht_mst
 						  where
-							   phtm_id = '$imgid'";				 				 			
+							   phtm_id = '$imgid'";
 		$srsprodimgd_dtl    	= mysqli_query($conn,$sqryprodimgd_dtl);
 		$srowprodimgd_dtl    	= mysqli_fetch_assoc($srsprodimgd_dtl);
 		$bimg      				= glb_func_chkvl($srowprodimgd_dtl['phtm_simg']);
 		$bimgpth   				= $a_phtgalspath1.$bimg;
-		
+
 		$delimgsts 		= funcDelAllRec($conn,'pht_mst','phtm_id',$imgid);
-		if($delimgsts == 'y'){		
+		if($delimgsts == 'y'){
 		   if(($bimg != "")) {
 					unlink($bimgpth);
-		   }				
+		   }
 		}
   	//}
 
@@ -89,7 +89,7 @@ $pagenm = "Photos";
 <title><?php echo $pgtl; ?></title>
    <script language="JavaScript" type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
    <script language="javascript" src="../includes/yav.js"></script>
-	<script language="javascript" src="../includes/yav-config.js"></script>	
+	<script language="javascript" src="../includes/yav-config.js"></script>
    <script language="javascript" type="text/javascript">
     	var rules=new Array();
     	rules[0]='txtname:Name|required|Enter Name';
@@ -103,7 +103,7 @@ $pagenm = "Photos";
 	function funcChkDupName(){
 		var name;
 		id 	 = <?php echo $id;?>;
-		name = document.getElementById('txtname').value;		
+		name = document.getElementById('txtname').value;
 		if((name != "") && (id != "")){
 			var url = "chkvalidname.php?phtname="+name+"&phtid="+id;
 			xmlHttp	= GetXmlHttpObject(stateChanged);
@@ -112,36 +112,36 @@ $pagenm = "Photos";
 		}
 		else{
 			document.getElementById('errorsDiv_txtname').innerHTML = "";
-		}	
+		}
 	}
-	function stateChanged(){ 
-		if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){ 	
+	function stateChanged(){
+		if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){
 			var temp=xmlHttp.responseText;
 			document.getElementById("errorsDiv_txtname").innerHTML = temp;
 			if(temp!=0){
 				document.getElementById('txtname').focus();
-			}		
+			}
 		}
 	}
-	function rmvimg(imgid){	
+	function rmvimg(imgid){
 		var img_id;
 		img_id = imgid;
 		if(img_id !=''){
 			var r=window.confirm("Do You Want to Remove Image");
-			if (r==true){						
+			if (r==true){
 				 x="You pressed OK!";
 			  }
 			else{
 				  return false;
-			  }	
+			  }
 		}
-		document.frmedtpht.action="<?php echo $rd_crntpgnm;?>?vw=<?php echo $id;?>&imgid="+img_id+"&pg=<?php echo $pg;?>&countstart=				<?php echo $cntstart.$loc;?>" 
-		document.frmedtpht.submit();	
-	}			
+		document.frmedtpht.action="<?php echo $rd_crntpgnm;?>?vw=<?php echo $id;?>&imgid="+img_id+"&pg=<?php echo $pg;?>&countstart=				<?php echo $cntstart.$loc;?>"
+		document.frmedtpht.submit();
+	}
 	</script>
 </head>
 <body onLoad="setfocus();">
-<?php 
+<?php
 	include_once $inc_adm_hdr;
 	include_once $inc_adm_lftlnk;
 ?>
@@ -169,14 +169,19 @@ $pagenm = "Photos";
 
 		  <input type="hidden" name="vw" id="vw" value="<?php echo $id;?>">
 		  <input type="hidden" name="pg" id="pg" value="<?php echo $pg;?>">
-		  <input type="hidden" name="countstart" id="countstart" value="<?php echo $cntstart?>">	 
-		  <input type="hidden" name="val" id="val" value="<?php echo $val?>">	  	
-		  <input type="hidden" name="chk" id="chk" value="<?php echo $chk?>">	
-		   
-           <?php 
-          $sqryphtcat_mst="SELECT 
-							  phtd_id,phtd_name,phtd_desc,phtd_rank,phtd_sts,phtd_phtcatm_id
-   						    from    pht_dtl	where phtd_id=$id";
+		  <input type="hidden" name="countstart" id="countstart" value="<?php echo $cntstart?>">
+		  <input type="hidden" name="val" id="val" value="<?php echo $val?>">
+		  <input type="hidden" name="chk" id="chk" value="<?php echo $chk?>">
+
+           <?php
+          $sqryphtcat_mst="SELECT phtd_id,phtd_name,phtd_type,phtd_rank,phtd_sts, phtcatm_id,phtcatm_name,phtd_phtcatm_id
+   						    from    pht_dtl
+									 inner join	phtcat_mst on phtcat_mst.phtcatm_id = pht_dtl.phtd_phtcatm_id
+									where phtd_id=$id";
+										if($ses_admtyp=='d'){
+											$sqryphtcat_mst .= " and phtcatm_deprtmnt='$ses_deptid' ";
+										}
+										// echo 	$sqryphtcat_mst;
 		$srsphtcat_mst  = mysqli_query($conn,$sqryphtcat_mst);
 		$cntrec =mysqli_num_rows($srsphtcat_mst);
 		if($cntrec > 0){
@@ -199,17 +204,20 @@ $pagenm = "Photos";
 					<?php
 						$sqryphtcat_mst="select phtcatm_id,phtcatm_name
 									     from phtcat_mst ";
+											 if($ses_admtyp=='d'){
+												$sqryphtcat_mst .= " where phtcatm_deprtmnt='$ses_deptid' ";
+											}
 										//  where phtcatm_id='$cat_id'
 						 $srsphtcat_mst=mysqli_query($conn,$sqryphtcat_mst);
-						 while($rwcat_mst=mysqli_fetch_assoc($srsphtcat_mst)){	  
-							 $catid   =$rwcat_mst['phtcatm_id'];	  
+						 while($rwcat_mst=mysqli_fetch_assoc($srsphtcat_mst)){
+							 $catid   =$rwcat_mst['phtcatm_id'];
 							 $name    =$rwcat_mst['phtcatm_name'];
 					 ?>
-             <option value="<?php echo $catid;?>"<?php 
+             <option value="<?php echo $catid;?>"<?php
 			 if($cat_id==$catid)echo 'selected';?>>
                    <?php echo $name;?></option>
-                   <?php 
-				   	 }	 
+                   <?php
+				   	 }
 					?>
                     </select>
 
@@ -217,7 +225,7 @@ $pagenm = "Photos";
 							</div>
 						</div>
 					</div>
-					
+
 
           <div class="col-md-12">
 						<div class="row mb-2 mt-2">
@@ -248,7 +256,7 @@ $pagenm = "Photos";
 							</div>
 							<div class="col-sm-9">
               <input type="text" name="txtprty" id="txtprty" class="form-control" size="4" maxlength="3" value="<?php echo $rowsphtcat_mst['phtd_rank'];?>">
-								
+
 								<span id="errorsDiv_txtprty"></span>
 							</div>
 						</div>
@@ -259,9 +267,9 @@ $pagenm = "Photos";
 								<label>Status</label>
 							</div>
 							<div class="col-sm-9">
-								
+
                 <select name="lststs1" id="lststs" class="form-control">
-				
+
         <option value="a"<?php if($rowsphtcat_mst['phtd_sts']=='a') echo 'selected';?>>Active</option>
 				<option value="i"<?php if($rowsphtcat_mst['phtd_sts']=='i') echo 'selected';?>>Inactive</option>
 					</select>
@@ -280,64 +288,64 @@ $pagenm = "Photos";
 							</tr>
 						</table>
 					</div>
-        
-        
-  
 
 
-   
-	
+
+
+
+
+
 				<?php
 $sqryimg_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from pht_mst where phtm_phtd_id  ='$id'";
-	            $srsimg_dtl	= mysqli_query($conn,$sqryimg_dtl);		
+	            $srsimg_dtl	= mysqli_query($conn,$sqryimg_dtl);
 		        $cntphtimg_dtl  = mysqli_num_rows($srsimg_dtl);
 			  	$nfiles = "";
 				if($cntphtimg_dtl> 0 ){
 				?>
-				<?php				
+				<?php
 			  	while($rowsphtimgd_mdtl=mysqli_fetch_assoc($srsimg_dtl)){
 					$phtimgdid = $rowsphtimgd_mdtl['phtm_id'];
 					$arytitle = explode("-",$rowsphtimgd_mdtl['phtm_simgnm']);
-					$nfiles+=1;					
+					$nfiles+=1;
 			  ?>
         	<div class="table-responsive">
 								<table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-striped table-bordered">
 									<table width="100%" border="0" cellspacing="3" cellpadding="3">
 										<tr bgcolor="#FFFFFF">
 						<input type="hidden" name="hdnbgimg<?php echo $nfiles?>" class="form-control" value="<?php echo $rowsphtimgd_mdtl['phtm_id'];?>">
-			<input type="hidden" name="hdnproddid<?php echo $nfiles?>" class="form-control" value="<?php echo $phtimgdid;?>">		
-     
-					<td width='5%'> <?php echo $nfiles; ?>	</td>								              	   
+			<input type="hidden" name="hdnproddid<?php echo $nfiles?>" class="form-control" value="<?php echo $phtimgdid;?>">
+
+					<td width='5%'> <?php echo $nfiles; ?>	</td>
         <td width="15%" align="left">
   <input type="text" name="txtphtname<?php echo $nfiles?>" id="txtphtname" value='<?php echo $rowsphtimgd_mdtl['phtm_simgnm']?>' class="form-control" size="30">
-						</td>								
+						</td>
      	<td align="left" width="20%"><input type="file" name="flebgimg<?php echo $nfiles?>"  id="flebgimg" class="form-control" size="5">
 						</td>
         <td align="left" width="19%">
 							<?php
 								 $bgimgnm = $rowsphtimgd_mdtl['phtm_simg'];
-								  $bgimgpath = $a_phtgalspath1.$bgimgnm;								   
+								  $bgimgpath = $a_phtgalspath1.$bgimgnm;
 								  if(($bgimgnm !="")){
 										 echo "<img src='$bgimgpath' width='30pixel' height='30pixel'>";
 								  }
 								  else{
 									 echo "No Image";
 								  }
-							  ?>								
+							  ?>
 							<span id="errorsDiv_flesmlimg1"></span></td>
 
                         <td width="10%" align="left">
-							   <input type="text" name="txtphtprior<?php echo $nfiles?>" id="txtphtprior" class="form-control" value="<?php echo $rowsphtimgd_mdtl['phtm_prty'];?>" size="4" maxlength="3"><span id="errorsDiv_txtphtprior"></span> 
-						</td>            
-                   	    <td align="left"  width="10%">		
+							   <input type="text" name="txtphtprior<?php echo $nfiles?>" id="txtphtprior" class="form-control" value="<?php echo $rowsphtimgd_mdtl['phtm_prty'];?>" size="4" maxlength="3"><span id="errorsDiv_txtphtprior"></span>
+						</td>
+                   	    <td align="left"  width="10%">
 							<select name="lstphtsts<?php echo $nfiles?>" id="lstphtsts" 	class="form-control">
 							 <option value="a"<?php if($rowsphtimgd_mdtl['phtm_sts']=='a') echo 'selected';?>>Active</option>
 							 <option value="i"<?php if($rowsphtimgd_mdtl['phtm_sts']=='i') echo 'selected';?>>Inactive</option>
 							</select></td>
 
-									
-					<td width="10%"><input type="button"  name="btnrmv" 
-						 value="REMOVE"  onClick="rmvimg('<?php echo $rowsphtimgd_mdtl['phtm_id']; ?>')"></td>			
+
+					<td width="10%"><input type="button"  name="btnrmv"
+						 value="REMOVE"  onClick="rmvimg('<?php echo $rowsphtimgd_mdtl['phtm_id']; ?>')"></td>
              </tr>
 									</table>
 								</table>
@@ -349,23 +357,23 @@ $sqryimg_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from pht_m
 					echo "<tr bgcolor='#F2F1F1'><td colspan='9' align='center' >Image not available</td></tr>";
 				}
 				?>
-        	<div id="myDiv">		
+        	<div id="myDiv">
         <table width="100%" cellspacing='2' cellpadding='3'>
 				<tr>
 												<td align="center">
-                        <input type="hidden" name="hdntotcntrl" id="hdntotcntrl" value="<?php echo $nfiles;?>">		
+                        <input type="hidden" name="hdntotcntrl" id="hdntotcntrl" value="<?php echo $nfiles;?>">
 													<input name="btnadd" type="button" onClick="expand()" value="Add Another Image" class="btn btn-primary mb-3">
 												</td>
 											</tr>
-                              
+
 										</table>
 									</div>
 									</div>
-								
- 
+
+
 
                   <p class="text-center">
-                  <input type="hidden" name="hidnid" id="hidnid" value="<?php echo $rowsphtimgd_mdtl['phtm_id'];?> ">  
+                  <input type="hidden" name="hidnid" id="hidnid" value="<?php echo $rowsphtimgd_mdtl['phtm_id'];?> ">
 										<input type="Submit" class="btn btn-primary btn-cst" name="btnedtpht" id="btnedtpht"
 											value="Submit">
 										&nbsp;&nbsp;&nbsp;
@@ -374,8 +382,8 @@ $sqryimg_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from pht_m
 										&nbsp;&nbsp;&nbsp;
 										<input type="button" name="btnBack" value="Back" class="btn btn-primary btn-cst"
                     onclick="location.href='view_all_photogallery.php?vw=<?php echo $id;?>&pg=<?php echo $pg."&countstart=".$cntstart.$loc;?>'">
-									</p> 
-									
+									</p>
+
           </div>
 			</div>
 			</div>
@@ -390,10 +398,10 @@ $sqryimg_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from pht_m
 <script language="javascript" type="text/javascript">
 /********************Multiple Image Upload********************************/
 	  var nfiles ="<?php echo $nfiles;?>";
-	   function expand () {	   		
+	   function expand () {
 			nfiles ++;
             var htmlTxt = '<?php
-				echo "<table width=100%  border=0 cellspacing=1 cellpadding=2>"; 
+				echo "<table width=100%  border=0 cellspacing=1 cellpadding=2>";
 				echo "<tr>";
 				echo "<td align=left width=4%>";
 				echo "<span class=buylinks>' + nfiles + '</span></td>";
@@ -405,30 +413,30 @@ $sqryimg_dtl="SELECT phtm_id,phtm_simgnm,phtm_simg,phtm_sts,phtm_prty from pht_m
 				echo "<input type=file name=flebgimg' + nfiles + ' id=flebgimg1' +   nfiles + ' class=form-control size=5></td><td width=11% align=left></td>";
 				echo "<td align=left width=9%>";
 				echo "<input type=text name=txtphtprior' + nfiles + ' id=txtphtprior1'  + nfiles + ' class=form-control size=4 maxlength=3>";
-				echo "</td>"; 
+				echo "</td>";
 				echo "<td width=10% align=right>";
 				echo "<select name=lstphtsts' + nfiles + ' id=lstphtsts1' + nfiles + '                     class=form-control>";
 				echo "<option value=a>Active</option>";
 				echo "<option value=i>Inactive</option>";
 				echo "</select>";
-				echo "</td><td></td></tr></table><br>";			
-			?>';			
-		 var Cntnt = document.getElementById ("myDiv");			
-			if (document.createRange) {//all browsers, except IE before version 9 				
+				echo "</td><td></td></tr></table><br>";
+			?>';
+		 var Cntnt = document.getElementById ("myDiv");
+			if (document.createRange) {//all browsers, except IE before version 9
 			 var rangeObj = document.createRange ();
 			 	Cntnt.insertAdjacentHTML('BeforeBegin' , htmlTxt);
-				document.frmedtpht.hdntotcntrl.value = nfiles;	
-               if (rangeObj.createContextualFragment) { // all browsers, except IE	
+				document.frmedtpht.hdntotcntrl.value = nfiles;
+               if (rangeObj.createContextualFragment) { // all browsers, except IE
 			   		 	//var documentFragment = rangeObj.createContextualFragment (htmlTxt);
-                 	 	//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla					 				
+                 	 	//Cntnt.insertBefore (documentFragment, Cntnt.firstChild);	//Mozilla
 				}
                 else{//Internet Explorer from version 9
                  	Cntnt.insertAdjacentHTML('BeforeBegin' , htmlTxt);
 				}
-			}			
+			}
 			else{//Internet Explorer before version 9
                 Cntnt.insertAdjacentHTML ("BeforeBegin", htmlTxt);
 			}
 			document.frmedtpht.hdntotcntrl.value = nfiles;
-        }		
+        }
 </script>

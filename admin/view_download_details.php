@@ -1,20 +1,21 @@
 <?php
 
-include_once '../includes/inc_config.php'; //Making paging validation	
+include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session	
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /***************************************************************
-Programm : view_detail_product_subcategory.php	
+Programm : view_detail_product_subcategory.php
 Purpose : For Viewing sub category Details
 Created By : Bharath
 Created On :	21-01-2022
-Modified By : 
+Modified By :
 Modified On :
-Purpose : 
+Purpose :
 Company : Adroit
  ************************************************************/
 global $id, $pg, $countstart;
@@ -32,14 +33,14 @@ if (isset($_REQUEST['vw']) && (trim($_REQUEST['vw']) != "") && isset($_REQUEST['
     $countstart = glb_func_chkvl($_REQUEST['countstart']);
     $srchval = glb_func_chkvl($_REQUEST['val']);
 }
-$sqryprodscat_mst = "select 
+$sqryprodscat_mst = "select
 dwnld_name,dwnld_id,dwnld_desc,dwnld_prty,
-dwnld_sts,dwnld_prodm_id,prodm_name,dwnld_flenm 
-from 
+dwnld_sts,dwnld_prodm_id,prodm_name,dwnld_flenm
+from
     dwnld_dtl
 inner join 	prod_mst on prodm_id=dwnld_prodm_id
 where
-prodm_id=dwnld_prodm_id and 
+prodm_id=dwnld_prodm_id and
 dwnld_id=$id";
 $srsprodscat_mst  = mysqli_query($conn, $sqryprodscat_mst);
 $rowsprodscat_mst = mysqli_fetch_assoc($srsprodscat_mst);
@@ -67,12 +68,12 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">View Downloads</h1>
+                    <h1 class="m-0 text-dark">View Class Time Table</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">View Downloads</li>
+                        <li class="breadcrumb-item active">View  Class Time Table</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -85,7 +86,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
         <?php
         if ($msg != '') {
             echo "<center><tr bgcolor='#FFFFFF'>
-				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td> 
+				<td colspan='4' bgcolor='#F3F3F3' align='center'><strong>$msg</strong></td>
 			 </tr></center>";
         }
         ?>
@@ -96,7 +97,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
 
                         <div class="form-group row">
                             <label for="txtname" class="col-sm-2 col-md-2 col-form-label">
-                                Product Name</label>
+                               Academic Year</label>
                             <div class="col-sm-8">
                                 <?php echo $rowsprodscat_mst['prodm_name']; ?>
                             </div>
@@ -111,7 +112,7 @@ if (isset($_REQUEST['sts']) && (trim($_REQUEST['sts']) == "y")) {
                             <label for="txtname" class="col-sm-2 col-md-2 col-form-label">Description</label>
                             <div class="col-sm-8">
                                 <?php echo stripslashes($rowsprodscat_mst['dwnld_desc']); ?>
-                             
+
                             </div>
                         </div>
 

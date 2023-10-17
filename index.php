@@ -1,9 +1,9 @@
 <?php
 error_reporting(0);
 session_start();
-include_once 'includes/inc_config.php'; //Making paging validation	
+include_once 'includes/inc_config.php'; //Making paging validation
 include_once 'includes/inc_connection.php'; //Making database Connection
-include_once 'includes/inc_usr_functions.php'; //checking for session	
+include_once 'includes/inc_usr_functions.php'; //checking for session
 //include_once 'includes/inc_usr_sessions.php';
 include_once 'includes/inc_folder_path.php';
 $page_title = "Home | Chaitanya Bharathi Institute of Technology";
@@ -18,7 +18,7 @@ include('header.php');
 ?>
 <!-- banners dynamic start -->
 <?php
-$sqryqry_bnr = "SELECT bnrm_id, bnrm_name,bnrm_btn_name, bnrm_desc,bnrm_text, bnrm_imgnm, bnrm_lnk, bnrm_prty, bnrm_sts FROM bnr_mst WHERE bnrm_sts = 'a' order by bnrm_prty asc ";
+$sqryqry_bnr = "SELECT bnrm_id, bnrm_name,bnrm_btn_name, bnrm_desc,bnrm_text,dskm_imgnm,tabm_imgnm,mobm_imgnm, bnrm_lnk, bnrm_prty, bnrm_sts FROM bnr_mst WHERE bnrm_sts = 'a' order by bnrm_prty asc ";
 $sqry_bnr_mst = mysqli_query($conn, $sqryqry_bnr);
 $bnr_cnt = mysqli_num_rows($sqry_bnr_mst);
 if ($bnr_cnt > 0) {
@@ -32,7 +32,9 @@ if ($bnr_cnt > 0) {
         $bnrnm = $srowbnr_mst['bnrm_btn_name'];
 
         $bnrlnk = $srowbnr_mst['bnrm_lnk'];
-        $bnrimgnm = $srowbnr_mst['bnrm_imgnm'];
+        $dskimgnm = $srowbnr_mst['dskm_imgnm'];
+        $tabimgnm = $srowbnr_mst['tabm_imgnm'];
+        $mobimgnm = $srowbnr_mst['mobm_imgnm'];
         $bnrtxt = $srowbnr_mst['bnrm_text'];
         if ($bnrtxt == 'L') {
           $i = 1;
@@ -41,12 +43,28 @@ if ($bnr_cnt > 0) {
         } else {
           $i = 3;
         }
-        $bnrimgpth = $rtpth . $gusrbnr_fldnm . $bnrimgnm;
+        $dskimgpath = $rtpth . $gusrbnr_fldnm . $dskimgnm;//desktop img
+        $tabimgpath = $rtpth . $gusrbnr_fldnm . $tabimgnm;//tab img
+        $mobimgpath = $rtpth . $gusrbnr_fldnm . $mobimgnm;//mobile img
       ?>
         <div class="item">
-          <a href="<?php echo $bnrlnk; ?>" target="_blank">
-            <img src="<?php echo $bnrimgpth; ?>" class="w-100 d-md-block d-none" alt="">
-            <img src="<?php echo $bnrimgpth; ?>" class="w-100 d-md-none d-block" alt=""></a>
+          <?php
+          if($bnrlnk!=''){
+            ?>
+              <a href="<?php echo $bnrlnk; ?>" target="_blank">
+            <?php
+          }
+          ?>
+
+          <picture>
+            <source media="(min-width:640px) and (max-width:1169px)" srcset="<?php echo $tabimgpath; ?>">
+            <source media="(min-width:1170px)" srcset="<?php echo $dskimgpath; ?>">
+            <source media="(max-width:639px)" srcset="<?php echo $mobimgpath; ?>">
+            <img class="img-fluid w100" src="<?php echo $dskimgpath; ?>">
+          </picture>
+            <!-- <img src="<?php echo $bnrimgpth; ?>" class="w-100 d-md-block d-none" alt="">
+            <img src="<?php echo $bnrimgpth; ?>" class="w-100 d-md-none d-block" alt=""> -->
+          </a>
           <?php
           if ($bnrnm != '') {
           ?>
@@ -101,14 +119,14 @@ if ($bnr_cnt > 0) {
 </div>
 <!-- Departments Dynamic Start  -->
 <?php
-$sqry_dept = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_bnrimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_bnrimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty,prodscatm_id,prodscatm_name from  prodmnlnks_mst
+$sqry_dept = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_dskimg,prodmnlnksm_tabimg,prodmnlnksm_mobimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_dskimg,prodcatm_tabimg,prodcatm_mobimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty,prodscatm_id,prodscatm_name from  prodmnlnks_mst
  left join  prodcat_mst on prodcatm_prodmnlnksm_id = prodmnlnksm_id
  inner join prodscat_mst on prodscatm_prodcatm_id = prodcatm_id
  where prodmnlnksm_id !='' and prodmnlnksm_sts ='a' and prodmnlnksm_sts = 'a' and prodcatm_sts='a'  and prodmnlnksm_name='Departments' group by prodcatm_id order by prodcatm_prty asc ";
 
 //  where prodmnlnksm_id !='' and prodmnlnksm_sts = 'a' and prodcatm_sts='a'  and prodmnlnksm_name='Departments' group by prodcatm_id";
 
-// ,prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_dpttitle,prodscatm_dpthead,prodscatm_dptname,prodscatm_sts,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id,prodscatm_prty 
+// ,prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_dpttitle,prodscatm_dpthead,prodscatm_dptname,prodscatm_sts,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id,prodscatm_prty
 // left join prodscat_mst on prodscatm_prodcatm_id = prodcatm_id and prodscatm_sts='a'
 $sqry_dept_mst = mysqli_query($conn, $sqry_dept);
 $dept_cnt = mysqli_num_rows($sqry_dept_mst);
@@ -126,7 +144,7 @@ if ($dept_cnt > 0) {
           $deptmn_nm = $srowdept_mst['prodmnlnksm_name'];
           $hm_mn_url=funcStrRplc($deptmn_nm);
           $deptcatid = $srowdept_mst['prodcatm_id'];
-       
+
           $deptscatid = $srowdept_mst['prodscatm_id'];
           $deptscat_nm = $srowdept_mst['prodscatm_name'];
           $hm_scat_url=funcStrRplc($deptscat_nm);
@@ -146,7 +164,7 @@ if ($dept_cnt > 0) {
         ?>
           <div class="single-courses-card style2">
             <div class="courses-img">
-            
+
               <a href="<?php echo $rtpth . $hm_mn_url . '/' . $hm_cat_url.'/'.$hm_scat_url; ?>"><img src="<?php echo $deptimgpth; ?>" alt="Image"></a>
             </div>
             <div class="courses-content">
@@ -192,9 +210,9 @@ if ($dept_cnt > 0) {
 	DATE_format(evntm_strtdt, '%b ') as stmnth,
 	DATE_format(evntm_strtdt, '%Y ') as styr,
 	DATE_format(evntm_enddt, '%D %M %Y') as eddate,evntm_strtdt
-from 
+from
 evnt_mst	where evntm_sts='a' and evntm_typ='e' and
-(evntm_strtdt >= '$evntToday' or	evntm_enddt >= '$evntToday') and	(month(evntm_strtdt) >= '$CurrMonth' or	month(evntm_enddt) >= '$CurrMonth') 	
+(evntm_strtdt >= '$evntToday' or	evntm_enddt >= '$evntToday') and	(month(evntm_strtdt) >= '$CurrMonth' or	month(evntm_enddt) >= '$CurrMonth')
 	order by evntm_strtdt ASC limit 3 ";
                 $srsevnt_mst  =  mysqli_query($conn, $sqryevnt_mst) or die(mysqli_error($conn));
                 $numrows =   mysqli_num_rows($srsevnt_mst);
@@ -213,9 +231,9 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                           $evnt_stdt = $srowevnt_mst['stdt'];
                           $evnt_stmth = $srowevnt_mst['stmnth'];
                           $evnt_styr = $srowevnt_mst['styr'];
-                          $evnt_strt = $srowevnt_mst['stdate'];
+                         $evnt_strt = $srowevnt_mst['stdate'];
                           $evnt_desc = $srowevnt_mst['evntm_desc'];
-                          $evnt_olddt = $srowevnt_mst['evntm_strtdt'];
+                          $evnt_dt = $srowevnt_mst['evntm_strtdt'];
                           $evnt_descstring = strip_tags($evnt_desc);
                           if (strlen($evnt_descstring) > 100) {
                             // truncate string
@@ -256,7 +274,8 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                                 <div class="col-xxl-11 col-xl-11 col-lg-11 col-md-10 col-10">
                                   <div class="podcast-content">
                                     <?php
-                                    if ($evntToday <= $evnt_strt) {
+                                    if ($evntToday <= $evnt_dt) {
+
                                     ?>
                                       <span><img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""></span>
                                     <?php  }
@@ -264,11 +283,18 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                                     ?>
 
                                     <h3><?php echo $evnt_nm ?></h3>
-                                    <p><strong>Venue: </strong><?php echo $evnt_vnu ?></p>
+                                    <?php
+                                    if($evnt_vnu!=''){
+                                      ?>
+                                       <p><strong>Venue: </strong><?php echo $evnt_vnu ?></p>
+                                      <?php
+                                    }
+                                    ?>
+
                                     <!-- <p><a href="<?php echo $rtpth . "events.php?day=" . trim($evnt_stdt) . "&month=" . trim($evnt_stmth) . "&year=" . trim($evnt_styr) . "&date=" . trim($sttm) ?>"><?php echo $evnt_desc ?></a></p> -->
                                     <a href="<?php echo $rtpth.'latest-events/'.$evnt_url.'_'.$evntm_id; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
 
-                                   
+
                                   </div>
                                 </div>
                               </div>
@@ -300,13 +326,13 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
 									DATE_format(evntm_strtdt, '%D %M %Y') as newstdate,
 									DATE_format(evntm_strtdt, '%d') as nstdt,
 							DATE_format(evntm_strtdt, '%b ') as nstmnth,
-								DATE_format(evntm_strtdt, '%Y ') as nstyr 
-									 from 
+								DATE_format(evntm_strtdt, '%Y ') as nstyr
+									 from
 								evnt_mst	where evntm_sts='a' and evntm_typ='n'
-                and (evntm_strtdt >= '$evntToday') and	(month(evntm_strtdt) >= '$CurrMonth') 
-               order by evntm_strtdt ASC  limit 3";
+                and (evntm_strtdt <= '$evntToday') and	(month(evntm_strtdt) <= '$CurrMonth')
+               order by evntm_strtdt desc  limit 3";
               //  and   YEAR(evntm_strtdt) = YEAR(CURRENT_DATE - INTERVAL 1 MONTH)
-              //  AND MONTH(evntm_strtdt) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) 
+              //  AND MONTH(evntm_strtdt) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH)
                 $srsnews_mst  =  mysqli_query($conn, $sqrynws_mst) or die(mysqli_error($conn));
                 $numrows1 =   mysqli_num_rows($srsnews_mst);
                 $cnt = 0;
@@ -390,7 +416,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                                     <!-- <p>Chaitanya Bharathi Institute of Technology, established in the Year 1979,
                                             esteemed as the premier engineering institute.</p> -->
                                     <a href="<?php echo $rtpth.'latest-news/'.$news_url.'_'.$news_id; ?>" class="read-more-btn float-end">Read more<i class="flaticon-next"></i></a>
-                                    
+
                                   </div>
                                 </div>
                               </div>
@@ -453,7 +479,7 @@ evnt_mst	where evntm_sts='a' and evntm_typ='e' and
                       $resltnwstyp = $srownws_mstreslt['nwsm_typ'];
                     ?>
                       <li>
-                       
+
                         <a href="<?php echo $rtpth.'latest-notifications/'.$resltnwstyp.'/'.$anu_url.'_'.$resltnwsid;?>" class="d-flex align-items-baseline">
                           <span> <i class="fa-regular fa-bell"></i></span>
                           <span><?php echo   $resltnewsname; ?> <img src="<?php echo $rtpth; ?>assets/images/icon/new.gif" alt=""></span>
@@ -573,7 +599,7 @@ if ($ach_cnt > 0) {
               <img src="<?php echo   $achmntimgpth; ?>" alt="">
             </div>
             <div class="health-care-content">
-           
+
               <a href="<?php echo $rtpth.'latest-achivements/'.$ach_url.'_'.$achid; ?>" class="mt-4">
                 <h3><?php echo $achttl; ?></h3>
               </a>
@@ -828,10 +854,10 @@ if ($ach_cnt > 0) {
 
 <!-- ###############  Facilities start ################# -->
 <?php
-$sqry_facility = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_bnrimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_bnrimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty  from  prodmnlnks_mst
+$sqry_facility = "SELECT prodmnlnksm_id,prodmnlnksm_name,prodmnlnksm_desc,prodmnlnksm_dskimg,prodmnlnksm_typ,prodmnlnksm_dsplytyp,prodmnlnksm_prty,prodmnlnksm_sts,prodcatm_id,prodcatm_prodmnlnksm_id,prodcatm_name,prodcatm_desc,prodcatm_dskimg,prodcatm_icn,prodcatm_dsplytyp,prodcatm_typ,prodcatm_sts,prodcatm_prty  from  prodmnlnks_mst
   left join  prodcat_mst on prodcatm_prodmnlnksm_id = prodmnlnksm_id
 	where prodmnlnksm_id !='' and prodmnlnksm_sts ='a' and prodmnlnksm_sts = 'a' and prodcatm_sts='a' and prodmnlnksm_name='Facilities' group by prodcatm_id  order by prodcatm_prty asc";
-//  prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_dpttitle,prodscatm_dpthead,prodscatm_dptname,prodscatm_sts,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id,prodscatm_prty 
+//  prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_dpttitle,prodscatm_dpthead,prodscatm_dptname,prodscatm_sts,prodscatm_prodcatm_id,prodscatm_prodmnlnksm_id,prodscatm_prty
 //  left join prodscat_mst on prodscatm_prodcatm_id = prodcatm_id
 $sqry_fcty_mst = mysqli_query($conn, $sqry_facility);
 $fcty_cnt = mysqli_num_rows($sqry_fcty_mst);
@@ -1009,7 +1035,7 @@ if ($alumni_cnt > 0) {
             ?>
               <div class="item">
                 <div class="gal-img-holder">
-                  
+
                   <a href="  <?php echo $rtpth.$pht_url.'_'.$phtcatid;?>">
                   <!-- <a href="  <?php echo $rtpth?>gallery-category.php?phtid=<?php echo $phtcatid;?>"> -->
                     <img src="<?php echo $galryimgpth; ?>" classw="w-100" alt="" title="<?php echo $phtcat_name; ?>">
@@ -1107,7 +1133,9 @@ if ($popup_cnt > 0) {
         <div class="modal-header text-center">
           <?php
           $srowpopup_mstnm = mysqli_fetch_assoc($sqry_popup_mst);
+          // while ($srowpopup_mstnm = mysqli_fetch_assoc($sqry_popup_mst)) {
           $popupnm = $srowpopup_mstnm['popupm_name'];
+          // }
           ?>
           <h5 class="modal-title w-100" id="autoPopupModalLabel"><?php echo $popupnm;?></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">

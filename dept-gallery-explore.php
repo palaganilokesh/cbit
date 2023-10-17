@@ -3,8 +3,8 @@
 // var_dump($_REQUEST);
 // echo "</pre>";
 include_once "includes/inc_connection.php";
-include_once "includes/inc_usr_functions.php";	
-include_once 'includes/inc_paging_functions_dist.php';  //Making paging validation	
+include_once "includes/inc_usr_functions.php";
+include_once 'includes/inc_paging_functions_dist.php';  //Making paging validation
 	 include_once "includes/inc_folder_path.php";
 $page_title = "Department of Civil Engineering | Chaitanya Bharathi Institute of Technology";
 $page_seo_title = "Department of Civil Engineering | Chaitanya Bharathi Institute of Technology";
@@ -33,9 +33,9 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 		 $txt=explode('_',$pt_scat_nm );
 		 $pt_id=$txt[1];
 		 $pt_scat_nm=$txt[0];
-		 $sqrydept_mst = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_bnrimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_bnrimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_bnrimg";
+		 $sqrydept_mst = "SELECT prodmnlnksm_id,prodmnlnksm_typ,prodmnlnksm_name,prodcatm_dskimg,prodmnlnksm_sts,prodmnlnksm_prty,prodmnlnksm_dskimg,prodcatm_id,prodcatm_name,prodcatm_typ,prodcatm_desc,prodcatm_dskimg";
 	if ($_REQUEST['mnlnks'] == 'departments' ||  $pt_scat_nm!='') {
-		$sqrydept_mst .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_bnrimg,prodscatm_typ";
+		$sqrydept_mst .= ", prodscatm_id,prodscatm_name,prodscatm_desc,prodscatm_dskimg,prodscatm_typ";
 	}
 	$sqrydept_mst .= " from prodmnlnks_mst inner join prodcat_mst on prodcatm_prodmnlnksm_id =prodmnlnksm_id";
 	if ($_REQUEST['mnlnks'] == 'departments' || $pt_scat_nm!='') {
@@ -43,7 +43,7 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 	}
 	$sqrydept_mst .= " where prodmnlnksm_sts='a' and prodcatm_sts = 'a'";
 	if (isset($_REQUEST['catid']) && (trim($_REQUEST['catid']) != "")) {
-		
+
 		$sqrydept_mst .= " and prodcatm_name = '$glry_cat'";
 		$loc = "&catid=$glry_cat";
 	}
@@ -51,7 +51,7 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 
 		if($pt_scat_nm=='UG' || $pt_scat_nm=='PG' || $pt_scat_nm=='ug' || $pt_scat_nm=='pg' )
 	{
-		$pt_scat_nm='';	
+		$pt_scat_nm='';
 	}
 	else{
 		$pt_scat_nm= $pt_scat_nm;
@@ -88,16 +88,16 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 		$prodscatm_name1		=$prodscatm_name;
 		$prodcatm_name		= $srows_dept_gallery['prodcatm_name'];
 		$cn_cat_url=funcStrRplc($prodcatm_name);
-		$prodcatm_bimg		= $srows_dept_gallery['prodcatm_bnrimg'];
+		$prodcatm_bimg		= $srows_dept_gallery['prodcatm_dskimg'];
 		$prodmnlnksm_typ		= $srows_dept_gallery['prodmnlnksm_typ'];
 		$prodmnlnksm_name		= $srows_dept_gallery['prodmnlnksm_name'];
 		$cn_mn_url=funcStrRplc($prodmnlnksm_name);
 		$prodmnlnksm_name1		=$prodmnlnksm_name;
 		$prodscatm_desc  = $srows_dept_gallery['prodscatm_desc'];
 		$prodscatm_typ  = $srows_dept_gallery['prodscatm_typ'];
-		$prodcat_bnr	    = $srows_dept_gallery['prodcatm_bnrimg'];
+		$prodcat_bnr	    = $srows_dept_gallery['prodcatm_dskimg'];
 		$prodcat_pth	    = $u_cat_bnrfldnm . $prodcat_bnr;
-		$prodscat_bnr 	    = $srows_dept_gallery['prodscatm_bnrimg'];
+		$prodscat_bnr 	    = $srows_dept_gallery['prodscatm_dskimg'];
 		if ($glry_cat != '' || isset($glry_cat)) {
 			$title = "$prodcatm_name";
 			$bngimgpth = $u_cat_bnrfldnm . $prodcat_bnr;
@@ -134,11 +134,11 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 			}
 		}
 		if (isset($_REQUEST['pht_scat_id']) && trim($_REQUEST['pht_scat_id']) != "") {
-		
-	
+
+
 		 	$sqryphtcat_mst="SELECT phtcatm_name,phtcatm_desc,phtcatm_id from phtcat_mst where (phtcatm_id='$pt_cat_id' or phtcatm_name='$pt_cat_nm')  and phtcatm_sts='a' and phtcatm_deprtmnt='$catone_id'";
 									$srsphtcat_dtl = mysqli_query($conn,$sqryphtcat_mst);
-			
+
 								while($srowsphtcat_dtl = mysqli_fetch_assoc($srsphtcat_dtl)){
 								$pht_name=$srowsphtcat_dtl['phtcatm_name'];
 								$pht_nm_url=funcStrRplc($pht_name);
@@ -146,7 +146,7 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 								$pht_cat_id=$srowsphtcat_dtl['phtcatm_id'];
 								$title = "$pht_id";
 								}
-									
+
 		}
 	} else {
 		header("Location:$ind_loc");
@@ -196,7 +196,7 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 					<li><?php echo $prodscatm_name1; ?></li>
 					<?php
 				}
-				
+
 				}
 				?>
             </ul>
@@ -208,20 +208,20 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
        <div class="container-fluid px-lg-3 px-md-3 px-2">
         <div class="row">
             <div class="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-12 order-md-1 order-2">
-              
+
                 <div class="campus-content pr-20 ">
-								<?php 
+								<?php
  if(isset($_REQUEST['phtid']) && trim($_REQUEST['phtid'])!="" )
  {
-	
+
   $sqryphtcat_mst1="SELECT phtm_id,phtm_simgnm,phtm_simg,	phtm_sts,phtm_prty
   from vw_phtd_phtm_mst
     where  phtm_phtcatm_id  ='$pht_cat_id' and  phtm_phtd_id='$pt_id' and	phtm_sts = 'a' order by 	phtm_prty asc";
-					
+
 			$srsphtcat_dtl1 = mysqli_query($conn,$sqryphtcat_mst1);
 			$cntrec_phtcat1 = mysqli_num_rows($srsphtcat_dtl1);
 			if($cntrec_phtcat1 > 0){
-			    
+
 ?>
                 <div class="cont ">
             <div class="demo-gallery ">
@@ -237,8 +237,8 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
 											$galryimages = $rtpth . $bimgpath;
 										} else {
 											$galryimages   = $rtpth . $gusrglry_fldnm . 'default.jpg';
-											
-										}	
+
+										}
 										?>
                     <li class="col-xxl-4 col-lg-4 col-md-4 col-6 mb-2"
                         data-responsive="<?php echo $galryimages; ?> 375, <?php echo $galryimages; ?> 480, <?php echo $galryimages; ?> 800"
@@ -250,25 +250,25 @@ global $pht_id,$pt_scat_nm, $glry_cat,$glry_mnlnk;
                             </div>
                         </a>
                     </li>
-                    <?php } ?>  
+                    <?php } ?>
                 </ul>
             </div>
         </div>
-				<?php 
-				} 
+				<?php
 				}
-				?>  
+				}
+				?>
 
                 </div>
             </div>
             <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-12 order-md-2 order-1 ">
-						
+
 						<?php
 						include_once "catrightblock.php";
 					 ?>
-          
+
             </div>
-					  </div> 
+					  </div>
 			</div>
 </div>
 <?php include_once('footer.php'); ?>

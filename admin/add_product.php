@@ -3,17 +3,18 @@ include_once '../includes/inc_config.php'; //Making paging validation
 include_once $inc_nocache; //Clearing the cache information
 include_once $adm_session; //checking for session
 include_once $inc_cnctn; //Making database Connection
-include_once $inc_usr_fnctn; //checking for session 
+include_once $inc_usr_fnctn; //checking for session
 include_once $inc_pgng_fnctns; //Making paging validation
 include_once $inc_fldr_pth; //Making paging validation
+include_once '../includes/inc_adm_dept_session.php'; //department sessions
 /**********************************************************
-Programm : add_banner.php 
+Programm : add_banner.php
 Purpose : For add Vehicle Brand Details
 Created By : Bharath
 Created On : 25-12-2021
-Modified By : 
-Modified On : 
-Purpose : 
+Modified By :
+Modified On :
+Purpose :
 Company : Adroit
  ************************************************************/
 /*****header link********/
@@ -23,7 +24,7 @@ $pagenm = "Downloads Category";
 /*****header link********/
 global $gmsg;
 if (isset($_POST['btnbnrsbmt']) && (trim($_POST['btnbnrsbmt']) != "") && isset($_POST['txtname']) && (trim($_POST['txtname']) != "") && isset($_POST['txtprior']) && (trim($_POST['txtprior']) != "")) {
-    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files 
+    include_once "../includes/inc_fnct_fleupld.php"; // For uploading files
     include_once "../database/iqry_prod_mst.php";
 }
 $rd_crntpgnm = "product.php";
@@ -78,12 +79,12 @@ include_once('../includes/inc_fnct_ajax_validation.php');
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Add Downloads Category</h1>
+                    <h1 class="m-0 text-dark">Add Academic Year</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Add Downloads Category</li>
+                        <li class="breadcrumb-item active">Add Academic Year</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
